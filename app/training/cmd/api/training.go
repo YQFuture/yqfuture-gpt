@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"net/http"
 
 	"yufuture-gpt/app/training/cmd/api/internal/config"
 	"yufuture-gpt/app/training/cmd/api/internal/handler"
@@ -21,7 +22,7 @@ func main() {
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 
-	server := rest.MustNewServer(c.RestConf)
+	server := rest.MustNewServer(c.RestConf, rest.WithUnauthorizedCallback(authFail))
 	defer server.Stop()
 
 	ctx := svc.NewServiceContext(c)
@@ -29,4 +30,9 @@ func main() {
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()
+}
+
+// authFail JWT认证失败自定义处理返回
+func authFail(w http.ResponseWriter, r *http.Request, err error) {
+	//TODO
 }
