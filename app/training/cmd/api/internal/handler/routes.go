@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	JWT "yufuture-gpt/app/training/cmd/api/internal/handler/JWT"
 	shopTraining "yufuture-gpt/app/training/cmd/api/internal/handler/shopTraining"
 	"yufuture-gpt/app/training/cmd/api/internal/svc"
 
@@ -14,11 +15,23 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				Method:  http.MethodGet,
+				Path:    "/getJWT",
+				Handler: JWT.GetJWTHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/JWT"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
 				Method:  http.MethodPost,
 				Path:    "/preSetting",
 				Handler: shopTraining.PreSettingHandler(serverCtx),
 			},
 		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/shopTraining"),
 	)
 }

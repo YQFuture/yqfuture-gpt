@@ -3,7 +3,7 @@ Host: 0.0.0.0
 Port: 8888
 
 Auth:
-  AccessSecret: "access_secret"
+  AccessSecret: "kfgpt-KnsDmPEsapde"
   AccessExpire: 3600
 
 TrainingClientConf:

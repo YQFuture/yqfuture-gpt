@@ -15,10 +15,19 @@ import (
 @server (
 	prefix: shopTraining
 	group:  shopTraining
-//jwt:    Auth
+	jwt:    Auth
 )
 service training {
 	@handler preSetting
 	post /preSetting (ShopTrainingReq) returns (ShopTrainingResp)
+}
+
+@server (
+	prefix: JWT
+	group:  JWT
+)
+service training {
+	@handler getJWT
+	get /getJWT (ShopTrainingReq) returns (ShopTrainingResp)
 }
 
