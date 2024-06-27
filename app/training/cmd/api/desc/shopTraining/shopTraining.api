@@ -1,0 +1,20 @@
+syntax = "v1"
+
+info(
+    title: "店铺训练服务"
+    desc: "店铺训练服务"
+    author: "zouxiaodong"
+    email: "13575232531@163.com"
+    version: "v1"
+)
+
+type (
+    ShopTrainingReq {
+    }
+
+    ShopTrainingResp {
+        code  int
+        msg   string
+        data  interface{}
+    }
+)

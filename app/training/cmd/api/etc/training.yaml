@@ -1,0 +1,10 @@
+Name: training
+Host: 0.0.0.0
+Port: 8888
+
+Auth:
+  AccessSecret: "access_secret"
+  AccessExpire: 3600
+
+TrainingClientConf:
+  Target: consul://192.168.3.118:8500/training.rpc?wait=14s

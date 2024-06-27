@@ -1,0 +1,16 @@
+Name: training.rpc
+ListenOn: 0.0.0.0:8080
+#Etcd:
+#  Hosts:
+#  - 127.0.0.1:2379
+#  Key: training.rpc
+
+Consul:
+  Host: 192.168.3.118:8500 # consul endpoint
+  #Token: 'f0512db6-76d6-f25e-f344-a98cc3484d42' # consul ACL token (optional)
+  Key: training.rpc # service name registered to Consul
+  Meta:
+    Protocol: grpc
+  Tag:
+    - tag
+    - rpc

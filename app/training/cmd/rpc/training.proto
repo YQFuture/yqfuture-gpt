@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option go_package = "./training";
+
+package training;
+
+message ShopTrainingReq {
+}
+message ShopTrainingResp {
+  string result = 1;
+}
+service ShopTraining {
+  rpc preSetting(ShopTrainingReq) returns (ShopTrainingResp);
+}
+
+message KnowledgeBaseTrainingReq {
+}
+message KnowledgeBaseTrainingResp {
+}
+service KnowledgeBaseTraining {
+  rpc preSetting(KnowledgeBaseTrainingReq) returns (KnowledgeBaseTrainingResp);
+}
