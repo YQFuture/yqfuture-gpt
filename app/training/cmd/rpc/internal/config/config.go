@@ -8,4 +8,7 @@ import (
 type Config struct {
 	zrpc.RpcServerConf
 	Consul consul.Conf
+	DB     struct {
+		DataSource string
+	}
 }

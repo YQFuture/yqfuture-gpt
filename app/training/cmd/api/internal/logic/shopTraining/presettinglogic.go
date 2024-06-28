@@ -3,6 +3,8 @@ package shopTraining
 import (
 	"context"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
+	"yufuture-gpt/app/training/model/orm"
+	"yufuture-gpt/common/utills"
 
 	"yufuture-gpt/app/training/cmd/api/internal/svc"
 	"yufuture-gpt/app/training/cmd/api/internal/types"
@@ -29,8 +31,13 @@ func (l *PreSettingLogic) PreSetting(req *types.ShopTrainingReq) (resp *types.Sh
 	if err != nil {
 		return nil, err
 	}
+	var shopList []*orm.TsShop
+	err = utills.StringToAny(result.Result, &shopList)
+	if err != nil {
+		return nil, err
+	}
 	return &types.ShopTrainingResp{
-		Data: result.Result,
+		Data: shopList,
 		Code: 0,
 		Msg:  "success",
 	}, nil
