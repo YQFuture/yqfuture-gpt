@@ -37,8 +37,10 @@ func (l *PreSettingLogic) PreSetting(req *types.ShopTrainingReq) (resp *types.Sh
 		return nil, err
 	}
 	return &types.ShopTrainingResp{
+		BaseResp: types.BaseResp{
+			Code: 0,
+			Msg:  "success",
+		},
 		Data: shopList,
-		Code: 0,
-		Msg:  "success",
 	}, nil
 }

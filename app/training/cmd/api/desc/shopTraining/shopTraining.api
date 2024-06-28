@@ -9,12 +9,21 @@ info(
 )
 
 type (
+    BaseReq {
+    }
+    BaseResp {
+        Code  int
+        Msg   string
+    }
+)
+
+
+type (
     ShopTrainingReq {
     }
 
     ShopTrainingResp {
-        code  int
-        msg   string
-        data  interface{}
+        BaseResp
+        Data  interface{}
     }
 )

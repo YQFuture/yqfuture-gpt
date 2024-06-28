@@ -31,8 +31,10 @@ func (l *GetJWTLogic) GetJWT(req *types.ShopTrainingReq) (resp *types.ShopTraini
 		return nil, err
 	}
 	return &types.ShopTrainingResp{
-		Code: 0,
-		Msg:  "success",
+		BaseResp: types.BaseResp{
+			Code: 0,
+			Msg:  "success",
+		},
 		Data: jwtToken,
 	}, nil
 }
