@@ -29,11 +29,13 @@ func NewPreSettingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PreSet
 func (l *PreSettingLogic) PreSetting(req *types.ShopTrainingReq) (resp *types.ShopTrainingResp, err error) {
 	result, err := l.svcCtx.ShopTrainingClient.PreSetting(l.ctx, &training.ShopTrainingReq{})
 	if err != nil {
+		l.Logger.Error("获取店铺列表失败", err)
 		return nil, err
 	}
 	var shopList []*orm.TsShop
 	err = utills.StringToAny(result.Result, &shopList)
 	if err != nil {
+		l.Logger.Error("反序列化数据失败", err)
 		return nil, err
 	}
 	return &types.ShopTrainingResp{
