@@ -12,11 +12,21 @@ type (
     BaseReq {
     }
     BaseResp {
-        Code  int `json:"code"`
+        Code  int    `json:"code"`
         Msg   string `json:"msg"`
     }
-)
 
+    BasePageReq {
+        PageNum  int64  `json:"pageNum"`
+        PageSize int64  `json:"pageSize"`
+        Query    string `json:"query"`
+    }
+    BasePageResp {
+        PageNum  int64 `json:"pageNum"`
+        PageSize int64 `json:"pageSize"`
+        Total    int64 `json:"total"`
+    }
+)
 
 type (
     ShopTrainingReq {
@@ -25,5 +35,51 @@ type (
     ShopTrainingResp {
         BaseResp
         Data  interface{} `json:"data"`
+    }
+
+    ShopPageListReq {
+        BasePageReq
+        PlatFormType   int64     `json:"platFormType"`
+        TrainingStatus int64     `json:"trainStatus"`
+        UpdateTime     int64 `json:"updateTime"`
+    }
+
+    ShopPageListResp {
+        BaseResp
+        Data *ShopListResp `json:"data"`
+    }
+
+    ShopListResp {
+        BasePageResp
+        List []*ShopResp `json:"list"`
+    }
+
+    ShopResp {
+        Id             int64     `json:"id"`
+        ShopName       string    `json:"shopName"`
+        PlatFormType   int64     `json:"platFormType"`
+        TrainingStatus int64     `json:"trainStatus"`
+        TrainingTimes  int64     `json:"trainTimes"`
+        UpdateTime     int64 `json:"updateTime"`
+    }
+
+    GoodsPageListReq {
+        BasePageReq
+        enabled    int64     `json:"trainStatus"`
+        UpdateTime int64 `json:"updateTime"`
+    }
+
+    GoodsPageListResp {
+        BaseResp
+        Data *GoodsListResp `json:"data"`
+    }
+
+    GoodsListResp {
+        BasePageResp
+        List *GoodsResp `json:"list"`
+    }
+
+    GoodsResp {
+        Id int64 `json:"id"`
     }
 )

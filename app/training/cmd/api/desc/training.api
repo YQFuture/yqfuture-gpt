@@ -20,6 +20,12 @@ import (
 service training {
 	@handler preSetting
 	post /preSetting (ShopTrainingReq) returns (ShopTrainingResp)
+
+	@handler getShopList
+	get /getShopPageList (ShopPageListReq) returns (ShopPageListResp)
+
+	@handler getGoodsPageList
+	get /getGoodsPageList (GoodsPageListReq) returns (GoodsPageListResp)
 }
 
 @server (
