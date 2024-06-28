@@ -17,3 +17,7 @@ Consul:
 
 DB:
   DataSource: root:mysql_QspKnh@tcp(192.168.3.118:3306)/qyfuture_gpt?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+Mongo:
+  Url: mongodb://mongo_kKtPGm:mongo_tmPizQ@192.168.3.118:27017
+  Database: kefugpt
+  Kfgptaccountsentities: kfgptaccountsentities

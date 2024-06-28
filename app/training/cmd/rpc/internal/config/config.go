@@ -11,4 +11,9 @@ type Config struct {
 	DB     struct {
 		DataSource string
 	}
+	Mongo struct {
+		Url                   string
+		Database              string
+		Kfgptaccountsentities string
+	}
 }

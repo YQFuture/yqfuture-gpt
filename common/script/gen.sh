@@ -6,3 +6,6 @@ goctl rpc protoc training.proto --go_out=./pb --go-grpc_out=./pb --zrpc_out=. --
 
 ## 通过指定mysql连接地址来生成model代码
 goctl model mysql datasource -url="root:mysql_QspKnh@tcp(192.168.3.118:3306)/qyfuture_gpt" -table="ts*" -dir ./model/orm
+
+## 通过指定mongodb集合名称来生成model代码
+goctl model mongo --type kfgptaccountsentities --dir ./model/mongo

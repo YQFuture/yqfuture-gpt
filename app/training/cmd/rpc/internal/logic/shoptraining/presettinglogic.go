@@ -24,6 +24,19 @@ func NewPreSettingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PreSet
 }
 
 func (l *PreSettingLogic) PreSetting(in *training.ShopTrainingReq) (*training.ShopTrainingResp, error) {
+	one, err := l.svcCtx.KfgptaccountsentitiesModel.FindOne(l.ctx, "667bc677ea6eae920c3b5bcf")
+	if err != nil {
+		l.Logger.Error("查询mongo失败", err)
+		return nil, err
+	}
+	mongoResult, err := utills.AnyToString(one)
+	if err != nil {
+		l.Logger.Error("序列化数据失败", err)
+		return nil, err
+	}
+	l.Logger.Info("mongo查询结果", mongoResult)
+	l.Logger.Info("mongo查询结果", one.UUID)
+
 	list, err := l.svcCtx.TsShopModel.FindList(l.ctx)
 	if err != nil {
 		l.Logger.Error("查询店铺列表失败", err)
