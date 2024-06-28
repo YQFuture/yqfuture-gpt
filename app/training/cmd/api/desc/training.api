@@ -22,10 +22,10 @@ service training {
 	post /preSetting (ShopTrainingReq) returns (ShopTrainingResp)
 
 	@handler getShopList
-	get /getShopPageList (ShopPageListReq) returns (ShopPageListResp)
+	post /getShopPageList (ShopPageListReq) returns (ShopPageListResp)
 
 	@handler getGoodsPageList
-	get /getGoodsPageList (GoodsPageListReq) returns (GoodsPageListResp)
+	post /getGoodsPageList (GoodsPageListReq) returns (GoodsPageListResp)
 }
 
 @server (
