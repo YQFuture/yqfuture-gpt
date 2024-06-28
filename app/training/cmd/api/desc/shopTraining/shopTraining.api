@@ -12,19 +12,19 @@ type (
     BaseReq {
     }
     BaseResp {
-        Code  int    `json:"code"`
-        Msg   string `json:"msg"`
+        Code  int    `json:"code"` // 状态码
+        Msg   string `json:"msg"` // 信息
     }
 
     BasePageReq {
-        PageNum  int64  `json:"pageNum"`
-        PageSize int64  `json:"pageSize"`
-        Query    string `json:"query"`
+        PageNum  int64  `json:"pageNum"` // 页码
+        PageSize int64  `json:"pageSize"` // 每页条数
+        Query    string `json:"query"` // 查询条件
     }
     BasePageResp {
-        PageNum  int64 `json:"pageNum"`
-        PageSize int64 `json:"pageSize"`
-        Total    int64 `json:"total"`
+        PageNum  int64 `json:"pageNum"` // 页码
+        PageSize int64 `json:"pageSize"` // 每页条数
+        Total    int64 `json:"total"` // 总条数
     }
 )
 
@@ -34,52 +34,52 @@ type (
 
     ShopTrainingResp {
         BaseResp
-        Data  interface{} `json:"data"`
+        Data  interface{} `json:"data"` // 数据
     }
 
     ShopPageListReq {
         BasePageReq
-        PlatFormType   int64     `json:"platFormType"`
-        TrainingStatus int64     `json:"trainStatus"`
-        UpdateTime     int64 `json:"updateTime"`
+        PlatFormType   int64     `json:"platFormType"` // 平台类型
+        TrainingStatus int64     `json:"trainStatus"` // 训练状态
+        UpdateTime     int64 `json:"updateTime"` // 更新时间
     }
 
     ShopPageListResp {
         BaseResp
-        Data *ShopListResp `json:"data"`
+        Data *ShopListResp `json:"data"` // 数据
     }
 
     ShopListResp {
         BasePageResp
-        List []*ShopResp `json:"list"`
+        List []*ShopResp `json:"list"` // 列表
     }
 
     ShopResp {
-        Id             int64     `json:"id"`
-        ShopName       string    `json:"shopName"`
-        PlatFormType   int64     `json:"platFormType"`
-        TrainingStatus int64     `json:"trainStatus"`
-        TrainingTimes  int64     `json:"trainTimes"`
-        UpdateTime     int64 `json:"updateTime"`
+        Id             int64     `json:"id"` // 店铺id
+        ShopName       string    `json:"shopName"` // 店铺名称
+        PlatFormType   int64     `json:"platFormType"` // 平台类型
+        TrainingStatus int64     `json:"trainStatus"` // 训练状态
+        TrainingTimes  int64     `json:"trainTimes"` // 训练次数
+        UpdateTime     int64 `json:"updateTime"` // 更新时间
     }
 
     GoodsPageListReq {
         BasePageReq
-        enabled    int64     `json:"trainStatus"`
-        UpdateTime int64 `json:"updateTime"`
+        enabled    int64     `json:"trainStatus"` // 训练状态
+        UpdateTime int64 `json:"updateTime"` // 更新时间
     }
 
     GoodsPageListResp {
         BaseResp
-        Data *GoodsListResp `json:"data"`
+        Data *GoodsListResp `json:"data"` // 数据
     }
 
     GoodsListResp {
         BasePageResp
-        List *GoodsResp `json:"list"`
+        List *GoodsResp `json:"list"` // 列表
     }
 
     GoodsResp {
-        Id int64 `json:"id"`
+        Id int64 `json:"id"` // 商品id
     }
 )
