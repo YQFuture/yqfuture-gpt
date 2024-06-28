@@ -35,16 +35,16 @@ type (
 	}
 
 	TsGoods struct {
-		Id             int64         `db:"id"`              // 商品ID
-		ShopId         sql.NullInt64 `db:"shop_id"`         // 店铺ID
-		PlatformType   int64         `db:"platform_type"`   // 平台类型 0: 未定义 1: 京东 2: 拼多多 3: 千牛
-		Enabled        sql.NullInt64 `db:"enabled"`         // 启用状态 0: 未启用 1: 启用
-		TrainingStatus int64         `db:"training_status"` // 训练状态 0: 未训练 1: 训练中 2: 训练完成
-		TrainingTimes  int64         `db:"training_times"`  // 训练次数
-		CreateTime     time.Time     `db:"create_time"`     // 创建时间
-		UpdateTime     sql.NullTime  `db:"update_time"`     // 修改时间
-		CreateBy       sql.NullInt64 `db:"create_by"`       // 创建人
-		UpdateBy       sql.NullInt64 `db:"update_by"`       // 修改人
+		Id             int64     `db:"id"`              // 商品ID
+		ShopId         int64     `db:"shop_id"`         // 店铺ID
+		PlatformType   int64     `db:"platform_type"`   // 平台类型 0: 未定义 1: 京东 2: 拼多多 3: 千牛
+		Enabled        int64     `db:"enabled"`         // 启用状态 0: 未启用 1: 启用
+		TrainingStatus int64     `db:"training_status"` // 训练状态 0: 未训练 1: 训练中 2: 训练完成
+		TrainingTimes  int64     `db:"training_times"`  // 训练次数
+		CreateTime     time.Time `db:"create_time"`     // 创建时间
+		UpdateTime     time.Time `db:"update_time"`     // 修改时间
+		CreateBy       int64     `db:"create_by"`       // 创建人
+		UpdateBy       int64     `db:"update_by"`       // 修改人
 	}
 )
 

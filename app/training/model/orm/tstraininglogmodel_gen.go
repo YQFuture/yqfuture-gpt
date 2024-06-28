@@ -35,15 +35,15 @@ type (
 	}
 
 	TsTrainingLog struct {
-		Id               int64         `db:"id"`                 // ID
-		TrainingObject   sql.NullInt64 `db:"training_object"`    // 训练对象 0: 未定义 1: 店铺 2: 商品
-		TrainingObjectId sql.NullInt64 `db:"training_object_id"` // 训练对象ID
-		StartTime        sql.NullTime  `db:"start_time"`         // 开始时间
-		EndTime          sql.NullTime  `db:"end_time"`           // 结束时间
-		CreateTime       time.Time     `db:"create_time"`        // 创建时间
-		UpdateTime       sql.NullTime  `db:"update_time"`        // 修改时间
-		CreateBy         sql.NullInt64 `db:"create_by"`          // 创建人
-		UpdateBy         sql.NullInt64 `db:"update_by"`          // 修改人
+		Id               int64     `db:"id"`                 // ID
+		TrainingObject   int64     `db:"training_object"`    // 训练对象 0: 未定义 1: 店铺 2: 商品
+		TrainingObjectId int64     `db:"training_object_id"` // 训练对象ID
+		StartTime        time.Time `db:"start_time"`         // 开始时间
+		EndTime          time.Time `db:"end_time"`           // 结束时间
+		CreateTime       time.Time `db:"create_time"`        // 创建时间
+		UpdateTime       time.Time `db:"update_time"`        // 修改时间
+		CreateBy         int64     `db:"create_by"`          // 创建人
+		UpdateBy         int64     `db:"update_by"`          // 修改人
 	}
 )
 

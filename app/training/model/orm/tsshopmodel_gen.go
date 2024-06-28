@@ -35,17 +35,17 @@ type (
 	}
 
 	TsShop struct {
-		Id             int64          `db:"id"`              // 店铺ID
-		ShopName       sql.NullString `db:"shop_name"`       // 店铺名称
-		UserId         sql.NullInt64  `db:"user_id"`         // 用户ID
-		GroupId        sql.NullInt64  `db:"group_id"`        // 组织ID
-		PlatformType   int64          `db:"platform_type"`   // 平台类型 0: 未知 1: 京东 2: 拼多多 3: 千牛
-		TrainingStatus int64          `db:"training_status"` // 训练状态 0: 初始 1: 训练中 2: 训练完成
-		TrainingTimes  int64          `db:"training_times"`  // 训练次数
-		CreateTime     time.Time      `db:"create_time"`     // 创建时间
-		UpdateTime     sql.NullTime   `db:"update_time"`     // 修改时间
-		CreateBy       sql.NullInt64  `db:"create_by"`       // 创建人
-		UpdateBy       sql.NullInt64  `db:"update_by"`       // 修改人
+		Id             int64     `db:"id"`              // 店铺ID
+		ShopName       string    `db:"shop_name"`       // 店铺名称
+		UserId         int64     `db:"user_id"`         // 用户ID
+		GroupId        int64     `db:"group_id"`        // 组织ID
+		PlatformType   int64     `db:"platform_type"`   // 平台类型 0: 未知 1: 京东 2: 拼多多 3: 千牛
+		TrainingStatus int64     `db:"training_status"` // 训练状态 0: 初始 1: 训练中 2: 训练完成
+		TrainingTimes  int64     `db:"training_times"`  // 训练次数
+		CreateTime     time.Time `db:"create_time"`     // 创建时间
+		UpdateTime     time.Time `db:"update_time"`     // 修改时间
+		CreateBy       int64     `db:"create_by"`       // 创建人
+		UpdateBy       int64     `db:"update_by"`       // 修改人
 	}
 )
 

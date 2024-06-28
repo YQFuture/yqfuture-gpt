@@ -12,8 +12,8 @@ type (
     BaseReq {
     }
     BaseResp {
-        Code  int
-        Msg   string
+        Code  int `json:"code"`
+        Msg   string `json:"msg"`
     }
 )
 
@@ -24,6 +24,6 @@ type (
 
     ShopTrainingResp {
         BaseResp
-        Data  interface{}
+        Data  interface{} `json:"data"`
     }
 )

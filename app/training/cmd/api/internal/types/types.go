@@ -5,8 +5,8 @@ type BaseReq struct {
 }
 
 type BaseResp struct {
-	Code int
-	Msg  string
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
 }
 
 type ShopTrainingReq struct {
@@ -14,5 +14,5 @@ type ShopTrainingReq struct {
 
 type ShopTrainingResp struct {
 	BaseResp
-	Data interface{}
+	Data interface{} `json:"data"`
 }
