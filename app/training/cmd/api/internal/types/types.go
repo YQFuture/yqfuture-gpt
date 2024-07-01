@@ -42,13 +42,14 @@ type DictInfoByTypeResp struct {
 
 type GoodsListResp struct {
 	BasePageResp
-	List *GoodsResp `json:"list"` // 列表
+	List []*GoodsResp `json:"list"` // 列表
 }
 
 type GoodsPageListReq struct {
 	BasePageReq
-	Enabled    int64 `json:"trainStatus"` // 启用状态 0: 未启用 1: 启用
-	UpdateTime int64 `json:"updateTime"`  // 更新时间
+	ShopId     int64 `json:"shopId"`     // 店铺id
+	Enabled    int64 `json:"enabled"`    // 启用状态 0: 未启用 1: 启用
+	UpdateTime int64 `json:"updateTime"` // 更新时间
 }
 
 type GoodsPageListResp struct {

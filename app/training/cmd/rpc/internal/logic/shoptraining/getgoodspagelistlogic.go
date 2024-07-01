@@ -25,7 +25,34 @@ func NewGetGoodsPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 
 // 查询商品列表
 func (l *GetGoodsPageListLogic) GetGoodsPageList(in *training.GoodsPageListReq) (*training.GoodsPageListResp, error) {
-	// todo: add your logic here and delete this line
+	total, err := l.svcCtx.TsGoodsModel.GetGoodsPageTotal(l.ctx, in)
+	if err != nil {
+		l.Logger.Error("查询商品列表总数失败", err)
+		return nil, err
+	}
+	list, err := l.svcCtx.TsGoodsModel.GetGoodsPageList(l.ctx, in)
+	if err != nil {
+		l.Logger.Error("查询商品列表失败", err)
+		return nil, err
+	}
 
-	return &training.GoodsPageListResp{}, nil
+	var goodRespList []*training.GoodsResp
+	for _, goods := range *list {
+		goodRespList = append(goodRespList, &training.GoodsResp{
+			Id:              goods.Id,
+			ShopId:          goods.ShopId,
+			GoodsName:       goods.GoodsName,
+			GoodsUrl:        goods.GoodsUrl,
+			TrainingSummary: goods.TrainingSummary,
+			Enabled:         goods.Enabled,
+			TrainingTimes:   goods.TrainingTimes,
+			TrainingStatus:  goods.TrainingStatus,
+			UpdateTime:      goods.UpdateTime.Unix(),
+		})
+	}
+
+	return &training.GoodsPageListResp{
+		Total: int64(total),
+		List:  goodRespList,
+	}, nil
 }
