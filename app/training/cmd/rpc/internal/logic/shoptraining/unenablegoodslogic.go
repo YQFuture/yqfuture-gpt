@@ -25,7 +25,9 @@ func NewUnEnableGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UnE
 
 // 禁用商品
 func (l *UnEnableGoodsLogic) UnEnableGoods(in *training.GoodsTrainingReq) (*training.GoodsTrainingResp, error) {
-	// todo: add your logic here and delete this line
-
+	err := l.svcCtx.TsGoodsModel.UnEnableGoods(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 	return &training.GoodsTrainingResp{}, nil
 }

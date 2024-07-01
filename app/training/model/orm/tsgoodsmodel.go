@@ -18,6 +18,8 @@ type (
 		withSession(session sqlx.Session) TsGoodsModel
 		GetGoodsPageList(ctx context.Context, in *training.GoodsPageListReq) (*[]*TsGoods, error)
 		GetGoodsPageTotal(ctx context.Context, in *training.GoodsPageListReq) (int, error)
+		EnableGoods(ctx context.Context, in *training.GoodsTrainingReq) error
+		UnEnableGoods(ctx context.Context, in *training.GoodsTrainingReq) error
 	}
 
 	customTsGoodsModel struct {
@@ -123,4 +125,20 @@ func (m *customTsGoodsModel) GetGoodsPageList(ctx context.Context, in *training.
 	default:
 		return nil, err
 	}
+}
+
+func (m *customTsGoodsModel) EnableGoods(ctx context.Context, in *training.GoodsTrainingReq) error {
+	_, err := m.conn.ExecCtx(ctx, "UPDATE ts_goods SET enabled = 1 WHERE id = ?", in.GoodsId)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *customTsGoodsModel) UnEnableGoods(ctx context.Context, in *training.GoodsTrainingReq) error {
+	_, err := m.conn.ExecCtx(ctx, "UPDATE ts_goods SET enabled = 0 WHERE id = ?", in.GoodsId)
+	if err != nil {
+		return err
+	}
+	return nil
 }

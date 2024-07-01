@@ -25,7 +25,9 @@ func NewEnableGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Enabl
 
 // 启用商品
 func (l *EnableGoodsLogic) EnableGoods(in *training.GoodsTrainingReq) (*training.GoodsTrainingResp, error) {
-	// todo: add your logic here and delete this line
-
+	err := l.svcCtx.TsGoodsModel.EnableGoods(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 	return &training.GoodsTrainingResp{}, nil
 }

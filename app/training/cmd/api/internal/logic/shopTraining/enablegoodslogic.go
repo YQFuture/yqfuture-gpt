@@ -2,6 +2,7 @@ package shopTraining
 
 import (
 	"context"
+	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 
 	"yufuture-gpt/app/training/cmd/api/internal/svc"
 	"yufuture-gpt/app/training/cmd/api/internal/types"
@@ -24,7 +25,12 @@ func NewEnableGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Enabl
 }
 
 func (l *EnableGoodsLogic) EnableGoods(req *types.BaseGoodsReq) (resp *types.BaseResp, err error) {
-	// todo: add your logic here and delete this line
-
+	_, err = l.svcCtx.ShopTrainingClient.EnableGoods(l.ctx, &training.GoodsTrainingReq{
+		GoodsId: req.GoodsId,
+	})
+	if err != nil {
+		l.Logger.Error("启用商品训练失败", err)
+		return nil, err
+	}
 	return
 }
