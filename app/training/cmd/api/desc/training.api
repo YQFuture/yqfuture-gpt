@@ -38,24 +38,31 @@ service training {
 	jwt:    Auth
 )
 service training {
+	@doc "预训练"
 	@handler preSetting
 	post /preSetting (ShopTrainingReq) returns (ShopTrainingResp)
 
+	@doc "查询店铺列表"
 	@handler getShopPageList
 	post /getShopPageList (ShopPageListReq) returns (ShopPageListResp)
 
+	@doc "训练店铺"
 	@handler trainingShop
 	post /trainingShop (TrainShopReq) returns (BaseResp)
 
+	@doc "查询商品列表"
 	@handler getGoodsPageList
 	post /getGoodsPageList (GoodsPageListReq) returns (BaseResp)
 
+	@doc "训练商品"
 	@handler trainingGoods
 	post /trainingGoods (BaseGoodsReq) returns (BaseResp)
 
+	@doc "启用商品"
 	@handler enableGoods
 	post /enableGoods (BaseGoodsReq) returns (BaseResp)
 
+	@doc "停用商品"
 	@handler unEnableGoods
 	post /unEnableGoods (BaseGoodsReq) returns (BaseResp)
 }

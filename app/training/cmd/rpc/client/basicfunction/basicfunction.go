@@ -16,8 +16,16 @@ type (
 	DictInfo                  = training.DictInfo
 	DictInfoByTypeReq         = training.DictInfoByTypeReq
 	DictInfoByTypeResp        = training.DictInfoByTypeResp
+	GoodsPageListReq          = training.GoodsPageListReq
+	GoodsPageListResp         = training.GoodsPageListResp
+	GoodsResp                 = training.GoodsResp
+	GoodsTrainingReq          = training.GoodsTrainingReq
+	GoodsTrainingResp         = training.GoodsTrainingResp
 	KnowledgeBaseTrainingReq  = training.KnowledgeBaseTrainingReq
 	KnowledgeBaseTrainingResp = training.KnowledgeBaseTrainingResp
+	ShopPageListReq           = training.ShopPageListReq
+	ShopPageListResp          = training.ShopPageListResp
+	ShopResp                  = training.ShopResp
 	ShopTrainingReq           = training.ShopTrainingReq
 	ShopTrainingResp          = training.ShopTrainingResp
 

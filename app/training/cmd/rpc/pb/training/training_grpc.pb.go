@@ -19,90 +19,90 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	ShopTraining_PreSetting_FullMethodName = "/training.ShopTraining/preSetting"
+	BasicFunction_GetDictInfoByType_FullMethodName = "/training.BasicFunction/getDictInfoByType"
 )
 
-// ShopTrainingClient is the client API for ShopTraining service.
+// BasicFunctionClient is the client API for BasicFunction service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ShopTrainingClient interface {
-	PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
+type BasicFunctionClient interface {
+	GetDictInfoByType(ctx context.Context, in *DictInfoByTypeReq, opts ...grpc.CallOption) (*DictInfoByTypeResp, error)
 }
 
-type shopTrainingClient struct {
+type basicFunctionClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewShopTrainingClient(cc grpc.ClientConnInterface) ShopTrainingClient {
-	return &shopTrainingClient{cc}
+func NewBasicFunctionClient(cc grpc.ClientConnInterface) BasicFunctionClient {
+	return &basicFunctionClient{cc}
 }
 
-func (c *shopTrainingClient) PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
+func (c *basicFunctionClient) GetDictInfoByType(ctx context.Context, in *DictInfoByTypeReq, opts ...grpc.CallOption) (*DictInfoByTypeResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ShopTrainingResp)
-	err := c.cc.Invoke(ctx, ShopTraining_PreSetting_FullMethodName, in, out, cOpts...)
+	out := new(DictInfoByTypeResp)
+	err := c.cc.Invoke(ctx, BasicFunction_GetDictInfoByType_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ShopTrainingServer is the server API for ShopTraining service.
-// All implementations must embed UnimplementedShopTrainingServer
+// BasicFunctionServer is the server API for BasicFunction service.
+// All implementations must embed UnimplementedBasicFunctionServer
 // for forward compatibility
-type ShopTrainingServer interface {
-	PreSetting(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error)
-	mustEmbedUnimplementedShopTrainingServer()
+type BasicFunctionServer interface {
+	GetDictInfoByType(context.Context, *DictInfoByTypeReq) (*DictInfoByTypeResp, error)
+	mustEmbedUnimplementedBasicFunctionServer()
 }
 
-// UnimplementedShopTrainingServer must be embedded to have forward compatible implementations.
-type UnimplementedShopTrainingServer struct {
+// UnimplementedBasicFunctionServer must be embedded to have forward compatible implementations.
+type UnimplementedBasicFunctionServer struct {
 }
 
-func (UnimplementedShopTrainingServer) PreSetting(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PreSetting not implemented")
+func (UnimplementedBasicFunctionServer) GetDictInfoByType(context.Context, *DictInfoByTypeReq) (*DictInfoByTypeResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDictInfoByType not implemented")
 }
-func (UnimplementedShopTrainingServer) mustEmbedUnimplementedShopTrainingServer() {}
+func (UnimplementedBasicFunctionServer) mustEmbedUnimplementedBasicFunctionServer() {}
 
-// UnsafeShopTrainingServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ShopTrainingServer will
+// UnsafeBasicFunctionServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to BasicFunctionServer will
 // result in compilation errors.
-type UnsafeShopTrainingServer interface {
-	mustEmbedUnimplementedShopTrainingServer()
+type UnsafeBasicFunctionServer interface {
+	mustEmbedUnimplementedBasicFunctionServer()
 }
 
-func RegisterShopTrainingServer(s grpc.ServiceRegistrar, srv ShopTrainingServer) {
-	s.RegisterService(&ShopTraining_ServiceDesc, srv)
+func RegisterBasicFunctionServer(s grpc.ServiceRegistrar, srv BasicFunctionServer) {
+	s.RegisterService(&BasicFunction_ServiceDesc, srv)
 }
 
-func _ShopTraining_PreSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ShopTrainingReq)
+func _BasicFunction_GetDictInfoByType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DictInfoByTypeReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ShopTrainingServer).PreSetting(ctx, in)
+		return srv.(BasicFunctionServer).GetDictInfoByType(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ShopTraining_PreSetting_FullMethodName,
+		FullMethod: BasicFunction_GetDictInfoByType_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShopTrainingServer).PreSetting(ctx, req.(*ShopTrainingReq))
+		return srv.(BasicFunctionServer).GetDictInfoByType(ctx, req.(*DictInfoByTypeReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// ShopTraining_ServiceDesc is the grpc.ServiceDesc for ShopTraining service.
+// BasicFunction_ServiceDesc is the grpc.ServiceDesc for BasicFunction service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var ShopTraining_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "training.ShopTraining",
-	HandlerType: (*ShopTrainingServer)(nil),
+var BasicFunction_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "training.BasicFunction",
+	HandlerType: (*BasicFunctionServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "preSetting",
-			Handler:    _ShopTraining_PreSetting_Handler,
+			MethodName: "getDictInfoByType",
+			Handler:    _BasicFunction_GetDictInfoByType_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -201,90 +201,332 @@ var KnowledgeBaseTraining_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	BasicFunction_GetDictInfoByType_FullMethodName = "/training.BasicFunction/getDictInfoByType"
+	ShopTraining_PreSetting_FullMethodName       = "/training.ShopTraining/preSetting"
+	ShopTraining_GetShopPageList_FullMethodName  = "/training.ShopTraining/getShopPageList"
+	ShopTraining_TrainingShop_FullMethodName     = "/training.ShopTraining/trainingShop"
+	ShopTraining_GetGoodsPageList_FullMethodName = "/training.ShopTraining/getGoodsPageList"
+	ShopTraining_TrainingGoods_FullMethodName    = "/training.ShopTraining/trainingGoods"
+	ShopTraining_EnableGoods_FullMethodName      = "/training.ShopTraining/enableGoods"
+	ShopTraining_UnEnableGoods_FullMethodName    = "/training.ShopTraining/unEnableGoods"
 )
 
-// BasicFunctionClient is the client API for BasicFunction service.
+// ShopTrainingClient is the client API for ShopTraining service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type BasicFunctionClient interface {
-	GetDictInfoByType(ctx context.Context, in *DictInfoByTypeReq, opts ...grpc.CallOption) (*DictInfoByTypeResp, error)
+type ShopTrainingClient interface {
+	// 预训练
+	PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
+	// 查询店铺列表
+	GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error)
+	// 训练店铺
+	TrainingShop(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
+	// 查询商品列表
+	GetGoodsPageList(ctx context.Context, in *GoodsPageListReq, opts ...grpc.CallOption) (*GoodsPageListResp, error)
+	// 训练商品
+	TrainingGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error)
+	// 启用商品
+	EnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error)
+	// 禁用商品
+	UnEnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error)
 }
 
-type basicFunctionClient struct {
+type shopTrainingClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewBasicFunctionClient(cc grpc.ClientConnInterface) BasicFunctionClient {
-	return &basicFunctionClient{cc}
+func NewShopTrainingClient(cc grpc.ClientConnInterface) ShopTrainingClient {
+	return &shopTrainingClient{cc}
 }
 
-func (c *basicFunctionClient) GetDictInfoByType(ctx context.Context, in *DictInfoByTypeReq, opts ...grpc.CallOption) (*DictInfoByTypeResp, error) {
+func (c *shopTrainingClient) PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DictInfoByTypeResp)
-	err := c.cc.Invoke(ctx, BasicFunction_GetDictInfoByType_FullMethodName, in, out, cOpts...)
+	out := new(ShopTrainingResp)
+	err := c.cc.Invoke(ctx, ShopTraining_PreSetting_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// BasicFunctionServer is the server API for BasicFunction service.
-// All implementations must embed UnimplementedBasicFunctionServer
+func (c *shopTrainingClient) GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ShopPageListResp)
+	err := c.cc.Invoke(ctx, ShopTraining_GetShopPageList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopTrainingClient) TrainingShop(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ShopTrainingResp)
+	err := c.cc.Invoke(ctx, ShopTraining_TrainingShop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopTrainingClient) GetGoodsPageList(ctx context.Context, in *GoodsPageListReq, opts ...grpc.CallOption) (*GoodsPageListResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GoodsPageListResp)
+	err := c.cc.Invoke(ctx, ShopTraining_GetGoodsPageList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopTrainingClient) TrainingGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GoodsTrainingResp)
+	err := c.cc.Invoke(ctx, ShopTraining_TrainingGoods_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopTrainingClient) EnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GoodsTrainingResp)
+	err := c.cc.Invoke(ctx, ShopTraining_EnableGoods_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopTrainingClient) UnEnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GoodsTrainingResp)
+	err := c.cc.Invoke(ctx, ShopTraining_UnEnableGoods_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ShopTrainingServer is the server API for ShopTraining service.
+// All implementations must embed UnimplementedShopTrainingServer
 // for forward compatibility
-type BasicFunctionServer interface {
-	GetDictInfoByType(context.Context, *DictInfoByTypeReq) (*DictInfoByTypeResp, error)
-	mustEmbedUnimplementedBasicFunctionServer()
+type ShopTrainingServer interface {
+	// 预训练
+	PreSetting(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error)
+	// 查询店铺列表
+	GetShopPageList(context.Context, *ShopPageListReq) (*ShopPageListResp, error)
+	// 训练店铺
+	TrainingShop(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error)
+	// 查询商品列表
+	GetGoodsPageList(context.Context, *GoodsPageListReq) (*GoodsPageListResp, error)
+	// 训练商品
+	TrainingGoods(context.Context, *GoodsTrainingReq) (*GoodsTrainingResp, error)
+	// 启用商品
+	EnableGoods(context.Context, *GoodsTrainingReq) (*GoodsTrainingResp, error)
+	// 禁用商品
+	UnEnableGoods(context.Context, *GoodsTrainingReq) (*GoodsTrainingResp, error)
+	mustEmbedUnimplementedShopTrainingServer()
 }
 
-// UnimplementedBasicFunctionServer must be embedded to have forward compatible implementations.
-type UnimplementedBasicFunctionServer struct {
+// UnimplementedShopTrainingServer must be embedded to have forward compatible implementations.
+type UnimplementedShopTrainingServer struct {
 }
 
-func (UnimplementedBasicFunctionServer) GetDictInfoByType(context.Context, *DictInfoByTypeReq) (*DictInfoByTypeResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDictInfoByType not implemented")
+func (UnimplementedShopTrainingServer) PreSetting(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PreSetting not implemented")
 }
-func (UnimplementedBasicFunctionServer) mustEmbedUnimplementedBasicFunctionServer() {}
+func (UnimplementedShopTrainingServer) GetShopPageList(context.Context, *ShopPageListReq) (*ShopPageListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetShopPageList not implemented")
+}
+func (UnimplementedShopTrainingServer) TrainingShop(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TrainingShop not implemented")
+}
+func (UnimplementedShopTrainingServer) GetGoodsPageList(context.Context, *GoodsPageListReq) (*GoodsPageListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGoodsPageList not implemented")
+}
+func (UnimplementedShopTrainingServer) TrainingGoods(context.Context, *GoodsTrainingReq) (*GoodsTrainingResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TrainingGoods not implemented")
+}
+func (UnimplementedShopTrainingServer) EnableGoods(context.Context, *GoodsTrainingReq) (*GoodsTrainingResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EnableGoods not implemented")
+}
+func (UnimplementedShopTrainingServer) UnEnableGoods(context.Context, *GoodsTrainingReq) (*GoodsTrainingResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnEnableGoods not implemented")
+}
+func (UnimplementedShopTrainingServer) mustEmbedUnimplementedShopTrainingServer() {}
 
-// UnsafeBasicFunctionServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to BasicFunctionServer will
+// UnsafeShopTrainingServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ShopTrainingServer will
 // result in compilation errors.
-type UnsafeBasicFunctionServer interface {
-	mustEmbedUnimplementedBasicFunctionServer()
+type UnsafeShopTrainingServer interface {
+	mustEmbedUnimplementedShopTrainingServer()
 }
 
-func RegisterBasicFunctionServer(s grpc.ServiceRegistrar, srv BasicFunctionServer) {
-	s.RegisterService(&BasicFunction_ServiceDesc, srv)
+func RegisterShopTrainingServer(s grpc.ServiceRegistrar, srv ShopTrainingServer) {
+	s.RegisterService(&ShopTraining_ServiceDesc, srv)
 }
 
-func _BasicFunction_GetDictInfoByType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DictInfoByTypeReq)
+func _ShopTraining_PreSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ShopTrainingReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BasicFunctionServer).GetDictInfoByType(ctx, in)
+		return srv.(ShopTrainingServer).PreSetting(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: BasicFunction_GetDictInfoByType_FullMethodName,
+		FullMethod: ShopTraining_PreSetting_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BasicFunctionServer).GetDictInfoByType(ctx, req.(*DictInfoByTypeReq))
+		return srv.(ShopTrainingServer).PreSetting(ctx, req.(*ShopTrainingReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// BasicFunction_ServiceDesc is the grpc.ServiceDesc for BasicFunction service.
+func _ShopTraining_GetShopPageList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ShopPageListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopTrainingServer).GetShopPageList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopTraining_GetShopPageList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopTrainingServer).GetShopPageList(ctx, req.(*ShopPageListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopTraining_TrainingShop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ShopTrainingReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopTrainingServer).TrainingShop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopTraining_TrainingShop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopTrainingServer).TrainingShop(ctx, req.(*ShopTrainingReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopTraining_GetGoodsPageList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GoodsPageListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopTrainingServer).GetGoodsPageList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopTraining_GetGoodsPageList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopTrainingServer).GetGoodsPageList(ctx, req.(*GoodsPageListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopTraining_TrainingGoods_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GoodsTrainingReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopTrainingServer).TrainingGoods(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopTraining_TrainingGoods_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopTrainingServer).TrainingGoods(ctx, req.(*GoodsTrainingReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopTraining_EnableGoods_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GoodsTrainingReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopTrainingServer).EnableGoods(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopTraining_EnableGoods_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopTrainingServer).EnableGoods(ctx, req.(*GoodsTrainingReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopTraining_UnEnableGoods_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GoodsTrainingReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopTrainingServer).UnEnableGoods(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopTraining_UnEnableGoods_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopTrainingServer).UnEnableGoods(ctx, req.(*GoodsTrainingReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// ShopTraining_ServiceDesc is the grpc.ServiceDesc for ShopTraining service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var BasicFunction_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "training.BasicFunction",
-	HandlerType: (*BasicFunctionServer)(nil),
+var ShopTraining_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "training.ShopTraining",
+	HandlerType: (*ShopTrainingServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "getDictInfoByType",
-			Handler:    _BasicFunction_GetDictInfoByType_Handler,
+			MethodName: "preSetting",
+			Handler:    _ShopTraining_PreSetting_Handler,
+		},
+		{
+			MethodName: "getShopPageList",
+			Handler:    _ShopTraining_GetShopPageList_Handler,
+		},
+		{
+			MethodName: "trainingShop",
+			Handler:    _ShopTraining_TrainingShop_Handler,
+		},
+		{
+			MethodName: "getGoodsPageList",
+			Handler:    _ShopTraining_GetGoodsPageList_Handler,
+		},
+		{
+			MethodName: "trainingGoods",
+			Handler:    _ShopTraining_TrainingGoods_Handler,
+		},
+		{
+			MethodName: "enableGoods",
+			Handler:    _ShopTraining_EnableGoods_Handler,
+		},
+		{
+			MethodName: "unEnableGoods",
+			Handler:    _ShopTraining_UnEnableGoods_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

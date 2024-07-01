@@ -22,7 +22,44 @@ func NewShopTrainingServer(svcCtx *svc.ServiceContext) *ShopTrainingServer {
 	}
 }
 
+// 预训练
 func (s *ShopTrainingServer) PreSetting(ctx context.Context, in *training.ShopTrainingReq) (*training.ShopTrainingResp, error) {
 	l := shoptraininglogic.NewPreSettingLogic(ctx, s.svcCtx)
 	return l.PreSetting(in)
+}
+
+// 查询店铺列表
+func (s *ShopTrainingServer) GetShopPageList(ctx context.Context, in *training.ShopPageListReq) (*training.ShopPageListResp, error) {
+	l := shoptraininglogic.NewGetShopPageListLogic(ctx, s.svcCtx)
+	return l.GetShopPageList(in)
+}
+
+// 训练店铺
+func (s *ShopTrainingServer) TrainingShop(ctx context.Context, in *training.ShopTrainingReq) (*training.ShopTrainingResp, error) {
+	l := shoptraininglogic.NewTrainingShopLogic(ctx, s.svcCtx)
+	return l.TrainingShop(in)
+}
+
+// 查询商品列表
+func (s *ShopTrainingServer) GetGoodsPageList(ctx context.Context, in *training.GoodsPageListReq) (*training.GoodsPageListResp, error) {
+	l := shoptraininglogic.NewGetGoodsPageListLogic(ctx, s.svcCtx)
+	return l.GetGoodsPageList(in)
+}
+
+// 训练商品
+func (s *ShopTrainingServer) TrainingGoods(ctx context.Context, in *training.GoodsTrainingReq) (*training.GoodsTrainingResp, error) {
+	l := shoptraininglogic.NewTrainingGoodsLogic(ctx, s.svcCtx)
+	return l.TrainingGoods(in)
+}
+
+// 启用商品
+func (s *ShopTrainingServer) EnableGoods(ctx context.Context, in *training.GoodsTrainingReq) (*training.GoodsTrainingResp, error) {
+	l := shoptraininglogic.NewEnableGoodsLogic(ctx, s.svcCtx)
+	return l.EnableGoods(in)
+}
+
+// 禁用商品
+func (s *ShopTrainingServer) UnEnableGoods(ctx context.Context, in *training.GoodsTrainingReq) (*training.GoodsTrainingResp, error) {
+	l := shoptraininglogic.NewUnEnableGoodsLogic(ctx, s.svcCtx)
+	return l.UnEnableGoods(in)
 }

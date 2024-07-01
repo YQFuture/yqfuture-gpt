@@ -39,36 +39,43 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 启用商品
 				Method:  http.MethodPost,
 				Path:    "/enableGoods",
 				Handler: shopTraining.EnableGoodsHandler(serverCtx),
 			},
 			{
+				// 查询商品列表
 				Method:  http.MethodPost,
 				Path:    "/getGoodsPageList",
 				Handler: shopTraining.GetGoodsPageListHandler(serverCtx),
 			},
 			{
+				// 查询店铺列表
 				Method:  http.MethodPost,
 				Path:    "/getShopPageList",
 				Handler: shopTraining.GetShopPageListHandler(serverCtx),
 			},
 			{
+				// 预训练
 				Method:  http.MethodPost,
 				Path:    "/preSetting",
 				Handler: shopTraining.PreSettingHandler(serverCtx),
 			},
 			{
+				// 训练商品
 				Method:  http.MethodPost,
 				Path:    "/trainingGoods",
 				Handler: shopTraining.TrainingGoodsHandler(serverCtx),
 			},
 			{
+				// 训练店铺
 				Method:  http.MethodPost,
 				Path:    "/trainingShop",
 				Handler: shopTraining.TrainingShopHandler(serverCtx),
 			},
 			{
+				// 停用商品
 				Method:  http.MethodPost,
 				Path:    "/unEnableGoods",
 				Handler: shopTraining.UnEnableGoodsHandler(serverCtx),

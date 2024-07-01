@@ -4,25 +4,6 @@ option go_package = "./training";
 
 package training;
 
-//店铺训练
-message ShopTrainingReq {
-}
-message ShopTrainingResp {
-  string result = 1;
-}
-service ShopTraining {
-  rpc preSetting(ShopTrainingReq) returns (ShopTrainingResp);
-}
-
-//知识库训练
-message KnowledgeBaseTrainingReq {
-}
-message KnowledgeBaseTrainingResp {
-}
-service KnowledgeBaseTraining {
-  rpc preSetting(KnowledgeBaseTrainingReq) returns (KnowledgeBaseTrainingResp);
-}
-
 //基础功能
 message DictInfoByTypeReq {
   string key = 1;
@@ -37,4 +18,95 @@ message DictInfo {
 }
 service BasicFunction {
   rpc getDictInfoByType(DictInfoByTypeReq) returns (DictInfoByTypeResp);
+}
+
+//知识库训练
+message KnowledgeBaseTrainingReq {
+}
+message KnowledgeBaseTrainingResp {
+}
+service KnowledgeBaseTraining {
+  rpc preSetting(KnowledgeBaseTrainingReq) returns (KnowledgeBaseTrainingResp);
+}
+
+//店铺训练
+message ShopTrainingReq {
+  int64 shopId = 1;
+}
+message ShopTrainingResp {
+  string result = 1;
+}
+message ShopPageListReq {
+  int64  pageNum  = 1;
+  int64  pageSize = 2;
+  string query  = 3;
+  int64  platFormType = 4;
+  int64  trainingStatus = 5;
+  int64  updateTime = 6;
+}
+
+message ShopResp {
+  int64  id = 1;
+  string shopName = 2;
+  int64  platformType = 3;
+  int64  trainingStatus = 4;
+  int64  trainingTimes = 5;
+  int64  updateTime = 6;
+}
+message ShopPageListResp {
+  int64 pageNum = 1;
+  int64 pageSize = 2;
+  int64 total = 3;
+  repeated ShopResp list = 4;
+}
+
+message GoodsPageListReq {
+  int64  pageNum  = 1;
+  int64  pageSize = 2;
+  string query  = 3;
+  int64  enabled = 4;
+  int64  updateTime = 5;
+}
+
+message GoodsResp {
+  int64  id = 1;
+  int64  shopId = 2;
+  string goodsName = 3;
+  string goodsUrl = 4;
+  string trainingSummary = 5;
+  int64  enabled = 6;
+  int64  trainingStatus = 7;
+  int64  trainingTimes = 8;
+  int64  updateTime = 9;
+}
+message GoodsPageListResp {
+  int64 pageNum = 1;
+  int64 pageSize = 2;
+  int64 total = 3;
+  repeated GoodsResp list = 4;
+}
+message GoodsTrainingReq {
+  int64 goodsId = 1;
+}
+message GoodsTrainingResp {
+  string result = 1;
+}
+
+service ShopTraining {
+  // 预训练
+  rpc preSetting(ShopTrainingReq) returns (ShopTrainingResp);
+
+  // 查询店铺列表
+  rpc getShopPageList(ShopPageListReq) returns (ShopPageListResp);
+  // 训练店铺
+  rpc trainingShop(ShopTrainingReq) returns (ShopTrainingResp);
+
+  // 查询商品列表
+  rpc getGoodsPageList(GoodsPageListReq) returns (GoodsPageListResp);
+  // 训练商品
+  rpc trainingGoods(GoodsTrainingReq) returns (GoodsTrainingResp);
+  // 启用商品
+  rpc enableGoods(GoodsTrainingReq) returns (GoodsTrainingResp);
+  // 禁用商品
+  rpc unEnableGoods(GoodsTrainingReq) returns (GoodsTrainingResp);
 }

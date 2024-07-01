@@ -16,13 +16,34 @@ type (
 	DictInfo                  = training.DictInfo
 	DictInfoByTypeReq         = training.DictInfoByTypeReq
 	DictInfoByTypeResp        = training.DictInfoByTypeResp
+	GoodsPageListReq          = training.GoodsPageListReq
+	GoodsPageListResp         = training.GoodsPageListResp
+	GoodsResp                 = training.GoodsResp
+	GoodsTrainingReq          = training.GoodsTrainingReq
+	GoodsTrainingResp         = training.GoodsTrainingResp
 	KnowledgeBaseTrainingReq  = training.KnowledgeBaseTrainingReq
 	KnowledgeBaseTrainingResp = training.KnowledgeBaseTrainingResp
+	ShopPageListReq           = training.ShopPageListReq
+	ShopPageListResp          = training.ShopPageListResp
+	ShopResp                  = training.ShopResp
 	ShopTrainingReq           = training.ShopTrainingReq
 	ShopTrainingResp          = training.ShopTrainingResp
 
 	ShopTraining interface {
+		// 预训练
 		PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
+		// 查询店铺列表
+		GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error)
+		// 训练店铺
+		TrainingShop(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
+		// 查询商品列表
+		GetGoodsPageList(ctx context.Context, in *GoodsPageListReq, opts ...grpc.CallOption) (*GoodsPageListResp, error)
+		// 训练商品
+		TrainingGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error)
+		// 启用商品
+		EnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error)
+		// 禁用商品
+		UnEnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error)
 	}
 
 	defaultShopTraining struct {
@@ -36,7 +57,44 @@ func NewShopTraining(cli zrpc.Client) ShopTraining {
 	}
 }
 
+// 预训练
 func (m *defaultShopTraining) PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
 	return client.PreSetting(ctx, in, opts...)
+}
+
+// 查询店铺列表
+func (m *defaultShopTraining) GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.GetShopPageList(ctx, in, opts...)
+}
+
+// 训练店铺
+func (m *defaultShopTraining) TrainingShop(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.TrainingShop(ctx, in, opts...)
+}
+
+// 查询商品列表
+func (m *defaultShopTraining) GetGoodsPageList(ctx context.Context, in *GoodsPageListReq, opts ...grpc.CallOption) (*GoodsPageListResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.GetGoodsPageList(ctx, in, opts...)
+}
+
+// 训练商品
+func (m *defaultShopTraining) TrainingGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.TrainingGoods(ctx, in, opts...)
+}
+
+// 启用商品
+func (m *defaultShopTraining) EnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.EnableGoods(ctx, in, opts...)
+}
+
+// 禁用商品
+func (m *defaultShopTraining) UnEnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.UnEnableGoods(ctx, in, opts...)
 }
