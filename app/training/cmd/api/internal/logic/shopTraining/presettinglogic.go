@@ -27,6 +27,8 @@ func NewPreSettingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PreSet
 }
 
 func (l *PreSettingLogic) PreSetting(req *types.ShopTrainingReq) (resp *types.ShopTrainingResp, err error) {
+	value := l.ctx.Value("userId")
+	l.Logger.Info("token中的userId", value)
 	result, err := l.svcCtx.ShopTrainingClient.PreSetting(l.ctx, &training.ShopTrainingReq{})
 	if err != nil {
 		l.Logger.Error("获取店铺列表失败", err)

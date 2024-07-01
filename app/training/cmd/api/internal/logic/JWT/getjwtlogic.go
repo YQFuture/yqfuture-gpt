@@ -27,7 +27,10 @@ func NewGetJWTLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetJWTLogi
 }
 
 func (l *GetJWTLogic) GetJWT(req *types.ShopTrainingReq) (resp *types.ShopTrainingResp, err error) {
-	jwtToken, err := getJwtToken(l.svcCtx.Config.Auth.AccessSecret, time.Now().Unix(), l.svcCtx.Config.Auth.AccessExpire, "")
+	playload := map[string]string{
+		"userId": "1",
+	}
+	jwtToken, err := getJwtToken(l.svcCtx.Config.Auth.AccessSecret, time.Now().Unix(), l.svcCtx.Config.Auth.AccessExpire, playload)
 	if err != nil {
 		return nil, err
 	}
@@ -44,11 +47,13 @@ func (l *GetJWTLogic) GetJWT(req *types.ShopTrainingReq) (resp *types.ShopTraini
 // @iat: 时间戳
 // @seconds: 过期时间，单位秒
 // @payload: 数据载体
-func getJwtToken(secretKey string, iat, seconds int64, payload string) (string, error) {
+func getJwtToken(secretKey string, iat, seconds int64, payload map[string]string) (string, error) {
 	claims := make(jwt.MapClaims)
 	claims["exp"] = iat + seconds
 	claims["iat"] = iat
-	claims["payload"] = payload
+	for k, v := range payload {
+		claims[k] = v
+	}
 	token := jwt.New(jwt.SigningMethodHS256)
 	token.Claims = claims
 	return token.SignedString([]byte(secretKey))
