@@ -3,6 +3,7 @@ package shopTraining
 import (
 	"context"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
+	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/training/cmd/api/internal/svc"
 	"yufuture-gpt/app/training/cmd/api/internal/types"
@@ -32,5 +33,8 @@ func (l *EnableGoodsLogic) EnableGoods(req *types.BaseGoodsReq) (resp *types.Bas
 		l.Logger.Error("启用商品训练失败", err)
 		return nil, err
 	}
-	return
+	return &types.BaseResp{
+		Code: consts.Success,
+		Msg:  "启用商品训练成功",
+	}, nil
 }
