@@ -8,24 +8,8 @@ info(
     version: "v1"
 )
 
-type (
-    BaseReq {
-    }
-    BaseResp {
-        Code  int    `json:"code"` // 状态码
-        Msg   string `json:"msg"` // 信息
-    }
-
-    BasePageReq {
-        PageNum  int64  `json:"pageNum"` // 页码
-        PageSize int64  `json:"pageSize"` // 每页条数
-        Query    string `json:"query"` // 查询条件
-    }
-    BasePageResp {
-        PageNum  int64 `json:"pageNum"` // 页码
-        PageSize int64 `json:"pageSize"` // 每页条数
-        Total    int64 `json:"total"` // 总条数
-    }
+import (
+    "../basicFunction/basicFunction.api"
 )
 
 type (

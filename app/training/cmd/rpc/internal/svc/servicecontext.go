@@ -12,6 +12,8 @@ type ServiceContext struct {
 	TsShopModel                orm.TsShopModel
 	TsGoodsModel               orm.TsGoodsModel
 	TsTrainingLogModel         orm.TsTrainingLogModel
+	BsDictTypeModel            orm.BsDictTypeModel
+	BsDictInfoModel            orm.BsDictInfoModel
 	KfgptaccountsentitiesModel model.KfgptaccountsentitiesModel
 }
 
@@ -22,6 +24,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TsShopModel:                orm.NewTsShopModel(sqlConn),
 		TsGoodsModel:               orm.NewTsGoodsModel(sqlConn),
 		TsTrainingLogModel:         orm.NewTsTrainingLogModel(sqlConn),
+		BsDictTypeModel:            orm.NewBsDictTypeModel(sqlConn),
+		BsDictInfoModel:            orm.NewBsDictInfoModel(sqlConn),
 		KfgptaccountsentitiesModel: model.NewKfgptaccountsentitiesModel(c.Mongo.Url, c.Mongo.Database, c.Mongo.Kfgptaccountsentities),
 	}
 }

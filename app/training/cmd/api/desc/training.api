@@ -10,6 +10,7 @@ info (
 
 import (
 	"shopTraining/shopTraining.api"
+	"basicFunction/basicFunction.api"
 )
 
 @server (
@@ -35,5 +36,15 @@ service training {
 service training {
 	@handler getJWT
 	get /getJWT (ShopTrainingReq) returns (ShopTrainingResp)
+}
+
+@server (
+	prefix: basicFunction
+	group:  basicFunction
+	jwt:    Auth
+)
+service training {
+	@handler getDictInfoByType
+	post /getDictInfoByType (DictInfoByTypeReq) returns (DictInfoByTypeResp)
 }
 

@@ -13,6 +13,9 @@ import (
 )
 
 type (
+	DictInfo                  = training.DictInfo
+	DictInfoByTypeReq         = training.DictInfoByTypeReq
+	DictInfoByTypeResp        = training.DictInfoByTypeResp
 	KnowledgeBaseTrainingReq  = training.KnowledgeBaseTrainingReq
 	KnowledgeBaseTrainingResp = training.KnowledgeBaseTrainingResp
 	ShopTrainingReq           = training.ShopTrainingReq

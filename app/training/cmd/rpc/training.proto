@@ -4,6 +4,7 @@ option go_package = "./training";
 
 package training;
 
+//店铺训练
 message ShopTrainingReq {
 }
 message ShopTrainingResp {
@@ -13,10 +14,27 @@ service ShopTraining {
   rpc preSetting(ShopTrainingReq) returns (ShopTrainingResp);
 }
 
+//知识库训练
 message KnowledgeBaseTrainingReq {
 }
 message KnowledgeBaseTrainingResp {
 }
 service KnowledgeBaseTraining {
   rpc preSetting(KnowledgeBaseTrainingReq) returns (KnowledgeBaseTrainingResp);
+}
+
+//基础功能
+message DictInfoByTypeReq {
+  string key = 1;
+}
+message DictInfoByTypeResp {
+  repeated DictInfo list = 1;
+}
+message DictInfo {
+  string name     = 1;
+  string value    = 2;
+  int64  orderNum = 3;
+}
+service BasicFunction {
+  rpc getDictInfoByType(DictInfoByTypeReq) returns (DictInfoByTypeResp);
 }

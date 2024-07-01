@@ -1,0 +1,45 @@
+syntax = "v1"
+
+info(
+    title: "type title here"
+    desc: "type desc here"
+    author: "type author here"
+    email: "type email here"
+    version: "type version here"
+)
+
+type (
+    BaseReq {
+    }
+    BaseResp {
+        Code  int    `json:"code"` // 状态码
+        Msg   string `json:"msg"` // 信息
+    }
+
+    BasePageReq {
+        PageNum  int64  `json:"pageNum"` // 页码
+        PageSize int64  `json:"pageSize"` // 每页条数
+        Query    string `json:"query"` // 查询条件
+    }
+    BasePageResp {
+        PageNum  int64 `json:"pageNum"` // 页码
+        PageSize int64 `json:"pageSize"` // 每页条数
+        Total    int64 `json:"total"` // 总条数
+    }
+)
+
+type (
+    DictInfoByTypeReq {
+        Key string `json:"key"` // 类型key
+    }
+    DictInfoByTypeResp {
+        BaseResp
+        Data []*DictInfo `json:"data"` // 字典列表
+    }
+    DictInfo {
+        Name     string `json:"name"` // 名称
+        Value    string `json:"value"` // 值
+        OrderNum int64 `json:"orderNum"` // 排序
+    }
+)
+

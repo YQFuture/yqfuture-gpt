@@ -6,6 +6,7 @@ import (
 	"github.com/zeromicro/zero-contrib/zrpc/registry/consul"
 
 	"yufuture-gpt/app/training/cmd/rpc/internal/config"
+	basicfunctionServer "yufuture-gpt/app/training/cmd/rpc/internal/server/basicfunction"
 	knowledgebasetrainingServer "yufuture-gpt/app/training/cmd/rpc/internal/server/knowledgebasetraining"
 	shoptrainingServer "yufuture-gpt/app/training/cmd/rpc/internal/server/shoptraining"
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
@@ -30,6 +31,7 @@ func main() {
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
 		training.RegisterShopTrainingServer(grpcServer, shoptrainingServer.NewShopTrainingServer(ctx))
 		training.RegisterKnowledgeBaseTrainingServer(grpcServer, knowledgebasetrainingServer.NewKnowledgeBaseTrainingServer(ctx))
+		training.RegisterBasicFunctionServer(grpcServer, basicfunctionServer.NewBasicFunctionServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)

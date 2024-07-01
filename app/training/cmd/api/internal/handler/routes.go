@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	JWT "yufuture-gpt/app/training/cmd/api/internal/handler/JWT"
+	basicFunction "yufuture-gpt/app/training/cmd/api/internal/handler/basicFunction"
 	shopTraining "yufuture-gpt/app/training/cmd/api/internal/handler/shopTraining"
 	"yufuture-gpt/app/training/cmd/api/internal/svc"
 
@@ -25,6 +26,28 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/getDictInfoByType",
+				Handler: basicFunction.GetDictInfoByTypeHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/basicFunction"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/getGoodsPageList",
+				Handler: shopTraining.GetGoodsPageListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/getShopPageList",
+				Handler: shopTraining.GetShopListHandler(serverCtx),
+			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/preSetting",
