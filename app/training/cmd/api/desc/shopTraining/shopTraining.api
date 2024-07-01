@@ -47,9 +47,15 @@ type (
         UpdateTime     int64 `json:"updateTime"` // 更新时间
     }
 
+    TrainShopReq {
+        ShopId int64 `json:"shopId"` // 店铺id
+    }
+)
+
+type (
     GoodsPageListReq {
         BasePageReq
-        enabled    int64     `json:"trainStatus"` // 训练状态
+        Enabled    int64     `json:"trainStatus"` // 启用状态 0: 未启用 1: 启用
         UpdateTime int64 `json:"updateTime"` // 更新时间
     }
 
@@ -65,5 +71,18 @@ type (
 
     GoodsResp {
         Id int64 `json:"id"` // 商品id
+        ShopId int64 `json:"shopId"` // 店铺id
+        GoodsName string `json:"goodsName"` // 商品名称
+        GoodsUrl string `json:"goodsUrl"` // 商品url
+        TrainingSummary string `json:"trainingSummary"` // 训练摘要
+        Enabled int64 `json:"enabled"` // 启用状态 0: 未启用 1: 启用
+        TrainingStatus int64 `json:"trainStatus"` // 训练状态 训练状态 0: 未训练 1: 训练中 2: 训练完成
+        TrainingTimes  int64 `json:"trainingTimes"` // 训练次数
+        UpdateTime int64 `json:"updateTime"`// 更新时间
     }
+
+    BaseGoodsReq {
+        GoodsId int64 `json:"goodsId"` // 商品id
+    }
+
 )

@@ -9,21 +9,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GetShopListLogic struct {
+type GetShopPageListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewGetShopListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetShopListLogic {
-	return &GetShopListLogic{
+func NewGetShopPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetShopPageListLogic {
+	return &GetShopPageListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *GetShopListLogic) GetShopList(req *types.ShopPageListReq) (resp *types.ShopPageListResp, err error) {
+func (l *GetShopPageListLogic) GetShopPageList(req *types.ShopPageListReq) (resp *types.ShopPageListResp, err error) {
+	// todo: add your logic here and delete this line
 
 	return
 }

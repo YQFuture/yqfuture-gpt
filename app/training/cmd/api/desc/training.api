@@ -14,22 +14,6 @@ import (
 )
 
 @server (
-	prefix: shopTraining
-	group:  shopTraining
-	jwt:    Auth
-)
-service training {
-	@handler preSetting
-	post /preSetting (ShopTrainingReq) returns (ShopTrainingResp)
-
-	@handler getShopList
-	post /getShopPageList (ShopPageListReq) returns (ShopPageListResp)
-
-	@handler getGoodsPageList
-	post /getGoodsPageList (GoodsPageListReq) returns (GoodsPageListResp)
-}
-
-@server (
 	prefix: JWT
 	group:  JWT
 )
@@ -46,5 +30,33 @@ service training {
 service training {
 	@handler getDictInfoByType
 	post /getDictInfoByType (DictInfoByTypeReq) returns (DictInfoByTypeResp)
+}
+
+@server (
+	prefix: shopTraining
+	group:  shopTraining
+	jwt:    Auth
+)
+service training {
+	@handler preSetting
+	post /preSetting (ShopTrainingReq) returns (ShopTrainingResp)
+
+	@handler getShopPageList
+	post /getShopPageList (ShopPageListReq) returns (ShopPageListResp)
+
+	@handler trainingShop
+	post /trainingShop (TrainShopReq) returns (BaseResp)
+
+	@handler getGoodsPageList
+	post /getGoodsPageList (GoodsPageListReq) returns (BaseResp)
+
+	@handler trainingGoods
+	post /trainingGoods (BaseGoodsReq) returns (BaseResp)
+
+	@handler enableGoods
+	post /enableGoods (BaseGoodsReq) returns (BaseResp)
+
+	@handler unEnableGoods
+	post /unEnableGoods (BaseGoodsReq) returns (BaseResp)
 }
 

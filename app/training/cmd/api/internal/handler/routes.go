@@ -40,18 +40,38 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodPost,
+				Path:    "/enableGoods",
+				Handler: shopTraining.EnableGoodsHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
 				Path:    "/getGoodsPageList",
 				Handler: shopTraining.GetGoodsPageListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/getShopPageList",
-				Handler: shopTraining.GetShopListHandler(serverCtx),
+				Handler: shopTraining.GetShopPageListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/preSetting",
 				Handler: shopTraining.PreSettingHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/trainingGoods",
+				Handler: shopTraining.TrainingGoodsHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/trainingShop",
+				Handler: shopTraining.TrainingShopHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/unEnableGoods",
+				Handler: shopTraining.UnEnableGoodsHandler(serverCtx),
 			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),

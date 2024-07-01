@@ -1,24 +1,24 @@
-package baseFunction
+package shopTraining
 
 import (
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
-	"yufuture-gpt/app/training/cmd/api/internal/logic/baseFunction"
+	"yufuture-gpt/app/training/cmd/api/internal/logic/shopTraining"
 	"yufuture-gpt/app/training/cmd/api/internal/svc"
 	"yufuture-gpt/app/training/cmd/api/internal/types"
 )
 
-func GetDictInfoByTypeHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func EnableGoodsHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.DictInfoByTypeReq
+		var req types.BaseGoodsReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := baseFunction.NewGetDictInfoByTypeLogic(r.Context(), svcCtx)
-		resp, err := l.GetDictInfoByType(&req)
+		l := shopTraining.NewEnableGoodsLogic(r.Context(), svcCtx)
+		resp, err := l.EnableGoods(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
