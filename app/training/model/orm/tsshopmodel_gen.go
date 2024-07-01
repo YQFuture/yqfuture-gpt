@@ -38,6 +38,7 @@ type (
 		Id             int64     `db:"id"`              // 店铺ID
 		ShopName       string    `db:"shop_name"`       // 店铺名称
 		UserId         int64     `db:"user_id"`         // 用户ID
+		Uuid           string    `db:"uuid"`            // uuid
 		GroupId        int64     `db:"group_id"`        // 组织ID
 		PlatformType   int64     `db:"platform_type"`   // 平台类型 0: 未知 1: 京东 2: 拼多多 3: 千牛
 		TrainingStatus int64     `db:"training_status"` // 训练状态 0: 初始 1: 训练中 2: 训练完成
@@ -77,14 +78,14 @@ func (m *defaultTsShopModel) FindOne(ctx context.Context, id int64) (*TsShop, er
 }
 
 func (m *defaultTsShopModel) Insert(ctx context.Context, data *TsShop) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsShopRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.ShopName, data.UserId, data.GroupId, data.PlatformType, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsShopRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.ShopName, data.UserId, data.Uuid, data.GroupId, data.PlatformType, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 
 func (m *defaultTsShopModel) Update(ctx context.Context, data *TsShop) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, tsShopRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.ShopName, data.UserId, data.GroupId, data.PlatformType, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy, data.Id)
+	_, err := m.conn.ExecCtx(ctx, query, data.ShopName, data.UserId, data.Uuid, data.GroupId, data.PlatformType, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy, data.Id)
 	return err
 }
 
