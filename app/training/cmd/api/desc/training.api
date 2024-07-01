@@ -42,6 +42,10 @@ service training {
 	@handler preSetting
 	post /preSetting (ShopTrainingReq) returns (ShopTrainingResp)
 
+	@doc "判断店铺是否初次登录(从未进行过训练)"
+	@handler JudgeFirstShop
+	post /JudgeFirstShop (JudgeFirstShopReq) returns (JudgeFirstShopResp)
+
 	@doc "查询店铺列表"
 	@handler getShopPageList
 	post /getShopPageList (ShopPageListReq) returns (ShopPageListResp)

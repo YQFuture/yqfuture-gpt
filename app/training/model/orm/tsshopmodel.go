@@ -19,6 +19,7 @@ type (
 		FindList(ctx context.Context) (any, error)
 		GetShopPageTotal(ctx context.Context, in *training.ShopPageListReq) (int, error)
 		GetShopPageList(ctx context.Context, in *training.ShopPageListReq) (*[]*TsShop, error)
+		JudgeFirstShop(ctx context.Context, in *training.JudgeFirstShopReq) (int, error)
 	}
 
 	customTsShopModel struct {
@@ -48,6 +49,27 @@ func (m *customTsShopModel) FindList(ctx context.Context) (any, error) {
 		return nil, ErrNotFound
 	default:
 		return nil, err
+	}
+}
+
+func (m *customTsShopModel) JudgeFirstShop(ctx context.Context, in *training.JudgeFirstShopReq) (int, error) {
+	query := fmt.Sprintf("select %s from where user_id = ? && uuid = ?", m.table)
+	var args []interface{}
+	args = append(args, in.UserId, in.Uuid)
+	var resp []*TsShop
+	err := m.conn.QueryRowsCtx(ctx, &resp, query, args...)
+	//判断是否初次登录 0: 是 1: 否
+	switch err {
+	case nil:
+		if len(resp) > 0 {
+			return 1, nil
+		} else {
+			return 0, nil
+		}
+	case sqlx.ErrNotFound:
+		return 0, nil
+	default:
+		return 0, err
 	}
 }
 

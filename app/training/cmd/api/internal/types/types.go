@@ -69,6 +69,15 @@ type GoodsResp struct {
 	UpdateTime      int64  `json:"updateTime"`      // 更新时间
 }
 
+type JudgeFirstShopReq struct {
+	Uuid string `json:"uuid"` // 唯一标识
+}
+
+type JudgeFirstShopResp struct {
+	BaseResp
+	Data int64 `json:"data"` // 是否初次 0: 是 1: 否
+}
+
 type ShopListResp struct {
 	BasePageResp
 	List []*ShopResp `json:"list"` // 列表

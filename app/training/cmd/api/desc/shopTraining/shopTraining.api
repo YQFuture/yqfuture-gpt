@@ -87,3 +87,13 @@ type (
     }
 
 )
+
+type (
+    JudgeFirstShopReq {
+        Uuid string `json:"uuid"` // 唯一标识
+    }
+    JudgeFirstShopResp {
+        BaseResp
+        Data int64 `json:"data"` // 是否初次 0: 是 1: 否
+    }
+)

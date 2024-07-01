@@ -204,6 +204,7 @@ const (
 	ShopTraining_PreSetting_FullMethodName       = "/training.ShopTraining/preSetting"
 	ShopTraining_GetShopPageList_FullMethodName  = "/training.ShopTraining/getShopPageList"
 	ShopTraining_TrainingShop_FullMethodName     = "/training.ShopTraining/trainingShop"
+	ShopTraining_JudgeFirstShop_FullMethodName   = "/training.ShopTraining/judgeFirstShop"
 	ShopTraining_GetGoodsPageList_FullMethodName = "/training.ShopTraining/getGoodsPageList"
 	ShopTraining_TrainingGoods_FullMethodName    = "/training.ShopTraining/trainingGoods"
 	ShopTraining_EnableGoods_FullMethodName      = "/training.ShopTraining/enableGoods"
@@ -220,6 +221,8 @@ type ShopTrainingClient interface {
 	GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error)
 	// 训练店铺
 	TrainingShop(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
+	// 判断店铺是否初次登录(从未进行过训练)
+	JudgeFirstShop(ctx context.Context, in *JudgeFirstShopReq, opts ...grpc.CallOption) (*JudgeFirstShopResp, error)
 	// 查询商品列表
 	GetGoodsPageList(ctx context.Context, in *GoodsPageListReq, opts ...grpc.CallOption) (*GoodsPageListResp, error)
 	// 训练商品
@@ -262,6 +265,16 @@ func (c *shopTrainingClient) TrainingShop(ctx context.Context, in *ShopTrainingR
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ShopTrainingResp)
 	err := c.cc.Invoke(ctx, ShopTraining_TrainingShop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopTrainingClient) JudgeFirstShop(ctx context.Context, in *JudgeFirstShopReq, opts ...grpc.CallOption) (*JudgeFirstShopResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(JudgeFirstShopResp)
+	err := c.cc.Invoke(ctx, ShopTraining_JudgeFirstShop_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -318,6 +331,8 @@ type ShopTrainingServer interface {
 	GetShopPageList(context.Context, *ShopPageListReq) (*ShopPageListResp, error)
 	// 训练店铺
 	TrainingShop(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error)
+	// 判断店铺是否初次登录(从未进行过训练)
+	JudgeFirstShop(context.Context, *JudgeFirstShopReq) (*JudgeFirstShopResp, error)
 	// 查询商品列表
 	GetGoodsPageList(context.Context, *GoodsPageListReq) (*GoodsPageListResp, error)
 	// 训练商品
@@ -341,6 +356,9 @@ func (UnimplementedShopTrainingServer) GetShopPageList(context.Context, *ShopPag
 }
 func (UnimplementedShopTrainingServer) TrainingShop(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TrainingShop not implemented")
+}
+func (UnimplementedShopTrainingServer) JudgeFirstShop(context.Context, *JudgeFirstShopReq) (*JudgeFirstShopResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method JudgeFirstShop not implemented")
 }
 func (UnimplementedShopTrainingServer) GetGoodsPageList(context.Context, *GoodsPageListReq) (*GoodsPageListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGoodsPageList not implemented")
@@ -417,6 +435,24 @@ func _ShopTraining_TrainingShop_Handler(srv interface{}, ctx context.Context, de
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ShopTrainingServer).TrainingShop(ctx, req.(*ShopTrainingReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopTraining_JudgeFirstShop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JudgeFirstShopReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopTrainingServer).JudgeFirstShop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopTraining_JudgeFirstShop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopTrainingServer).JudgeFirstShop(ctx, req.(*JudgeFirstShopReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -511,6 +547,10 @@ var ShopTraining_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "trainingShop",
 			Handler:    _ShopTraining_TrainingShop_Handler,
+		},
+		{
+			MethodName: "judgeFirstShop",
+			Handler:    _ShopTraining_JudgeFirstShop_Handler,
 		},
 		{
 			MethodName: "getGoodsPageList",

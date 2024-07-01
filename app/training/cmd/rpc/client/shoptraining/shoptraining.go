@@ -21,6 +21,8 @@ type (
 	GoodsResp                 = training.GoodsResp
 	GoodsTrainingReq          = training.GoodsTrainingReq
 	GoodsTrainingResp         = training.GoodsTrainingResp
+	JudgeFirstShopReq         = training.JudgeFirstShopReq
+	JudgeFirstShopResp        = training.JudgeFirstShopResp
 	KnowledgeBaseTrainingReq  = training.KnowledgeBaseTrainingReq
 	KnowledgeBaseTrainingResp = training.KnowledgeBaseTrainingResp
 	ShopPageListReq           = training.ShopPageListReq
@@ -36,6 +38,8 @@ type (
 		GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error)
 		// 训练店铺
 		TrainingShop(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
+		// 判断店铺是否初次登录(从未进行过训练)
+		JudgeFirstShop(ctx context.Context, in *JudgeFirstShopReq, opts ...grpc.CallOption) (*JudgeFirstShopResp, error)
 		// 查询商品列表
 		GetGoodsPageList(ctx context.Context, in *GoodsPageListReq, opts ...grpc.CallOption) (*GoodsPageListResp, error)
 		// 训练商品
@@ -73,6 +77,12 @@ func (m *defaultShopTraining) GetShopPageList(ctx context.Context, in *ShopPageL
 func (m *defaultShopTraining) TrainingShop(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
 	return client.TrainingShop(ctx, in, opts...)
+}
+
+// 判断店铺是否初次登录(从未进行过训练)
+func (m *defaultShopTraining) JudgeFirstShop(ctx context.Context, in *JudgeFirstShopReq, opts ...grpc.CallOption) (*JudgeFirstShopResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.JudgeFirstShop(ctx, in, opts...)
 }
 
 // 查询商品列表

@@ -39,6 +39,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 判断店铺是否初次登录(从未进行过训练)
+				Method:  http.MethodPost,
+				Path:    "/JudgeFirstShop",
+				Handler: shopTraining.JudgeFirstShopHandler(serverCtx),
+			},
+			{
 				// 启用商品
 				Method:  http.MethodPost,
 				Path:    "/enableGoods",

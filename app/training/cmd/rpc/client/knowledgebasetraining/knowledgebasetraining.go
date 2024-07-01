@@ -21,6 +21,8 @@ type (
 	GoodsResp                 = training.GoodsResp
 	GoodsTrainingReq          = training.GoodsTrainingReq
 	GoodsTrainingResp         = training.GoodsTrainingResp
+	JudgeFirstShopReq         = training.JudgeFirstShopReq
+	JudgeFirstShopResp        = training.JudgeFirstShopResp
 	KnowledgeBaseTrainingReq  = training.KnowledgeBaseTrainingReq
 	KnowledgeBaseTrainingResp = training.KnowledgeBaseTrainingResp
 	ShopPageListReq           = training.ShopPageListReq
