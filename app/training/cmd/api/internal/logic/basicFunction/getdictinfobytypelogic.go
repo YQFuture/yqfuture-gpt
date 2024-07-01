@@ -3,6 +3,7 @@ package basicFunction
 import (
 	"context"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
+	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/training/cmd/api/internal/svc"
 	"yufuture-gpt/app/training/cmd/api/internal/types"
@@ -45,7 +46,7 @@ func (l *GetDictInfoByTypeLogic) GetDictInfoByType(req *types.DictInfoByTypeReq)
 	}
 	return &types.DictInfoByTypeResp{
 		BaseResp: types.BaseResp{
-			Code: 200,
+			Code: consts.Success,
 			Msg:  "success",
 		},
 		Data: dictInfoList,

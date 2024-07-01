@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/golang-jwt/jwt/v4"
 	"time"
+	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/training/cmd/api/internal/svc"
 	"yufuture-gpt/app/training/cmd/api/internal/types"
@@ -32,7 +33,7 @@ func (l *GetJWTLogic) GetJWT(req *types.ShopTrainingReq) (resp *types.ShopTraini
 	}
 	return &types.ShopTrainingResp{
 		BaseResp: types.BaseResp{
-			Code: 0,
+			Code: consts.Success,
 			Msg:  "success",
 		},
 		Data: jwtToken,
