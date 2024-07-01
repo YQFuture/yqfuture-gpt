@@ -35,16 +35,19 @@ type (
 	}
 
 	TsGoods struct {
-		Id             int64     `db:"id"`              // 商品ID
-		ShopId         int64     `db:"shop_id"`         // 店铺ID
-		PlatformType   int64     `db:"platform_type"`   // 平台类型 0: 未定义 1: 京东 2: 拼多多 3: 千牛
-		Enabled        int64     `db:"enabled"`         // 启用状态 0: 未启用 1: 启用
-		TrainingStatus int64     `db:"training_status"` // 训练状态 0: 未训练 1: 训练中 2: 训练完成
-		TrainingTimes  int64     `db:"training_times"`  // 训练次数
-		CreateTime     time.Time `db:"create_time"`     // 创建时间
-		UpdateTime     time.Time `db:"update_time"`     // 修改时间
-		CreateBy       int64     `db:"create_by"`       // 创建人
-		UpdateBy       int64     `db:"update_by"`       // 修改人
+		Id              int64     `db:"id"`               // 商品ID
+		ShopId          int64     `db:"shop_id"`          // 店铺ID
+		GoodsName       string    `db:"goods_name"`       // 商品名称
+		GoodsUrl        string    `db:"goods_url"`        // 商品url
+		TrainingSummary string    `db:"training_summary"` // 训练结果摘要
+		PlatformType    int64     `db:"platform_type"`    // 平台类型 0: 未定义 1: 京东 2: 拼多多 3: 千牛
+		Enabled         int64     `db:"enabled"`          // 启用状态 0: 未启用 1: 启用
+		TrainingStatus  int64     `db:"training_status"`  // 训练状态 0: 未训练 1: 训练中 2: 训练完成
+		TrainingTimes   int64     `db:"training_times"`   // 训练次数
+		CreateTime      time.Time `db:"create_time"`      // 创建时间
+		UpdateTime      time.Time `db:"update_time"`      // 修改时间
+		CreateBy        int64     `db:"create_by"`        // 创建人
+		UpdateBy        int64     `db:"update_by"`        // 修改人
 	}
 )
 
@@ -76,14 +79,14 @@ func (m *defaultTsGoodsModel) FindOne(ctx context.Context, id int64) (*TsGoods, 
 }
 
 func (m *defaultTsGoodsModel) Insert(ctx context.Context, data *TsGoods) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsGoodsRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.ShopId, data.PlatformType, data.Enabled, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsGoodsRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.ShopId, data.GoodsName, data.GoodsUrl, data.TrainingSummary, data.PlatformType, data.Enabled, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 
 func (m *defaultTsGoodsModel) Update(ctx context.Context, data *TsGoods) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, tsGoodsRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.ShopId, data.PlatformType, data.Enabled, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy, data.Id)
+	_, err := m.conn.ExecCtx(ctx, query, data.ShopId, data.GoodsName, data.GoodsUrl, data.TrainingSummary, data.PlatformType, data.Enabled, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy, data.Id)
 	return err
 }
 

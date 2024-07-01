@@ -2,7 +2,6 @@ package shoptraininglogic
 
 import (
 	"context"
-
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 
@@ -23,9 +22,33 @@ func NewGetShopPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *G
 	}
 }
 
-// 查询店铺列表
+// GetShopPageList 查询店铺列表
 func (l *GetShopPageListLogic) GetShopPageList(in *training.ShopPageListReq) (*training.ShopPageListResp, error) {
-	// todo: add your logic here and delete this line
+	total, err := l.svcCtx.TsShopModel.GetShopPageTotal(l.ctx, in)
+	if err != nil {
+		l.Logger.Error("查询店铺列表总数失败", err)
+		return nil, err
+	}
+	list, err := l.svcCtx.TsShopModel.GetShopPageList(l.ctx, in)
+	if err != nil {
+		l.Logger.Error("查询店铺列表失败", err)
+		return nil, err
+	}
 
-	return &training.ShopPageListResp{}, nil
+	var shopRespList []*training.ShopResp
+	for _, shop := range *list {
+		shopRespList = append(shopRespList, &training.ShopResp{
+			Id:             shop.Id,
+			ShopName:       shop.ShopName,
+			PlatformType:   shop.PlatformType,
+			TrainingTimes:  shop.TrainingTimes,
+			TrainingStatus: shop.TrainingStatus,
+			UpdateTime:     shop.UpdateTime.Unix(),
+		})
+	}
+
+	return &training.ShopPageListResp{
+		Total: int64(total),
+		List:  shopRespList,
+	}, nil
 }
