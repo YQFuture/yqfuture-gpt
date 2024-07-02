@@ -17,7 +17,7 @@ import (
 var (
 	tsShopFieldNames          = builder.RawFieldNames(&TsShop{})
 	tsShopRows                = strings.Join(tsShopFieldNames, ",")
-	tsShopRowsExpectAutoSet   = strings.Join(stringx.Remove(tsShopFieldNames, "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
+	tsShopRowsExpectAutoSet   = strings.Join(stringx.Remove(tsShopFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
 	tsShopRowsWithPlaceHolder = strings.Join(stringx.Remove(tsShopFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), "=?,") + "=?"
 )
 
@@ -25,6 +25,7 @@ type (
 	tsShopModel interface {
 		Insert(ctx context.Context, data *TsShop) (sql.Result, error)
 		FindOne(ctx context.Context, id int64) (*TsShop, error)
+		FindOneByUserIdUuid(ctx context.Context, userId int64, uuid string) (*TsShop, error)
 		Update(ctx context.Context, data *TsShop) error
 		Delete(ctx context.Context, id int64) error
 	}
@@ -77,15 +78,29 @@ func (m *defaultTsShopModel) FindOne(ctx context.Context, id int64) (*TsShop, er
 	}
 }
 
+func (m *defaultTsShopModel) FindOneByUserIdUuid(ctx context.Context, userId int64, uuid string) (*TsShop, error) {
+	var resp TsShop
+	query := fmt.Sprintf("select %s from %s where `user_id` = ? and `uuid` = ? limit 1", tsShopRows, m.table)
+	err := m.conn.QueryRowCtx(ctx, &resp, query, userId, uuid)
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlx.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+
 func (m *defaultTsShopModel) Insert(ctx context.Context, data *TsShop) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsShopRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.ShopName, data.UserId, data.Uuid, data.GroupId, data.PlatformType, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsShopRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.ShopName, data.UserId, data.Uuid, data.GroupId, data.PlatformType, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 
-func (m *defaultTsShopModel) Update(ctx context.Context, data *TsShop) error {
+func (m *defaultTsShopModel) Update(ctx context.Context, newData *TsShop) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, tsShopRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.ShopName, data.UserId, data.Uuid, data.GroupId, data.PlatformType, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy, data.Id)
+	_, err := m.conn.ExecCtx(ctx, query, newData.ShopName, newData.UserId, newData.Uuid, newData.GroupId, newData.PlatformType, newData.TrainingStatus, newData.TrainingTimes, newData.CreateBy, newData.UpdateBy, newData.Id)
 	return err
 }
 

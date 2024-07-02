@@ -581,7 +581,7 @@
         "enabled": {
           "type": "integer",
           "format": "int64",
-          "description": " 启用状态 0: 未启用 1: 启用"
+          "description": " 启用状态  0: 未定义 1: 未启用 2: 启用"
         },
         "updateTime": {
           "type": "integer",
@@ -646,7 +646,7 @@
         "enabled": {
           "type": "integer",
           "format": "int64",
-          "description": " 启用状态 0: 未启用 1: 启用"
+          "description": " 启用状态 0: 未定义 1: 未启用 2: 启用"
         },
         "trainStatus": {
           "type": "integer",

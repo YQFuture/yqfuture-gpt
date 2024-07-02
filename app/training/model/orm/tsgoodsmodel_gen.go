@@ -17,7 +17,7 @@ import (
 var (
 	tsGoodsFieldNames          = builder.RawFieldNames(&TsGoods{})
 	tsGoodsRows                = strings.Join(tsGoodsFieldNames, ",")
-	tsGoodsRowsExpectAutoSet   = strings.Join(stringx.Remove(tsGoodsFieldNames, "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
+	tsGoodsRowsExpectAutoSet   = strings.Join(stringx.Remove(tsGoodsFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
 	tsGoodsRowsWithPlaceHolder = strings.Join(stringx.Remove(tsGoodsFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), "=?,") + "=?"
 )
 
@@ -41,7 +41,7 @@ type (
 		GoodsUrl        string    `db:"goods_url"`        // 商品url
 		TrainingSummary string    `db:"training_summary"` // 训练结果摘要
 		PlatformType    int64     `db:"platform_type"`    // 平台类型 0: 未定义 1: 京东 2: 拼多多 3: 千牛
-		Enabled         int64     `db:"enabled"`          // 启用状态 0: 未启用 1: 启用
+		Enabled         int64     `db:"enabled"`          // 启用状态 0: 未定义 1: 未启用 2: 启用
 		TrainingStatus  int64     `db:"training_status"`  // 训练状态 0: 未训练 1: 训练中 2: 训练完成
 		TrainingTimes   int64     `db:"training_times"`   // 训练次数
 		CreateTime      time.Time `db:"create_time"`      // 创建时间
@@ -79,8 +79,8 @@ func (m *defaultTsGoodsModel) FindOne(ctx context.Context, id int64) (*TsGoods, 
 }
 
 func (m *defaultTsGoodsModel) Insert(ctx context.Context, data *TsGoods) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsGoodsRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.ShopId, data.GoodsName, data.GoodsUrl, data.TrainingSummary, data.PlatformType, data.Enabled, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsGoodsRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.ShopId, data.GoodsName, data.GoodsUrl, data.TrainingSummary, data.PlatformType, data.Enabled, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 

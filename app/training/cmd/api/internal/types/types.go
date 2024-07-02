@@ -53,7 +53,7 @@ type GoodsListResp struct {
 type GoodsPageListReq struct {
 	BasePageReq
 	ShopId     int64 `json:"shopId"`     // 店铺id
-	Enabled    int64 `json:"enabled"`    // 启用状态 0: 未启用 1: 启用
+	Enabled    int64 `json:"enabled"`    // 启用状态  0: 未定义 1: 未启用 2: 启用
 	UpdateTime int64 `json:"updateTime"` // 更新时间
 }
 
@@ -68,7 +68,7 @@ type GoodsResp struct {
 	GoodsName       string `json:"goodsName"`       // 商品名称
 	GoodsUrl        string `json:"goodsUrl"`        // 商品url
 	TrainingSummary string `json:"trainingSummary"` // 训练摘要
-	Enabled         int64  `json:"enabled"`         // 启用状态 0: 未启用 1: 启用
+	Enabled         int64  `json:"enabled"`         // 启用状态 0: 未定义 1: 未启用 2: 启用
 	TrainingStatus  int64  `json:"trainStatus"`     // 训练状态 训练状态 0: 未训练 1: 训练中 2: 训练完成
 	TrainingTimes   int64  `json:"trainingTimes"`   // 训练次数
 	UpdateTime      int64  `json:"updateTime"`      // 更新时间
