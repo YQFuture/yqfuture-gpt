@@ -23,7 +23,7 @@ func NewTrainingShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Trai
 	}
 }
 
-func (l *TrainingShopLogic) TrainingShop(req *types.TrainShopReq) (resp *types.BaseResp, err error) {
+func (l *TrainingShopLogic) TrainingShop(req *types.TrainingShopReq) (resp *types.BaseResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return
