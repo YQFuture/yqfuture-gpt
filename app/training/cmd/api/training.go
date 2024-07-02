@@ -1,9 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"net/http"
+	"yufuture-gpt/app/training/cmd/api/internal/types"
+	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/training/cmd/api/internal/config"
 	"yufuture-gpt/app/training/cmd/api/internal/handler"
@@ -34,5 +37,15 @@ func main() {
 
 // authFail JWT认证失败自定义处理返回
 func authFail(w http.ResponseWriter, r *http.Request, err error) {
-	//TODO
+	marshal, err := json.Marshal(&types.BaseResp{
+		Code: consts.Unauthorized,
+		Msg:  "权限不足",
+	})
+	if err != nil {
+		return
+	}
+	_, err = w.Write(marshal)
+	if err != nil {
+		return
+	}
 }
