@@ -30,6 +30,8 @@ type (
 	ShopResp                  = training.ShopResp
 	ShopTrainingReq           = training.ShopTrainingReq
 	ShopTrainingResp          = training.ShopTrainingResp
+	TrainingShopReq           = training.TrainingShopReq
+	TrainingShopResp          = training.TrainingShopResp
 
 	ShopTraining interface {
 		// 预训练
@@ -37,7 +39,7 @@ type (
 		// 查询店铺列表
 		GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error)
 		// 训练店铺
-		TrainingShop(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
+		TrainingShop(ctx context.Context, in *TrainingShopReq, opts ...grpc.CallOption) (*TrainingShopResp, error)
 		// 判断店铺是否初次登录(从未进行过训练)
 		JudgeFirstShop(ctx context.Context, in *JudgeFirstShopReq, opts ...grpc.CallOption) (*JudgeFirstShopResp, error)
 		// 查询商品列表
@@ -74,7 +76,7 @@ func (m *defaultShopTraining) GetShopPageList(ctx context.Context, in *ShopPageL
 }
 
 // 训练店铺
-func (m *defaultShopTraining) TrainingShop(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
+func (m *defaultShopTraining) TrainingShop(ctx context.Context, in *TrainingShopReq, opts ...grpc.CallOption) (*TrainingShopResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
 	return client.TrainingShop(ctx, in, opts...)
 }

@@ -35,7 +35,7 @@ func (s *ShopTrainingServer) GetShopPageList(ctx context.Context, in *training.S
 }
 
 // 训练店铺
-func (s *ShopTrainingServer) TrainingShop(ctx context.Context, in *training.ShopTrainingReq) (*training.ShopTrainingResp, error) {
+func (s *ShopTrainingServer) TrainingShop(ctx context.Context, in *training.TrainingShopReq) (*training.TrainingShopResp, error) {
 	l := shoptraininglogic.NewTrainingShopLogic(ctx, s.svcCtx)
 	return l.TrainingShop(in)
 }

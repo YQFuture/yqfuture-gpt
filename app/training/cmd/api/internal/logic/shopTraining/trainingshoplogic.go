@@ -2,6 +2,9 @@ package shopTraining
 
 import (
 	"context"
+	"encoding/json"
+	"yufuture-gpt/app/training/cmd/rpc/pb/training"
+	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/training/cmd/api/internal/svc"
 	"yufuture-gpt/app/training/cmd/api/internal/types"
@@ -24,7 +27,22 @@ func NewTrainingShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Trai
 }
 
 func (l *TrainingShopLogic) TrainingShop(req *types.TrainingShopReq) (resp *types.BaseResp, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+	id := l.ctx.Value("id")
+	userId, err := id.(json.Number).Int64()
+	if err != nil {
+		l.Logger.Error("获取用户id失败", err)
+		return nil, err
+	}
+	_, err = l.svcCtx.ShopTrainingClient.TrainingShop(l.ctx, &training.TrainingShopReq{
+		Uuid:   req.Uuid,
+		UserId: userId,
+	})
+	if err != nil {
+		l.Logger.Error("开启店铺训练失败", err)
+		return nil, err
+	}
+	return &types.BaseResp{
+		Code: consts.Success,
+		Msg:  "success",
+	}, nil
 }

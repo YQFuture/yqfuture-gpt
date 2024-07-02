@@ -30,6 +30,8 @@ type (
 	ShopResp                  = training.ShopResp
 	ShopTrainingReq           = training.ShopTrainingReq
 	ShopTrainingResp          = training.ShopTrainingResp
+	TrainingShopReq           = training.TrainingShopReq
+	TrainingShopResp          = training.TrainingShopResp
 
 	KnowledgeBaseTraining interface {
 		PreSetting(ctx context.Context, in *KnowledgeBaseTrainingReq, opts ...grpc.CallOption) (*KnowledgeBaseTrainingResp, error)

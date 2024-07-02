@@ -30,6 +30,8 @@ type (
 	ShopResp                  = training.ShopResp
 	ShopTrainingReq           = training.ShopTrainingReq
 	ShopTrainingResp          = training.ShopTrainingResp
+	TrainingShopReq           = training.TrainingShopReq
+	TrainingShopResp          = training.TrainingShopResp
 
 	BasicFunction interface {
 		GetDictInfoByType(ctx context.Context, in *DictInfoByTypeReq, opts ...grpc.CallOption) (*DictInfoByTypeResp, error)

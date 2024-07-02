@@ -220,7 +220,7 @@ type ShopTrainingClient interface {
 	// 查询店铺列表
 	GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error)
 	// 训练店铺
-	TrainingShop(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
+	TrainingShop(ctx context.Context, in *TrainingShopReq, opts ...grpc.CallOption) (*TrainingShopResp, error)
 	// 判断店铺是否初次登录(从未进行过训练)
 	JudgeFirstShop(ctx context.Context, in *JudgeFirstShopReq, opts ...grpc.CallOption) (*JudgeFirstShopResp, error)
 	// 查询商品列表
@@ -261,9 +261,9 @@ func (c *shopTrainingClient) GetShopPageList(ctx context.Context, in *ShopPageLi
 	return out, nil
 }
 
-func (c *shopTrainingClient) TrainingShop(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
+func (c *shopTrainingClient) TrainingShop(ctx context.Context, in *TrainingShopReq, opts ...grpc.CallOption) (*TrainingShopResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ShopTrainingResp)
+	out := new(TrainingShopResp)
 	err := c.cc.Invoke(ctx, ShopTraining_TrainingShop_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -330,7 +330,7 @@ type ShopTrainingServer interface {
 	// 查询店铺列表
 	GetShopPageList(context.Context, *ShopPageListReq) (*ShopPageListResp, error)
 	// 训练店铺
-	TrainingShop(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error)
+	TrainingShop(context.Context, *TrainingShopReq) (*TrainingShopResp, error)
 	// 判断店铺是否初次登录(从未进行过训练)
 	JudgeFirstShop(context.Context, *JudgeFirstShopReq) (*JudgeFirstShopResp, error)
 	// 查询商品列表
@@ -354,7 +354,7 @@ func (UnimplementedShopTrainingServer) PreSetting(context.Context, *ShopTraining
 func (UnimplementedShopTrainingServer) GetShopPageList(context.Context, *ShopPageListReq) (*ShopPageListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetShopPageList not implemented")
 }
-func (UnimplementedShopTrainingServer) TrainingShop(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error) {
+func (UnimplementedShopTrainingServer) TrainingShop(context.Context, *TrainingShopReq) (*TrainingShopResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TrainingShop not implemented")
 }
 func (UnimplementedShopTrainingServer) JudgeFirstShop(context.Context, *JudgeFirstShopReq) (*JudgeFirstShopResp, error) {
@@ -422,7 +422,7 @@ func _ShopTraining_GetShopPageList_Handler(srv interface{}, ctx context.Context,
 }
 
 func _ShopTraining_TrainingShop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ShopTrainingReq)
+	in := new(TrainingShopReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -434,7 +434,7 @@ func _ShopTraining_TrainingShop_Handler(srv interface{}, ctx context.Context, de
 		FullMethod: ShopTraining_TrainingShop_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShopTrainingServer).TrainingShop(ctx, req.(*ShopTrainingReq))
+		return srv.(ShopTrainingServer).TrainingShop(ctx, req.(*TrainingShopReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

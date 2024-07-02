@@ -116,3 +116,8 @@ type ShopTrainingResp struct {
 type TrainingShopReq struct {
 	Uuid string `json:"uuid"` // 唯一标识
 }
+
+type TrainingShopResp struct {
+	BaseResp
+	Data int64 `json:"data"` // 训练状态 0: 未训练 1: 训练中 2: 训练完成
+}

@@ -2,6 +2,7 @@ package shoptraininglogic
 
 import (
 	"context"
+	"time"
 
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
@@ -24,8 +25,46 @@ func NewTrainingShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Trai
 }
 
 // 训练店铺
-func (l *TrainingShopLogic) TrainingShop(in *training.ShopTrainingReq) (*training.ShopTrainingResp, error) {
-	// todo: add your logic here and delete this line
+func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*training.TrainingShopResp, error) {
+	//根据uuid和userid查找出店铺
+	shop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
-	return &training.ShopTrainingResp{}, nil
+	//TODO 如果mysql中商品为空，说明是首次训练，需要从mongo中获取店铺和商品，保存到mysql中，再开启训练
+
+	//根据店铺shopId查找出商品列表，需要筛选出enabled字段为1的商品
+	shopId := shop.Id
+	goodsList, err := l.svcCtx.TsGoodsModel.FindEnabledListByShopId(l.ctx, shopId)
+	if err != nil {
+		return nil, err
+	}
+
+	//TODO 将商品列表推到消息队列
+	l.Logger.Info("训练的商品列表", goodsList)
+
+	//修改店铺状态, 添加训练次数
+	shop.TrainingStatus = 1
+	shop.TrainingTimes += 1
+	shop.UpdateTime = time.Now()
+	err = l.svcCtx.TsShopModel.Update(l.ctx, shop)
+	if err != nil {
+		l.Logger.Error("修改店铺状态失败", goodsList)
+		return nil, err
+	}
+	//修改商品状态, 添加训练次数
+	for _, goods := range *goodsList {
+		goods.TrainingStatus = 1
+		goods.TrainingTimes += 1
+		goods.UpdateTime = time.Now()
+		err = l.svcCtx.TsGoodsModel.Update(l.ctx, goods)
+		if err != nil {
+			l.Logger.Error("修改商品状态失败", goodsList)
+			return nil, err
+		}
+	}
+
+	//返回正常
+	return &training.TrainingShopResp{}, nil
 }

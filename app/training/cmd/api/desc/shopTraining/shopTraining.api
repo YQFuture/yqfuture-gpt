@@ -56,10 +56,6 @@ type (
         TrainingTimes  int64     `json:"trainTimes"` // 训练次数
         UpdateTime     int64 `json:"updateTime"` // 更新时间
     }
-
-    TrainingShopReq {
-        Uuid string `json:"uuid"` // 唯一标识
-    }
 )
 
 type (
@@ -99,5 +95,12 @@ type (
 )
 
 type (
+    TrainingShopReq {
+        Uuid string `json:"uuid"` // 唯一标识
+    }
 
+    TrainingShopResp {
+        BaseResp
+        Data int64 `json:"data"` // 训练状态 0: 未训练 1: 训练中 2: 训练完成
+    }
 )

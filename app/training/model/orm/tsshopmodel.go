@@ -2,6 +2,7 @@ package orm
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"strings"
@@ -20,6 +21,7 @@ type (
 		GetShopPageTotal(ctx context.Context, in *training.ShopPageListReq) (int, error)
 		GetShopPageList(ctx context.Context, in *training.ShopPageListReq) (*[]*TsShop, error)
 		JudgeFirstShop(ctx context.Context, in *training.JudgeFirstShopReq) (int, error)
+		FindOneByUuidAndUserId(ctx context.Context, in *training.TrainingShopReq) (*TsShop, error)
 	}
 
 	customTsShopModel struct {
@@ -52,8 +54,24 @@ func (m *customTsShopModel) FindList(ctx context.Context) (any, error) {
 	}
 }
 
+func (m *customTsShopModel) FindOneByUuidAndUserId(ctx context.Context, in *training.TrainingShopReq) (*TsShop, error) {
+	query := fmt.Sprintf("select %s from %s where user_id = ? AND uuid = ?", tsShopRows, m.table)
+	var args []interface{}
+	args = append(args, in.UserId, in.Uuid)
+	var resp TsShop
+	err := m.conn.QueryRowCtx(ctx, &resp, query, args...)
+	switch {
+	case err == nil:
+		return &resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+
 func (m *customTsShopModel) JudgeFirstShop(ctx context.Context, in *training.JudgeFirstShopReq) (int, error) {
-	query := fmt.Sprintf("select %s from where user_id = ? && uuid = ?", m.table)
+	query := fmt.Sprintf("select %s from %s where user_id = ? AND uuid = ?", tsShopRows, m.table)
 	var args []interface{}
 	args = append(args, in.UserId, in.Uuid)
 	var resp []*TsShop
