@@ -92,14 +92,25 @@ type (
         GoodsId int64 `json:"goodsId"` // 商品id
     }
 
+    AddGoodsReq {
+        ShopId int64 `json:"shopId"` // 店铺id
+        List []string `json:"list"` // 商品url列表
+    }
 )
 
 type (
     TrainingShopReq {
         Uuid string `json:"uuid"` // 唯一标识
     }
-
     TrainingShopResp {
+        BaseResp
+        Data int64 `json:"data"` // 训练状态 0: 未训练 1: 训练中 2: 训练完成
+    }
+
+    TrainingGoodsReq {
+        GoodsId int64 `json:"goodsId"` // 商品id
+    }
+    TrainingGoodsResp {
         BaseResp
         Data int64 `json:"data"` // 训练状态 0: 未训练 1: 训练中 2: 训练完成
     }

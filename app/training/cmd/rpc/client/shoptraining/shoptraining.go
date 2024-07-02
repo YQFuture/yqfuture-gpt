@@ -13,6 +13,8 @@ import (
 )
 
 type (
+	AddGoodsReq               = training.AddGoodsReq
+	AddGoodsResp              = training.AddGoodsResp
 	DictInfo                  = training.DictInfo
 	DictInfoByTypeReq         = training.DictInfoByTypeReq
 	DictInfoByTypeResp        = training.DictInfoByTypeResp
@@ -30,6 +32,8 @@ type (
 	ShopResp                  = training.ShopResp
 	ShopTrainingReq           = training.ShopTrainingReq
 	ShopTrainingResp          = training.ShopTrainingResp
+	TrainingGoodsReq          = training.TrainingGoodsReq
+	TrainingGoodsResp         = training.TrainingGoodsResp
 	TrainingShopReq           = training.TrainingShopReq
 	TrainingShopResp          = training.TrainingShopResp
 
@@ -45,7 +49,9 @@ type (
 		// 查询商品列表
 		GetGoodsPageList(ctx context.Context, in *GoodsPageListReq, opts ...grpc.CallOption) (*GoodsPageListResp, error)
 		// 训练商品
-		TrainingGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error)
+		TrainingGoods(ctx context.Context, in *TrainingGoodsReq, opts ...grpc.CallOption) (*TrainingGoodsResp, error)
+		// 添加商品
+		AddGoods(ctx context.Context, in *AddGoodsReq, opts ...grpc.CallOption) (*AddGoodsResp, error)
 		// 启用商品
 		EnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error)
 		// 禁用商品
@@ -94,9 +100,15 @@ func (m *defaultShopTraining) GetGoodsPageList(ctx context.Context, in *GoodsPag
 }
 
 // 训练商品
-func (m *defaultShopTraining) TrainingGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error) {
+func (m *defaultShopTraining) TrainingGoods(ctx context.Context, in *TrainingGoodsReq, opts ...grpc.CallOption) (*TrainingGoodsResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
 	return client.TrainingGoods(ctx, in, opts...)
+}
+
+// 添加商品
+func (m *defaultShopTraining) AddGoods(ctx context.Context, in *AddGoodsReq, opts ...grpc.CallOption) (*AddGoodsResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.AddGoods(ctx, in, opts...)
 }
 
 // 启用商品

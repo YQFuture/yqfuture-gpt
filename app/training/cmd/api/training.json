@@ -95,6 +95,38 @@
         ]
       }
     },
+    "/shopTraining/addGoods": {
+      "post": {
+        "summary": "添加商品",
+        "operationId": "addGoods",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddGoodsReq"
+            }
+          }
+        ],
+        "tags": [
+          "shopTraining"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/shopTraining/enableGoods": {
       "post": {
         "summary": "启用商品",
@@ -231,7 +263,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/BaseResp"
+              "$ref": "#/definitions/TrainingGoodsResp"
             }
           }
         },
@@ -241,7 +273,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/BaseGoodsReq"
+              "$ref": "#/definitions/TrainingGoodsReq"
             }
           }
         ],
@@ -273,7 +305,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/TrainShopReq"
+              "$ref": "#/definitions/TrainingShopReq"
             }
           }
         ],
@@ -321,6 +353,28 @@
     }
   },
   "definitions": {
+    "AddGoodsReq": {
+      "type": "object",
+      "properties": {
+        "shopId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 店铺id"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 商品url列表"
+        }
+      },
+      "title": "AddGoodsReq",
+      "required": [
+        "shopId",
+        "list"
+      ]
+    },
     "BaseGoodsReq": {
       "type": "object",
       "properties": {
@@ -760,6 +814,10 @@
           "format": "int64",
           "description": " 店铺id"
         },
+        "uuid": {
+          "type": "string",
+          "description": " 唯一标识"
+        },
         "shopName": {
           "type": "string",
           "description": " 店铺名称"
@@ -788,6 +846,7 @@
       "title": "ShopResp",
       "required": [
         "id",
+        "uuid",
         "shopName",
         "platFormType",
         "trainStatus",
@@ -821,18 +880,77 @@
         "data"
       ]
     },
-    "TrainShopReq": {
+    "TrainingGoodsReq": {
       "type": "object",
       "properties": {
-        "shopId": {
+        "goodsId": {
           "type": "integer",
           "format": "int64",
-          "description": " 店铺id"
+          "description": " 商品id"
         }
       },
-      "title": "TrainShopReq",
+      "title": "TrainingGoodsReq",
       "required": [
-        "shopId"
+        "goodsId"
+      ]
+    },
+    "TrainingGoodsResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 训练状态 0: 未训练 1: 训练中 2: 训练完成"
+        }
+      },
+      "title": "TrainingGoodsResp",
+      "required": [
+        "data"
+      ]
+    },
+    "TrainingShopReq": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "description": " 唯一标识"
+        }
+      },
+      "title": "TrainingShopReq",
+      "required": [
+        "uuid"
+      ]
+    },
+    "TrainingShopResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 训练状态 0: 未训练 1: 训练中 2: 训练完成"
+        }
+      },
+      "title": "TrainingShopResp",
+      "required": [
+        "data"
       ]
     }
   },

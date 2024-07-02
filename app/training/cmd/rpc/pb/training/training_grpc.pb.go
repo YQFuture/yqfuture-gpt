@@ -207,6 +207,7 @@ const (
 	ShopTraining_JudgeFirstShop_FullMethodName   = "/training.ShopTraining/judgeFirstShop"
 	ShopTraining_GetGoodsPageList_FullMethodName = "/training.ShopTraining/getGoodsPageList"
 	ShopTraining_TrainingGoods_FullMethodName    = "/training.ShopTraining/trainingGoods"
+	ShopTraining_AddGoods_FullMethodName         = "/training.ShopTraining/addGoods"
 	ShopTraining_EnableGoods_FullMethodName      = "/training.ShopTraining/enableGoods"
 	ShopTraining_UnEnableGoods_FullMethodName    = "/training.ShopTraining/unEnableGoods"
 )
@@ -226,7 +227,9 @@ type ShopTrainingClient interface {
 	// 查询商品列表
 	GetGoodsPageList(ctx context.Context, in *GoodsPageListReq, opts ...grpc.CallOption) (*GoodsPageListResp, error)
 	// 训练商品
-	TrainingGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error)
+	TrainingGoods(ctx context.Context, in *TrainingGoodsReq, opts ...grpc.CallOption) (*TrainingGoodsResp, error)
+	// 添加商品
+	AddGoods(ctx context.Context, in *AddGoodsReq, opts ...grpc.CallOption) (*AddGoodsResp, error)
 	// 启用商品
 	EnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error)
 	// 禁用商品
@@ -291,10 +294,20 @@ func (c *shopTrainingClient) GetGoodsPageList(ctx context.Context, in *GoodsPage
 	return out, nil
 }
 
-func (c *shopTrainingClient) TrainingGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error) {
+func (c *shopTrainingClient) TrainingGoods(ctx context.Context, in *TrainingGoodsReq, opts ...grpc.CallOption) (*TrainingGoodsResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GoodsTrainingResp)
+	out := new(TrainingGoodsResp)
 	err := c.cc.Invoke(ctx, ShopTraining_TrainingGoods_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopTrainingClient) AddGoods(ctx context.Context, in *AddGoodsReq, opts ...grpc.CallOption) (*AddGoodsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddGoodsResp)
+	err := c.cc.Invoke(ctx, ShopTraining_AddGoods_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -336,7 +349,9 @@ type ShopTrainingServer interface {
 	// 查询商品列表
 	GetGoodsPageList(context.Context, *GoodsPageListReq) (*GoodsPageListResp, error)
 	// 训练商品
-	TrainingGoods(context.Context, *GoodsTrainingReq) (*GoodsTrainingResp, error)
+	TrainingGoods(context.Context, *TrainingGoodsReq) (*TrainingGoodsResp, error)
+	// 添加商品
+	AddGoods(context.Context, *AddGoodsReq) (*AddGoodsResp, error)
 	// 启用商品
 	EnableGoods(context.Context, *GoodsTrainingReq) (*GoodsTrainingResp, error)
 	// 禁用商品
@@ -363,8 +378,11 @@ func (UnimplementedShopTrainingServer) JudgeFirstShop(context.Context, *JudgeFir
 func (UnimplementedShopTrainingServer) GetGoodsPageList(context.Context, *GoodsPageListReq) (*GoodsPageListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGoodsPageList not implemented")
 }
-func (UnimplementedShopTrainingServer) TrainingGoods(context.Context, *GoodsTrainingReq) (*GoodsTrainingResp, error) {
+func (UnimplementedShopTrainingServer) TrainingGoods(context.Context, *TrainingGoodsReq) (*TrainingGoodsResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TrainingGoods not implemented")
+}
+func (UnimplementedShopTrainingServer) AddGoods(context.Context, *AddGoodsReq) (*AddGoodsResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddGoods not implemented")
 }
 func (UnimplementedShopTrainingServer) EnableGoods(context.Context, *GoodsTrainingReq) (*GoodsTrainingResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EnableGoods not implemented")
@@ -476,7 +494,7 @@ func _ShopTraining_GetGoodsPageList_Handler(srv interface{}, ctx context.Context
 }
 
 func _ShopTraining_TrainingGoods_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GoodsTrainingReq)
+	in := new(TrainingGoodsReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -488,7 +506,25 @@ func _ShopTraining_TrainingGoods_Handler(srv interface{}, ctx context.Context, d
 		FullMethod: ShopTraining_TrainingGoods_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShopTrainingServer).TrainingGoods(ctx, req.(*GoodsTrainingReq))
+		return srv.(ShopTrainingServer).TrainingGoods(ctx, req.(*TrainingGoodsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopTraining_AddGoods_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddGoodsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopTrainingServer).AddGoods(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopTraining_AddGoods_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopTrainingServer).AddGoods(ctx, req.(*AddGoodsReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -559,6 +595,10 @@ var ShopTraining_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "trainingGoods",
 			Handler:    _ShopTraining_TrainingGoods_Handler,
+		},
+		{
+			MethodName: "addGoods",
+			Handler:    _ShopTraining_AddGoods_Handler,
 		},
 		{
 			MethodName: "enableGoods",

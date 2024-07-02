@@ -60,7 +60,11 @@ service training {
 
 	@doc "训练商品"
 	@handler trainingGoods
-	post /trainingGoods (BaseGoodsReq) returns (BaseResp)
+	post /trainingGoods (TrainingGoodsReq) returns (TrainingGoodsResp)
+
+	@doc "添加商品"
+	@handler addGoods
+	post /addGoods (AddGoodsReq) returns (BaseResp)
 
 	@doc "启用商品"
 	@handler enableGoods

@@ -48,6 +48,7 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 	shop.TrainingStatus = 1
 	shop.TrainingTimes += 1
 	shop.UpdateTime = time.Now()
+	shop.UpdateBy = in.UserId
 	err = l.svcCtx.TsShopModel.Update(l.ctx, shop)
 	if err != nil {
 		l.Logger.Error("修改店铺状态失败", goodsList)
@@ -58,6 +59,7 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 		goods.TrainingStatus = 1
 		goods.TrainingTimes += 1
 		goods.UpdateTime = time.Now()
+		goods.UpdateBy = in.UserId
 		err = l.svcCtx.TsGoodsModel.Update(l.ctx, goods)
 		if err != nil {
 			l.Logger.Error("修改商品状态失败", goodsList)

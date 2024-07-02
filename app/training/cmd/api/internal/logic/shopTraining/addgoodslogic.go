@@ -12,37 +12,39 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type TrainingGoodsLogic struct {
+type AddGoodsLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewTrainingGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *TrainingGoodsLogic {
-	return &TrainingGoodsLogic{
+// 添加商品
+func NewAddGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddGoodsLogic {
+	return &AddGoodsLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *TrainingGoodsLogic) TrainingGoods(req *types.BaseGoodsReq) (resp *types.BaseResp, err error) {
+func (l *AddGoodsLogic) AddGoods(req *types.AddGoodsReq) (resp *types.BaseResp, err error) {
 	id := l.ctx.Value("id")
 	userId, err := id.(json.Number).Int64()
 	if err != nil {
 		l.Logger.Error("获取用户id失败", err)
 		return nil, err
 	}
-	_, err = l.svcCtx.ShopTrainingClient.TrainingGoods(l.ctx, &training.TrainingGoodsReq{
-		UserId:  userId,
-		GoodsId: req.GoodsId,
+	_, err = l.svcCtx.ShopTrainingClient.AddGoods(l.ctx, &training.AddGoodsReq{
+		ShopId: req.ShopId,
+		UserId: userId,
+		List:   req.List,
 	})
 	if err != nil {
-		l.Logger.Error("训练商品失败", err)
+		l.Logger.Error("添加商品失败", err)
 		return nil, err
 	}
 	return &types.BaseResp{
 		Code: consts.Success,
-		Msg:  "训练商品成功",
+		Msg:  "添加商品成功",
 	}, nil
 }

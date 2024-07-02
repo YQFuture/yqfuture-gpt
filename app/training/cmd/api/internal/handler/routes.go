@@ -45,6 +45,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: shopTraining.JudgeFirstShopHandler(serverCtx),
 			},
 			{
+				// 添加商品
+				Method:  http.MethodPost,
+				Path:    "/addGoods",
+				Handler: shopTraining.AddGoodsHandler(serverCtx),
+			},
+			{
 				// 启用商品
 				Method:  http.MethodPost,
 				Path:    "/enableGoods",

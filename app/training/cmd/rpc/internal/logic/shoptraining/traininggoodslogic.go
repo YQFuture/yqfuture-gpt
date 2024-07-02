@@ -2,6 +2,7 @@ package shoptraininglogic
 
 import (
 	"context"
+	"time"
 
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
@@ -24,8 +25,26 @@ func NewTrainingGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Tra
 }
 
 // 训练商品
-func (l *TrainingGoodsLogic) TrainingGoods(in *training.GoodsTrainingReq) (*training.GoodsTrainingResp, error) {
-	// todo: add your logic here and delete this line
+func (l *TrainingGoodsLogic) TrainingGoods(in *training.TrainingGoodsReq) (*training.TrainingGoodsResp, error) {
+	//根据店铺shopId查找出商品列表，需要筛选出enabled字段为1的商品
+	goodsId := in.GoodsId
+	goods, err := l.svcCtx.TsGoodsModel.FindOne(l.ctx, goodsId)
+	if err != nil {
+		return nil, err
+	}
 
-	return &training.GoodsTrainingResp{}, nil
+	//TODO 将商品列表推到消息队列
+	l.Logger.Info("训练的商品", goods)
+
+	goods.TrainingStatus = 1
+	goods.TrainingTimes += 1
+	goods.UpdateTime = time.Now()
+	goods.UpdateBy = in.UserId
+	err = l.svcCtx.TsGoodsModel.Update(l.ctx, goods)
+	if err != nil {
+		l.Logger.Error("修改商品状态失败", goods)
+		return nil, err
+	}
+	// 返回正常
+	return &training.TrainingGoodsResp{}, nil
 }

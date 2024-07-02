@@ -13,6 +13,8 @@ import (
 )
 
 type (
+	AddGoodsReq               = training.AddGoodsReq
+	AddGoodsResp              = training.AddGoodsResp
 	DictInfo                  = training.DictInfo
 	DictInfoByTypeReq         = training.DictInfoByTypeReq
 	DictInfoByTypeResp        = training.DictInfoByTypeResp
@@ -30,6 +32,8 @@ type (
 	ShopResp                  = training.ShopResp
 	ShopTrainingReq           = training.ShopTrainingReq
 	ShopTrainingResp          = training.ShopTrainingResp
+	TrainingGoodsReq          = training.TrainingGoodsReq
+	TrainingGoodsResp         = training.TrainingGoodsResp
 	TrainingShopReq           = training.TrainingShopReq
 	TrainingShopResp          = training.TrainingShopResp
 
