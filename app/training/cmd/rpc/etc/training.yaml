@@ -21,3 +21,18 @@ Mongo:
   Url: mongodb://mongo_kKtPGm:mongo_tmPizQ@192.168.3.118:27017
   Database: kefugpt
   Kfgptaccountsentities: kfgptaccountsentities
+
+KqPusherConf:
+  Brokers:
+    - 192.168.3.118:9092
+  Topic: training-goods
+
+KqConsumerConf:
+  Name: trainingGoodsConsumer
+  Brokers:
+    - 192.168.3.118:9092
+  Group: trainingGoodsConsumer
+  Topic: training-goods
+  Offset: first
+  Consumers: 8
+  Processors: 8

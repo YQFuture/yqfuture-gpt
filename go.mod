@@ -4,6 +4,7 @@ go 1.22.0
 
 require (
 	github.com/golang-jwt/jwt/v4 v4.5.0
+	github.com/zeromicro/go-queue v1.2.1
 	github.com/zeromicro/go-zero v1.6.6
 	github.com/zeromicro/zero-contrib/zrpc/registry/consul v0.0.0-20231030135404-af9ae855016f
 	go.mongodb.org/mongo-driver v1.16.0
@@ -62,12 +63,14 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
+	github.com/pierrec/lz4/v4 v4.1.21 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.19.1 // indirect
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/common v0.55.0 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
 	github.com/redis/go-redis/v9 v9.5.3 // indirect
+	github.com/segmentio/kafka-go v0.4.38 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect

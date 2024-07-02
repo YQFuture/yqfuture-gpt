@@ -40,7 +40,7 @@ func (m *customTsGoodsModel) withSession(session sqlx.Session) TsGoodsModel {
 }
 
 func (m *customTsGoodsModel) FindEnabledListByShopId(ctx context.Context, in int64) (*[]*TsGoods, error) {
-	query := fmt.Sprintf("SELECT %s FROM %s WHERE enabled = 1 AND shop_id = ?", tsGoodsRows, m.table)
+	query := fmt.Sprintf("SELECT %s FROM %s WHERE enabled = 2 AND shop_id = ?", tsGoodsRows, m.table)
 	var resp []*TsGoods
 	err := m.conn.QueryRowsCtx(ctx, &resp, query, in)
 	switch err {

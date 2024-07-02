@@ -1,6 +1,7 @@
 package svc
 
 import (
+	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"yufuture-gpt/app/training/cmd/rpc/internal/config"
 	model "yufuture-gpt/app/training/model/mongo"
@@ -15,6 +16,7 @@ type ServiceContext struct {
 	BsDictTypeModel            orm.BsDictTypeModel
 	BsDictInfoModel            orm.BsDictInfoModel
 	KfgptaccountsentitiesModel model.KfgptaccountsentitiesModel
+	KqPusherClient             *kq.Pusher
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -27,5 +29,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		BsDictTypeModel:            orm.NewBsDictTypeModel(sqlConn),
 		BsDictInfoModel:            orm.NewBsDictInfoModel(sqlConn),
 		KfgptaccountsentitiesModel: model.NewKfgptaccountsentitiesModel(c.Mongo.Url, c.Mongo.Database, c.Mongo.Kfgptaccountsentities),
+		KqPusherClient:             kq.NewPusher(c.KqPusherConf.Brokers, c.KqPusherConf.Topic, kq.WithAllowAutoTopicCreation()),
 	}
 }

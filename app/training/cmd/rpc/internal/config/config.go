@@ -16,4 +16,8 @@ type Config struct {
 		Database              string
 		Kfgptaccountsentities string
 	}
+	KqPusherConf struct {
+		Brokers []string
+		Topic   string
+	}
 }
