@@ -29,12 +29,11 @@ func (l *AddGoodsLogic) AddGoods(in *training.AddGoodsReq) (*training.AddGoodsRe
 	list := in.List
 
 	//TODO 调用GPT接口获取商品信息
-	l.Logger.Info("修改店铺状态失败", list)
+	l.Logger.Info("商品url列表", list)
 
 	// 保存商品
 	for a := range list {
-		l.Logger.Info("修改店铺状态失败", a)
-
+		l.Logger.Info("保存商品", a)
 	}
 
 	return &training.AddGoodsResp{}, nil
