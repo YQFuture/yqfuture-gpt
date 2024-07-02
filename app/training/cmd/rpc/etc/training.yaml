@@ -40,3 +40,9 @@ KqConsumerConf:
   Offset: first
   Consumers: 8
   Processors: 8
+
+Elasticsearch:
+  Addresses:
+    - http://192.168.3.118:9200
+  Username: elastic
+  Password: Elastic_HMYzHB

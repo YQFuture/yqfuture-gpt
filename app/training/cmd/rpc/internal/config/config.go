@@ -25,4 +25,9 @@ type Config struct {
 	TrainingGoodsConf struct {
 		ConsumeDelay int64
 	}
+	Elasticsearch struct {
+		Addresses []string
+		Username  string
+		Password  string
+	}
 }
