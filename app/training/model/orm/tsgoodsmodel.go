@@ -143,7 +143,7 @@ func (m *customTsGoodsModel) GetGoodsPageList(ctx context.Context, in *training.
 }
 
 func (m *customTsGoodsModel) EnableGoods(ctx context.Context, in *training.GoodsTrainingReq) error {
-	_, err := m.conn.ExecCtx(ctx, "UPDATE ts_goods SET enabled = 1 WHERE id = ?", in.GoodsId)
+	_, err := m.conn.ExecCtx(ctx, "UPDATE ts_goods SET enabled = 2 WHERE id = ?", in.GoodsId)
 	if err != nil {
 		return err
 	}
@@ -151,7 +151,7 @@ func (m *customTsGoodsModel) EnableGoods(ctx context.Context, in *training.Goods
 }
 
 func (m *customTsGoodsModel) UnEnableGoods(ctx context.Context, in *training.GoodsTrainingReq) error {
-	_, err := m.conn.ExecCtx(ctx, "UPDATE ts_goods SET enabled = 0 WHERE id = ?", in.GoodsId)
+	_, err := m.conn.ExecCtx(ctx, "UPDATE ts_goods SET enabled = 1 WHERE id = ?", in.GoodsId)
 	if err != nil {
 		return err
 	}
