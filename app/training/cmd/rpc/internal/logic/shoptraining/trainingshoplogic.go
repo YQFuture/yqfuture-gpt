@@ -43,7 +43,6 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 	}
 
 	//TODO 将商品列表推到消息队列
-	l.Logger.Info("训练的商品列表", goodsList)
 	for _, goods := range *goodsList {
 		var goodsString string
 		goodsString, err = utills.AnyToString(goods)

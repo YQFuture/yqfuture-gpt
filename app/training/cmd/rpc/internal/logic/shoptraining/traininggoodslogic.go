@@ -3,6 +3,7 @@ package shoptraininglogic
 import (
 	"context"
 	"time"
+	"yufuture-gpt/common/utills"
 
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
@@ -34,7 +35,16 @@ func (l *TrainingGoodsLogic) TrainingGoods(in *training.TrainingGoodsReq) (*trai
 	}
 
 	//TODO 将商品列表推到消息队列
-	l.Logger.Info("训练的商品", goods)
+	var goodsString string
+	goodsString, err = utills.AnyToString(goods)
+	if err != nil {
+		return nil, err
+	}
+	err = l.svcCtx.KqPusherClient.Push(goodsString)
+	if err != nil {
+		l.Logger.Error("推送商品到kafka失败", goods)
+		return nil, err
+	}
 
 	goods.TrainingStatus = 1
 	goods.TrainingTimes += 1

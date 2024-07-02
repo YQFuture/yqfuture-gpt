@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/zrpc"
 	"github.com/zeromicro/zero-contrib/zrpc/registry/consul"
 )
@@ -20,4 +21,5 @@ type Config struct {
 		Brokers []string
 		Topic   string
 	}
+	KqConsumerConf kq.KqConf
 }

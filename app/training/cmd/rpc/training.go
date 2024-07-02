@@ -1,11 +1,12 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"github.com/zeromicro/zero-contrib/zrpc/registry/consul"
-
 	"yufuture-gpt/app/training/cmd/rpc/internal/config"
+	"yufuture-gpt/app/training/cmd/rpc/internal/mqs"
 	basicfunctionServer "yufuture-gpt/app/training/cmd/rpc/internal/server/basicfunction"
 	knowledgebasetrainingServer "yufuture-gpt/app/training/cmd/rpc/internal/server/knowledgebasetraining"
 	shoptrainingServer "yufuture-gpt/app/training/cmd/rpc/internal/server/shoptraining"
@@ -37,12 +38,23 @@ func main() {
 			reflection.Register(grpcServer)
 		}
 	})
-	defer s.Stop()
+	//defer s.Stop()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 
 	// register service to consul
 	_ = consul.RegisterService(c.ListenOn, c.Consul)
 
-	s.Start()
+	//s.Start()
+
+	serviceGroup := service.NewServiceGroup()
+	defer serviceGroup.Stop()
+
+	serviceGroup.Add(s)
+
+	for _, mq := range mqs.Consumers(c, context.Background(), ctx) {
+		serviceGroup.Add(mq)
+	}
+
+	serviceGroup.Start()
 }
