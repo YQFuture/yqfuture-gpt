@@ -21,5 +21,8 @@ type Config struct {
 		Brokers []string
 		Topic   string
 	}
-	KqConsumerConf kq.KqConf
+	KqConsumerConf    kq.KqConf
+	TrainingGoodsConf struct {
+		ConsumeDelay int64
+	}
 }

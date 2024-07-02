@@ -27,6 +27,10 @@ KqPusherConf:
     - 192.168.3.118:9092
   Topic: training-goods
 
+#商品训练队列消费者的延迟时间，默认10秒
+TrainingGoodsConf:
+  ConsumeDelay: 10000
+
 KqConsumerConf:
   Name: trainingGoodsConsumer
   Brokers:

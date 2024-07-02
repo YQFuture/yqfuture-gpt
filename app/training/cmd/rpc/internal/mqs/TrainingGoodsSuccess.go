@@ -25,6 +25,6 @@ func (l *TrainingGoodsSuccess) Consume(key, val string) error {
 	//TODO 消费消息，即发送商品消息给GPT进行训练
 
 	//默认8个消费者，所以每次消费后延迟10秒，即每个消费者每分钟消费6条数据
-	time.Sleep(time.Second * 10)
+	time.Sleep(time.Millisecond * time.Duration(l.svcCtx.Config.TrainingGoodsConf.ConsumeDelay))
 	return nil
 }
