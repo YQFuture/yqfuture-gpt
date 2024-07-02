@@ -52,7 +52,7 @@ service training {
 
 	@doc "训练店铺"
 	@handler trainingShop
-	post /trainingShop (TrainShopReq) returns (BaseResp)
+	post /trainingShop (TrainingShopReq) returns (BaseResp)
 
 	@doc "查询商品列表"
 	@handler getGoodsPageList

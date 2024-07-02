@@ -273,7 +273,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/TrainShopReq"
+              "$ref": "#/definitions/TrainingShopReq"
             }
           }
         ],
@@ -760,6 +760,10 @@
           "format": "int64",
           "description": " 店铺id"
         },
+        "uuid": {
+          "type": "string",
+          "description": " 唯一标识"
+        },
         "shopName": {
           "type": "string",
           "description": " 店铺名称"
@@ -788,6 +792,7 @@
       "title": "ShopResp",
       "required": [
         "id",
+        "uuid",
         "shopName",
         "platFormType",
         "trainStatus",
@@ -821,18 +826,17 @@
         "data"
       ]
     },
-    "TrainShopReq": {
+    "TrainingShopReq": {
       "type": "object",
       "properties": {
-        "shopId": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 店铺id"
+        "uuid": {
+          "type": "string",
+          "description": " 唯一标识"
         }
       },
-      "title": "TrainShopReq",
+      "title": "TrainingShopReq",
       "required": [
-        "shopId"
+        "uuid"
       ]
     }
   },

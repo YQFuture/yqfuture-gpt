@@ -55,11 +55,12 @@ message ShopPageListReq {
 }
 message ShopResp {
   int64  id = 1;
-  string shopName = 2;
-  int64  platformType = 3;
-  int64  trainingStatus = 4;
-  int64  trainingTimes = 5;
-  int64  updateTime = 6;
+  string uuid = 2;
+  string shopName = 3;
+  int64  platformType = 4;
+  int64  trainingStatus = 5;
+  int64  trainingTimes = 6;
+  int64  updateTime = 7;
 }
 message ShopPageListResp {
   int64 pageNum = 1;

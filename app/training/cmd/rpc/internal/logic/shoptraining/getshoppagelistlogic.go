@@ -39,6 +39,7 @@ func (l *GetShopPageListLogic) GetShopPageList(in *training.ShopPageListReq) (*t
 	for _, shop := range *list {
 		shopRespList = append(shopRespList, &training.ShopResp{
 			Id:             shop.Id,
+			Uuid:           shop.Uuid,
 			ShopName:       shop.ShopName,
 			PlatformType:   shop.PlatformType,
 			TrainingTimes:  shop.TrainingTimes,

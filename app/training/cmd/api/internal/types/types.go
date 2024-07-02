@@ -97,6 +97,7 @@ type ShopPageListResp struct {
 
 type ShopResp struct {
 	Id             int64  `json:"id"`           // 店铺id
+	Uuid           string `json:"uuid"`         // 唯一标识
 	ShopName       string `json:"shopName"`     // 店铺名称
 	PlatFormType   int64  `json:"platFormType"` // 平台类型
 	TrainingStatus int64  `json:"trainStatus"`  // 训练状态
@@ -112,6 +113,6 @@ type ShopTrainingResp struct {
 	Data interface{} `json:"data"` // 数据
 }
 
-type TrainShopReq struct {
-	ShopId int64 `json:"shopId"` // 店铺id
+type TrainingShopReq struct {
+	Uuid string `json:"uuid"` // 唯一标识
 }

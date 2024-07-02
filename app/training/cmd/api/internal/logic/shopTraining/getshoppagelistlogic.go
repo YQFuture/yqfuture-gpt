@@ -52,6 +52,7 @@ func (l *GetShopPageListLogic) GetShopPageList(req *types.ShopPageListReq) (resp
 	for _, value := range result.List {
 		list = append(list, &types.ShopResp{
 			Id:             value.Id,
+			Uuid:           value.Uuid,
 			ShopName:       value.ShopName,
 			PlatFormType:   value.PlatformType,
 			TrainingStatus: value.TrainingStatus,
