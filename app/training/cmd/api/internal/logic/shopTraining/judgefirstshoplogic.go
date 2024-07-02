@@ -2,7 +2,7 @@ package shopTraining
 
 import (
 	"context"
-	"strconv"
+	"encoding/json"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 	"yufuture-gpt/common/consts"
 
@@ -28,11 +28,15 @@ func NewJudgeFirstShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ju
 }
 
 func (l *JudgeFirstShopLogic) JudgeFirstShop(req *types.JudgeFirstShopReq) (resp *types.JudgeFirstShopResp, err error) {
-	userId := l.ctx.Value("userId")
-	intNumber, err := strconv.ParseInt(userId.(string), 10, 64)
+	id := l.ctx.Value("id")
+	userId, err := id.(json.Number).Int64()
+	if err != nil {
+		l.Logger.Error("获取用户id失败", err)
+		return nil, err
+	}
 	first, err := l.svcCtx.ShopTrainingClient.JudgeFirstShop(l.ctx, &training.JudgeFirstShopReq{
 		Uuid:   req.Uuid,
-		UserId: intNumber,
+		UserId: userId,
 	})
 	if err != nil {
 		l.Logger.Error("判断店铺是否初次登录失败", err)

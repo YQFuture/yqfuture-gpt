@@ -2,7 +2,7 @@ package shopTraining
 
 import (
 	"context"
-	"strconv"
+	"encoding/json"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 	"yufuture-gpt/common/consts"
 
@@ -27,14 +27,14 @@ func NewGetShopPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *G
 }
 
 func (l *GetShopPageListLogic) GetShopPageList(req *types.ShopPageListReq) (resp *types.ShopPageListResp, err error) {
-	userId := l.ctx.Value("userId")
-	intNumber, err := strconv.ParseInt(userId.(string), 10, 64)
+	id := l.ctx.Value("id")
+	userId, err := id.(json.Number).Int64()
 	if err != nil {
 		l.Logger.Error("获取用户id失败", err)
 		return nil, err
 	}
 	result, err := l.svcCtx.ShopTrainingClient.GetShopPageList(l.ctx, &training.ShopPageListReq{
-		UserId:         intNumber,
+		UserId:         userId,
 		PageNum:        req.PageNum,
 		PageSize:       req.PageSize,
 		Query:          req.Query,

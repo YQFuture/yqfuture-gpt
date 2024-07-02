@@ -2,6 +2,7 @@ package shopTraining
 
 import (
 	"context"
+	"encoding/json"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 	"yufuture-gpt/app/training/model/orm"
 	"yufuture-gpt/common/utills"
@@ -27,8 +28,13 @@ func NewPreSettingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PreSet
 }
 
 func (l *PreSettingLogic) PreSetting(req *types.ShopTrainingReq) (resp *types.ShopTrainingResp, err error) {
-	value := l.ctx.Value("userId")
-	l.Logger.Info("token中的userId", value)
+	id := l.ctx.Value("id")
+	userId, err := id.(json.Number).Int64()
+	if err != nil {
+		l.Logger.Error("获取用户id失败", err)
+		return nil, err
+	}
+	l.Logger.Info("token中的userId", userId)
 	result, err := l.svcCtx.ShopTrainingClient.PreSetting(l.ctx, &training.ShopTrainingReq{})
 	if err != nil {
 		l.Logger.Error("获取店铺列表失败", err)

@@ -27,8 +27,9 @@ func NewGetJWTLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetJWTLogi
 }
 
 func (l *GetJWTLogic) GetJWT(req *types.ShopTrainingReq) (resp *types.ShopTrainingResp, err error) {
-	playload := map[string]string{
-		"userId": "1",
+	playload := map[string]interface{}{
+		"id":      1,
+		"ex_time": time.Now().AddDate(0, 0, 7),
 	}
 	jwtToken, err := getJwtToken(l.svcCtx.Config.Auth.AccessSecret, time.Now().Unix(), l.svcCtx.Config.Auth.AccessExpire, playload)
 	if err != nil {
@@ -47,7 +48,7 @@ func (l *GetJWTLogic) GetJWT(req *types.ShopTrainingReq) (resp *types.ShopTraini
 // @iat: 时间戳
 // @seconds: 过期时间，单位秒
 // @payload: 数据载体
-func getJwtToken(secretKey string, iat, seconds int64, payload map[string]string) (string, error) {
+func getJwtToken(secretKey string, iat, seconds int64, payload map[string]interface{}) (string, error) {
 	claims := make(jwt.MapClaims)
 	claims["exp"] = iat + seconds
 	claims["iat"] = iat
