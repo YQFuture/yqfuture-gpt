@@ -58,6 +58,10 @@ service training {
 	@handler getGoodsPageList
 	post /getGoodsPageList (GoodsPageListReq) returns (BaseResp)
 
+	@doc "获取商品训练结果"
+	@handler getGoodsTrainingResult
+	post /getGoodsTrainingResult (GetGoodsTrainingResultReq) returns (GetGoodsTrainingResultResp)
+
 	@doc "训练商品"
 	@handler trainingGoods
 	post /trainingGoods (TrainingGoodsReq) returns (TrainingGoodsResp)

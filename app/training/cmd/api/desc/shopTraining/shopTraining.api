@@ -114,4 +114,12 @@ type (
         BaseResp
         Data int64 `json:"data"` // 训练状态 0: 未训练 1: 训练中 2: 训练完成
     }
+
+    GetGoodsTrainingResultReq {
+        GoodsId int64 `json:"goodsId"` // 商品id
+    }
+    GetGoodsTrainingResultResp {
+        BaseResp
+        Data interface{} `json:"data"` // 训练结果
+    }
 )

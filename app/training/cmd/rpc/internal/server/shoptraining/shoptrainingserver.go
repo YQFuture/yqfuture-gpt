@@ -52,6 +52,12 @@ func (s *ShopTrainingServer) GetGoodsPageList(ctx context.Context, in *training.
 	return l.GetGoodsPageList(in)
 }
 
+// 获取商品训练结果
+func (s *ShopTrainingServer) GetGoodsTrainingResult(ctx context.Context, in *training.GetGoodsTrainingResultReq) (*training.GetGoodsTrainingResultResp, error) {
+	l := shoptraininglogic.NewGetGoodsTrainingResultLogic(ctx, s.svcCtx)
+	return l.GetGoodsTrainingResult(in)
+}
+
 // 训练商品
 func (s *ShopTrainingServer) TrainingGoods(ctx context.Context, in *training.TrainingGoodsReq) (*training.TrainingGoodsResp, error) {
 	l := shoptraininglogic.NewTrainingGoodsLogic(ctx, s.svcCtx)

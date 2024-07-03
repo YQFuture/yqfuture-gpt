@@ -123,6 +123,12 @@ message AddGoodsReq {
 message AddGoodsResp {
   string result = 1;
 }
+message GetGoodsTrainingResultReq {
+  int64 goodsId = 1;
+}
+message GetGoodsTrainingResultResp {
+  string result = 1;
+}
 service ShopTraining {
   // 预训练
   rpc preSetting(ShopTrainingReq) returns (ShopTrainingResp);
@@ -136,6 +142,8 @@ service ShopTraining {
 
   // 查询商品列表
   rpc getGoodsPageList(GoodsPageListReq) returns (GoodsPageListResp);
+  // 获取商品训练结果
+  rpc getGoodsTrainingResult(GetGoodsTrainingResultReq) returns (GetGoodsTrainingResultResp);
   // 训练商品
   rpc trainingGoods(TrainingGoodsReq) returns (TrainingGoodsResp);
   // 添加商品
