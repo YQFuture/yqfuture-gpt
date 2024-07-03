@@ -17,7 +17,7 @@ import (
 	_ "github.com/zeromicro/zero-contrib/zrpc/registry/consul"
 )
 
-var configFile = flag.String("f", "C:\\Users\\ZXD\\Documents\\Code\\GoLang\\src\\yqfuture-gpt\\app\\training\\cmd\\api\\etc\\training.yaml", "the config file")
+var configFile = flag.String("f", "etc/training.yaml", "the config file")
 
 func main() {
 	flag.Parse()

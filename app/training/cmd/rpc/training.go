@@ -20,7 +20,7 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-var configFile = flag.String("f", "C:\\Users\\ZXD\\Documents\\Code\\GoLang\\src\\yqfuture-gpt\\app\\training\\cmd\\rpc\\etc\\training.yaml", "the config file")
+var configFile = flag.String("f", "etc/training.yaml", "the config file")
 
 func main() {
 	flag.Parse()
