@@ -2,6 +2,7 @@ package shopTraining
 
 import (
 	"context"
+	"strconv"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 	"yufuture-gpt/common/consts"
 
@@ -27,8 +28,13 @@ func NewGetGoodsTrainingResultLogic(ctx context.Context, svcCtx *svc.ServiceCont
 }
 
 func (l *GetGoodsTrainingResultLogic) GetGoodsTrainingResult(req *types.GetGoodsTrainingResultReq) (resp *types.GetGoodsTrainingResultResp, err error) {
+	goodsIdInt, err := strconv.ParseInt(req.GoodsId, 10, 64)
+	if err != nil {
+		l.Logger.Error("转换商品id失败", err)
+		return nil, err
+	}
 	result, err := l.svcCtx.ShopTrainingClient.GetGoodsTrainingResult(l.ctx, &training.GetGoodsTrainingResultReq{
-		GoodsId: req.GoodsId,
+		GoodsId: goodsIdInt,
 	})
 	if err != nil {
 		l.Logger.Error("获取商品训练结果失败", err)

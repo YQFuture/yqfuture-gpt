@@ -3,6 +3,7 @@ package shopTraining
 import (
 	"context"
 	"encoding/json"
+	"strconv"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 	"yufuture-gpt/common/consts"
 
@@ -34,8 +35,13 @@ func (l *AddGoodsLogic) AddGoods(req *types.AddGoodsReq) (resp *types.BaseResp, 
 		l.Logger.Error("获取用户id失败", err)
 		return nil, err
 	}
+	shopIdInt, err := strconv.ParseInt(req.ShopId, 10, 64)
+	if err != nil {
+		l.Logger.Error("转换店铺id失败", err)
+		return nil, err
+	}
 	_, err = l.svcCtx.ShopTrainingClient.AddGoods(l.ctx, &training.AddGoodsReq{
-		ShopId: req.ShopId,
+		ShopId: shopIdInt,
 		UserId: userId,
 		List:   req.List,
 	})

@@ -2,6 +2,7 @@ package shopTraining
 
 import (
 	"context"
+	"strconv"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 	"yufuture-gpt/common/consts"
 
@@ -26,8 +27,13 @@ func NewUnEnableGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UnE
 }
 
 func (l *UnEnableGoodsLogic) UnEnableGoods(req *types.BaseGoodsReq) (resp *types.BaseResp, err error) {
+	goodsIdInt, err := strconv.ParseInt(req.GoodsId, 10, 64)
+	if err != nil {
+		l.Logger.Error("转换商品id失败", err)
+		return nil, err
+	}
 	_, err = l.svcCtx.ShopTrainingClient.UnEnableGoods(l.ctx, &training.GoodsTrainingReq{
-		GoodsId: req.GoodsId,
+		GoodsId: goodsIdInt,
 	})
 	if err != nil {
 		l.Logger.Error("停用商品训练失败", err)

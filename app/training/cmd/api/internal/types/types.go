@@ -2,12 +2,12 @@
 package types
 
 type AddGoodsReq struct {
-	ShopId int64    `json:"shopId"` // 店铺id
+	ShopId string   `json:"shopId"` // 店铺id
 	List   []string `json:"list"`   // 商品url列表
 }
 
 type BaseGoodsReq struct {
-	GoodsId int64 `json:"goodsId"` // 商品id
+	GoodsId string `json:"goodsId"` // 商品id
 }
 
 type BasePageReq struct {
@@ -50,7 +50,7 @@ type DictInfoByTypeResp struct {
 }
 
 type GetGoodsTrainingResultReq struct {
-	GoodsId int64 `json:"goodsId"` // 商品id
+	GoodsId string `json:"goodsId"` // 商品id
 }
 
 type GetGoodsTrainingResultResp struct {
@@ -74,9 +74,9 @@ type GoodsListResp struct {
 
 type GoodsPageListReq struct {
 	BasePageReq
-	ShopId     int64 `json:"shopId"`     // 店铺id
-	Enabled    int64 `json:"enabled"`    // 启用状态  0: 未定义 1: 未启用 2: 启用
-	UpdateTime int64 `json:"updateTime"` // 更新时间
+	ShopId     string `json:"shopId"`     // 店铺id
+	Enabled    int64  `json:"enabled"`    // 启用状态  0: 未定义 1: 未启用 2: 启用
+	UpdateTime int64  `json:"updateTime"` // 更新时间
 }
 
 type GoodsPageListResp struct {
@@ -85,8 +85,8 @@ type GoodsPageListResp struct {
 }
 
 type GoodsResp struct {
-	Id              int64  `json:"id"`              // 商品id
-	ShopId          int64  `json:"shopId"`          // 店铺id
+	Id              string `json:"id"`              // 商品id
+	ShopId          string `json:"shopId"`          // 店铺id
 	GoodsName       string `json:"goodsName"`       // 商品名称
 	GoodsUrl        string `json:"goodsUrl"`        // 商品url
 	TrainingSummary string `json:"trainingSummary"` // 训练摘要
@@ -123,7 +123,7 @@ type ShopPageListResp struct {
 }
 
 type ShopResp struct {
-	Id             int64  `json:"id"`           // 店铺id
+	Id             string `json:"id"`           // 店铺id
 	Uuid           string `json:"uuid"`         // 唯一标识
 	ShopName       string `json:"shopName"`     // 店铺名称
 	PlatFormType   int64  `json:"platFormType"` // 平台类型
@@ -142,7 +142,7 @@ type ShopTrainingResp struct {
 }
 
 type TrainingGoodsReq struct {
-	GoodsId int64 `json:"goodsId"` // 商品id
+	GoodsId string `json:"goodsId"` // 商品id
 }
 
 type TrainingGoodsResp struct {

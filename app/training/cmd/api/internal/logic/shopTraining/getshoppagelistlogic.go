@@ -3,6 +3,7 @@ package shopTraining
 import (
 	"context"
 	"encoding/json"
+	"strconv"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 	"yufuture-gpt/common/consts"
 
@@ -51,7 +52,7 @@ func (l *GetShopPageListLogic) GetShopPageList(req *types.ShopPageListReq) (resp
 
 	for _, value := range result.List {
 		list = append(list, &types.ShopResp{
-			Id:             value.Id,
+			Id:             strconv.FormatInt(value.Id, 10),
 			Uuid:           value.Uuid,
 			ShopName:       value.ShopName,
 			PlatFormType:   value.PlatformType,

@@ -2,6 +2,7 @@ package shopTraining
 
 import (
 	"context"
+	"strconv"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 	"yufuture-gpt/common/consts"
 
@@ -26,9 +27,13 @@ func NewGetGoodsPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *GetGoodsPageListLogic) GetGoodsPageList(req *types.GoodsPageListReq) (resp *types.GoodsPageListResp, err error) {
-
+	shopIdInt, err := strconv.ParseInt(req.ShopId, 10, 64)
+	if err != nil {
+		l.Logger.Error("转换店铺id失败", err)
+		return nil, err
+	}
 	result, err := l.svcCtx.ShopTrainingClient.GetGoodsPageList(l.ctx, &training.GoodsPageListReq{
-		ShopId:     req.ShopId,
+		ShopId:     shopIdInt,
 		PageNum:    req.PageNum,
 		PageSize:   req.PageSize,
 		Query:      req.Query,
@@ -44,8 +49,8 @@ func (l *GetGoodsPageListLogic) GetGoodsPageList(req *types.GoodsPageListReq) (r
 
 	for _, value := range result.List {
 		list = append(list, &types.GoodsResp{
-			Id:              value.Id,
-			ShopId:          value.ShopId,
+			Id:              strconv.FormatInt(value.Id, 10),
+			ShopId:          strconv.FormatInt(value.ShopId, 10),
 			GoodsName:       value.GoodsName,
 			GoodsUrl:        value.GoodsUrl,
 			TrainingSummary: value.TrainingSummary,
