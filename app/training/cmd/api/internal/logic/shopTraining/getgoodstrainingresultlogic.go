@@ -2,6 +2,8 @@ package shopTraining
 
 import (
 	"context"
+	"yufuture-gpt/app/training/cmd/rpc/pb/training"
+	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/training/cmd/api/internal/svc"
 	"yufuture-gpt/app/training/cmd/api/internal/types"
@@ -25,7 +27,18 @@ func NewGetGoodsTrainingResultLogic(ctx context.Context, svcCtx *svc.ServiceCont
 }
 
 func (l *GetGoodsTrainingResultLogic) GetGoodsTrainingResult(req *types.GetGoodsTrainingResultReq) (resp *types.GetGoodsTrainingResultResp, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+	result, err := l.svcCtx.ShopTrainingClient.GetGoodsTrainingResult(l.ctx, &training.GetGoodsTrainingResultReq{
+		GoodsId: req.GoodsId,
+	})
+	if err != nil {
+		l.Logger.Error("获取商品训练结果失败", err)
+		return nil, err
+	}
+	return &types.GetGoodsTrainingResultResp{
+		BaseResp: types.BaseResp{
+			Code: consts.Success,
+			Msg:  "获取商品训练结果成功",
+		},
+		Data: result.Result,
+	}, nil
 }

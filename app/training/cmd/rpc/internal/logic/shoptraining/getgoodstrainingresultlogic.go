@@ -27,18 +27,21 @@ func NewGetGoodsTrainingResultLogic(ctx context.Context, svcCtx *svc.ServiceCont
 // GetGoodsTrainingResult 获取商品训练结果
 func (l *GetGoodsTrainingResultLogic) GetGoodsTrainingResult(in *training.GetGoodsTrainingResultReq) (*training.GetGoodsTrainingResultResp, error) {
 	// TODO 根据商品ID从ES中获取训练结果
-
+	l.Logger.Error("商品ID", in.GoodsId)
 	es := l.svcCtx.Elasticsearch
-	query := elastic.NewTermQuery("id", in.GoodsId) // 替换"目标标题值"为你要搜索的实际值
+	query := elastic.NewTermQuery("id", in.GoodsId)
 	result, err := es.Search().Index("training_goods").Query(query).Size(1).Do(l.ctx)
 	if err != nil {
+		l.Logger.Error("从ES获取商品训练结果失败", err)
 		return nil, err
 	}
+	//序列化结果并返回
 	var trainingResult string
-	// 处理查询结果
 	trainingResult, err = utills.AnyToString(result.Hits.Hits[0].Source)
-
-	// TODO 序列化结果并返回
+	if err != nil {
+		l.Logger.Error("序列化商品训练结果失败", err)
+		return nil, err
+	}
 	return &training.GetGoodsTrainingResultResp{
 		Result: trainingResult,
 	}, nil
