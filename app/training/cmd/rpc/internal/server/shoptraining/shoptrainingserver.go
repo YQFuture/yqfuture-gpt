@@ -28,6 +28,12 @@ func (s *ShopTrainingServer) PreSetting(ctx context.Context, in *training.ShopTr
 	return l.PreSetting(in)
 }
 
+// 取消预训练
+func (s *ShopTrainingServer) CancelPreSetting(ctx context.Context, in *training.CancelPreSettingReq) (*training.ShopTrainingResp, error) {
+	l := shoptraininglogic.NewCancelPreSettingLogic(ctx, s.svcCtx)
+	return l.CancelPreSetting(in)
+}
+
 // 查询店铺列表
 func (s *ShopTrainingServer) GetShopPageList(ctx context.Context, in *training.ShopPageListReq) (*training.ShopPageListResp, error) {
 	l := shoptraininglogic.NewGetShopPageListLogic(ctx, s.svcCtx)

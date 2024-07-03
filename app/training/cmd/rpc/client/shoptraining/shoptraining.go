@@ -15,6 +15,7 @@ import (
 type (
 	AddGoodsReq                 = training.AddGoodsReq
 	AddGoodsResp                = training.AddGoodsResp
+	CancelPreSettingReq         = training.CancelPreSettingReq
 	DictInfo                    = training.DictInfo
 	DictInfoByTypeReq           = training.DictInfoByTypeReq
 	DictInfoByTypeResp          = training.DictInfoByTypeResp
@@ -44,6 +45,8 @@ type (
 	ShopTraining interface {
 		// 预训练
 		PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
+		// 取消预训练
+		CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
 		// 查询店铺列表
 		GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error)
 		// 训练店铺
@@ -81,6 +84,12 @@ func NewShopTraining(cli zrpc.Client) ShopTraining {
 func (m *defaultShopTraining) PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
 	return client.PreSetting(ctx, in, opts...)
+}
+
+// 取消预训练
+func (m *defaultShopTraining) CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.CancelPreSetting(ctx, in, opts...)
 }
 
 // 查询店铺列表

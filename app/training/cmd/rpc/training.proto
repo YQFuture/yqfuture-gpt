@@ -31,10 +31,15 @@ service KnowledgeBaseTraining {
 
 //店铺训练
 message ShopTrainingReq {
-  int64 shopId = 1;
+  int64 userId = 1;
+  string uuid = 2;
 }
 message ShopTrainingResp {
   string result = 1;
+}
+message CancelPreSettingReq {
+  int64 userId = 1;
+  string uuid = 2;
 }
 message JudgeFirstShopReq {
   int64 userId = 1;
@@ -139,6 +144,8 @@ message GetGoodsTrainingResultResp {
 service ShopTraining {
   // 预训练
   rpc preSetting(ShopTrainingReq) returns (ShopTrainingResp);
+  // 取消预训练
+  rpc cancelPreSetting(CancelPreSettingReq) returns (ShopTrainingResp);
 
   // 查询店铺列表
   rpc getShopPageList(ShopPageListReq) returns (ShopPageListResp);

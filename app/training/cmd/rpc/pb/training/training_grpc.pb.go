@@ -202,6 +202,7 @@ var KnowledgeBaseTraining_ServiceDesc = grpc.ServiceDesc{
 
 const (
 	ShopTraining_PreSetting_FullMethodName              = "/training.ShopTraining/preSetting"
+	ShopTraining_CancelPreSetting_FullMethodName        = "/training.ShopTraining/cancelPreSetting"
 	ShopTraining_GetShopPageList_FullMethodName         = "/training.ShopTraining/getShopPageList"
 	ShopTraining_TrainingShop_FullMethodName            = "/training.ShopTraining/trainingShop"
 	ShopTraining_GetShopTrainingProgress_FullMethodName = "/training.ShopTraining/getShopTrainingProgress"
@@ -220,6 +221,8 @@ const (
 type ShopTrainingClient interface {
 	// 预训练
 	PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
+	// 取消预训练
+	CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
 	// 查询店铺列表
 	GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error)
 	// 训练店铺
@@ -254,6 +257,16 @@ func (c *shopTrainingClient) PreSetting(ctx context.Context, in *ShopTrainingReq
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ShopTrainingResp)
 	err := c.cc.Invoke(ctx, ShopTraining_PreSetting_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopTrainingClient) CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ShopTrainingResp)
+	err := c.cc.Invoke(ctx, ShopTraining_CancelPreSetting_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -366,6 +379,8 @@ func (c *shopTrainingClient) UnEnableGoods(ctx context.Context, in *GoodsTrainin
 type ShopTrainingServer interface {
 	// 预训练
 	PreSetting(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error)
+	// 取消预训练
+	CancelPreSetting(context.Context, *CancelPreSettingReq) (*ShopTrainingResp, error)
 	// 查询店铺列表
 	GetShopPageList(context.Context, *ShopPageListReq) (*ShopPageListResp, error)
 	// 训练店铺
@@ -395,6 +410,9 @@ type UnimplementedShopTrainingServer struct {
 
 func (UnimplementedShopTrainingServer) PreSetting(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PreSetting not implemented")
+}
+func (UnimplementedShopTrainingServer) CancelPreSetting(context.Context, *CancelPreSettingReq) (*ShopTrainingResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CancelPreSetting not implemented")
 }
 func (UnimplementedShopTrainingServer) GetShopPageList(context.Context, *ShopPageListReq) (*ShopPageListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetShopPageList not implemented")
@@ -453,6 +471,24 @@ func _ShopTraining_PreSetting_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ShopTrainingServer).PreSetting(ctx, req.(*ShopTrainingReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopTraining_CancelPreSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelPreSettingReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopTrainingServer).CancelPreSetting(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopTraining_CancelPreSetting_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopTrainingServer).CancelPreSetting(ctx, req.(*CancelPreSettingReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -647,6 +683,10 @@ var ShopTraining_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "preSetting",
 			Handler:    _ShopTraining_PreSetting_Handler,
+		},
+		{
+			MethodName: "cancelPreSetting",
+			Handler:    _ShopTraining_CancelPreSetting_Handler,
 		},
 		{
 			MethodName: "getShopPageList",

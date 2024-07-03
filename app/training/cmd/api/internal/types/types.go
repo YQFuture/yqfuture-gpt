@@ -30,6 +30,10 @@ type BaseResp struct {
 	Msg  string `json:"msg"`  // 信息
 }
 
+type CancelPreSettingReq struct {
+	Uuid string `json:"uuid"` // 唯一标识
+}
+
 type DictInfo struct {
 	Name     string `json:"name"`     // 名称
 	Value    string `json:"value"`    // 值
@@ -129,6 +133,7 @@ type ShopResp struct {
 }
 
 type ShopTrainingReq struct {
+	Uuid string `json:"uuid"` // 唯一标识
 }
 
 type ShopTrainingResp struct {

@@ -15,6 +15,7 @@ import (
 type (
 	AddGoodsReq                 = training.AddGoodsReq
 	AddGoodsResp                = training.AddGoodsResp
+	CancelPreSettingReq         = training.CancelPreSettingReq
 	DictInfo                    = training.DictInfo
 	DictInfoByTypeReq           = training.DictInfoByTypeReq
 	DictInfoByTypeResp          = training.DictInfoByTypeResp

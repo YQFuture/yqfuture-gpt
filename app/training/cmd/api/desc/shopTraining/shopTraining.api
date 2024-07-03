@@ -23,11 +23,16 @@ type (
     }
 
     ShopTrainingReq {
+        Uuid string `json:"uuid"` // 唯一标识
     }
 
     ShopTrainingResp {
         BaseResp
         Data  interface{} `json:"data"` // 数据
+    }
+
+    CancelPreSettingReq {
+        Uuid string `json:"uuid"` // 唯一标识
     }
 
     ShopPageListReq {
