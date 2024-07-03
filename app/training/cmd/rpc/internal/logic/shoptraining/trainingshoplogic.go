@@ -34,6 +34,9 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 	}
 
 	//TODO 如果mysql中商品为空，说明是首次训练，需要从mongo中获取店铺和商品，保存到mysql中，再开启训练
+	if shop.Id == 0 {
+
+	}
 
 	//根据店铺shopId查找出商品列表，需要筛选出enabled字段为1的商品
 	shopId := shop.Id

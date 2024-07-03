@@ -191,6 +191,38 @@
         ]
       }
     },
+    "/shopTraining/getGoodsTrainingResult": {
+      "post": {
+        "summary": "获取商品训练结果",
+        "operationId": "getGoodsTrainingResult",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetGoodsTrainingResultResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetGoodsTrainingResultReq"
+            }
+          }
+        ],
+        "tags": [
+          "shopTraining"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/shopTraining/getShopPageList": {
       "post": {
         "summary": "查询店铺列表",
@@ -521,6 +553,42 @@
         }
       },
       "title": "DictInfoByTypeResp",
+      "required": [
+        "data"
+      ]
+    },
+    "GetGoodsTrainingResultReq": {
+      "type": "object",
+      "properties": {
+        "goodsId": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 商品id"
+        }
+      },
+      "title": "GetGoodsTrainingResultReq",
+      "required": [
+        "goodsId"
+      ]
+    },
+    "GetGoodsTrainingResultResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "object",
+          "description": " 训练结果"
+        }
+      },
+      "title": "GetGoodsTrainingResultResp",
       "required": [
         "data"
       ]

@@ -34,6 +34,7 @@ func (l *TrainingGoodsSuccess) Consume(key, val string) error {
 
 	//TODO 训练结果写入ES
 	//http://192.168.3.118:9200/training_goods/_search?q=id:1
+	//http://192.168.3.118:9200/training_goods/_doc/iURcdpABA6PejL7zs03J
 	document := struct {
 		Id             int64     `json:"id"`
 		TrainingResult string    `json:"training_result"`
