@@ -54,6 +54,15 @@ type GetGoodsTrainingResultResp struct {
 	Data interface{} `json:"data"` // 训练结果
 }
 
+type GetShopTrainingProgressReq struct {
+	Uuid string `json:"uuid"` // 唯一标识
+}
+
+type GetShopTrainingProgressResp struct {
+	BaseResp
+	Data interface{} `json:"data"` // 训练进度
+}
+
 type GoodsListResp struct {
 	BasePageResp
 	List []*GoodsResp `json:"list"` // 列表

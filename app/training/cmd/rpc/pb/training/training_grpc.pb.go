@@ -201,16 +201,17 @@ var KnowledgeBaseTraining_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	ShopTraining_PreSetting_FullMethodName             = "/training.ShopTraining/preSetting"
-	ShopTraining_GetShopPageList_FullMethodName        = "/training.ShopTraining/getShopPageList"
-	ShopTraining_TrainingShop_FullMethodName           = "/training.ShopTraining/trainingShop"
-	ShopTraining_JudgeFirstShop_FullMethodName         = "/training.ShopTraining/judgeFirstShop"
-	ShopTraining_GetGoodsPageList_FullMethodName       = "/training.ShopTraining/getGoodsPageList"
-	ShopTraining_GetGoodsTrainingResult_FullMethodName = "/training.ShopTraining/getGoodsTrainingResult"
-	ShopTraining_TrainingGoods_FullMethodName          = "/training.ShopTraining/trainingGoods"
-	ShopTraining_AddGoods_FullMethodName               = "/training.ShopTraining/addGoods"
-	ShopTraining_EnableGoods_FullMethodName            = "/training.ShopTraining/enableGoods"
-	ShopTraining_UnEnableGoods_FullMethodName          = "/training.ShopTraining/unEnableGoods"
+	ShopTraining_PreSetting_FullMethodName              = "/training.ShopTraining/preSetting"
+	ShopTraining_GetShopPageList_FullMethodName         = "/training.ShopTraining/getShopPageList"
+	ShopTraining_TrainingShop_FullMethodName            = "/training.ShopTraining/trainingShop"
+	ShopTraining_GetShopTrainingProgress_FullMethodName = "/training.ShopTraining/getShopTrainingProgress"
+	ShopTraining_JudgeFirstShop_FullMethodName          = "/training.ShopTraining/judgeFirstShop"
+	ShopTraining_GetGoodsPageList_FullMethodName        = "/training.ShopTraining/getGoodsPageList"
+	ShopTraining_GetGoodsTrainingResult_FullMethodName  = "/training.ShopTraining/getGoodsTrainingResult"
+	ShopTraining_TrainingGoods_FullMethodName           = "/training.ShopTraining/trainingGoods"
+	ShopTraining_AddGoods_FullMethodName                = "/training.ShopTraining/addGoods"
+	ShopTraining_EnableGoods_FullMethodName             = "/training.ShopTraining/enableGoods"
+	ShopTraining_UnEnableGoods_FullMethodName           = "/training.ShopTraining/unEnableGoods"
 )
 
 // ShopTrainingClient is the client API for ShopTraining service.
@@ -223,6 +224,8 @@ type ShopTrainingClient interface {
 	GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error)
 	// 训练店铺
 	TrainingShop(ctx context.Context, in *TrainingShopReq, opts ...grpc.CallOption) (*TrainingShopResp, error)
+	// 获取店铺训练进度
+	GetShopTrainingProgress(ctx context.Context, in *GetShopTrainingProgressReq, opts ...grpc.CallOption) (*GetShopTrainingProgressResp, error)
 	// 判断店铺是否初次登录(从未进行过训练)
 	JudgeFirstShop(ctx context.Context, in *JudgeFirstShopReq, opts ...grpc.CallOption) (*JudgeFirstShopResp, error)
 	// 查询商品列表
@@ -271,6 +274,16 @@ func (c *shopTrainingClient) TrainingShop(ctx context.Context, in *TrainingShopR
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TrainingShopResp)
 	err := c.cc.Invoke(ctx, ShopTraining_TrainingShop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *shopTrainingClient) GetShopTrainingProgress(ctx context.Context, in *GetShopTrainingProgressReq, opts ...grpc.CallOption) (*GetShopTrainingProgressResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetShopTrainingProgressResp)
+	err := c.cc.Invoke(ctx, ShopTraining_GetShopTrainingProgress_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -357,6 +370,8 @@ type ShopTrainingServer interface {
 	GetShopPageList(context.Context, *ShopPageListReq) (*ShopPageListResp, error)
 	// 训练店铺
 	TrainingShop(context.Context, *TrainingShopReq) (*TrainingShopResp, error)
+	// 获取店铺训练进度
+	GetShopTrainingProgress(context.Context, *GetShopTrainingProgressReq) (*GetShopTrainingProgressResp, error)
 	// 判断店铺是否初次登录(从未进行过训练)
 	JudgeFirstShop(context.Context, *JudgeFirstShopReq) (*JudgeFirstShopResp, error)
 	// 查询商品列表
@@ -386,6 +401,9 @@ func (UnimplementedShopTrainingServer) GetShopPageList(context.Context, *ShopPag
 }
 func (UnimplementedShopTrainingServer) TrainingShop(context.Context, *TrainingShopReq) (*TrainingShopResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TrainingShop not implemented")
+}
+func (UnimplementedShopTrainingServer) GetShopTrainingProgress(context.Context, *GetShopTrainingProgressReq) (*GetShopTrainingProgressResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetShopTrainingProgress not implemented")
 }
 func (UnimplementedShopTrainingServer) JudgeFirstShop(context.Context, *JudgeFirstShopReq) (*JudgeFirstShopResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method JudgeFirstShop not implemented")
@@ -471,6 +489,24 @@ func _ShopTraining_TrainingShop_Handler(srv interface{}, ctx context.Context, de
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ShopTrainingServer).TrainingShop(ctx, req.(*TrainingShopReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ShopTraining_GetShopTrainingProgress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetShopTrainingProgressReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopTrainingServer).GetShopTrainingProgress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopTraining_GetShopTrainingProgress_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopTrainingServer).GetShopTrainingProgress(ctx, req.(*GetShopTrainingProgressReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -619,6 +655,10 @@ var ShopTraining_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "trainingShop",
 			Handler:    _ShopTraining_TrainingShop_Handler,
+		},
+		{
+			MethodName: "getShopTrainingProgress",
+			Handler:    _ShopTraining_GetShopTrainingProgress_Handler,
 		},
 		{
 			MethodName: "judgeFirstShop",

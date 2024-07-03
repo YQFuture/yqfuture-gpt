@@ -40,6 +40,12 @@ func (s *ShopTrainingServer) TrainingShop(ctx context.Context, in *training.Trai
 	return l.TrainingShop(in)
 }
 
+// 获取店铺训练进度
+func (s *ShopTrainingServer) GetShopTrainingProgress(ctx context.Context, in *training.GetShopTrainingProgressReq) (*training.GetShopTrainingProgressResp, error) {
+	l := shoptraininglogic.NewGetShopTrainingProgressLogic(ctx, s.svcCtx)
+	return l.GetShopTrainingProgress(in)
+}
+
 // 判断店铺是否初次登录(从未进行过训练)
 func (s *ShopTrainingServer) JudgeFirstShop(ctx context.Context, in *training.JudgeFirstShopReq) (*training.JudgeFirstShopResp, error) {
 	l := shoptraininglogic.NewJudgeFirstShopLogic(ctx, s.svcCtx)

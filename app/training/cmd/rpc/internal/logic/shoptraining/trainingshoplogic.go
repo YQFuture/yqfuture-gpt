@@ -28,8 +28,9 @@ func NewTrainingShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Trai
 // 训练店铺
 func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*training.TrainingShopResp, error) {
 	//根据uuid和userid查找出店铺
-	shop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in)
+	shop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in.UserId, in.Uuid)
 	if err != nil {
+		l.Logger.Error("根据uuid和userid查找店铺失败", err)
 		return nil, err
 	}
 

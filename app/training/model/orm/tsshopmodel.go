@@ -21,7 +21,7 @@ type (
 		GetShopPageTotal(ctx context.Context, in *training.ShopPageListReq) (int, error)
 		GetShopPageList(ctx context.Context, in *training.ShopPageListReq) (*[]*TsShop, error)
 		JudgeFirstShop(ctx context.Context, in *training.JudgeFirstShopReq) (int, error)
-		FindOneByUuidAndUserId(ctx context.Context, in *training.TrainingShopReq) (*TsShop, error)
+		FindOneByUuidAndUserId(ctx context.Context, userId int64, uuid string) (*TsShop, error)
 	}
 
 	customTsShopModel struct {
@@ -54,10 +54,10 @@ func (m *customTsShopModel) FindList(ctx context.Context) (any, error) {
 	}
 }
 
-func (m *customTsShopModel) FindOneByUuidAndUserId(ctx context.Context, in *training.TrainingShopReq) (*TsShop, error) {
+func (m *customTsShopModel) FindOneByUuidAndUserId(ctx context.Context, userId int64, uuid string) (*TsShop, error) {
 	query := fmt.Sprintf("select %s from %s where user_id = ? AND uuid = ?", tsShopRows, m.table)
 	var args []interface{}
-	args = append(args, in.UserId, in.Uuid)
+	args = append(args, userId, uuid)
 	var resp TsShop
 	err := m.conn.QueryRowCtx(ctx, &resp, query, args...)
 	switch {

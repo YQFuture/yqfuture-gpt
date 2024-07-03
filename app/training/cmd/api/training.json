@@ -255,6 +255,38 @@
         ]
       }
     },
+    "/shopTraining/getShopTrainingProgress": {
+      "post": {
+        "summary": "获取店铺训练进度店铺",
+        "operationId": "getShopTrainingProgress",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetShopTrainingProgressResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetShopTrainingProgressReq"
+            }
+          }
+        ],
+        "tags": [
+          "shopTraining"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/shopTraining/preSetting": {
       "post": {
         "summary": "预训练",
@@ -589,6 +621,41 @@
         }
       },
       "title": "GetGoodsTrainingResultResp",
+      "required": [
+        "data"
+      ]
+    },
+    "GetShopTrainingProgressReq": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "description": " 唯一标识"
+        }
+      },
+      "title": "GetShopTrainingProgressReq",
+      "required": [
+        "uuid"
+      ]
+    },
+    "GetShopTrainingProgressResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "object",
+          "description": " 训练进度"
+        }
+      },
+      "title": "GetShopTrainingProgressResp",
       "required": [
         "data"
       ]

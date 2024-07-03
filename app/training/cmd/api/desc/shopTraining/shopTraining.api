@@ -106,6 +106,13 @@ type (
         BaseResp
         Data int64 `json:"data"` // 训练状态 0: 未训练 1: 训练中 2: 训练完成
     }
+    GetShopTrainingProgressReq {
+        Uuid string `json:"uuid"` // 唯一标识
+    }
+    GetShopTrainingProgressResp {
+        BaseResp
+        Data interface{} `json:"data"` // 训练进度
+    }
 
     TrainingGoodsReq {
         GoodsId int64 `json:"goodsId"` // 商品id

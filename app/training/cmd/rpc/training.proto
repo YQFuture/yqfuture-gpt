@@ -108,6 +108,13 @@ message TrainingShopReq {
 message TrainingShopResp {
   string result = 1;
 }
+message GetShopTrainingProgressReq {
+  string uuid = 1;
+  int64 userId = 2;
+}
+message GetShopTrainingProgressResp {
+  string result = 1;
+}
 message TrainingGoodsReq {
   int64 goodsId = 1;
   int64 userId = 2;
@@ -137,6 +144,8 @@ service ShopTraining {
   rpc getShopPageList(ShopPageListReq) returns (ShopPageListResp);
   // 训练店铺
   rpc trainingShop(TrainingShopReq) returns (TrainingShopResp);
+  // 获取店铺训练进度
+  rpc getShopTrainingProgress(GetShopTrainingProgressReq) returns (GetShopTrainingProgressResp);
   // 判断店铺是否初次登录(从未进行过训练)
   rpc judgeFirstShop(JudgeFirstShopReq) returns (JudgeFirstShopResp);
 

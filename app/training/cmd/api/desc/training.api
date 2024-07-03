@@ -54,6 +54,10 @@ service training {
 	@handler trainingShop
 	post /trainingShop (TrainingShopReq) returns (BaseResp)
 
+	@doc "获取店铺训练进度"
+	@handler getShopTrainingProgress
+	post /getShopTrainingProgress (GetShopTrainingProgressReq) returns (GetShopTrainingProgressResp)
+
 	@doc "查询商品列表"
 	@handler getGoodsPageList
 	post /getGoodsPageList (GoodsPageListReq) returns (BaseResp)

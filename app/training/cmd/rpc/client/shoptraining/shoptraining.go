@@ -13,31 +13,33 @@ import (
 )
 
 type (
-	AddGoodsReq                = training.AddGoodsReq
-	AddGoodsResp               = training.AddGoodsResp
-	DictInfo                   = training.DictInfo
-	DictInfoByTypeReq          = training.DictInfoByTypeReq
-	DictInfoByTypeResp         = training.DictInfoByTypeResp
-	GetGoodsTrainingResultReq  = training.GetGoodsTrainingResultReq
-	GetGoodsTrainingResultResp = training.GetGoodsTrainingResultResp
-	GoodsPageListReq           = training.GoodsPageListReq
-	GoodsPageListResp          = training.GoodsPageListResp
-	GoodsResp                  = training.GoodsResp
-	GoodsTrainingReq           = training.GoodsTrainingReq
-	GoodsTrainingResp          = training.GoodsTrainingResp
-	JudgeFirstShopReq          = training.JudgeFirstShopReq
-	JudgeFirstShopResp         = training.JudgeFirstShopResp
-	KnowledgeBaseTrainingReq   = training.KnowledgeBaseTrainingReq
-	KnowledgeBaseTrainingResp  = training.KnowledgeBaseTrainingResp
-	ShopPageListReq            = training.ShopPageListReq
-	ShopPageListResp           = training.ShopPageListResp
-	ShopResp                   = training.ShopResp
-	ShopTrainingReq            = training.ShopTrainingReq
-	ShopTrainingResp           = training.ShopTrainingResp
-	TrainingGoodsReq           = training.TrainingGoodsReq
-	TrainingGoodsResp          = training.TrainingGoodsResp
-	TrainingShopReq            = training.TrainingShopReq
-	TrainingShopResp           = training.TrainingShopResp
+	AddGoodsReq                 = training.AddGoodsReq
+	AddGoodsResp                = training.AddGoodsResp
+	DictInfo                    = training.DictInfo
+	DictInfoByTypeReq           = training.DictInfoByTypeReq
+	DictInfoByTypeResp          = training.DictInfoByTypeResp
+	GetGoodsTrainingResultReq   = training.GetGoodsTrainingResultReq
+	GetGoodsTrainingResultResp  = training.GetGoodsTrainingResultResp
+	GetShopTrainingProgressReq  = training.GetShopTrainingProgressReq
+	GetShopTrainingProgressResp = training.GetShopTrainingProgressResp
+	GoodsPageListReq            = training.GoodsPageListReq
+	GoodsPageListResp           = training.GoodsPageListResp
+	GoodsResp                   = training.GoodsResp
+	GoodsTrainingReq            = training.GoodsTrainingReq
+	GoodsTrainingResp           = training.GoodsTrainingResp
+	JudgeFirstShopReq           = training.JudgeFirstShopReq
+	JudgeFirstShopResp          = training.JudgeFirstShopResp
+	KnowledgeBaseTrainingReq    = training.KnowledgeBaseTrainingReq
+	KnowledgeBaseTrainingResp   = training.KnowledgeBaseTrainingResp
+	ShopPageListReq             = training.ShopPageListReq
+	ShopPageListResp            = training.ShopPageListResp
+	ShopResp                    = training.ShopResp
+	ShopTrainingReq             = training.ShopTrainingReq
+	ShopTrainingResp            = training.ShopTrainingResp
+	TrainingGoodsReq            = training.TrainingGoodsReq
+	TrainingGoodsResp           = training.TrainingGoodsResp
+	TrainingShopReq             = training.TrainingShopReq
+	TrainingShopResp            = training.TrainingShopResp
 
 	ShopTraining interface {
 		// 预训练
@@ -46,6 +48,8 @@ type (
 		GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error)
 		// 训练店铺
 		TrainingShop(ctx context.Context, in *TrainingShopReq, opts ...grpc.CallOption) (*TrainingShopResp, error)
+		// 获取店铺训练进度
+		GetShopTrainingProgress(ctx context.Context, in *GetShopTrainingProgressReq, opts ...grpc.CallOption) (*GetShopTrainingProgressResp, error)
 		// 判断店铺是否初次登录(从未进行过训练)
 		JudgeFirstShop(ctx context.Context, in *JudgeFirstShopReq, opts ...grpc.CallOption) (*JudgeFirstShopResp, error)
 		// 查询商品列表
@@ -89,6 +93,12 @@ func (m *defaultShopTraining) GetShopPageList(ctx context.Context, in *ShopPageL
 func (m *defaultShopTraining) TrainingShop(ctx context.Context, in *TrainingShopReq, opts ...grpc.CallOption) (*TrainingShopResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
 	return client.TrainingShop(ctx, in, opts...)
+}
+
+// 获取店铺训练进度
+func (m *defaultShopTraining) GetShopTrainingProgress(ctx context.Context, in *GetShopTrainingProgressReq, opts ...grpc.CallOption) (*GetShopTrainingProgressResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.GetShopTrainingProgress(ctx, in, opts...)
 }
 
 // 判断店铺是否初次登录(从未进行过训练)
