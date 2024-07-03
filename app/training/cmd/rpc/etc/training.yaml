@@ -46,3 +46,6 @@ Elasticsearch:
     - http://192.168.3.118:9200
   Username: elastic
   Password: Elastic_HMYzHB
+
+#雪花算法节点ID 每个节点不能一样
+SnowFlakeNode: 1

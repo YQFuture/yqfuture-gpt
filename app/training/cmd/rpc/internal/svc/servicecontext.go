@@ -1,6 +1,7 @@
 package svc
 
 import (
+	"github.com/bwmarrin/snowflake"
 	"github.com/olivere/elastic/v7"
 	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -19,6 +20,7 @@ type ServiceContext struct {
 	KfgptaccountsentitiesModel model.KfgptaccountsentitiesModel
 	KqPusherClient             *kq.Pusher
 	Elasticsearch              *elastic.Client
+	SnowFlakeNode              *snowflake.Node
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -26,6 +28,10 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	esClient, err := elastic.NewClient(elastic.SetURL(c.Elasticsearch.Addresses...),
 		elastic.SetBasicAuth(c.Elasticsearch.Username, c.Elasticsearch.Password),
 		elastic.SetSniff(false))
+	if err != nil {
+		panic(err)
+	}
+	node, err := snowflake.NewNode(c.SnowFlakeNode)
 	if err != nil {
 		panic(err)
 	}
@@ -39,5 +45,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		KfgptaccountsentitiesModel: model.NewKfgptaccountsentitiesModel(c.Mongo.Url, c.Mongo.Database, c.Mongo.Kfgptaccountsentities),
 		KqPusherClient:             kq.NewPusher(c.KqPusherConf.Brokers, c.KqPusherConf.Topic, kq.WithAllowAutoTopicCreation()),
 		Elasticsearch:              esClient,
+		SnowFlakeNode:              node,
 	}
 }

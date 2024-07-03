@@ -30,4 +30,5 @@ type Config struct {
 		Username  string
 		Password  string
 	}
+	SnowFlakeNode int64
 }
