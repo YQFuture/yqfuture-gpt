@@ -49,3 +49,6 @@ Elasticsearch:
 
 #雪花算法节点ID 每个节点不能一样
 SnowFlakeNode: 1
+
+#gpt图片生成文字地址
+GptImageURL: http://192.168.3.200:8447/chat_with_openai_image

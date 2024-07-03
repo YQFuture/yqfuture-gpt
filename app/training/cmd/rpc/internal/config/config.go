@@ -31,4 +31,5 @@ type Config struct {
 		Password  string
 	}
 	SnowFlakeNode int64
+	GptImageURL   string
 }

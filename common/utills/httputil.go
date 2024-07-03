@@ -35,7 +35,7 @@ func HTTPPostAndParseJSON(url string, requestData interface{}, responseData inte
 	}
 
 	// 解析JSON响应数据
-	err = json.Unmarshal(body, &responseData)
+	err = json.Unmarshal(body, responseData)
 	if err != nil {
 		return fmt.Errorf("failed to unmarshal response JSON: %v", err)
 	}
