@@ -26,8 +26,6 @@ func NewGetGoodsTrainingResultLogic(ctx context.Context, svcCtx *svc.ServiceCont
 
 // GetGoodsTrainingResult 获取商品训练结果
 func (l *GetGoodsTrainingResultLogic) GetGoodsTrainingResult(in *training.GetGoodsTrainingResultReq) (*training.GetGoodsTrainingResultResp, error) {
-	// TODO 根据商品ID从ES中获取训练结果
-	l.Logger.Error("商品ID", in.GoodsId)
 	es := l.svcCtx.Elasticsearch
 	query := elastic.NewTermQuery("id", in.GoodsId)
 	result, err := es.Search().Index("training_goods").Query(query).Size(1).Do(l.ctx)
