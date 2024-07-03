@@ -46,7 +46,7 @@ func (l *TrainingGoodsSuccess) Consume(key, val string) error {
 	logx.Infof("训练结果：%s", response)
 	logx.Infof("消耗的token：%d", token)
 
-	// 训练结果写入ES
+	// 训练结果写入ES 这里的训练结果只从接口返回值中提取出的文字描述
 	document := &Document{
 		Id:             tsGoods.Id,
 		TrainingResult: response,
@@ -61,11 +61,11 @@ func (l *TrainingGoodsSuccess) Consume(key, val string) error {
 	}
 	logx.Infof("写入ES成功, res :%s", res)
 
-	//训练日志写入ES
+	// 训练日志写入ES 这里的训练结果会保存整个的接口返回值
 	go func() {
 		goodsTrainingLog := &GoodsTrainingLog{
 			Id:             tsGoods.Id,
-			TrainingResult: response,
+			TrainingResult: result,
 			TOKEN:          token,
 			CreateTime:     time.Now(),
 		}
@@ -97,10 +97,10 @@ type Document struct {
 }
 
 type GoodsTrainingLog struct {
-	Id             int64     `json:"id"`
-	TrainingResult string    `json:"training_result"`
-	TOKEN          int       `json:"token"`
-	CreateTime     time.Time `json:"create_time"`
+	Id             int64       `json:"id"`
+	TrainingResult interface{} `json:"training_result"`
+	TOKEN          int         `json:"token"`
+	CreateTime     time.Time   `json:"create_time"`
 }
 
 type TrainingRequest struct {
