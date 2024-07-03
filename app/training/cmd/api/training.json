@@ -27,6 +27,15 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "uuid",
+            "description": " 唯一标识",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "tags": [
           "JWT"
         ]
@@ -114,6 +123,38 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/AddGoodsReq"
+            }
+          }
+        ],
+        "tags": [
+          "shopTraining"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/shopTraining/cancelPreSetting": {
+      "post": {
+        "summary": "取消预训练",
+        "operationId": "cancelPreSetting",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CancelPreSettingReq"
             }
           }
         ],
@@ -257,7 +298,7 @@
     },
     "/shopTraining/getShopTrainingProgress": {
       "post": {
-        "summary": "获取店铺训练进度店铺",
+        "summary": "获取店铺训练进度",
         "operationId": "getShopTrainingProgress",
         "responses": {
           "200": {
@@ -525,6 +566,19 @@
       "required": [
         "code",
         "msg"
+      ]
+    },
+    "CancelPreSettingReq": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "description": " 唯一标识"
+        }
+      },
+      "title": "CancelPreSettingReq",
+      "required": [
+        "uuid"
       ]
     },
     "DictInfo": {
@@ -991,7 +1045,16 @@
     },
     "ShopTrainingReq": {
       "type": "object",
-      "title": "ShopTrainingReq"
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "description": " 唯一标识"
+        }
+      },
+      "title": "ShopTrainingReq",
+      "required": [
+        "uuid"
+      ]
     },
     "ShopTrainingResp": {
       "type": "object",

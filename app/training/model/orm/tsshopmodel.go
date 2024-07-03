@@ -122,15 +122,15 @@ func (m *customTsShopModel) GetShopPageTotal(ctx context.Context, in *training.S
 		whereStr = "WHERE " + strings.Join(whereClauses, " AND ")
 	}
 
-	query := fmt.Sprintf("SELECT %s FROM %s %s ORDER BY create_time DESC", tsShopRows, m.table, whereStr)
+	query := fmt.Sprintf("SELECT COUNT(1) FROM %s %s ORDER BY create_time DESC", m.table, whereStr)
 
-	var resp []*TsShop
+	var count int
+	err := m.conn.QueryRowCtx(ctx, &count, query, args...)
 
-	err := m.conn.QueryRowsCtx(ctx, &resp, query, args...)
-	switch err {
-	case nil:
-		return len(resp), nil
-	case sqlx.ErrNotFound:
+	switch {
+	case err == nil:
+		return count, nil
+	case errors.Is(err, sqlx.ErrNotFound):
 		return 0, ErrNotFound
 	default:
 		return 0, err

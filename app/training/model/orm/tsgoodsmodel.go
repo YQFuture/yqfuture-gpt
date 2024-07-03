@@ -2,6 +2,7 @@ package orm
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"strings"
@@ -80,15 +81,15 @@ func (m *customTsGoodsModel) GetGoodsPageTotal(ctx context.Context, in *training
 		whereStr = "WHERE " + strings.Join(whereClauses, " AND ")
 	}
 
-	query := fmt.Sprintf("SELECT %s FROM %s %s ORDER BY create_time DESC", tsGoodsRows, m.table, whereStr)
+	query := fmt.Sprintf("SELECT COUNT(1) FROM %s %s ORDER BY create_time DESC", m.table, whereStr)
 
-	var resp []*TsGoods
-	err := m.conn.QueryRowsCtx(ctx, &resp, query, args...)
+	var count int
+	err := m.conn.QueryRowCtx(ctx, &count, query, args...)
 
-	switch err {
-	case nil:
-		return len(resp), nil
-	case sqlx.ErrNotFound:
+	switch {
+	case err == nil:
+		return count, nil
+	case errors.Is(err, sqlx.ErrNotFound):
 		return 0, ErrNotFound
 	default:
 		return 0, err
