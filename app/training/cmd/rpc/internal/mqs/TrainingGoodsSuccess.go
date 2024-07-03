@@ -78,6 +78,7 @@ func (l *TrainingGoodsSuccess) Consume(key, val string) error {
 
 	//更新tsGoods在MySql中的字段
 	tsGoods.TrainingSummary = response[:20]
+	tsGoods.TrainingStatus = 2
 	err = l.svcCtx.TsGoodsModel.Update(l.ctx, &tsGoods)
 	if err != nil {
 		logx.Errorf("更新tsGoods失败, res :%s", err)
