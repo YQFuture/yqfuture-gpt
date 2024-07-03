@@ -34,7 +34,7 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 		return nil, err
 	}
 
-	//TODO 如果mysql中商品为空，说明是首次训练，需要从mongo中获取店铺和商品，保存到mysql中，再开启训练
+	//TODO 如果mysql中商品为空，说明是首次训练，需要从接口中获取店铺和商品，保存到mysql和mongo中，再开启训练
 	if shop.Id == 0 {
 
 	}

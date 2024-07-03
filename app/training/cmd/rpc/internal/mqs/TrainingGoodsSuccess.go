@@ -38,7 +38,7 @@ func (l *TrainingGoodsSuccess) Consume(key, val string) error {
 	//TODO 消费消息，即发送商品消息给GPT进行训练，并解析返回结果
 	request := &TrainingRequest{}
 	result, err := trainingGoods(l.svcCtx.Config.GptImageURL, request)
-	if err != nil {
+	if err != nil || result.Status == false {
 		return err
 	}
 	response := result.Data.Response
