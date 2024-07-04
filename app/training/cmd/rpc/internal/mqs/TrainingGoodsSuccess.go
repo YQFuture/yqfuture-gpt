@@ -32,7 +32,7 @@ func (l *TrainingGoodsSuccess) Consume(key, val string) error {
 		logx.Errorf("解析训练商品消息失败, err :%s", err.Error())
 		return err
 	}
-	//TODO 从mongo中获取商品JSON 获取图片列表 构建请求训练对象
+	//TODO 从消息中直接解析训练请求对象
 
 	request := &TrainingRequest{}
 

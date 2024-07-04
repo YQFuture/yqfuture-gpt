@@ -33,6 +33,7 @@ func (l *TrainingGoodsLogic) TrainingGoods(in *training.TrainingGoodsReq) (*trai
 	if err != nil {
 		return nil, err
 	}
+	// TODO 调用url 解析获取商品图片数组
 
 	//TODO 将商品列表推到消息队列
 	var goodsString string
