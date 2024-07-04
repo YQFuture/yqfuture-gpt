@@ -49,6 +49,15 @@ type DictInfoByTypeResp struct {
 	Data []*DictInfo `json:"data"` // 字典列表
 }
 
+type GetGoodsTrainingProgressReq struct {
+	GoodsId string `json:"goodsId"` // 商品id
+}
+
+type GetGoodsTrainingProgressResp struct {
+	BaseResp
+	Data interface{} `json:"data"` // 训练进度
+}
+
 type GetGoodsTrainingResultReq struct {
 	GoodsId string `json:"goodsId"` // 商品id
 }

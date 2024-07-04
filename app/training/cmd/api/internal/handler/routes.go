@@ -69,6 +69,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: shopTraining.GetGoodsPageListHandler(serverCtx),
 			},
 			{
+				// 获取商品训练进度
+				Method:  http.MethodPost,
+				Path:    "/getGoodsTrainingProgress",
+				Handler: shopTraining.GetGoodsTrainingProgressHandler(serverCtx),
+			},
+			{
 				// 获取商品训练结果
 				Method:  http.MethodPost,
 				Path:    "/getGoodsTrainingResult",

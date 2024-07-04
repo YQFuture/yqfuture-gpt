@@ -13,34 +13,36 @@ import (
 )
 
 type (
-	AddGoodsReq                 = training.AddGoodsReq
-	AddGoodsResp                = training.AddGoodsResp
-	CancelPreSettingReq         = training.CancelPreSettingReq
-	DictInfo                    = training.DictInfo
-	DictInfoByTypeReq           = training.DictInfoByTypeReq
-	DictInfoByTypeResp          = training.DictInfoByTypeResp
-	GetGoodsTrainingResultReq   = training.GetGoodsTrainingResultReq
-	GetGoodsTrainingResultResp  = training.GetGoodsTrainingResultResp
-	GetShopTrainingProgressReq  = training.GetShopTrainingProgressReq
-	GetShopTrainingProgressResp = training.GetShopTrainingProgressResp
-	GoodsPageListReq            = training.GoodsPageListReq
-	GoodsPageListResp           = training.GoodsPageListResp
-	GoodsResp                   = training.GoodsResp
-	GoodsTrainingReq            = training.GoodsTrainingReq
-	GoodsTrainingResp           = training.GoodsTrainingResp
-	JudgeFirstShopReq           = training.JudgeFirstShopReq
-	JudgeFirstShopResp          = training.JudgeFirstShopResp
-	KnowledgeBaseTrainingReq    = training.KnowledgeBaseTrainingReq
-	KnowledgeBaseTrainingResp   = training.KnowledgeBaseTrainingResp
-	ShopPageListReq             = training.ShopPageListReq
-	ShopPageListResp            = training.ShopPageListResp
-	ShopResp                    = training.ShopResp
-	ShopTrainingReq             = training.ShopTrainingReq
-	ShopTrainingResp            = training.ShopTrainingResp
-	TrainingGoodsReq            = training.TrainingGoodsReq
-	TrainingGoodsResp           = training.TrainingGoodsResp
-	TrainingShopReq             = training.TrainingShopReq
-	TrainingShopResp            = training.TrainingShopResp
+	AddGoodsReq                  = training.AddGoodsReq
+	AddGoodsResp                 = training.AddGoodsResp
+	CancelPreSettingReq          = training.CancelPreSettingReq
+	DictInfo                     = training.DictInfo
+	DictInfoByTypeReq            = training.DictInfoByTypeReq
+	DictInfoByTypeResp           = training.DictInfoByTypeResp
+	GetGoodsTrainingProgressReq  = training.GetGoodsTrainingProgressReq
+	GetGoodsTrainingProgressResp = training.GetGoodsTrainingProgressResp
+	GetGoodsTrainingResultReq    = training.GetGoodsTrainingResultReq
+	GetGoodsTrainingResultResp   = training.GetGoodsTrainingResultResp
+	GetShopTrainingProgressReq   = training.GetShopTrainingProgressReq
+	GetShopTrainingProgressResp  = training.GetShopTrainingProgressResp
+	GoodsPageListReq             = training.GoodsPageListReq
+	GoodsPageListResp            = training.GoodsPageListResp
+	GoodsResp                    = training.GoodsResp
+	GoodsTrainingReq             = training.GoodsTrainingReq
+	GoodsTrainingResp            = training.GoodsTrainingResp
+	JudgeFirstShopReq            = training.JudgeFirstShopReq
+	JudgeFirstShopResp           = training.JudgeFirstShopResp
+	KnowledgeBaseTrainingReq     = training.KnowledgeBaseTrainingReq
+	KnowledgeBaseTrainingResp    = training.KnowledgeBaseTrainingResp
+	ShopPageListReq              = training.ShopPageListReq
+	ShopPageListResp             = training.ShopPageListResp
+	ShopResp                     = training.ShopResp
+	ShopTrainingReq              = training.ShopTrainingReq
+	ShopTrainingResp             = training.ShopTrainingResp
+	TrainingGoodsReq             = training.TrainingGoodsReq
+	TrainingGoodsResp            = training.TrainingGoodsResp
+	TrainingShopReq              = training.TrainingShopReq
+	TrainingShopResp             = training.TrainingShopResp
 
 	ShopTraining interface {
 		// 预训练
@@ -61,6 +63,8 @@ type (
 		GetGoodsTrainingResult(ctx context.Context, in *GetGoodsTrainingResultReq, opts ...grpc.CallOption) (*GetGoodsTrainingResultResp, error)
 		// 训练商品
 		TrainingGoods(ctx context.Context, in *TrainingGoodsReq, opts ...grpc.CallOption) (*TrainingGoodsResp, error)
+		// 获取商品训练进度
+		GetGoodsTrainingProgress(ctx context.Context, in *GetGoodsTrainingProgressReq, opts ...grpc.CallOption) (*GetGoodsTrainingProgressResp, error)
 		// 添加商品
 		AddGoods(ctx context.Context, in *AddGoodsReq, opts ...grpc.CallOption) (*AddGoodsResp, error)
 		// 启用商品
@@ -132,6 +136,12 @@ func (m *defaultShopTraining) GetGoodsTrainingResult(ctx context.Context, in *Ge
 func (m *defaultShopTraining) TrainingGoods(ctx context.Context, in *TrainingGoodsReq, opts ...grpc.CallOption) (*TrainingGoodsResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
 	return client.TrainingGoods(ctx, in, opts...)
+}
+
+// 获取商品训练进度
+func (m *defaultShopTraining) GetGoodsTrainingProgress(ctx context.Context, in *GetGoodsTrainingProgressReq, opts ...grpc.CallOption) (*GetGoodsTrainingProgressResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.GetGoodsTrainingProgress(ctx, in, opts...)
 }
 
 // 添加商品

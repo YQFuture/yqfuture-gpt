@@ -232,6 +232,38 @@
         ]
       }
     },
+    "/shopTraining/getGoodsTrainingProgress": {
+      "post": {
+        "summary": "获取商品训练进度",
+        "operationId": "getGoodsTrainingProgress",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetGoodsTrainingProgressResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetGoodsTrainingProgressReq"
+            }
+          }
+        ],
+        "tags": [
+          "shopTraining"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/shopTraining/getGoodsTrainingResult": {
       "post": {
         "summary": "获取商品训练结果",
@@ -462,8 +494,7 @@
       "type": "object",
       "properties": {
         "shopId": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 店铺id"
         },
         "list": {
@@ -484,8 +515,7 @@
       "type": "object",
       "properties": {
         "goodsId": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 商品id"
         }
       },
@@ -643,12 +673,46 @@
         "data"
       ]
     },
+    "GetGoodsTrainingProgressReq": {
+      "type": "object",
+      "properties": {
+        "goodsId": {
+          "type": "string",
+          "description": " 商品id"
+        }
+      },
+      "title": "GetGoodsTrainingProgressReq",
+      "required": [
+        "goodsId"
+      ]
+    },
+    "GetGoodsTrainingProgressResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "object",
+          "description": " 训练进度"
+        }
+      },
+      "title": "GetGoodsTrainingProgressResp",
+      "required": [
+        "data"
+      ]
+    },
     "GetGoodsTrainingResultReq": {
       "type": "object",
       "properties": {
         "goodsId": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 商品id"
         }
       },
@@ -763,8 +827,7 @@
           "description": " 查询条件"
         },
         "shopId": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 店铺id"
         },
         "enabled": {
@@ -811,13 +874,11 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 商品id"
         },
         "shopId": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 店铺id"
         },
         "goodsName": {
@@ -999,8 +1060,7 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 店铺id"
         },
         "uuid": {
@@ -1082,8 +1142,7 @@
       "type": "object",
       "properties": {
         "goodsId": {
-          "type": "integer",
-          "format": "int64",
+          "type": "string",
           "description": " 商品id"
         }
       },

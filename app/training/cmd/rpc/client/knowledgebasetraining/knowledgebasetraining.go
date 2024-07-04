@@ -13,34 +13,36 @@ import (
 )
 
 type (
-	AddGoodsReq                 = training.AddGoodsReq
-	AddGoodsResp                = training.AddGoodsResp
-	CancelPreSettingReq         = training.CancelPreSettingReq
-	DictInfo                    = training.DictInfo
-	DictInfoByTypeReq           = training.DictInfoByTypeReq
-	DictInfoByTypeResp          = training.DictInfoByTypeResp
-	GetGoodsTrainingResultReq   = training.GetGoodsTrainingResultReq
-	GetGoodsTrainingResultResp  = training.GetGoodsTrainingResultResp
-	GetShopTrainingProgressReq  = training.GetShopTrainingProgressReq
-	GetShopTrainingProgressResp = training.GetShopTrainingProgressResp
-	GoodsPageListReq            = training.GoodsPageListReq
-	GoodsPageListResp           = training.GoodsPageListResp
-	GoodsResp                   = training.GoodsResp
-	GoodsTrainingReq            = training.GoodsTrainingReq
-	GoodsTrainingResp           = training.GoodsTrainingResp
-	JudgeFirstShopReq           = training.JudgeFirstShopReq
-	JudgeFirstShopResp          = training.JudgeFirstShopResp
-	KnowledgeBaseTrainingReq    = training.KnowledgeBaseTrainingReq
-	KnowledgeBaseTrainingResp   = training.KnowledgeBaseTrainingResp
-	ShopPageListReq             = training.ShopPageListReq
-	ShopPageListResp            = training.ShopPageListResp
-	ShopResp                    = training.ShopResp
-	ShopTrainingReq             = training.ShopTrainingReq
-	ShopTrainingResp            = training.ShopTrainingResp
-	TrainingGoodsReq            = training.TrainingGoodsReq
-	TrainingGoodsResp           = training.TrainingGoodsResp
-	TrainingShopReq             = training.TrainingShopReq
-	TrainingShopResp            = training.TrainingShopResp
+	AddGoodsReq                  = training.AddGoodsReq
+	AddGoodsResp                 = training.AddGoodsResp
+	CancelPreSettingReq          = training.CancelPreSettingReq
+	DictInfo                     = training.DictInfo
+	DictInfoByTypeReq            = training.DictInfoByTypeReq
+	DictInfoByTypeResp           = training.DictInfoByTypeResp
+	GetGoodsTrainingProgressReq  = training.GetGoodsTrainingProgressReq
+	GetGoodsTrainingProgressResp = training.GetGoodsTrainingProgressResp
+	GetGoodsTrainingResultReq    = training.GetGoodsTrainingResultReq
+	GetGoodsTrainingResultResp   = training.GetGoodsTrainingResultResp
+	GetShopTrainingProgressReq   = training.GetShopTrainingProgressReq
+	GetShopTrainingProgressResp  = training.GetShopTrainingProgressResp
+	GoodsPageListReq             = training.GoodsPageListReq
+	GoodsPageListResp            = training.GoodsPageListResp
+	GoodsResp                    = training.GoodsResp
+	GoodsTrainingReq             = training.GoodsTrainingReq
+	GoodsTrainingResp            = training.GoodsTrainingResp
+	JudgeFirstShopReq            = training.JudgeFirstShopReq
+	JudgeFirstShopResp           = training.JudgeFirstShopResp
+	KnowledgeBaseTrainingReq     = training.KnowledgeBaseTrainingReq
+	KnowledgeBaseTrainingResp    = training.KnowledgeBaseTrainingResp
+	ShopPageListReq              = training.ShopPageListReq
+	ShopPageListResp             = training.ShopPageListResp
+	ShopResp                     = training.ShopResp
+	ShopTrainingReq              = training.ShopTrainingReq
+	ShopTrainingResp             = training.ShopTrainingResp
+	TrainingGoodsReq             = training.TrainingGoodsReq
+	TrainingGoodsResp            = training.TrainingGoodsResp
+	TrainingShopReq              = training.TrainingShopReq
+	TrainingShopResp             = training.TrainingShopResp
 
 	KnowledgeBaseTraining interface {
 		PreSetting(ctx context.Context, in *KnowledgeBaseTrainingReq, opts ...grpc.CallOption) (*KnowledgeBaseTrainingResp, error)

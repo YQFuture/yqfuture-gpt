@@ -134,4 +134,12 @@ type (
         BaseResp
         Data interface{} `json:"data"` // 训练结果
     }
+
+    GetGoodsTrainingProgressReq {
+        GoodsId string `json:"goodsId"` // 商品id
+    }
+    GetGoodsTrainingProgressResp {
+        BaseResp
+        Data interface{} `json:"data"` // 训练进度
+    }
 )

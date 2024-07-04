@@ -76,6 +76,12 @@ func (s *ShopTrainingServer) TrainingGoods(ctx context.Context, in *training.Tra
 	return l.TrainingGoods(in)
 }
 
+// 获取商品训练进度
+func (s *ShopTrainingServer) GetGoodsTrainingProgress(ctx context.Context, in *training.GetGoodsTrainingProgressReq) (*training.GetGoodsTrainingProgressResp, error) {
+	l := shoptraininglogic.NewGetGoodsTrainingProgressLogic(ctx, s.svcCtx)
+	return l.GetGoodsTrainingProgress(in)
+}
+
 // 添加商品
 func (s *ShopTrainingServer) AddGoods(ctx context.Context, in *training.AddGoodsReq) (*training.AddGoodsResp, error) {
 	l := shoptraininglogic.NewAddGoodsLogic(ctx, s.svcCtx)
