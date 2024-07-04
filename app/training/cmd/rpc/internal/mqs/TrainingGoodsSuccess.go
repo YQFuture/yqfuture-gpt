@@ -24,7 +24,7 @@ func NewTrainingGoodsSuccess(ctx context.Context, svcCtx *svc.ServiceContext) *T
 }
 
 func (l *TrainingGoodsSuccess) Consume(key, val string) error {
-	logx.Infof("店铺训练商品消息消费成功 key :%s , val :%s", key, val)
+	logx.Infof("开始消费店铺训练商品消息 key :%s , val :%s", key, val)
 	// 解析消息为结构体 便于后续操作
 	var tsGoods orm.TsGoods
 	err := json.Unmarshal([]byte(val), &tsGoods)
@@ -32,19 +32,22 @@ func (l *TrainingGoodsSuccess) Consume(key, val string) error {
 		logx.Errorf("解析训练商品消息失败, err :%s", err.Error())
 		return err
 	}
+	//TODO 从mongo中获取商品JSON 获取图片列表 构建请求训练对象
 
-	//TODO 从mongo中获取商品JSON 获取图片列表
-
-	//TODO 消费消息，即发送商品消息给GPT进行训练，并解析返回结果
 	request := &TrainingRequest{}
-	result, err := trainingGoods(l.svcCtx.Config.GptImageURL, request)
-	if err != nil || result.Status == false {
-		return err
+
+	// 消费消息，即发送商品消息给GPT进行训练，并解析返回结果
+	result := trainingGoods(l.svcCtx.Config.GptImageURL, request)
+	var response string
+	var token int
+	if result.Status == false {
+		logx.Errorf("训练失败, err :%s, 商品信息：%v", result.Msg, tsGoods)
+		response = "训练失败"
+		token = 0
+	} else {
+		response = result.Data.Response
+		token = result.Data.Token
 	}
-	response := result.Data.Response
-	token := result.Data.Token
-	logx.Infof("训练结果：%s", response)
-	logx.Infof("消耗的token：%d", token)
 
 	// 训练结果写入ES 这里的训练结果只从接口返回值中提取出的文字描述
 	document := &Document{
@@ -56,10 +59,10 @@ func (l *TrainingGoodsSuccess) Consume(key, val string) error {
 	es := l.svcCtx.Elasticsearch
 	res, err := es.Index().Index("training_goods").Id(strconv.FormatInt(tsGoods.Id, 10)).BodyJson(document).Refresh("true").Do(context.Background())
 	if err != nil {
-		logx.Errorf("写入ES失败, err :%s", err.Error())
+		logx.Errorf("训练结果写入ES失败, err :%s", err.Error())
 		return err
 	}
-	logx.Infof("写入ES成功, res :%s", res)
+	logx.Infof("训练结果写入ES成功, res :%v, result :%v", res, result)
 
 	// 训练日志写入ES 这里的训练结果会保存整个的接口返回值
 	go func() {
@@ -71,12 +74,12 @@ func (l *TrainingGoodsSuccess) Consume(key, val string) error {
 		}
 		res, err := es.Index().Index("goods_training_log").BodyJson(goodsTrainingLog).Refresh("true").Do(context.Background())
 		if err != nil {
-			logx.Errorf("写入ES失败, err :%s", err.Error())
+			logx.Errorf("训练日志写入ES失败, err :%s", err.Error())
 		}
-		logx.Infof("写入ES成功, res :%s", res)
+		logx.Infof("训练日志写入ES成功, res :%v result :%v", res, result)
 	}()
 
-	//更新tsGoods在MySql中的字段
+	// 更新tsGoods在MySQL中的字段
 	tsGoods.TrainingSummary = response[:20]
 	tsGoods.TrainingStatus = 2
 	err = l.svcCtx.TsGoodsModel.Update(l.ctx, &tsGoods)
@@ -84,7 +87,7 @@ func (l *TrainingGoodsSuccess) Consume(key, val string) error {
 		logx.Errorf("更新tsGoods失败, res :%s", err)
 	}
 
-	//默认8个消费者，所以每次消费后延迟10秒，即每个消费者每分钟消费6条数据
+	// 默认8个消费者, 所以每次消费后延迟指定时间, 可通过配置文件配置
 	time.Sleep(time.Millisecond * time.Duration(l.svcCtx.Config.TrainingGoodsConf.ConsumeDelay))
 	return nil
 }
@@ -97,14 +100,14 @@ type Document struct {
 }
 
 type GoodsTrainingLog struct {
-	Id             int64       `json:"id"`
-	TrainingResult interface{} `json:"training_result"`
-	TOKEN          int         `json:"token"`
-	CreateTime     time.Time   `json:"create_time"`
+	Id             int64          `json:"id"`
+	TrainingResult TrainingResult `json:"training_result"`
+	TOKEN          int            `json:"token"`
+	CreateTime     time.Time      `json:"create_time"`
 }
 
 type TrainingRequest struct {
-	//SystemPrompt string   `json:"system_prompt"` //可选，传入会替代默认的prompt
+	//SystemPrompt string   `json:"system_prompt"` // 可选，传入会替代默认的prompt
 	ImageURLs []string `json:"image_urls"`
 }
 
@@ -117,12 +120,15 @@ type TrainingResult struct {
 	Msg string `json:"msg"`
 }
 
-func trainingGoods(url string, request *TrainingRequest) (TrainingResult, error) {
+func trainingGoods(url string, request *TrainingRequest) TrainingResult {
 	var result TrainingResult
 	err := utills.HTTPPostAndParseJSON(url, request, &result)
 	if err != nil {
 		logx.Errorf("训练商品失败, err :%s", err.Error())
-		return result, err
+		return TrainingResult{
+			Status: false,
+			Msg:    err.Error(),
+		}
 	}
-	return result, nil
+	return result
 }
