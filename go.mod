@@ -3,6 +3,7 @@ module yufuture-gpt
 go 1.22.0
 
 require (
+	github.com/bwmarrin/snowflake v0.3.0
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/olivere/elastic/v7 v7.0.32
 	github.com/zeromicro/go-queue v1.2.1
@@ -17,7 +18,6 @@ require (
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/bwmarrin/snowflake v0.3.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/coreos/go-semver v0.3.1 // indirect
