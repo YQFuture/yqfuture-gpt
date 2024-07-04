@@ -87,7 +87,7 @@ func (l *TrainingGoodsSuccess) Consume(key, val string) error {
 		logx.Errorf("更新tsGoods失败, res :%s", err)
 	}
 
-	// 默认8个消费者, 所以每次消费后延迟指定时间, 可通过配置文件配置
+	// 默认8个消费者, 所以每次消费后延迟指定时间, 以此控制消费频率, 可通过配置文件配置
 	time.Sleep(time.Millisecond * time.Duration(l.svcCtx.Config.TrainingGoodsConf.ConsumeDelay))
 	return nil
 }
