@@ -80,7 +80,11 @@ func (l *TrainingGoodsSuccess) Consume(key, val string) error {
 	}()
 
 	// 更新tsGoods在MySQL中的字段
-	tsGoods.TrainingSummary = response[:20]
+	if len(response) > 20 {
+		tsGoods.TrainingSummary = response[:20]
+	} else {
+		tsGoods.TrainingSummary = response
+	}
 	tsGoods.TrainingStatus = 2
 	err = l.svcCtx.TsGoodsModel.Update(l.ctx, &tsGoods)
 	if err != nil {
