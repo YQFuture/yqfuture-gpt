@@ -34,6 +34,9 @@ type (
 	JudgeFirstShopResp           = training.JudgeFirstShopResp
 	KnowledgeBaseTrainingReq     = training.KnowledgeBaseTrainingReq
 	KnowledgeBaseTrainingResp    = training.KnowledgeBaseTrainingResp
+	SaveGoods                    = training.SaveGoods
+	SaveShopReq                  = training.SaveShopReq
+	SaveShopResp                 = training.SaveShopResp
 	ShopPageListReq              = training.ShopPageListReq
 	ShopPageListResp             = training.ShopPageListResp
 	ShopResp                     = training.ShopResp
@@ -71,6 +74,8 @@ type (
 		EnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error)
 		// 禁用商品
 		UnEnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error)
+		// 保存爬取的店铺基本数据
+		SaveShop(ctx context.Context, in *SaveShopReq, opts ...grpc.CallOption) (*SaveShopResp, error)
 	}
 
 	defaultShopTraining struct {
@@ -160,4 +165,10 @@ func (m *defaultShopTraining) EnableGoods(ctx context.Context, in *GoodsTraining
 func (m *defaultShopTraining) UnEnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
 	return client.UnEnableGoods(ctx, in, opts...)
+}
+
+// 保存爬取的店铺基本数据
+func (m *defaultShopTraining) SaveShop(ctx context.Context, in *SaveShopReq, opts ...grpc.CallOption) (*SaveShopResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.SaveShop(ctx, in, opts...)
 }

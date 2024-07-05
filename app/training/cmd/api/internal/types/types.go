@@ -114,6 +114,23 @@ type JudgeFirstShopResp struct {
 	Data int64 `json:"data"` // 是否初次 0: 是 1: 否
 }
 
+type SaveGoods struct {
+	GoodsName  string `json:"name"`
+	GoodsUrl   string `json:"url"`
+	PlatFormId string `json:"id"`
+}
+
+type SaveShopReq struct {
+	Uuid      string      `json:"uuid"`
+	ShopName  string      `json:"shop_name"`
+	PlatForm  string      `json:"platform"`
+	GoodsList []SaveGoods `json:"goods_list"`
+}
+
+type SaveShopResp struct {
+	BaseResp
+}
+
 type ShopListResp struct {
 	BasePageResp
 	List []*ShopResp `json:"list"` // 列表

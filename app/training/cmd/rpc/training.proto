@@ -145,6 +145,21 @@ message GetGoodsTrainingResultReq {
 message GetGoodsTrainingResultResp {
   string result = 1;
 }
+message SaveShopReq {
+  int64 userId = 1;
+  string uuid = 2;
+  string shopName = 3;
+  int64 platformType = 4;
+  repeated SaveGoods list = 5;
+}
+message SaveGoods {
+  string platformId = 1;
+  string goodsName = 2;
+  string goodsUrl = 3;
+}
+message SaveShopResp {
+  string result = 1;
+}
 service ShopTraining {
   // 预训练
   rpc preSetting(ShopTrainingReq) returns (ShopTrainingResp);
@@ -174,4 +189,6 @@ service ShopTraining {
   rpc enableGoods(GoodsTrainingReq) returns (GoodsTrainingResp);
   // 禁用商品
   rpc unEnableGoods(GoodsTrainingReq) returns (GoodsTrainingResp);
+  // 保存爬取的店铺基本数据
+  rpc saveShop(SaveShopReq) returns (SaveShopResp);
 }

@@ -34,6 +34,9 @@ type (
 	JudgeFirstShopResp           = training.JudgeFirstShopResp
 	KnowledgeBaseTrainingReq     = training.KnowledgeBaseTrainingReq
 	KnowledgeBaseTrainingResp    = training.KnowledgeBaseTrainingResp
+	SaveGoods                    = training.SaveGoods
+	SaveShopReq                  = training.SaveShopReq
+	SaveShopResp                 = training.SaveShopResp
 	ShopPageListReq              = training.ShopPageListReq
 	ShopPageListResp             = training.ShopPageListResp
 	ShopResp                     = training.ShopResp

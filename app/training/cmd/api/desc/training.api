@@ -92,5 +92,9 @@ service training {
 	@doc "停用商品"
 	@handler unEnableGoods
 	post /unEnableGoods (BaseGoodsReq) returns (BaseResp)
+
+	@doc "保存爬取的店铺基本数据"
+	@handler saveShop
+	post /saveShop (SaveShopReq) returns (SaveShopResp)
 }
 

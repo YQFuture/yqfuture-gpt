@@ -55,6 +55,7 @@
         "parameters": [
           {
             "name": "body",
+            "description": " 字典信息请求",
             "in": "body",
             "required": true,
             "schema": {
@@ -74,7 +75,7 @@
     },
     "/shopTraining/JudgeFirstShop": {
       "post": {
-        "summary": "判断店铺是否初次登录(从未进行过训练)",
+        "summary": "判断店铺是否初次登录(即从未进行过训练)",
         "operationId": "JudgeFirstShop",
         "responses": {
           "200": {
@@ -384,6 +385,41 @@
         ],
         "tags": [
           "shopTraining"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/shopTraining/saveShop": {
+      "post": {
+        "summary": "保存爬取的店铺基本数据",
+        "operationId": "saveShop",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/SaveShopResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SaveShopReq"
+            }
+          }
+        ],
+        "tags": [
+          "shopTraining"
+        ],
+        "consumes": [
+          "multipart/form-data"
         ],
         "security": [
           {
@@ -962,6 +998,68 @@
       "required": [
         "data"
       ]
+    },
+    "SaveGoods": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "title": "SaveGoods",
+      "required": [
+        "name",
+        "url",
+        "id"
+      ]
+    },
+    "SaveShopReq": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "shop_name": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "goods_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SaveGoods"
+          }
+        }
+      },
+      "title": "SaveShopReq",
+      "required": [
+        "uuid",
+        "shop_name",
+        "platform",
+        "goods_list"
+      ]
+    },
+    "SaveShopResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "SaveShopResp"
     },
     "ShopListResp": {
       "type": "object",

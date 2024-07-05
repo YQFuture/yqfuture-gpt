@@ -99,3 +99,9 @@ func (s *ShopTrainingServer) UnEnableGoods(ctx context.Context, in *training.Goo
 	l := shoptraininglogic.NewUnEnableGoodsLogic(ctx, s.svcCtx)
 	return l.UnEnableGoods(in)
 }
+
+// 保存爬取的店铺基本数据
+func (s *ShopTrainingServer) SaveShop(ctx context.Context, in *training.SaveShopReq) (*training.SaveShopResp, error) {
+	l := shoptraininglogic.NewSaveShopLogic(ctx, s.svcCtx)
+	return l.SaveShop(in)
+}

@@ -214,6 +214,7 @@ const (
 	ShopTraining_AddGoods_FullMethodName                 = "/training.ShopTraining/addGoods"
 	ShopTraining_EnableGoods_FullMethodName              = "/training.ShopTraining/enableGoods"
 	ShopTraining_UnEnableGoods_FullMethodName            = "/training.ShopTraining/unEnableGoods"
+	ShopTraining_SaveShop_FullMethodName                 = "/training.ShopTraining/saveShop"
 )
 
 // ShopTrainingClient is the client API for ShopTraining service.
@@ -246,6 +247,8 @@ type ShopTrainingClient interface {
 	EnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error)
 	// 禁用商品
 	UnEnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error)
+	// 保存爬取的店铺基本数据
+	SaveShop(ctx context.Context, in *SaveShopReq, opts ...grpc.CallOption) (*SaveShopResp, error)
 }
 
 type shopTrainingClient struct {
@@ -386,6 +389,16 @@ func (c *shopTrainingClient) UnEnableGoods(ctx context.Context, in *GoodsTrainin
 	return out, nil
 }
 
+func (c *shopTrainingClient) SaveShop(ctx context.Context, in *SaveShopReq, opts ...grpc.CallOption) (*SaveShopResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SaveShopResp)
+	err := c.cc.Invoke(ctx, ShopTraining_SaveShop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ShopTrainingServer is the server API for ShopTraining service.
 // All implementations must embed UnimplementedShopTrainingServer
 // for forward compatibility
@@ -416,6 +429,8 @@ type ShopTrainingServer interface {
 	EnableGoods(context.Context, *GoodsTrainingReq) (*GoodsTrainingResp, error)
 	// 禁用商品
 	UnEnableGoods(context.Context, *GoodsTrainingReq) (*GoodsTrainingResp, error)
+	// 保存爬取的店铺基本数据
+	SaveShop(context.Context, *SaveShopReq) (*SaveShopResp, error)
 	mustEmbedUnimplementedShopTrainingServer()
 }
 
@@ -461,6 +476,9 @@ func (UnimplementedShopTrainingServer) EnableGoods(context.Context, *GoodsTraini
 }
 func (UnimplementedShopTrainingServer) UnEnableGoods(context.Context, *GoodsTrainingReq) (*GoodsTrainingResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UnEnableGoods not implemented")
+}
+func (UnimplementedShopTrainingServer) SaveShop(context.Context, *SaveShopReq) (*SaveShopResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveShop not implemented")
 }
 func (UnimplementedShopTrainingServer) mustEmbedUnimplementedShopTrainingServer() {}
 
@@ -709,6 +727,24 @@ func _ShopTraining_UnEnableGoods_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ShopTraining_SaveShop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SaveShopReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopTrainingServer).SaveShop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopTraining_SaveShop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopTrainingServer).SaveShop(ctx, req.(*SaveShopReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ShopTraining_ServiceDesc is the grpc.ServiceDesc for ShopTraining service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -767,6 +803,10 @@ var ShopTraining_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "unEnableGoods",
 			Handler:    _ShopTraining_UnEnableGoods_Handler,
+		},
+		{
+			MethodName: "saveShop",
+			Handler:    _ShopTraining_SaveShop_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

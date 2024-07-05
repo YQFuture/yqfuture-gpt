@@ -146,3 +146,21 @@ type (
         Data interface{} `json:"data"` // 训练进度
     }
 )
+
+// 三方接口
+type (
+    SaveShopReq {
+        Uuid string `json:"uuid"`
+        ShopName string `json:"shop_name"`
+        PlatForm string `json:"platform"`
+        GoodsList []SaveGoods `json:"goods_list"`
+    }
+    SaveGoods {
+        GoodsName string `json:"name"`
+        GoodsUrl string `json:"url"`
+        PlatFormId string `json:"id"`
+    }
+    SaveShopResp {
+        BaseResp
+    }
+)
