@@ -29,10 +29,10 @@ func NewTrainingShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Trai
 
 // 训练店铺
 func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*training.TrainingShopResp, error) {
-	//根据uuid和userid从mongo中查找出店铺和商品列表
-	var yqfutrue yqmongo.YqfutureShop
+	//TODO 根据uuid和userid从mongo中查找出店铺和商品列表
+	var yqfutrueShop yqmongo.YqfutureShop
 
-	//根据uuid和userid查找出店铺
+	// 根据uuid和userid查找出店铺
 	shop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in.UserId, in.Uuid)
 	if err != nil {
 		l.Logger.Error("根据uuid和userid查找店铺失败", err)
@@ -45,8 +45,8 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 			Id:           l.svcCtx.SnowFlakeNode.Generate().Int64(),
 			UserId:       in.UserId,
 			Uuid:         in.Uuid,
-			ShopName:     yqfutrue.ShopName,
-			PlatformType: yqfutrue.Platform,
+			ShopName:     yqfutrueShop.ShopName,
+			PlatformType: yqfutrueShop.Platform,
 			CreateTime:   time.Now(),
 			UpdateTime:   time.Now(),
 			CreateBy:     in.UserId,
@@ -57,20 +57,24 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 			l.Logger.Error("保存店铺到mysql失败", err)
 			return nil, err
 		}
-		for _, good := range yqfutrue.GoodsList {
+		for _, goods := range yqfutrueShop.GoodsList {
+			//TODO 通过商品id列表 调用第三方接口 获取商品json 解析图片数组 并一起保存到mongo 在这里轮询等待所有商品数据返回
+
 			tsGoods := &orm.TsGoods{
 				Id:         l.svcCtx.SnowFlakeNode.Generate().Int64(),
 				ShopId:     tsShop.Id,
-				PlatformId: good.PlatformId,
-				GoodsUrl:   good.Url,
+				PlatformId: goods.PlatformId,
+				GoodsUrl:   goods.Url,
 			}
 			_, err = l.svcCtx.TsGoodsModel.Insert(l.ctx, tsGoods)
 		}
 	} else {
-		//如果mysql中店铺不为空，那么将mongo中的数据更新到mysql中
+		//TODO 如果mysql中店铺不为空，那么将mongo中的数据更新到mysql中
+		//TODO 首先将店铺状态置为训练中，然后开启训练
+
 	}
 
-	//根据店铺shopId查找出商品列表，需要筛选出enabled字段为1的商品
+	// 根据店铺shopId查找出商品列表，需要筛选出enabled字段为1的商品
 	shopId := shop.Id
 	goodsList, err := l.svcCtx.TsGoodsModel.FindEnabledListByShopId(l.ctx, shopId)
 	if err != nil {
@@ -91,7 +95,7 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 		}
 	}
 
-	//修改店铺状态, 添加训练次数
+	// 修改店铺状态, 添加训练次数
 	shop.TrainingStatus = 1
 	shop.TrainingTimes += 1
 	shop.UpdateTime = time.Now()
@@ -101,7 +105,7 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 		l.Logger.Error("修改店铺状态失败", goodsList)
 		return nil, err
 	}
-	//修改商品状态, 添加训练次数
+	// 修改商品状态, 添加训练次数
 	for _, goods := range *goodsList {
 		goods.TrainingStatus = 1
 		goods.TrainingTimes += 1
@@ -114,6 +118,6 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 		}
 	}
 
-	//返回正常
+	// 返回正常
 	return &training.TrainingShopResp{}, nil
 }

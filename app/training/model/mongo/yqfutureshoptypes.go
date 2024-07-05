@@ -12,9 +12,9 @@ type YqfutureShop struct {
 	Platform  int64              `bson:"platform"`
 	ShopName  string             `bson:"shop_name"`
 	GoodsList []struct {
-		PlatformId string `bson:"platform_id"`
+		PlatformId string `bson:"id"`
 		Url        string `bson:"url"`
-	} `bson:"goods"`
+	} `bson:"goods_list"`
 	CreateTime time.Time
 	UpdateTime time.Time
 }
