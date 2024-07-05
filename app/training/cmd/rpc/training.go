@@ -29,7 +29,7 @@ func main() {
 	conf.MustLoad(*configFile, &c)
 	ctx := svc.NewServiceContext(c)
 
-	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
+	server := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
 		training.RegisterShopTrainingServer(grpcServer, shoptrainingServer.NewShopTrainingServer(ctx))
 		training.RegisterKnowledgeBaseTrainingServer(grpcServer, knowledgebasetrainingServer.NewKnowledgeBaseTrainingServer(ctx))
 		training.RegisterBasicFunctionServer(grpcServer, basicfunctionServer.NewBasicFunctionServer(ctx))
@@ -38,20 +38,19 @@ func main() {
 			reflection.Register(grpcServer)
 		}
 	})
-	//defer s.Stop()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 
-	// register service to consul
+	// 将服务注册到consul
 	_ = consul.RegisterService(c.ListenOn, c.Consul)
 
-	//s.Start()
-
+	// 创建服务组
 	serviceGroup := service.NewServiceGroup()
 	defer serviceGroup.Stop()
 
-	serviceGroup.Add(s)
+	serviceGroup.Add(server)
 
+	// 配置go-queue消息队列消费者
 	for _, mq := range mqs.Consumers(c, context.Background(), ctx) {
 		serviceGroup.Add(mq)
 	}

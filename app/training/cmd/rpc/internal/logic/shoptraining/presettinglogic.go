@@ -4,7 +4,7 @@ import (
 	"context"
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
-	"yufuture-gpt/common/utills"
+	"yufuture-gpt/common/utils"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -29,7 +29,7 @@ func (l *PreSettingLogic) PreSetting(in *training.ShopTrainingReq) (*training.Sh
 		l.Logger.Error("查询mongo失败", err)
 		return nil, err
 	}
-	mongoResult, err := utills.AnyToString(one)
+	mongoResult, err := utils.AnyToString(one)
 	if err != nil {
 		l.Logger.Error("序列化数据失败", err)
 		return nil, err
@@ -43,7 +43,7 @@ func (l *PreSettingLogic) PreSetting(in *training.ShopTrainingReq) (*training.Sh
 		return nil, err
 	}
 	//将返回体转字符串
-	result, err := utills.AnyToString(list)
+	result, err := utils.AnyToString(list)
 	if err != nil {
 		l.Logger.Error("序列化数据失败", err)
 		return nil, err

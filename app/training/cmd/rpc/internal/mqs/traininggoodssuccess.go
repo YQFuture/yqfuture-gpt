@@ -8,7 +8,7 @@ import (
 	"time"
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/model/orm"
-	"yufuture-gpt/common/utills"
+	"yufuture-gpt/common/utils"
 )
 
 type TrainingGoodsSuccess struct {
@@ -37,7 +37,7 @@ func (l *TrainingGoodsSuccess) Consume(key, val string) error {
 	request := &TrainingRequest{}
 
 	// 消费消息，即发送商品消息给GPT进行训练，并解析返回结果
-	result := trainingGoods(l.svcCtx.Config.GptImageURL, request)
+	result := trainingGoods(l.svcCtx.Config.TrainingGoodsConf.GptImageURL, request)
 	var response string
 	var token int
 	if result.Status == false {
@@ -126,7 +126,7 @@ type TrainingResult struct {
 
 func trainingGoods(url string, request *TrainingRequest) TrainingResult {
 	var result TrainingResult
-	err := utills.HTTPPostAndParseJSON(url, request, &result)
+	err := utils.HTTPPostAndParseJSON(url, request, &result)
 	if err != nil {
 		logx.Errorf("训练商品失败, err :%s", err.Error())
 		return TrainingResult{

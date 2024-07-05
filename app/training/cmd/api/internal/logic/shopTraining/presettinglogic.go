@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 	"yufuture-gpt/app/training/model/orm"
-	"yufuture-gpt/common/utills"
+	"yufuture-gpt/common/utils"
 
 	"yufuture-gpt/app/training/cmd/api/internal/svc"
 	"yufuture-gpt/app/training/cmd/api/internal/types"
@@ -41,7 +41,7 @@ func (l *PreSettingLogic) PreSetting(req *types.ShopTrainingReq) (resp *types.Sh
 		return nil, err
 	}
 	var shopList []*orm.TsShop
-	err = utills.StringToAny(result.Result, &shopList)
+	err = utils.StringToAny(result.Result, &shopList)
 	if err != nil {
 		l.Logger.Error("反序列化数据失败", err)
 		return nil, err

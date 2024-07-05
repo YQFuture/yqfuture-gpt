@@ -5,7 +5,7 @@ import (
 	"github.com/olivere/elastic/v7"
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
-	"yufuture-gpt/common/utills"
+	"yufuture-gpt/common/utils"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -35,7 +35,7 @@ func (l *GetGoodsTrainingResultLogic) GetGoodsTrainingResult(in *training.GetGoo
 	}
 	//序列化结果并返回
 	var trainingResult string
-	trainingResult, err = utills.AnyToString(result.Hits.Hits[0].Source)
+	trainingResult, err = utils.AnyToString(result.Hits.Hits[0].Source)
 	if err != nil {
 		l.Logger.Error("序列化商品训练结果失败", err)
 		return nil, err

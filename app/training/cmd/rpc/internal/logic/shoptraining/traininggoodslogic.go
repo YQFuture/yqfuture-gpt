@@ -3,7 +3,7 @@ package shoptraininglogic
 import (
 	"context"
 	"time"
-	"yufuture-gpt/common/utills"
+	"yufuture-gpt/common/utils"
 
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
@@ -37,7 +37,7 @@ func (l *TrainingGoodsLogic) TrainingGoods(in *training.TrainingGoodsReq) (*trai
 
 	//TODO 将商品列表推到消息队列
 	var goodsString string
-	goodsString, err = utills.AnyToString(goods)
+	goodsString, err = utils.AnyToString(goods)
 	if err != nil {
 		return nil, err
 	}

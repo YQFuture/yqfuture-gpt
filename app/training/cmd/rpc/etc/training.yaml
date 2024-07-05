@@ -6,9 +6,9 @@ ListenOn: 0.0.0.0:7052
 #  Key: training.rpc
 
 Consul:
-  Host: 192.168.3.118:8500 # consul endpoint
+  Host: 192.168.3.118:8500
   #Token: 'f0512db6-76d6-f25e-f344-a98cc3484d42' # consul ACL token (optional)
-  Key: training.rpc # service name registered to Consul
+  Key: training.rpc
   Meta:
     Protocol: grpc
   Tag:
@@ -17,6 +17,7 @@ Consul:
 
 DB:
   DataSource: root:mysql_QspKnh@tcp(192.168.3.118:3306)/qyfuture_gpt?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+
 Mongo:
   Url: mongodb://mongo_kKtPGm:mongo_tmPizQ@192.168.3.118:27017
   Database: kefugpt
@@ -26,10 +27,6 @@ KqPusherConf:
   Brokers:
     - 192.168.3.118:9092
   Topic: training-goods
-
-#商品训练队列消费者的延迟时间，默认10秒
-TrainingGoodsConf:
-  ConsumeDelay: 10000
 
 KqConsumerConf:
   Name: trainingGoodsConsumer
@@ -47,8 +44,12 @@ Elasticsearch:
   Username: elastic
   Password: Elastic_HMYzHB
 
-#雪花算法节点ID 每个节点不能一样
+#雪花算法节点ID 每个节点的值不能一样
 SnowFlakeNode: 1
 
-#gpt图片生成文字地址
-GptImageURL: http://192.168.3.200:8447/chat_with_openai_image
+TrainingGoodsConf:
+  #商品训练队列消费者的延迟时间，默认10秒
+  ConsumeDelay: 10000
+  #gpt图片生成文字地址
+  GptImageURL: http://192.168.3.200:8447/chat_with_openai_image
+

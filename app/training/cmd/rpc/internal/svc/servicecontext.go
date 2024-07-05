@@ -11,40 +11,48 @@ import (
 )
 
 type ServiceContext struct {
-	Config                     config.Config
-	TsShopModel                orm.TsShopModel
-	TsGoodsModel               orm.TsGoodsModel
-	TsTrainingLogModel         orm.TsTrainingLogModel
-	BsDictTypeModel            orm.BsDictTypeModel
-	BsDictInfoModel            orm.BsDictInfoModel
+	Config config.Config
+	// kafka生产者
+	KqPusherClient *kq.Pusher
+	// elasticsearch
+	Elasticsearch *elastic.Client
+	// 雪花算法
+	SnowFlakeNode *snowflake.Node
+	// mysql模型
+	TsShopModel        orm.TsShopModel
+	TsGoodsModel       orm.TsGoodsModel
+	TsTrainingLogModel orm.TsTrainingLogModel
+	BsDictTypeModel    orm.BsDictTypeModel
+	BsDictInfoModel    orm.BsDictInfoModel
+	// mongo模型
 	KfgptaccountsentitiesModel model.KfgptaccountsentitiesModel
-	KqPusherClient             *kq.Pusher
-	Elasticsearch              *elastic.Client
-	SnowFlakeNode              *snowflake.Node
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
+	// 初始化mysql连接
 	sqlConn := sqlx.NewMysql(c.DB.DataSource)
+	// 初始化elasticsearch连接
 	esClient, err := elastic.NewClient(elastic.SetURL(c.Elasticsearch.Addresses...),
 		elastic.SetBasicAuth(c.Elasticsearch.Username, c.Elasticsearch.Password),
 		elastic.SetSniff(false))
 	if err != nil {
 		panic(err)
 	}
-	node, err := snowflake.NewNode(c.SnowFlakeNode)
+	// 初始化雪花算法 分布式id生成器
+	snowflakeNode, err := snowflake.NewNode(c.SnowFlakeNode)
 	if err != nil {
 		panic(err)
 	}
 	return &ServiceContext{
 		Config:                     c,
+		KqPusherClient:             kq.NewPusher(c.KqPusherConf.Brokers, c.KqPusherConf.Topic, kq.WithAllowAutoTopicCreation()),
+		Elasticsearch:              esClient,
+		SnowFlakeNode:              snowflakeNode,
 		TsShopModel:                orm.NewTsShopModel(sqlConn),
 		TsGoodsModel:               orm.NewTsGoodsModel(sqlConn),
 		TsTrainingLogModel:         orm.NewTsTrainingLogModel(sqlConn),
 		BsDictTypeModel:            orm.NewBsDictTypeModel(sqlConn),
 		BsDictInfoModel:            orm.NewBsDictInfoModel(sqlConn),
 		KfgptaccountsentitiesModel: model.NewKfgptaccountsentitiesModel(c.Mongo.Url, c.Mongo.Database, c.Mongo.Kfgptaccountsentities),
-		KqPusherClient:             kq.NewPusher(c.KqPusherConf.Brokers, c.KqPusherConf.Topic, kq.WithAllowAutoTopicCreation()),
-		Elasticsearch:              esClient,
-		SnowFlakeNode:              node,
 	}
 }
