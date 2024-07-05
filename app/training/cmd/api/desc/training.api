@@ -13,7 +13,7 @@ import (
 	"service/basicFunction.api"
 )
 
-// 生成token 开发阶段临时使用
+// TODO 生成token 开发阶段临时使用 提测前删除
 @server (
 	prefix: JWT
 	group:  JWT
@@ -49,7 +49,7 @@ service training {
 	@handler cancelPreSetting
 	post /cancelPreSetting (CancelPreSettingReq) returns (BaseResp)
 
-	@doc "判断店铺是否初次登录(从未进行过训练)"
+	@doc "判断店铺是否初次登录(即从未进行过训练)"
 	@handler JudgeFirstShop
 	post /JudgeFirstShop (JudgeFirstShopReq) returns (JudgeFirstShopResp)
 

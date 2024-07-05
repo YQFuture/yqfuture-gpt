@@ -12,6 +12,7 @@ import (
     "basicFunction.api"
 )
 
+// 店铺基础信息和分页相关
 type (
     JudgeFirstShopReq {
         Uuid string `json:"uuid"` // 唯一标识
@@ -63,6 +64,7 @@ type (
     }
 )
 
+// 商品基础信息和分页相关
 type (
     GoodsPageListReq {
         BasePageReq
@@ -103,6 +105,7 @@ type (
     }
 )
 
+// 店铺训练/商品训练相关
 type (
     TrainingShopReq {
         Uuid string `json:"uuid"` // 唯一标识
