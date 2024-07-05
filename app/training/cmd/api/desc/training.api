@@ -13,6 +13,7 @@ import (
 	"service/basicFunction.api"
 )
 
+// 生成token 开发阶段临时使用
 @server (
 	prefix: JWT
 	group:  JWT
@@ -22,6 +23,7 @@ service training {
 	get /getJWT (ShopTrainingReq) returns (ShopTrainingResp)
 }
 
+// 基础服务相关 后续迁移到基础服务
 @server (
 	prefix: basicFunction
 	group:  basicFunction
@@ -32,6 +34,7 @@ service training {
 	post /getDictInfoByType (DictInfoByTypeReq) returns (DictInfoByTypeResp)
 }
 
+// 店铺训练服务
 @server (
 	prefix: shopTraining
 	group:  shopTraining
