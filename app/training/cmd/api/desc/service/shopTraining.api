@@ -9,7 +9,7 @@ info(
 )
 
 import (
-    "../basicFunction/basicFunction.api"
+    "basicFunction.api"
 )
 
 type (

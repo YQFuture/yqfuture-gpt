@@ -9,8 +9,8 @@ info (
 )
 
 import (
-	"shopTraining/shopTraining.api"
-	"basicFunction/basicFunction.api"
+	"service/shopTraining.api"
+	"service/basicFunction.api"
 )
 
 @server (
