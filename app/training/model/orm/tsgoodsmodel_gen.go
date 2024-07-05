@@ -37,6 +37,7 @@ type (
 	TsGoods struct {
 		Id              int64     `db:"id"`               // 商品ID
 		ShopId          int64     `db:"shop_id"`          // 店铺ID
+		PlatformId      string    `db:"platform_id"`      // 平台ID
 		GoodsName       string    `db:"goods_name"`       // 商品名称
 		GoodsUrl        string    `db:"goods_url"`        // 商品url
 		TrainingSummary string    `db:"training_summary"` // 训练结果摘要
@@ -79,14 +80,14 @@ func (m *defaultTsGoodsModel) FindOne(ctx context.Context, id int64) (*TsGoods, 
 }
 
 func (m *defaultTsGoodsModel) Insert(ctx context.Context, data *TsGoods) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsGoodsRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.ShopId, data.GoodsName, data.GoodsUrl, data.TrainingSummary, data.PlatformType, data.Enabled, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsGoodsRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.ShopId, data.PlatformId, data.GoodsName, data.GoodsUrl, data.TrainingSummary, data.PlatformType, data.Enabled, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 
 func (m *defaultTsGoodsModel) Update(ctx context.Context, data *TsGoods) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, tsGoodsRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.ShopId, data.GoodsName, data.GoodsUrl, data.TrainingSummary, data.PlatformType, data.Enabled, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy, data.Id)
+	_, err := m.conn.ExecCtx(ctx, query, data.ShopId, data.PlatformId, data.GoodsName, data.GoodsUrl, data.TrainingSummary, data.PlatformType, data.Enabled, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy, data.Id)
 	return err
 }
 

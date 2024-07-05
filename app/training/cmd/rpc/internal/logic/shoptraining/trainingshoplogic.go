@@ -3,10 +3,12 @@ package shoptraininglogic
 import (
 	"context"
 	"time"
+	"yufuture-gpt/app/training/model/orm"
 	"yufuture-gpt/common/utills"
 
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
+	yqmongo "yufuture-gpt/app/training/model/mongo"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,6 +29,9 @@ func NewTrainingShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Trai
 
 // 训练店铺
 func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*training.TrainingShopResp, error) {
+	//根据uuid和userid从mongo中查找出店铺和商品列表
+	var yqfutrue yqmongo.YqfutureShop
+
 	//根据uuid和userid查找出店铺
 	shop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in.UserId, in.Uuid)
 	if err != nil {
@@ -34,9 +39,35 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 		return nil, err
 	}
 
-	//TODO 如果mysql中商品为空，说明是首次训练，需要从接口中获取店铺和商品，保存到mysql中，再开启训练
+	//TODO 如果mysql中店铺为空，说明是首次训练，需要从接口中获取店铺和商品，保存到mysql和mongo中，再开启训练
 	if shop.Id == 0 {
-
+		tsShop := &orm.TsShop{
+			Id:           l.svcCtx.SnowFlakeNode.Generate().Int64(),
+			UserId:       in.UserId,
+			Uuid:         in.Uuid,
+			ShopName:     yqfutrue.ShopName,
+			PlatformType: yqfutrue.Platform,
+			CreateTime:   time.Now(),
+			UpdateTime:   time.Now(),
+			CreateBy:     in.UserId,
+			UpdateBy:     in.UserId,
+		}
+		_, err = l.svcCtx.TsShopModel.Insert(l.ctx, tsShop)
+		if err != nil {
+			l.Logger.Error("保存店铺到mysql失败", err)
+			return nil, err
+		}
+		for _, good := range yqfutrue.GoodsList {
+			tsGoods := &orm.TsGoods{
+				Id:         l.svcCtx.SnowFlakeNode.Generate().Int64(),
+				ShopId:     tsShop.Id,
+				PlatformId: good.PlatformId,
+				GoodsUrl:   good.Url,
+			}
+			_, err = l.svcCtx.TsGoodsModel.Insert(l.ctx, tsGoods)
+		}
+	} else {
+		//如果mysql中店铺不为空，那么将mongo中的数据更新到mysql中
 	}
 
 	//根据店铺shopId查找出商品列表，需要筛选出enabled字段为1的商品
