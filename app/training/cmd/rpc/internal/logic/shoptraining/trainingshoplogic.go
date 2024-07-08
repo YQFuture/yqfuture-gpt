@@ -30,7 +30,7 @@ func NewTrainingShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Trai
 // 训练店铺
 func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*training.TrainingShopResp, error) {
 	//TODO 根据uuid和userid从mongo中查找出店铺和商品列表
-	var yqfutrueShop yqmongo.YqfutureShop
+	var yqfutrueShop yqmongo.Shoptrainingshoptitles
 
 	// 根据uuid和userid查找出店铺
 	shop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in.UserId, in.Uuid)

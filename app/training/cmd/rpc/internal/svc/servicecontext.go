@@ -25,7 +25,7 @@ type ServiceContext struct {
 	BsDictTypeModel    orm.BsDictTypeModel
 	BsDictInfoModel    orm.BsDictInfoModel
 	// mongo模型
-	KfgptaccountsentitiesModel model.KfgptaccountsentitiesModel
+	ShoptrainingshoptitlesModel model.ShoptrainingshoptitlesModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -44,15 +44,15 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		panic(err)
 	}
 	return &ServiceContext{
-		Config:                     c,
-		KqPusherClient:             kq.NewPusher(c.KqPusherConf.Brokers, c.KqPusherConf.Topic, kq.WithAllowAutoTopicCreation()),
-		Elasticsearch:              esClient,
-		SnowFlakeNode:              snowflakeNode,
-		TsShopModel:                orm.NewTsShopModel(sqlConn),
-		TsGoodsModel:               orm.NewTsGoodsModel(sqlConn),
-		TsTrainingLogModel:         orm.NewTsTrainingLogModel(sqlConn),
-		BsDictTypeModel:            orm.NewBsDictTypeModel(sqlConn),
-		BsDictInfoModel:            orm.NewBsDictInfoModel(sqlConn),
-		KfgptaccountsentitiesModel: model.NewKfgptaccountsentitiesModel(c.Mongo.Url, c.Mongo.Database, c.Mongo.Kfgptaccountsentities),
+		Config:                      c,
+		KqPusherClient:              kq.NewPusher(c.KqPusherConf.Brokers, c.KqPusherConf.Topic, kq.WithAllowAutoTopicCreation()),
+		Elasticsearch:               esClient,
+		SnowFlakeNode:               snowflakeNode,
+		TsShopModel:                 orm.NewTsShopModel(sqlConn),
+		TsGoodsModel:                orm.NewTsGoodsModel(sqlConn),
+		TsTrainingLogModel:          orm.NewTsTrainingLogModel(sqlConn),
+		BsDictTypeModel:             orm.NewBsDictTypeModel(sqlConn),
+		BsDictInfoModel:             orm.NewBsDictInfoModel(sqlConn),
+		ShoptrainingshoptitlesModel: model.NewShoptrainingshoptitlesModel(c.Mongo.Url, c.Mongo.Database, c.Mongo.Shoptrainingshoptitles),
 	}
 }

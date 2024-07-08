@@ -11,22 +11,22 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-type kfgptaccountsentitiesModel interface {
-	Insert(ctx context.Context, data *Kfgptaccountsentities) error
-	FindOne(ctx context.Context, id string) (*Kfgptaccountsentities, error)
-	Update(ctx context.Context, data *Kfgptaccountsentities) (*mongo.UpdateResult, error)
+type shoptrainingshoptitlesModel interface {
+	Insert(ctx context.Context, data *Shoptrainingshoptitles) error
+	FindOne(ctx context.Context, id string) (*Shoptrainingshoptitles, error)
+	Update(ctx context.Context, data *Shoptrainingshoptitles) (*mongo.UpdateResult, error)
 	Delete(ctx context.Context, id string) (int64, error)
 }
 
-type defaultKfgptaccountsentitiesModel struct {
+type defaultShoptrainingshoptitlesModel struct {
 	conn *mon.Model
 }
 
-func newDefaultKfgptaccountsentitiesModel(conn *mon.Model) *defaultKfgptaccountsentitiesModel {
-	return &defaultKfgptaccountsentitiesModel{conn: conn}
+func newDefaultShoptrainingshoptitlesModel(conn *mon.Model) *defaultShoptrainingshoptitlesModel {
+	return &defaultShoptrainingshoptitlesModel{conn: conn}
 }
 
-func (m *defaultKfgptaccountsentitiesModel) Insert(ctx context.Context, data *Kfgptaccountsentities) error {
+func (m *defaultShoptrainingshoptitlesModel) Insert(ctx context.Context, data *Shoptrainingshoptitles) error {
 	if data.ID.IsZero() {
 		data.ID = primitive.NewObjectID()
 		data.CreateAt = time.Now()
@@ -37,13 +37,13 @@ func (m *defaultKfgptaccountsentitiesModel) Insert(ctx context.Context, data *Kf
 	return err
 }
 
-func (m *defaultKfgptaccountsentitiesModel) FindOne(ctx context.Context, id string) (*Kfgptaccountsentities, error) {
+func (m *defaultShoptrainingshoptitlesModel) FindOne(ctx context.Context, id string) (*Shoptrainingshoptitles, error) {
 	oid, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, ErrInvalidObjectId
 	}
 
-	var data Kfgptaccountsentities
+	var data Shoptrainingshoptitles
 
 	err = m.conn.FindOne(ctx, &data, bson.M{"_id": oid})
 	switch err {
@@ -56,14 +56,14 @@ func (m *defaultKfgptaccountsentitiesModel) FindOne(ctx context.Context, id stri
 	}
 }
 
-func (m *defaultKfgptaccountsentitiesModel) Update(ctx context.Context, data *Kfgptaccountsentities) (*mongo.UpdateResult, error) {
+func (m *defaultShoptrainingshoptitlesModel) Update(ctx context.Context, data *Shoptrainingshoptitles) (*mongo.UpdateResult, error) {
 	data.UpdateAt = time.Now()
 
 	res, err := m.conn.UpdateOne(ctx, bson.M{"_id": data.ID}, bson.M{"$set": data})
 	return res, err
 }
 
-func (m *defaultKfgptaccountsentitiesModel) Delete(ctx context.Context, id string) (int64, error) {
+func (m *defaultShoptrainingshoptitlesModel) Delete(ctx context.Context, id string) (int64, error) {
 	oid, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return 0, ErrInvalidObjectId

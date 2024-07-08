@@ -25,7 +25,6 @@ func NewSaveShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SaveShop
 
 // 保存爬取的店铺基本数据
 func (l *SaveShopLogic) SaveShop(in *training.SaveShopReq) (*training.SaveShopResp, error) {
-	// todo: add your logic here and delete this line
 
 	return &training.SaveShopResp{}, nil
 }

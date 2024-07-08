@@ -21,7 +21,7 @@ DB:
 Mongo:
   Url: mongodb://mongo_kKtPGm:mongo_tmPizQ@192.168.3.118:27017
   Database: kefugpt
-  Kfgptaccountsentities: kfgptaccountsentities
+  Shoptrainingshoptitles: shoptrainingshoptitles
 
 KqPusherConf:
   Brokers:

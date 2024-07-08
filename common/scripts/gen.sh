@@ -8,7 +8,7 @@ goctl rpc protoc training.proto --go_out=./pb --go-grpc_out=./pb --zrpc_out=. --
 goctl model mysql datasource -url="root:mysql_QspKnh@tcp(192.168.3.118:3306)/qyfuture_gpt" -table="ts*,bs*" -dir ./model/orm
 
 ## 通过指定mongodb集合名称来生成model代码
-goctl model mongo --type kfgptaccountsentities --dir ./model/mongo
+goctl model mongo --type shoptrainingshoptitles --dir ./model/mongo
 
 ## 生成swagger文档
 goctl api plugin -plugin goctl-swagger="swagger -filename training.json" -api desc/training.api -dir .
