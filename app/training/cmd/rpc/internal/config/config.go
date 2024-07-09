@@ -30,8 +30,18 @@ type Config struct {
 	TrainingGoodsConf struct {
 		// 商品训练队列消费者的延迟时间，默认10秒
 		ConsumeDelay int64
-		// gpt图片生成文字地址
-		GptImageURL string
+		// 申请获取商品JSON接口
+		ApplyGoodsJsonUrl string
+		// 申请获取商品JSON接口的渠道ID
+		ApplyGoodsJsonChannel string
+		// 拉取商品JSON接口
+		FetchGoodsJsonUrl string
+		// 大模型接口-创建批处理任务
+		CreateBatchTaskUrl string
+		// 大模型接口-查询处理任务状态
+		QueryBatchTaskStatusUrl string
+		// 大模型接口-获取批处理返回结果
+		QueryBatchTaskResultUrl string
 	}
 	// elasticsearch
 	Elasticsearch struct {

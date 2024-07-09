@@ -23,6 +23,7 @@ type (
 		UnEnableGoods(ctx context.Context, in *training.GoodsTrainingReq) error
 		FindEnabledListByShopId(ctx context.Context, in int64) (*[]*TsGoods, error)
 		FindListByShopId(ctx context.Context, in int64) (*[]*TsGoods, error)
+		UpdateGoodsJsonUrlByPlatformId(ctx context.Context, sku string, url string) error
 	}
 
 	customTsGoodsModel struct {
@@ -168,6 +169,14 @@ func (m *customTsGoodsModel) EnableGoods(ctx context.Context, in *training.Goods
 
 func (m *customTsGoodsModel) UnEnableGoods(ctx context.Context, in *training.GoodsTrainingReq) error {
 	_, err := m.conn.ExecCtx(ctx, "UPDATE ts_goods SET enabled = 1 WHERE id = ?", in.GoodsId)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *customTsGoodsModel) UpdateGoodsJsonUrlByPlatformId(ctx context.Context, sku string, url string) error {
+	_, err := m.conn.ExecCtx(ctx, "UPDATE ts_goods SET goods_json_url = ? WHERE platform_id = ?", url, sku)
 	if err != nil {
 		return err
 	}

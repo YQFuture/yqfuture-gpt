@@ -72,6 +72,10 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 	for _, saveGoods := range saveShop.GoodsList {
 		if tsGoods, ok := tsGoodsMap[saveGoods.PlatformId]; ok {
 			// 同时在mongo中并且enabled字段为2启用的商品即为本次需要训练的商品
+			// 排除掉已经在训练中的商品
+			if tsGoods.TrainingStatus == 1 {
+				continue
+			}
 			// 更新数据库的状态
 			tsGoods.TrainingStatus = 1
 			tsGoods.TrainingTimes += 1
@@ -94,17 +98,36 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 		skuList := append(skuList, &trainingGoods.PlatformId)
 		l.Logger.Info("获取JSON的数据", skuList)
 	}
-
 	// 发送获取商品JSON请求
-
+	err = utils.HTTPPostAndParseJSON(l.svcCtx.Config.TrainingGoodsConf.ApplyGoodsJsonUrl, ApplyGoodsJsonReq{
+		AppType: "pdd",
+		Channel: l.svcCtx.Config.TrainingGoodsConf.ApplyGoodsJsonChannel,
+		SkuList: skuList,
+	}, &ApplyGoodsJsonResp{})
+	if err != nil {
+		l.Logger.Info("发送获取商品JSON请求失败", skuList)
+		return nil, err
+	}
 	// 等待2分钟
+	time.Sleep(time.Minute * 2)
 
 	// 每6分钟调用一次接口 连续10次失败则结束
 	i := 0
 	for i < 10 {
+		var fetchGoodsJsonResp FetchGoodsJsonResp
 		// 调用接口
-
+		err = utils.HTTPPostAndParseJSON(l.svcCtx.Config.TrainingGoodsConf.FetchGoodsJsonUrl, FetchGoodsJsonReq{
+			AppType: "pdd",
+			Channel: l.svcCtx.Config.TrainingGoodsConf.ApplyGoodsJsonChannel,
+			Limit:   100,
+		}, &fetchGoodsJsonResp)
 		// 将返回的获取商品json的url更新进mysql
+		for _, item := range fetchGoodsJsonResp.Data.Items {
+			err = l.svcCtx.TsGoodsModel.UpdateGoodsJsonUrlByPlatformId(l.ctx, item.Sku, item.Url)
+			if err != nil {
+				l.Logger.Error("更新商品json的url失败", err)
+			}
+		}
 
 		// 查询mysql判断是否完成 同时将完成的新获取json的url保存进training_url
 		complete := true
@@ -130,6 +153,7 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 		i++
 	}
 
+	var goodsDocumentList []*GoodsDocument
 	// 解析商品JSON
 	for _, trainingGoods := range trainingGoodsList {
 		//根据获取商品JSON的url获取商品JSON
@@ -147,8 +171,66 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 			continue
 		}
 
+		// 解析JSON 将图片列表等数据保存下来
 		goodsDocument := parsePddGoods(l, goodsJson, tsShop, *trainingGoods)
+		goodsDocumentList = append(goodsDocumentList, goodsDocument)
+	}
 
+	// 发起店铺训练批处理 获取返回的batchId
+	var batchImages []*ImageInfo
+	for _, goodsDocument := range goodsDocumentList {
+		batchImages = append(batchImages, &ImageInfo{
+			ID:   goodsDocument.PlatformGoodsId,
+			URLs: goodsDocument.PictureUrlList,
+		})
+	}
+	var createBatchTaskResp string
+	err = utils.HTTPPostAndParseJSON(l.svcCtx.Config.TrainingGoodsConf.CreateBatchTaskUrl, CreateBatchTaskReq{
+		SystemPrompt: "what do you see ？ reply in Chinese",
+		BatchImages:  batchImages,
+	}, &createBatchTaskResp)
+	if err != nil {
+		l.Logger.Error("发送创建店铺训练批处理请求失败", err)
+		return nil, err
+	}
+	batchId := gjson.Get(createBatchTaskResp, "data.response.batch_info.id")
+
+	// 等待2分钟
+	time.Sleep(time.Minute * 2)
+
+	var fileId string
+	// 轮询等待批处理完成
+	for {
+		var batchTaskStatusResp string
+		err = utils.HTTPGetAndParseJSON(l.svcCtx.Config.TrainingGoodsConf.QueryBatchTaskStatusUrl+"?batch_id="+batchId.String(), &batchTaskStatusResp)
+		if err != nil {
+			l.Logger.Error("发送获取批处理状态请求失败", err)
+			return nil, err
+		}
+		status := gjson.Get(batchTaskStatusResp, "data.status")
+		if status.String() == "completed" {
+			fileId = gjson.Get(batchTaskStatusResp, "data.output_file_id").String()
+			break
+		}
+		time.Sleep(time.Minute * 2)
+	}
+
+	// 获取批处理结果
+	var batchTaskResultResp string
+	err = utils.HTTPGetAndParseJSON(l.svcCtx.Config.TrainingGoodsConf.QueryBatchTaskResultUrl+"?file_id="+fileId, &batchTaskResultResp)
+	if err != nil {
+		l.Logger.Error("发送获取批处理结果请求失败", err)
+		return nil, err
+	}
+
+	// 将结果写入goodsDocument
+	var batchTaskResultMap map[string]string
+	for _, batchTaskResult := range gjson.Get(batchTaskResultResp, "data").Array() {
+		batchTaskResultMap[batchTaskResult.Get("custom_id").String()] = batchTaskResult.Get("content").String()
+	}
+	for _, goodsDocument := range goodsDocumentList {
+		goodsDocument.DetailGalleryDescription = batchTaskResultMap[goodsDocument.PlatformGoodsId]
+		// 保存训练结果到ES
 		es := l.svcCtx.Elasticsearch
 		res, err := es.Index().Index("training_goods").BodyJson(goodsDocument).Refresh("true").Do(context.Background())
 		if err != nil {
@@ -156,22 +238,48 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 			continue
 		}
 		logx.Infof("商品解析结果写入ES成功, res :%v", res)
-
 	}
 
-	// 训练商品
-
-	// 保存训练结果
-
-	// 等待所有商品训练完成
-
-	// 更新数据库状态
+	// 更新数据库状态为训练完成
+	tsShop.TrainingStatus = 2
+	tsShop.UpdateTime = time.Now()
+	tsShop.UpdateBy = in.UserId
+	err = l.svcCtx.TsShopModel.Update(l.ctx, tsShop)
+	if err != nil {
+		l.Logger.Error("修改店铺状态失败", in)
+		return nil, err
+	}
+	for _, trainingGoods := range trainingGoodsList {
+		trainingGoods.TrainingStatus = 2
+		trainingGoods.UpdateTime = time.Now()
+		trainingGoods.UpdateBy = in.UserId
+		err = l.svcCtx.TsGoodsModel.Update(l.ctx, trainingGoods)
+		if err != nil {
+			l.Logger.Error("修改商品状态失败", trainingGoods)
+			return nil, err
+		}
+	}
 
 	// 返回正常
 	return &training.TrainingShopResp{}, nil
 }
 
-type GoodsJsonResponse struct {
+type ApplyGoodsJsonReq struct {
+	AppType string    `json:"app_type"`
+	SkuList []*string `json:"sku_list"`
+	Channel string    `json:"channel"`
+}
+
+type ApplyGoodsJsonResp struct {
+}
+
+type FetchGoodsJsonReq struct {
+	AppType string `json:"app_type"`
+	Channel string `json:"channel"`
+	Limit   int    `json:"limit"`
+}
+
+type FetchGoodsJsonResp struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
 	Data    struct {
@@ -181,6 +289,16 @@ type GoodsJsonResponse struct {
 			Url         string `json:"url"`
 		} `json:"items"`
 	} `json:"data"`
+}
+
+type ImageInfo struct {
+	ID   string   `json:"id"`
+	URLs []string `json:"urls"`
+}
+
+type CreateBatchTaskReq struct {
+	SystemPrompt string       `json:"system_prompt"`
+	BatchImages  []*ImageInfo `json:"batch_image_urls"`
 }
 
 func parsePddGoods(l *TrainingShopLogic, goodsJson string, tsShop *orm.TsShop, tsGoods orm.TsGoods) *GoodsDocument {
@@ -215,7 +333,6 @@ func parsePddGoods(l *TrainingShopLogic, goodsJson string, tsShop *orm.TsShop, t
 		DetailGalleryDescription: "",
 
 		PictureUrlList: pictureUrlList,
-		TrainingResult: TrainingResult{},
 		Token:          0,
 		CreatedAt:      time.Now(),
 	}
@@ -244,18 +361,7 @@ type GoodsDocument struct {
 	PromptExplain            string      `json:"prompt_explain"`             // 提示
 	DetailGalleryDescription string      `json:"detail_gallery_description"` // 图片训练结果描述
 
-	PictureUrlList []string       `json:"picture_url_list"`
-	TrainingResult TrainingResult `json:"training_result"`
-	Token          int            `json:"token"` // 消耗的token
-	CreatedAt      time.Time      `json:"create_time"`
-}
-
-// 调用gpt的训练结果
-type TrainingResult struct {
-	Status bool `json:"status"`
-	Data   struct {
-		Response string `json:"response"` // 训练结果
-		Token    int    `json:"token"`    // 消耗的token
-	} `json:"data"`
-	Msg string `json:"msg"`
+	PictureUrlList []string  `json:"picture_url_list"`
+	Token          int       `json:"token"` // 消耗的token
+	CreatedAt      time.Time `json:"create_time"`
 }
