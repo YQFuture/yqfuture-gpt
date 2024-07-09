@@ -129,9 +129,10 @@ func buildTsGoods(l *SaveShopLogic, in *training.SaveShopReq, tsShop *orm.TsShop
 	return &orm.TsGoods{
 		Id:              l.svcCtx.SnowFlakeNode.Generate().Int64(),
 		ShopId:          tsShop.Id,
-		GoodsName:       saveGoods.GoodsName,
 		PlatformId:      saveGoods.PlatformId,
+		GoodsName:       saveGoods.GoodsName,
 		GoodsUrl:        saveGoods.GoodsUrl,
+		GoodsJsonUrl:    "",
 		TrainingSummary: "",
 		PlatformType:    2,
 		Enabled:         2, // 默认开启

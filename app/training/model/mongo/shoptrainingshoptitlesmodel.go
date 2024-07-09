@@ -1,6 +1,12 @@
 package model
 
-import "github.com/zeromicro/go-zero/core/stores/mon"
+import (
+	"context"
+	"errors"
+	"github.com/zeromicro/go-zero/core/stores/mon"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
+)
 
 var _ ShoptrainingshoptitlesModel = (*customShoptrainingshoptitlesModel)(nil)
 
@@ -9,6 +15,7 @@ type (
 	// and implement the added methods in customShoptrainingshoptitlesModel.
 	ShoptrainingshoptitlesModel interface {
 		shoptrainingshoptitlesModel
+		FindNewOneByUuidAndUserId(ctx context.Context, uuid string, userId int64) (*Shoptrainingshoptitles, error)
 	}
 
 	customShoptrainingshoptitlesModel struct {
@@ -21,5 +28,19 @@ func NewShoptrainingshoptitlesModel(url, db, collection string) Shoptrainingshop
 	conn := mon.MustNewModel(url, db, collection)
 	return &customShoptrainingshoptitlesModel{
 		defaultShoptrainingshoptitlesModel: newDefaultShoptrainingshoptitlesModel(conn),
+	}
+}
+
+func (m *defaultShoptrainingshoptitlesModel) FindNewOneByUuidAndUserId(ctx context.Context, uuid string, userId int64) (*Shoptrainingshoptitles, error) {
+	var data Shoptrainingshoptitles
+	opts := options.FindOne().SetSort(map[string]interface{}{"createdAt": -1})
+	err := m.conn.FindOne(ctx, &data, bson.M{"uuid": uuid, "userId": userId}, opts)
+	switch {
+	case err == nil:
+		return &data, nil
+	case errors.Is(err, mon.ErrNotFound):
+		return nil, ErrNotFound
+	default:
+		return nil, err
 	}
 }

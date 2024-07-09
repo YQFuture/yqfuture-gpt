@@ -42,3 +42,36 @@ func HTTPPostAndParseJSON(url string, requestData interface{}, responseData inte
 
 	return nil
 }
+
+// HTTPGetAndParseJSON 发送 HTTP GET 请求并解析返回的 JSON 数据
+func HTTPGetAndParseJSON(url string, responseData interface{}) error {
+	// 发送 HTTP GET 请求
+	resp, err := http.Get(url)
+	if err != nil {
+		return fmt.Errorf("HTTP GET request failed: %v", err)
+	}
+	defer func() {
+		err := resp.Body.Close()
+		if err != nil {
+			return
+		}
+	}()
+
+	// 检查响应状态码
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("HTTP GET request failed with status: %s", resp.Status)
+	}
+
+	// 读取并解析 JSON 响应数据
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return fmt.Errorf("reading response body failed: %v", err)
+	}
+
+	err = json.Unmarshal(body, responseData)
+	if err != nil {
+		return fmt.Errorf("JSON unmarshal failed: %v", err)
+	}
+
+	return nil
+}

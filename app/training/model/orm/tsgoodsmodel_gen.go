@@ -25,6 +25,7 @@ type (
 	tsGoodsModel interface {
 		Insert(ctx context.Context, data *TsGoods) (sql.Result, error)
 		FindOne(ctx context.Context, id int64) (*TsGoods, error)
+		FindOneByPlatformId(ctx context.Context, platformId string) (*TsGoods, error)
 		Update(ctx context.Context, data *TsGoods) error
 		Delete(ctx context.Context, id int64) error
 	}
@@ -40,6 +41,7 @@ type (
 		PlatformId      string    `db:"platform_id"`      // 平台ID
 		GoodsName       string    `db:"goods_name"`       // 商品名称
 		GoodsUrl        string    `db:"goods_url"`        // 商品url
+		GoodsJsonUrl    string    `db:"goods_json_url"`   // 获取商品json的url
 		TrainingSummary string    `db:"training_summary"` // 训练结果摘要
 		PlatformType    int64     `db:"platform_type"`    // 平台类型 0: 未定义 1: 京东 2: 拼多多 3: 千牛
 		Enabled         int64     `db:"enabled"`          // 启用状态 0: 未定义 1: 未启用 2: 启用
@@ -79,15 +81,29 @@ func (m *defaultTsGoodsModel) FindOne(ctx context.Context, id int64) (*TsGoods, 
 	}
 }
 
+func (m *defaultTsGoodsModel) FindOneByPlatformId(ctx context.Context, platformId string) (*TsGoods, error) {
+	var resp TsGoods
+	query := fmt.Sprintf("select %s from %s where `platform_id` = ? limit 1", tsGoodsRows, m.table)
+	err := m.conn.QueryRowCtx(ctx, &resp, query, platformId)
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlx.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+
 func (m *defaultTsGoodsModel) Insert(ctx context.Context, data *TsGoods) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsGoodsRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.ShopId, data.PlatformId, data.GoodsName, data.GoodsUrl, data.TrainingSummary, data.PlatformType, data.Enabled, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsGoodsRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.ShopId, data.PlatformId, data.GoodsName, data.GoodsUrl, data.GoodsJsonUrl, data.TrainingSummary, data.PlatformType, data.Enabled, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 
-func (m *defaultTsGoodsModel) Update(ctx context.Context, data *TsGoods) error {
+func (m *defaultTsGoodsModel) Update(ctx context.Context, newData *TsGoods) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, tsGoodsRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.ShopId, data.PlatformId, data.GoodsName, data.GoodsUrl, data.TrainingSummary, data.PlatformType, data.Enabled, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy, data.Id)
+	_, err := m.conn.ExecCtx(ctx, query, newData.ShopId, newData.PlatformId, newData.GoodsName, newData.GoodsUrl, newData.GoodsJsonUrl, newData.TrainingSummary, newData.PlatformType, newData.Enabled, newData.TrainingStatus, newData.TrainingTimes, newData.CreateBy, newData.UpdateBy, newData.Id)
 	return err
 }
 
