@@ -17,7 +17,7 @@ import (
 var (
 	tsGoodsLogFieldNames          = builder.RawFieldNames(&TsGoodsLog{})
 	tsGoodsLogRows                = strings.Join(tsGoodsLogFieldNames, ",")
-	tsGoodsLogRowsExpectAutoSet   = strings.Join(stringx.Remove(tsGoodsLogFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
+	tsGoodsLogRowsExpectAutoSet   = strings.Join(stringx.Remove(tsGoodsLogFieldNames, "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
 	tsGoodsLogRowsWithPlaceHolder = strings.Join(stringx.Remove(tsGoodsLogFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), "=?,") + "=?"
 )
 
@@ -77,8 +77,8 @@ func (m *defaultTsGoodsLogModel) FindOne(ctx context.Context, id int64) (*TsGood
 }
 
 func (m *defaultTsGoodsLogModel) Insert(ctx context.Context, data *TsGoodsLog) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsGoodsLogRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.ShopLogId, data.GoodsId, data.TrainingResult, data.Token, data.StartTime, data.EndTime, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsGoodsLogRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.ShopLogId, data.GoodsId, data.TrainingResult, data.Token, data.StartTime, data.EndTime, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 
