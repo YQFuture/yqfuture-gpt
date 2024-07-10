@@ -20,28 +20,28 @@ type TrainingShopLogic struct {
 
 // PddGoodsDocument 保存到es的拼多多商品训练结果
 type PddGoodsDocument struct {
-	ShopId  int64  `json:"shop_id"`    // 对应mysql店铺id
-	GoodsId int64  `json:"GoodsId_id"` // 对应mysql商品id
+	ShopId  int64  `json:"shopId"`  // 对应mysql店铺id
+	GoodsId int64  `json:"goodsId"` // 对应mysql商品id
 	Uuid    string `json:"uuid"`
-	UserId  int64  `json:"user_id"`
+	UserId  int64  `json:"userId"`
 
-	PlatformMallId  string `json:"platform_mall_id"`  // 对应json店铺id
-	PlatformGoodsId string `json:"platform_goods_id"` // 对应json商品id
-	GoodsUrl        string `json:"goods_url"`
-	GoodsJson       string `json:"goods_json"`
-	GoodsName       string `json:"goods_name"`
+	PlatformMallId  string `json:"platformMallId"`  // 对应json店铺id
+	PlatformGoodsId string `json:"platformGoodsId"` // 对应json商品id
+	GoodsUrl        string `json:"goodsUrl"`
+	GoodsJson       string `json:"goodsJson"`
+	GoodsName       string `json:"goodsName"`
 
-	SkuSpecs                 map[string]string `json:"sku_specs"`
-	GroupPrice               float64           `json:"group_price"`
-	NormalPrice              float64           `json:"normal_price"`
-	ServicePromise           map[string]string `json:"service_promise"`            // 商品服务承诺列表
-	SellPointTagList         interface{}       `json:"sell_point_tag_list"`        // 卖点
-	PromptExplain            string            `json:"prompt_explain"`             // 商品提示
-	DetailGalleryDescription string            `json:"detail_gallery_description"` // 图片训练结果描述
+	SkuSpecs                 map[string]string `json:"skuSpecs"`
+	GroupPrice               float64           `json:"groupPrice"`
+	NormalPrice              float64           `json:"normalPrice"`
+	ServicePromise           map[string]string `json:"servicePromise"`           // 商品服务承诺列表
+	SellPointTagList         interface{}       `json:"sellPointTagList"`         // 卖点
+	PromptExplain            string            `json:"promptExplain"`            // 商品提示
+	DetailGalleryDescription string            `json:"detailGalleryDescription"` // 图片训练结果描述
 
-	PictureUrlList []string  `json:"picture_url_list"`
+	PictureUrlList []string  `json:"pictureUrlList"`
 	Token          int64     `json:"token"` // 消耗的token
-	CreatedAt      time.Time `json:"create_time"`
+	CreatedAt      time.Time `json:"createdAt"`
 }
 
 type ApplyGoodsJsonReq struct {

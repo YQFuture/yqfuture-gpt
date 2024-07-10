@@ -6,6 +6,7 @@ import (
 	"time"
 	yqmongo "yufuture-gpt/app/training/model/mongo"
 	"yufuture-gpt/app/training/model/orm"
+	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
@@ -101,7 +102,7 @@ func (l *SaveShopLogic) SaveShop(in *training.SaveShopReq) (*training.SaveShopRe
 	shoptrainingshoptitles := buildShoptrainingshoptitles(tsShop, in, saveGoodsList)
 	err = l.svcCtx.ShoptrainingshoptitlesModel.Insert(l.ctx, shoptrainingshoptitles)
 	if err != nil {
-		l.Logger.Error("保存店铺到mongo失败", err, in)
+		l.Logger.Error("保存店铺到mongo失败", err)
 		return nil, err
 	}
 
@@ -115,7 +116,7 @@ func buildTsShop(l *SaveShopLogic, in *training.SaveShopReq) *orm.TsShop {
 		UserId:         in.UserId,
 		Uuid:           in.Uuid,
 		GroupId:        0, // 部门ID 为之后的版本预留 暂时填零
-		PlatformType:   2,
+		PlatformType:   consts.PDD,
 		TrainingStatus: 0,
 		TrainingTimes:  0,
 		CreateTime:     time.Now(),
@@ -134,7 +135,7 @@ func buildTsGoods(l *SaveShopLogic, in *training.SaveShopReq, tsShop *orm.TsShop
 		GoodsUrl:        saveGoods.GoodsUrl,
 		GoodsJsonUrl:    "",
 		TrainingSummary: "",
-		PlatformType:    2,
+		PlatformType:    consts.PDD,
 		Enabled:         2, // 默认开启
 		TrainingStatus:  0,
 		TrainingTimes:   0,
@@ -155,7 +156,7 @@ func buildShoptrainingshoptitles(tsShop *orm.TsShop, in *training.SaveShopReq, s
 		ShopName:  in.ShopName,
 		UserID:    in.UserId,
 		UUID:      in.Uuid,
-		Platform:  2,
+		Platform:  consts.PDD,
 		GoodsList: saveGoodsList,
 	}
 }

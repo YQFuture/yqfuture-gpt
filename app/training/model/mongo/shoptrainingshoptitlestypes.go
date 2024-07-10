@@ -15,12 +15,12 @@ type Shoptrainingshoptitles struct {
 	UserID    int64                    `bson:"userId" json:"userId"`
 	UUID      string                   `bson:"uuid" json:"uuid"`
 	Platform  int64                    `bson:"platform" json:"platform"`
-	ShopName  string                   `bson:"shop_name" json:"shopName"`
-	GoodsList []*ShopTrainingGoodsList `bson:"goods_list" json:"goodsList"`
+	ShopName  string                   `bson:"shopName" json:"shopName"`
+	GoodsList []*ShopTrainingGoodsList `bson:"goodsList" json:"goodsList"`
 }
 
 type ShopTrainingGoodsList struct {
-	GoodsId    int64  `bson:"id" json:"goodsId"`
-	PlatformId string `bson:"id" json:"platformId"`
+	GoodsId    int64  `bson:"goodsId" json:"goodsId"`
+	PlatformId string `bson:"platformId" json:"platformId"`
 	Url        string `bson:"url" json:"url"`
 }

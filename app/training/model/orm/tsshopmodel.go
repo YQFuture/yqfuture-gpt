@@ -2,6 +2,7 @@ package orm
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"fmt"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -63,6 +64,8 @@ func (m *customTsShopModel) FindOneByUuidAndUserId(ctx context.Context, userId i
 	switch {
 	case err == nil:
 		return &resp, nil
+	case errors.Is(err, sql.ErrNoRows):
+		return nil, nil
 	case errors.Is(err, sqlx.ErrNotFound):
 		return nil, ErrNotFound
 	default:
