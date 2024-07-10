@@ -38,14 +38,14 @@ type (
 	TsGoods struct {
 		Id              int64     `db:"id"`               // 商品ID
 		ShopId          int64     `db:"shop_id"`          // 店铺ID
-		PlatformId      string    `db:"platform_id"`      // 平台ID
+		PlatformId      string    `db:"platform_id"`      // 平台商品ID
 		GoodsName       string    `db:"goods_name"`       // 商品名称
 		GoodsUrl        string    `db:"goods_url"`        // 商品url
 		GoodsJsonUrl    string    `db:"goods_json_url"`   // 获取商品json的url
 		TrainingSummary string    `db:"training_summary"` // 训练结果摘要
 		PlatformType    int64     `db:"platform_type"`    // 平台类型 0: 未定义 1: 京东 2: 拼多多 3: 千牛
 		Enabled         int64     `db:"enabled"`          // 启用状态 0: 未定义 1: 未启用 2: 启用
-		TrainingStatus  int64     `db:"training_status"`  // 训练状态 0: 初始 1: 预设中 2: 训练中 10: 训练完成
+		TrainingStatus  int64     `db:"training_status"`  // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
 		TrainingTimes   int64     `db:"training_times"`   // 训练次数
 		CreateTime      time.Time `db:"create_time"`      // 创建时间
 		UpdateTime      time.Time `db:"update_time"`      // 修改时间

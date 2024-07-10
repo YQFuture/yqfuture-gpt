@@ -9,9 +9,10 @@ const (
 
 // 训练状态
 const (
-	Presetting       = 1
-	Training         = 2
-	TrainingComplete = 10
+	Presetting         = 1
+	PresettingComplete = 2
+	Training           = 11
+	TrainingComplete   = 12
 )
 
 // 训练结果

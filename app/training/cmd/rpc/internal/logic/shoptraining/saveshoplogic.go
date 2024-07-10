@@ -109,6 +109,7 @@ func (l *SaveShopLogic) SaveShop(in *training.SaveShopReq) (*training.SaveShopRe
 func buildTsShop(l *SaveShopLogic, in *training.SaveShopReq) *orm.TsShop {
 	return &orm.TsShop{
 		Id:             l.svcCtx.SnowFlakeNode.Generate().Int64(),
+		PlatformId:     "", //平台店铺ID 暂时留空
 		ShopName:       in.ShopName,
 		UserId:         in.UserId,
 		Uuid:           in.Uuid,
