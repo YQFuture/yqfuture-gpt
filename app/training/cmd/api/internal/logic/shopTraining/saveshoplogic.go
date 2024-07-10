@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
+	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/training/cmd/api/internal/svc"
 	"yufuture-gpt/app/training/cmd/api/internal/types"
@@ -55,7 +56,7 @@ func (l *SaveShopLogic) SaveShop(req *types.SaveShopReq) (resp *types.SaveShopRe
 	}
 	return &types.SaveShopResp{
 		BaseResp: types.BaseResp{
-			Code: 0,
+			Code: consts.Success,
 			Msg:  "保存店铺基本信息成功",
 		},
 	}, nil

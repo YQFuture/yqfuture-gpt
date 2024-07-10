@@ -65,9 +65,8 @@ func (l *SaveShopLogic) SaveShop(in *training.SaveShopReq) (*training.SaveShopRe
 			l.Logger.Error("查询老店铺商品列表失败", err, in)
 			return nil, err
 		}
-		var tsGoodsMap map[string]*orm.TsGoods
+		tsGoodsMap := make(map[string]*orm.TsGoods)
 		if tsGoodsList != nil {
-			tsGoodsMap = make(map[string]*orm.TsGoods)
 			for _, tsGoods := range *tsGoodsList {
 				tsGoodsMap[tsGoods.PlatformId] = tsGoods
 			}
