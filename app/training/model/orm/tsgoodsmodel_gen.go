@@ -17,7 +17,7 @@ import (
 var (
 	tsGoodsFieldNames          = builder.RawFieldNames(&TsGoods{})
 	tsGoodsRows                = strings.Join(tsGoodsFieldNames, ",")
-	tsGoodsRowsExpectAutoSet   = strings.Join(stringx.Remove(tsGoodsFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
+	tsGoodsRowsExpectAutoSet   = strings.Join(stringx.Remove(tsGoodsFieldNames, "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
 	tsGoodsRowsWithPlaceHolder = strings.Join(stringx.Remove(tsGoodsFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), "=?,") + "=?"
 )
 
@@ -96,8 +96,8 @@ func (m *defaultTsGoodsModel) FindOneByPlatformId(ctx context.Context, platformI
 }
 
 func (m *defaultTsGoodsModel) Insert(ctx context.Context, data *TsGoods) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsGoodsRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.ShopId, data.PlatformId, data.GoodsName, data.GoodsUrl, data.GoodsJsonUrl, data.TrainingSummary, data.PlatformType, data.Enabled, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsGoodsRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.ShopId, data.PlatformId, data.GoodsName, data.GoodsUrl, data.GoodsJsonUrl, data.TrainingSummary, data.PlatformType, data.Enabled, data.TrainingStatus, data.TrainingTimes, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 
