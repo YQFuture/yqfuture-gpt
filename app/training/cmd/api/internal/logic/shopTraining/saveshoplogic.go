@@ -40,13 +40,13 @@ func (l *SaveShopLogic) SaveShop(req *types.SaveShopReq) (resp *types.SaveShopRe
 	switch req.PlatForm {
 	case "jd":
 		// 京东
-		platformType = consts.JD
+		platformType = consts.Jd
 	case "pdd":
 		// 拼多多
-		platformType = consts.PDD
+		platformType = consts.Pdd
 	case "qn":
 		// 全牛
-		platformType = consts.QN
+		platformType = consts.Qn
 	default:
 	}
 	// 构建保存消息体

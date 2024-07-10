@@ -2,14 +2,21 @@ package consts
 
 // 平台类型
 const (
-	JD  = 1
-	PDD = 2
-	QN  = 3
+	Jd  = 1
+	Pdd = 2
+	Qn  = 3
 )
 
 // 训练状态
 const (
-	PRESETTING        = 1
-	TRAINING          = 2
-	TRAINING_COMPLETE = 10
+	Presetting       = 1
+	Training         = 2
+	TrainingComplete = 10
+)
+
+// 训练结果
+const (
+	TrainingSuccess     = 1
+	TrainingFail        = 2
+	TrainingSuccessPart = 3
 )

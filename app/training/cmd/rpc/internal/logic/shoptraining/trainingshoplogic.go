@@ -207,7 +207,7 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 		logx.Infof("商品解析结果写入ES成功, res :%v", res)
 	}
 
-	// 更新数据库状态为训练完成
+	// 更新数据库状态为训练完成 同时保存训练历史
 	err = UpdateShopTrainingComplete(l.ctx, l.svcCtx, tsShop, in.UserId)
 	if err != nil {
 		l.Logger.Error("修改店铺状态失败", in)
