@@ -19,11 +19,12 @@ type ServiceContext struct {
 	// 雪花算法
 	SnowFlakeNode *snowflake.Node
 	// mysql模型
-	TsShopModel        orm.TsShopModel
-	TsGoodsModel       orm.TsGoodsModel
-	TsTrainingLogModel orm.TsTrainingLogModel
-	BsDictTypeModel    orm.BsDictTypeModel
-	BsDictInfoModel    orm.BsDictInfoModel
+	TsShopModel     orm.TsShopModel
+	TsGoodsModel    orm.TsGoodsModel
+	TsShopLogModel  orm.TsShopLogModel
+	TsGoodsLogModel orm.TsGoodsLogModel
+	BsDictTypeModel orm.BsDictTypeModel
+	BsDictInfoModel orm.BsDictInfoModel
 	// mongo模型
 	ShoptrainingshoptitlesModel model.ShoptrainingshoptitlesModel
 }
@@ -50,7 +51,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		SnowFlakeNode:               snowflakeNode,
 		TsShopModel:                 orm.NewTsShopModel(sqlConn),
 		TsGoodsModel:                orm.NewTsGoodsModel(sqlConn),
-		TsTrainingLogModel:          orm.NewTsTrainingLogModel(sqlConn),
+		TsShopLogModel:              orm.NewTsShopLogModel(sqlConn),
+		TsGoodsLogModel:             orm.NewTsGoodsLogModel(sqlConn),
 		BsDictTypeModel:             orm.NewBsDictTypeModel(sqlConn),
 		BsDictInfoModel:             orm.NewBsDictInfoModel(sqlConn),
 		ShoptrainingshoptitlesModel: model.NewShoptrainingshoptitlesModel(c.Mongo.Url, c.Mongo.Database, c.Mongo.Shoptrainingshoptitles),
