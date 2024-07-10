@@ -71,20 +71,20 @@ func (m *customTsShopModel) FindOneByUuidAndUserId(ctx context.Context, userId i
 }
 
 func (m *customTsShopModel) JudgeFirstShop(ctx context.Context, in *training.JudgeFirstShopReq) (int, error) {
-	query := fmt.Sprintf("select %s from %s where user_id = ? AND uuid = ?", tsShopRows, m.table)
+	query := fmt.Sprintf("select %s from %s where user_id = ? AND uuid = ? AND training_times = 0", tsShopRows, m.table)
 	var args []interface{}
 	args = append(args, in.UserId, in.Uuid)
 	var resp []*TsShop
 	err := m.conn.QueryRowsCtx(ctx, &resp, query, args...)
 	//判断是否初次登录 0: 是 1: 否
-	switch err {
-	case nil:
+	switch {
+	case err == nil:
 		if len(resp) > 0 {
 			return 1, nil
 		} else {
 			return 0, nil
 		}
-	case sqlx.ErrNotFound:
+	case errors.Is(err, sqlx.ErrNotFound):
 		return 0, nil
 	default:
 		return 0, err
