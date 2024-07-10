@@ -9,7 +9,7 @@ info(
 )
 
 import (
-    "basicFunction.api"
+    "basicfunction.api"
 )
 
 // 店铺基础信息和分页相关
