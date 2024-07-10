@@ -11,5 +11,5 @@ const (
 const (
 	PRESETTING        = 1
 	TRAINING          = 2
-	TRAINING_COMPLETE = 3
+	TRAINING_COMPLETE = 10
 )
