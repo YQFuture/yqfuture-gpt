@@ -4,12 +4,10 @@ import (
 	"context"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
-	yqmongo "yufuture-gpt/app/training/model/mongo"
-	"yufuture-gpt/app/training/model/orm"
-	"yufuture-gpt/common/consts"
-
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
+	yqmongo "yufuture-gpt/app/training/model/mongo"
+	"yufuture-gpt/app/training/model/orm"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -115,7 +113,7 @@ func buildTsShop(l *SaveShopLogic, in *training.SaveShopReq) *orm.TsShop {
 		UserId:         in.UserId,
 		Uuid:           in.Uuid,
 		GroupId:        0, // 部门ID 为之后的版本预留 暂时填零
-		PlatformType:   consts.PDD,
+		PlatformType:   in.PlatformType,
 		TrainingStatus: 0,
 		TrainingTimes:  0,
 		CreateTime:     time.Now(),
@@ -134,7 +132,7 @@ func buildTsGoods(l *SaveShopLogic, in *training.SaveShopReq, tsShop *orm.TsShop
 		GoodsUrl:        saveGoods.GoodsUrl,
 		GoodsJsonUrl:    "",
 		TrainingSummary: "",
-		PlatformType:    consts.PDD,
+		PlatformType:    in.PlatformType,
 		Enabled:         2, // 默认开启
 		TrainingStatus:  0,
 		TrainingTimes:   0,
@@ -155,7 +153,7 @@ func buildShoptrainingshoptitles(tsShop *orm.TsShop, in *training.SaveShopReq, s
 		ShopName:  in.ShopName,
 		UserID:    in.UserId,
 		UUID:      in.Uuid,
-		Platform:  consts.PDD,
+		Platform:  in.PlatformType,
 		GoodsList: saveGoodsList,
 	}
 }

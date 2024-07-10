@@ -34,6 +34,21 @@ func (l *SaveShopLogic) SaveShop(req *types.SaveShopReq) (resp *types.SaveShopRe
 		l.Logger.Error("获取用户id失败", err)
 		return nil, err
 	}
+	//
+	var platformType int
+	// 判断店铺平台类型
+	switch req.PlatForm {
+	case "jd":
+		// 京东
+		platformType = consts.JD
+	case "pdd":
+		// 拼多多
+		platformType = consts.PDD
+	case "qn":
+		// 全牛
+		platformType = consts.QN
+	default:
+	}
 	// 构建保存消息体
 	var saveGoodsList []*training.SaveGoods
 	for _, v := range req.GoodsList {
@@ -47,7 +62,7 @@ func (l *SaveShopLogic) SaveShop(req *types.SaveShopReq) (resp *types.SaveShopRe
 		UserId:       userId,
 		Uuid:         req.Uuid,
 		ShopName:     req.ShopName,
-		PlatformType: 2,
+		PlatformType: int64(platformType),
 		List:         saveGoodsList,
 	})
 	if err != nil {

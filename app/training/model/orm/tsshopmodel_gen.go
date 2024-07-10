@@ -42,7 +42,7 @@ type (
 		Uuid           string    `db:"uuid"`            // uuid
 		GroupId        int64     `db:"group_id"`        // 组织ID
 		PlatformType   int64     `db:"platform_type"`   // 平台类型 0: 未知 1: 京东 2: 拼多多 3: 千牛
-		TrainingStatus int64     `db:"training_status"` // 训练状态 0: 初始 1: 训练中 2: 训练完成
+		TrainingStatus int64     `db:"training_status"` // 训练状态 0: 初始 1: 预设中 2: 训练中 10: 训练完成
 		TrainingTimes  int64     `db:"training_times"`  // 训练次数
 		CreateTime     time.Time `db:"create_time"`     // 创建时间
 		UpdateTime     time.Time `db:"update_time"`     // 修改时间
