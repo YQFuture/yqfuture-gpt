@@ -59,6 +59,7 @@ func (l *SaveShopLogic) SaveShop(req *types.SaveShopReq) (resp *types.SaveShopRe
 		})
 	}
 	_, err = l.svcCtx.ShopTrainingClient.SaveShop(l.ctx, &training.SaveShopReq{
+		SerialNumber: req.SerialNumber,
 		UserId:       userId,
 		Uuid:         req.Uuid,
 		ShopName:     req.ShopName,

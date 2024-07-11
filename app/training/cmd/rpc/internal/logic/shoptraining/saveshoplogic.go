@@ -150,11 +150,12 @@ func buildShoptrainingshoptitles(tsShop *orm.TsShop, in *training.SaveShopReq, s
 		CreateAt: time.Now(),
 		UpdateAt: time.Now(),
 
-		ShopId:    tsShop.Id,
-		ShopName:  in.ShopName,
-		UserID:    in.UserId,
-		UUID:      in.Uuid,
-		Platform:  in.PlatformType,
-		GoodsList: saveGoodsList,
+		SerialNumber: in.SerialNumber,
+		ShopId:       tsShop.Id,
+		ShopName:     in.ShopName,
+		UserID:       in.UserId,
+		UUID:         in.Uuid,
+		Platform:     in.PlatformType,
+		GoodsList:    saveGoodsList,
 	}
 }

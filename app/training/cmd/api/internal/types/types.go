@@ -121,10 +121,11 @@ type SaveGoods struct {
 }
 
 type SaveShopReq struct {
-	Uuid      string      `json:"uuid"`
-	ShopName  string      `json:"shop_name"`
-	PlatForm  string      `json:"platform"`
-	GoodsList []SaveGoods `json:"goods_list"`
+	SerialNumber string      `json:"serial_number"`
+	Uuid         string      `json:"uuid"`
+	ShopName     string      `json:"shop_name"`
+	PlatForm     string      `json:"platform"`
+	GoodsList    []SaveGoods `json:"goods_list"`
 }
 
 type SaveShopResp struct {

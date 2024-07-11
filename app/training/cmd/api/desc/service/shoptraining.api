@@ -23,19 +23,6 @@ type (
         Data int64 `json:"data"` // 是否初次 0: 是 1: 否
     }
 
-    ShopTrainingReq {
-        Uuid string `json:"uuid"` // 唯一标识
-    }
-
-    ShopTrainingResp {
-        BaseResp
-        Data  interface{} `json:"data"` // 数据
-    }
-
-    CancelPreSettingReq {
-        Uuid string `json:"uuid"` // 唯一标识
-    }
-
     ShopPageListReq {
         BasePageReq
         PlatFormType   int64     `json:"platFormType"` // 平台类型
@@ -107,6 +94,19 @@ type (
 
 // 店铺训练/商品训练相关
 type (
+    ShopTrainingReq {
+        Uuid string `json:"uuid"` // 唯一标识
+    }
+
+    ShopTrainingResp {
+        BaseResp
+        Data  interface{} `json:"data"` // 数据
+    }
+
+    CancelPreSettingReq {
+        Uuid string `json:"uuid"` // 唯一标识
+    }
+
     TrainingShopReq {
         Uuid string `json:"uuid"` // 唯一标识
     }
@@ -150,6 +150,7 @@ type (
 // 三方接口
 type (
     SaveShopReq {
+        SerialNumber string `json:"serial_number"`
         Uuid string `json:"uuid"`
         ShopName string `json:"shop_name"`
         PlatForm string `json:"platform"`

@@ -12,8 +12,8 @@ message DictInfoByTypeResp {
   repeated DictInfo list = 1;
 }
 message DictInfo {
-  string name     = 1;
-  string value    = 2;
+  string name = 1;
+  string value = 2;
   int64  orderNum = 3;
 }
 service BasicFunction {
@@ -49,10 +49,10 @@ message JudgeFirstShopResp {
   int64 first = 1;
 }
 message ShopPageListReq {
-  int64  userId  = 1;
-  int64  pageNum  = 2;
+  int64  userId = 1;
+  int64  pageNum = 2;
   int64  pageSize = 3;
-  string query  = 4;
+  string query = 4;
   int64  platFormType = 5;
   int64  trainingStatus = 6;
   int64  updateTime = 7;
@@ -74,9 +74,9 @@ message ShopPageListResp {
 }
 message GoodsPageListReq {
   int64  shopId = 1;
-  int64  pageNum  = 2;
+  int64  pageNum = 2;
   int64  pageSize = 3;
-  string query  = 4;
+  string query = 4;
   int64  enabled = 5;
   int64  updateTime = 6;
 }
@@ -147,10 +147,11 @@ message GetGoodsTrainingResultResp {
 }
 message SaveShopReq {
   int64 userId = 1;
-  string uuid = 2;
-  string shopName = 3;
-  int64 platformType = 4;
-  repeated SaveGoods list = 5;
+  string serialNumber = 2;
+  string uuid = 3;
+  string shopName = 4;
+  int64 platformType = 5;
+  repeated SaveGoods list = 6;
 }
 message SaveGoods {
   string platformId = 1;

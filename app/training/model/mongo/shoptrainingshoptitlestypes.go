@@ -11,12 +11,13 @@ type Shoptrainingshoptitles struct {
 	UpdateAt time.Time          `bson:"updateAt,omitempty" json:"updateAt,omitempty"`
 	CreateAt time.Time          `bson:"createAt,omitempty" json:"createAt,omitempty"`
 
-	ShopId    int64                    `bson:"shopId" json:"shopId"`
-	UserID    int64                    `bson:"userId" json:"userId"`
-	UUID      string                   `bson:"uuid" json:"uuid"`
-	Platform  int64                    `bson:"platform" json:"platform"`
-	ShopName  string                   `bson:"shopName" json:"shopName"`
-	GoodsList []*ShopTrainingGoodsList `bson:"goodsList" json:"goodsList"`
+	SerialNumber string                   `bson:"serialNumber" json:"serialNumber"`
+	ShopId       int64                    `bson:"shopId" json:"shopId"`
+	UserID       int64                    `bson:"userId" json:"userId"`
+	UUID         string                   `bson:"uuid" json:"uuid"`
+	Platform     int64                    `bson:"platform" json:"platform"`
+	ShopName     string                   `bson:"shopName" json:"shopName"`
+	GoodsList    []*ShopTrainingGoodsList `bson:"goodsList" json:"goodsList"`
 }
 
 type ShopTrainingGoodsList struct {
