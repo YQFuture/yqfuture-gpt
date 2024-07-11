@@ -9,6 +9,7 @@ import (
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 	"yufuture-gpt/app/training/model/orm"
+	"yufuture-gpt/common/consts"
 	"yufuture-gpt/common/utils"
 )
 
@@ -127,8 +128,8 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 	for _, saveGoods := range saveShop.GoodsList {
 		// 同时在mongo中并且enabled字段为2启用的商品即为本次需要训练的商品
 		if tsGoods, ok := tsGoodsMap[saveGoods.PlatformId]; ok {
-			// 排除掉已经在训练中的商品
-			if tsGoods.TrainingStatus == 1 {
+			// 排除掉并非预训练完成状态的商品
+			if tsGoods.TrainingStatus != consts.TrainingComplete {
 				continue
 			}
 			// 更新商品状态为训练中 添加训练次数
@@ -243,6 +244,7 @@ func ApplyGoodsJson(svcCtx *svc.ServiceContext, trainingGoodsList []*orm.TsGoods
 	return nil
 }
 
+// FetchAndSaveGoodsJson 获取获取商品json的url并更新到数据库
 func FetchAndSaveGoodsJson(log logx.Logger, ctx context.Context, svcCtx *svc.ServiceContext, trainingGoodsList []*orm.TsGoods) {
 	i := 0
 	for i < 10 {
@@ -348,7 +350,7 @@ func GetBatchTaskStatus(log logx.Logger, svcCtx *svc.ServiceContext, batchId str
 }
 
 func UpdateShopTraining(ctx context.Context, svcCtx *svc.ServiceContext, tsShop *orm.TsShop, userId int64) error {
-	tsShop.TrainingStatus = 1
+	tsShop.TrainingStatus = consts.Training
 	tsShop.TrainingTimes += 1
 	tsShop.UpdateTime = time.Now()
 	tsShop.UpdateBy = userId
@@ -360,7 +362,7 @@ func UpdateShopTraining(ctx context.Context, svcCtx *svc.ServiceContext, tsShop 
 }
 
 func UpdateShopTrainingComplete(ctx context.Context, svcCtx *svc.ServiceContext, tsShop *orm.TsShop, userId int64) error {
-	tsShop.TrainingStatus = 2
+	tsShop.TrainingStatus = consts.TrainingComplete
 	tsShop.UpdateTime = time.Now()
 	tsShop.UpdateBy = userId
 	err := svcCtx.TsShopModel.Update(ctx, tsShop)
@@ -371,7 +373,7 @@ func UpdateShopTrainingComplete(ctx context.Context, svcCtx *svc.ServiceContext,
 }
 
 func UpdateGoodsTraining(ctx context.Context, svcCtx *svc.ServiceContext, tsGoods *orm.TsGoods, userId int64) error {
-	tsGoods.TrainingStatus = 1
+	tsGoods.TrainingStatus = consts.Training
 	tsGoods.TrainingTimes += 1
 	tsGoods.UpdateTime = time.Now()
 	tsGoods.UpdateBy = userId
@@ -384,7 +386,7 @@ func UpdateGoodsTraining(ctx context.Context, svcCtx *svc.ServiceContext, tsGood
 }
 
 func UpdateGoodsTrainingComplete(ctx context.Context, svcCtx *svc.ServiceContext, tsGoods *orm.TsGoods, userId int64) error {
-	tsGoods.TrainingStatus = 2
+	tsGoods.TrainingStatus = consts.TrainingComplete
 	tsGoods.UpdateTime = time.Now()
 	tsGoods.UpdateBy = userId
 	err := svcCtx.TsGoodsModel.Update(ctx, tsGoods)
