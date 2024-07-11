@@ -20,5 +20,5 @@ type Shoppresettingshoptitles struct {
 	PreSettingToken    int64                      `bson:"preSettingToken" json:"preSettingToken"`
 	PresettingHashRate int64                      `bson:"presettingHashRate" json:"presettingHashRate"`
 	PreSettingTime     time.Time                  `bson:"preSettingTime" json:"preSettingTime"`
-	GoodsDocument      []*common.PddGoodsDocument `bson:"goodsDocument" json:"goodsDocument"`
+	GoodsDocumentList  []*common.PddGoodsDocument `bson:"goodsDocumentList" json:"goodsDocumentList"`
 }

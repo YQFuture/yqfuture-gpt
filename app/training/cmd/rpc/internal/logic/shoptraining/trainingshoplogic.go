@@ -40,17 +40,23 @@ func NewTrainingShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Trai
 
 // 训练店铺
 func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*training.TrainingShopResp, error) {
-	// 根据uuid和userId从mongo中找到最新的一条店铺数据
-	saveShop, err := l.svcCtx.ShoptrainingshoptitlesModel.FindNewOneByUuidAndUserId(l.ctx, in.Uuid, in.UserId)
+	// 根据uuid和userId从mongo中找到最新的一条预训练店铺数据
+	shoppresettingshoptitles, err := l.svcCtx.ShoppresettingshoptitlesModel.FindNewOneByUuidAndUserId(l.ctx, in.Uuid, in.UserId)
 	if err != nil {
-		l.Logger.Error("根据uuid和userId从mongo中找到最新的一条店铺数据失败", err)
+		l.Logger.Error("根据uuid和userId从mongo中找到最新的一条预训练店铺数据失败", err)
 		return nil, err
 	}
+	// 预训练保存的商品文档列表
+	var goodsDocumentList = shoppresettingshoptitles.GoodsDocumentList
 
 	// 根据uuid和userid从mysql中查找出店铺
 	tsShop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in.UserId, in.Uuid)
 	if err != nil {
 		l.Logger.Error("根据uuid和userid查找店铺失败", err)
+		return nil, err
+	}
+	if tsShop.TrainingStatus != consts.PresettingComplete {
+		l.Logger.Error("只有预训练完成的店铺才能进行训练", err)
 		return nil, err
 	}
 	// 根据店铺shopId从mysql中查找出enabled字段为2启用商品列表
@@ -64,6 +70,10 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 	if tsGoodsList != nil {
 		tsGoodsMap = make(map[string]*orm.TsGoods)
 		for _, tsGoods := range *tsGoodsList {
+			// 只保留预训练完成状态的商品
+			if tsGoods.TrainingStatus != consts.TrainingComplete {
+				continue
+			}
 			tsGoodsMap[tsGoods.PlatformId] = tsGoods
 		}
 	}
@@ -76,9 +86,9 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 	}
 	// 更新商品状态为训练中 同时提取本次需要训练的商品列表
 	var trainingGoodsList []*orm.TsGoods
-	for _, saveGoods := range saveShop.GoodsList {
+	for _, goodsDocumentList := range goodsDocumentList {
 		// 同时在mongo中并且enabled字段为2启用的商品即为本次需要训练的商品
-		if tsGoods, ok := tsGoodsMap[saveGoods.PlatformId]; ok {
+		if tsGoods, ok := tsGoodsMap[goodsDocumentList.PlatformGoodsId]; ok {
 			// 排除掉并非预训练完成状态的商品
 			if tsGoods.TrainingStatus != consts.TrainingComplete {
 				continue
@@ -101,17 +111,6 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 		return nil, err
 	}
 
-	// 等待2分钟
-	time.Sleep(time.Minute * 2)
-
-	// 每6分钟调用一次接口 连续10次失败则结束
-	FetchAndSaveGoodsJson(l.Logger, l.ctx, l.svcCtx, trainingGoodsList)
-
-	// 最终保存到ES的结果文档
-	var goodsDocumentList []*common.PddGoodsDocument
-	// 获取并解析商品JSON到结果文档列表
-	GetAndParseGoodsJson(l.Logger, tsShop, goodsDocumentList, trainingGoodsList)
-
 	// 发起店铺训练批处理 获取返回的batchId
 	var createBatchTaskResp string
 	batchId, err := CreateBatchTask(l.Logger, l.svcCtx, goodsDocumentList, &createBatchTaskResp)
@@ -126,6 +125,7 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 	// 轮询等待批处理完成 获取返回的fileId
 	fileId, err := GetBatchTaskStatus(l.Logger, l.svcCtx, batchId)
 	if err != nil {
+		l.Logger.Error("获取批处理状态失败", err)
 		return nil, err
 	}
 
