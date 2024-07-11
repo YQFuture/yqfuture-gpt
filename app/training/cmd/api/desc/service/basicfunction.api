@@ -12,22 +12,22 @@ type (
     // 基础请求
     BaseReq {
     }
-    // 基础响应
+        // 基础响应
     BaseResp {
-        Code  int    `json:"code"` // 状态码
-        Msg   string `json:"msg"` // 信息
+        Code int `json:"code"`  // 状态码
+        Msg string `json:"msg"` // 信息
     }
-    // 分页请求
+        // 分页请求
     BasePageReq {
-        PageNum  int64  `json:"pageNum"` // 页码
-        PageSize int64  `json:"pageSize"` // 每页条数
-        Query    string `json:"query"` // 查询条件
-    }
-    // 分页响应
-    BasePageResp {
-        PageNum  int64 `json:"pageNum"` // 页码
+        PageNum int64 `json:"pageNum"`   // 页码
         PageSize int64 `json:"pageSize"` // 每页条数
-        Total    int64 `json:"total"` // 总条数
+        Query string `json:"query"`      // 查询条件
+    }
+        // 分页响应
+    BasePageResp {
+        PageNum int64 `json:"pageNum"`   // 页码
+        PageSize int64 `json:"pageSize"` // 每页条数
+        Total int64 `json:"total"`       // 总条数
     }
 )
 
@@ -36,15 +36,15 @@ type (
     DictInfoByTypeReq {
         Key string `json:"key"` // 类型key
     }
-    // 字典信息响应
+        // 字典信息响应
     DictInfoByTypeResp {
         BaseResp
         Data []*DictInfo `json:"data"` // 字典列表
     }
-    // 字典信息
+        // 字典信息
     DictInfo {
-        Name     string `json:"name"` // 名称
-        Value    string `json:"value"` // 值
+        Name string `json:"name"`        // 名称
+        Value string `json:"value"`      // 值
         OrderNum int64 `json:"orderNum"` // 排序
     }
 )

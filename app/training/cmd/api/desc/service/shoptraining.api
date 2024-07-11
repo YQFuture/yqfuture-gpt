@@ -25,9 +25,9 @@ type (
 
     ShopPageListReq {
         BasePageReq
-        PlatFormType   int64     `json:"platFormType"` // 平台类型
-        TrainingStatus int64     `json:"trainStatus"` // 训练状态
-        UpdateTime     int64 `json:"updateTime"` // 更新时间
+        PlatFormType int64 `json:"platFormType"`  // 平台类型
+        TrainingStatus int64 `json:"trainStatus"` // 训练状态
+        UpdateTime int64 `json:"updateTime"`      // 更新时间
     }
 
     ShopPageListResp {
@@ -41,13 +41,13 @@ type (
     }
 
     ShopResp {
-        Id             string     `json:"id"` // 店铺id
-        Uuid           string `json:"uuid"` // 唯一标识
-        ShopName       string    `json:"shopName"` // 店铺名称
-        PlatFormType   int64     `json:"platFormType"` // 平台类型
-        TrainingStatus int64     `json:"trainStatus"` // 训练状态
-        TrainingTimes  int64     `json:"trainTimes"` // 训练次数
-        UpdateTime     int64 `json:"updateTime"` // 更新时间
+        Id string `json:"id"`                     // 店铺id
+        Uuid string `json:"uuid"`                 // 唯一标识
+        ShopName string `json:"shopName"`         // 店铺名称
+        PlatFormType int64 `json:"platFormType"`  // 平台类型
+        TrainingStatus int64 `json:"trainStatus"` // 训练状态
+        TrainingTimes int64 `json:"trainTimes"`   // 训练次数
+        UpdateTime int64 `json:"updateTime"`      // 更新时间
     }
 )
 
@@ -55,8 +55,8 @@ type (
 type (
     GoodsPageListReq {
         BasePageReq
-        ShopId string `json:"shopId"` // 店铺id
-        Enabled    int64     `json:"enabled"` // 启用状态  0: 未定义 1: 未启用 2: 启用
+        ShopId string `json:"shopId"`        // 店铺id
+        Enabled int64 `json:"enabled"`       // 启用状态  0: 未定义 1: 未启用 2: 启用
         UpdateTime int64 `json:"updateTime"` // 更新时间
     }
 
@@ -71,15 +71,15 @@ type (
     }
 
     GoodsResp {
-        Id string `json:"id"` // 商品id
-        ShopId string `json:"shopId"` // 店铺id
-        GoodsName string `json:"goodsName"` // 商品名称
-        GoodsUrl string `json:"goodsUrl"` // 商品url
+        Id string `json:"id"`                           // 商品id
+        ShopId string `json:"shopId"`                   // 店铺id
+        GoodsName string `json:"goodsName"`             // 商品名称
+        GoodsUrl string `json:"goodsUrl"`               // 商品url
         TrainingSummary string `json:"trainingSummary"` // 训练摘要
-        Enabled int64 `json:"enabled"` // 启用状态 0: 未定义 1: 未启用 2: 启用
-        TrainingStatus int64 `json:"trainStatus"` // 训练状态 训练状态 0: 未训练 1: 训练中 2: 训练完成
-        TrainingTimes  int64 `json:"trainingTimes"` // 训练次数
-        UpdateTime int64 `json:"updateTime"`// 更新时间
+        Enabled int64 `json:"enabled"`                  // 启用状态 0: 未定义 1: 未启用 2: 启用
+        TrainingStatus int64 `json:"trainStatus"`       // 训练状态 训练状态 0: 未训练 1: 训练中 2: 训练完成
+        TrainingTimes int64 `json:"trainingTimes"`      // 训练次数
+        UpdateTime int64 `json:"updateTime"`            // 更新时间
     }
 
     BaseGoodsReq {
@@ -88,7 +88,7 @@ type (
 
     AddGoodsReq {
         ShopId string `json:"shopId"` // 店铺id
-        List []string `json:"list"` // 商品url列表
+        List []string `json:"list"`   // 商品url列表
     }
 )
 
@@ -97,15 +97,18 @@ type (
     // 店铺预训练参数
     ShopTrainingReq {
         Uuid string `json:"uuid"` // 唯一标识
+        PlatFormType int64 `json:"platFormType"` // 平台类型
+        ShopName string `json:"shopName"`
+        Cookies string `json:"cookies"`
     }
 
-    // 店铺预训练返回
+        // 店铺预训练返回
     ShopTrainingResp {
         BaseResp
-        Data  interface{} `json:"data"` // 数据
+        Data interface{} `json:"data"` // 数据
     }
 
-    // 取消店铺预训练参数
+        // 取消店铺预训练参数
     CancelPreSettingReq {
         Uuid string `json:"uuid"` // 唯一标识
     }
