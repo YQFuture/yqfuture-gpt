@@ -6,6 +6,7 @@ import (
 	"time"
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
+	"yufuture-gpt/app/training/model/common"
 	"yufuture-gpt/app/training/model/orm"
 	"yufuture-gpt/common/utils"
 
@@ -62,7 +63,7 @@ func (l *TrainingGoodsLogic) TrainingGoods(in *training.TrainingGoodsReq) (*trai
 	FetchAndSaveGoodsJson(l.Logger, l.ctx, l.svcCtx, trainingGoodsList)
 
 	// 最终保存到ES的结果文档
-	var goodsDocumentList []*PddGoodsDocument
+	var goodsDocumentList []*common.PddGoodsDocument
 	// 获取并解析商品JSON到结果文档列表
 	GetAndParseGoodsJson(l.Logger, tsShop, goodsDocumentList, trainingGoodsList)
 

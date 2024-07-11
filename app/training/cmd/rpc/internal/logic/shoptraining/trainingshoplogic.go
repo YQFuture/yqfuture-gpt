@@ -8,6 +8,7 @@ import (
 	"time"
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
+	"yufuture-gpt/app/training/model/common"
 	"yufuture-gpt/app/training/model/orm"
 	"yufuture-gpt/common/consts"
 	"yufuture-gpt/common/utils"
@@ -17,32 +18,6 @@ type TrainingShopLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
-}
-
-// PddGoodsDocument 保存到es的拼多多商品训练结果
-type PddGoodsDocument struct {
-	ShopId  int64  `json:"shopId"`  // 对应mysql店铺id
-	GoodsId int64  `json:"goodsId"` // 对应mysql商品id
-	Uuid    string `json:"uuid"`
-	UserId  int64  `json:"userId"`
-
-	PlatformMallId  string `json:"platformMallId"`  // 对应json店铺id
-	PlatformGoodsId string `json:"platformGoodsId"` // 对应json商品id
-	GoodsUrl        string `json:"goodsUrl"`
-	GoodsJson       string `json:"goodsJson"`
-	GoodsName       string `json:"goodsName"`
-
-	SkuSpecs                 map[string]string `json:"skuSpecs"`
-	GroupPrice               float64           `json:"groupPrice"`
-	NormalPrice              float64           `json:"normalPrice"`
-	ServicePromise           map[string]string `json:"servicePromise"`           // 商品服务承诺列表
-	SellPointTagList         interface{}       `json:"sellPointTagList"`         // 卖点
-	PromptExplain            string            `json:"promptExplain"`            // 商品提示
-	DetailGalleryDescription string            `json:"detailGalleryDescription"` // 图片训练结果描述
-
-	PictureUrlList []string  `json:"pictureUrlList"`
-	Token          int64     `json:"token"` // 消耗的token
-	CreatedAt      time.Time `json:"createdAt"`
 }
 
 type ApplyGoodsJsonReq struct {
@@ -157,7 +132,7 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 	FetchAndSaveGoodsJson(l.Logger, l.ctx, l.svcCtx, trainingGoodsList)
 
 	// 最终保存到ES的结果文档
-	var goodsDocumentList []*PddGoodsDocument
+	var goodsDocumentList []*common.PddGoodsDocument
 	// 获取并解析商品JSON到结果文档列表
 	GetAndParseGoodsJson(l.Logger, tsShop, goodsDocumentList, trainingGoodsList)
 
@@ -287,7 +262,7 @@ func FetchAndSaveGoodsJson(log logx.Logger, ctx context.Context, svcCtx *svc.Ser
 	}
 }
 
-func GetAndParseGoodsJson(log logx.Logger, tsShop *orm.TsShop, goodsDocumentList []*PddGoodsDocument, trainingGoodsList []*orm.TsGoods) {
+func GetAndParseGoodsJson(log logx.Logger, tsShop *orm.TsShop, goodsDocumentList []*common.PddGoodsDocument, trainingGoodsList []*orm.TsGoods) {
 	for _, trainingGoods := range trainingGoodsList {
 		//根据获取商品JSON的url获取商品JSON 排除掉url为空的商品
 		if trainingGoods.GoodsJsonUrl == "" {
@@ -310,7 +285,7 @@ func GetAndParseGoodsJson(log logx.Logger, tsShop *orm.TsShop, goodsDocumentList
 	}
 }
 
-func CreateBatchTask(log logx.Logger, svcCtx *svc.ServiceContext, goodsDocumentList []*PddGoodsDocument, createBatchTaskResp *string) (string, error) {
+func CreateBatchTask(log logx.Logger, svcCtx *svc.ServiceContext, goodsDocumentList []*common.PddGoodsDocument, createBatchTaskResp *string) (string, error) {
 	var batchImages []*ImageInfo
 	for _, goodsDocument := range goodsDocumentList {
 		batchImages = append(batchImages, &ImageInfo{
@@ -397,7 +372,7 @@ func UpdateGoodsTrainingComplete(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 // ParsePddGoods 解析拼多多商品JSON
-func ParsePddGoods(goodsJson string, tsShop *orm.TsShop, tsGoods *orm.TsGoods) *PddGoodsDocument {
+func ParsePddGoods(goodsJson string, tsShop *orm.TsShop, tsGoods *orm.TsGoods) *common.PddGoodsDocument {
 	// 店铺id
 	mallId := gjson.Get(goodsJson, "mall_entrance.mall_data.mall_id")
 	// 商品sku标签列表
@@ -425,7 +400,7 @@ func ParsePddGoods(goodsJson string, tsShop *orm.TsShop, tsGoods *orm.TsGoods) *
 	sellPointTagList := gjson.Get(goodsJson, "ui.carousel_section.sell_point_tag_list").Array()
 	// 商品提示
 	promptExplain := gjson.Get(goodsJson, "goods.prompt_explain").String()
-	goodsDocument := &PddGoodsDocument{
+	goodsDocument := &common.PddGoodsDocument{
 		ShopId:  tsShop.Id,
 		GoodsId: tsGoods.Id,
 		Uuid:    tsShop.Uuid,

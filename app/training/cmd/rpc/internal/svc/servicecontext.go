@@ -26,7 +26,9 @@ type ServiceContext struct {
 	BsDictTypeModel orm.BsDictTypeModel
 	BsDictInfoModel orm.BsDictInfoModel
 	// mongo模型
-	ShoptrainingshoptitlesModel model.ShoptrainingshoptitlesModel
+	ShoptrainingshoptitlesModel    model.ShoptrainingshoptitlesModel
+	ShoppresettingshoptitlesModel  model.ShoppresettingshoptitlesModel
+	ShoppresettinggoodstitlesModel model.ShoppresettinggoodstitlesModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -45,16 +47,18 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		panic(err)
 	}
 	return &ServiceContext{
-		Config:                      c,
-		KqPusherClient:              kq.NewPusher(c.KqPusherConf.Brokers, c.KqPusherConf.Topic, kq.WithAllowAutoTopicCreation()),
-		Elasticsearch:               esClient,
-		SnowFlakeNode:               snowflakeNode,
-		TsShopModel:                 orm.NewTsShopModel(sqlConn),
-		TsGoodsModel:                orm.NewTsGoodsModel(sqlConn),
-		TsShopLogModel:              orm.NewTsShopLogModel(sqlConn),
-		TsGoodsLogModel:             orm.NewTsGoodsLogModel(sqlConn),
-		BsDictTypeModel:             orm.NewBsDictTypeModel(sqlConn),
-		BsDictInfoModel:             orm.NewBsDictInfoModel(sqlConn),
-		ShoptrainingshoptitlesModel: model.NewShoptrainingshoptitlesModel(c.Mongo.Url, c.Mongo.Database, c.Mongo.Shoptrainingshoptitles),
+		Config:                         c,
+		KqPusherClient:                 kq.NewPusher(c.KqPusherConf.Brokers, c.KqPusherConf.Topic, kq.WithAllowAutoTopicCreation()),
+		Elasticsearch:                  esClient,
+		SnowFlakeNode:                  snowflakeNode,
+		TsShopModel:                    orm.NewTsShopModel(sqlConn),
+		TsGoodsModel:                   orm.NewTsGoodsModel(sqlConn),
+		TsShopLogModel:                 orm.NewTsShopLogModel(sqlConn),
+		TsGoodsLogModel:                orm.NewTsGoodsLogModel(sqlConn),
+		BsDictTypeModel:                orm.NewBsDictTypeModel(sqlConn),
+		BsDictInfoModel:                orm.NewBsDictInfoModel(sqlConn),
+		ShoptrainingshoptitlesModel:    model.NewShoptrainingshoptitlesModel(c.Mongo.Url, c.Mongo.Database, c.Mongo.Shoptrainingshoptitles),
+		ShoppresettingshoptitlesModel:  model.NewShoppresettingshoptitlesModel(c.Mongo.Url, c.Mongo.Database, c.Mongo.Shoppresettingshoptitles),
+		ShoppresettinggoodstitlesModel: model.NewShoppresettinggoodstitlesModel(c.Mongo.Url, c.Mongo.Database, c.Mongo.Shoppresettinggoodstitles),
 	}
 }
