@@ -15,6 +15,8 @@ import (
 type (
 	AddGoodsReq                  = training.AddGoodsReq
 	AddGoodsResp                 = training.AddGoodsResp
+	CancelPreSettingGoodsReq     = training.CancelPreSettingGoodsReq
+	CancelPreSettingGoodsResp    = training.CancelPreSettingGoodsResp
 	CancelPreSettingReq          = training.CancelPreSettingReq
 	DictInfo                     = training.DictInfo
 	DictInfoByTypeReq            = training.DictInfoByTypeReq
@@ -34,6 +36,8 @@ type (
 	JudgeFirstShopResp           = training.JudgeFirstShopResp
 	KnowledgeBaseTrainingReq     = training.KnowledgeBaseTrainingReq
 	KnowledgeBaseTrainingResp    = training.KnowledgeBaseTrainingResp
+	PreSettingGoodsReq           = training.PreSettingGoodsReq
+	PreSettingGoodsResp          = training.PreSettingGoodsResp
 	SaveGoods                    = training.SaveGoods
 	SaveShopReq                  = training.SaveShopReq
 	SaveShopResp                 = training.SaveShopResp

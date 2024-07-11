@@ -70,6 +70,18 @@ func (s *ShopTrainingServer) GetGoodsTrainingResult(ctx context.Context, in *tra
 	return l.GetGoodsTrainingResult(in)
 }
 
+// 预训练商品
+func (s *ShopTrainingServer) PreSettingGoods(ctx context.Context, in *training.PreSettingGoodsReq) (*training.PreSettingGoodsResp, error) {
+	l := shoptraininglogic.NewPreSettingGoodsLogic(ctx, s.svcCtx)
+	return l.PreSettingGoods(in)
+}
+
+// 取消预训练商品
+func (s *ShopTrainingServer) CancelPreSettingGoods(ctx context.Context, in *training.CancelPreSettingGoodsReq) (*training.CancelPreSettingGoodsResp, error) {
+	l := shoptraininglogic.NewCancelPreSettingGoodsLogic(ctx, s.svcCtx)
+	return l.CancelPreSettingGoods(in)
+}
+
 // 训练商品
 func (s *ShopTrainingServer) TrainingGoods(ctx context.Context, in *training.TrainingGoodsReq) (*training.TrainingGoodsResp, error) {
 	l := shoptraininglogic.NewTrainingGoodsLogic(ctx, s.svcCtx)

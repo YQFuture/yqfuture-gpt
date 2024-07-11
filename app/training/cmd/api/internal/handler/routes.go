@@ -51,10 +51,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: shopTraining.AddGoodsHandler(serverCtx),
 			},
 			{
-				// 取消预训练
+				// 取消店铺预训练
 				Method:  http.MethodPost,
 				Path:    "/cancelPreSetting",
 				Handler: shopTraining.CancelPreSettingHandler(serverCtx),
+			},
+			{
+				// 取消预训练商品
+				Method:  http.MethodPost,
+				Path:    "/cancelPreSettingGoods",
+				Handler: shopTraining.CancelPreSettingGoodsHandler(serverCtx),
 			},
 			{
 				// 启用商品
@@ -93,10 +99,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: shopTraining.GetShopTrainingProgressHandler(serverCtx),
 			},
 			{
-				// 预训练
+				// 店铺预训练
 				Method:  http.MethodPost,
 				Path:    "/preSetting",
 				Handler: shopTraining.PreSettingHandler(serverCtx),
+			},
+			{
+				// 预训练商品
+				Method:  http.MethodPost,
+				Path:    "/preSettingGoods",
+				Handler: shopTraining.PreSettingGoodsHandler(serverCtx),
 			},
 			{
 				// 保存爬取的店铺基本数据

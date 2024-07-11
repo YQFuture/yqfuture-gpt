@@ -30,6 +30,10 @@ type BaseResp struct {
 	Msg  string `json:"msg"`  // 信息
 }
 
+type CancelPreSettingGoodsReq struct {
+	GoodsId string `json:"goodsId"` // 商品id
+}
+
 type CancelPreSettingReq struct {
 	Uuid string `json:"uuid"` // 唯一标识
 }
@@ -112,6 +116,10 @@ type JudgeFirstShopReq struct {
 type JudgeFirstShopResp struct {
 	BaseResp
 	Data int64 `json:"data"` // 是否初次 0: 是 1: 否
+}
+
+type PreSettingGoodsReq struct {
+	GoodsId string `json:"goodsId"` // 商品id
 }
 
 type SaveGoods struct {

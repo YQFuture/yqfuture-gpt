@@ -117,6 +117,20 @@ message GetShopTrainingProgressReq {
 message GetShopTrainingProgressResp {
   string result = 1;
 }
+message PreSettingGoodsReq {
+  int64 goodsId = 1;
+  int64 userId = 2;
+}
+message PreSettingGoodsResp {
+  string result = 1;
+}
+message CancelPreSettingGoodsReq {
+  int64 goodsId = 1;
+  int64 userId = 2;
+}
+message CancelPreSettingGoodsResp {
+  string result = 1;
+}
 message TrainingGoodsReq {
   int64 goodsId = 1;
   int64 userId = 2;
@@ -180,6 +194,10 @@ service ShopTraining {
   rpc getGoodsPageList(GoodsPageListReq) returns (GoodsPageListResp);
   // 获取商品训练结果
   rpc getGoodsTrainingResult(GetGoodsTrainingResultReq) returns (GetGoodsTrainingResultResp);
+  // 预训练商品
+  rpc preSettingGoods(PreSettingGoodsReq) returns (PreSettingGoodsResp);
+  // 取消预训练商品
+  rpc cancelPreSettingGoods(CancelPreSettingGoodsReq) returns (CancelPreSettingGoodsResp);
   // 训练商品
   rpc trainingGoods(TrainingGoodsReq) returns (TrainingGoodsResp);
   // 获取商品训练进度

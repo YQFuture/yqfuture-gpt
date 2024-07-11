@@ -15,6 +15,8 @@ import (
 type (
 	AddGoodsReq                  = training.AddGoodsReq
 	AddGoodsResp                 = training.AddGoodsResp
+	CancelPreSettingGoodsReq     = training.CancelPreSettingGoodsReq
+	CancelPreSettingGoodsResp    = training.CancelPreSettingGoodsResp
 	CancelPreSettingReq          = training.CancelPreSettingReq
 	DictInfo                     = training.DictInfo
 	DictInfoByTypeReq            = training.DictInfoByTypeReq
@@ -34,6 +36,8 @@ type (
 	JudgeFirstShopResp           = training.JudgeFirstShopResp
 	KnowledgeBaseTrainingReq     = training.KnowledgeBaseTrainingReq
 	KnowledgeBaseTrainingResp    = training.KnowledgeBaseTrainingResp
+	PreSettingGoodsReq           = training.PreSettingGoodsReq
+	PreSettingGoodsResp          = training.PreSettingGoodsResp
 	SaveGoods                    = training.SaveGoods
 	SaveShopReq                  = training.SaveShopReq
 	SaveShopResp                 = training.SaveShopResp
@@ -64,6 +68,10 @@ type (
 		GetGoodsPageList(ctx context.Context, in *GoodsPageListReq, opts ...grpc.CallOption) (*GoodsPageListResp, error)
 		// 获取商品训练结果
 		GetGoodsTrainingResult(ctx context.Context, in *GetGoodsTrainingResultReq, opts ...grpc.CallOption) (*GetGoodsTrainingResultResp, error)
+		// 预训练商品
+		PreSettingGoods(ctx context.Context, in *PreSettingGoodsReq, opts ...grpc.CallOption) (*PreSettingGoodsResp, error)
+		// 取消预训练商品
+		CancelPreSettingGoods(ctx context.Context, in *CancelPreSettingGoodsReq, opts ...grpc.CallOption) (*CancelPreSettingGoodsResp, error)
 		// 训练商品
 		TrainingGoods(ctx context.Context, in *TrainingGoodsReq, opts ...grpc.CallOption) (*TrainingGoodsResp, error)
 		// 获取商品训练进度
@@ -135,6 +143,18 @@ func (m *defaultShopTraining) GetGoodsPageList(ctx context.Context, in *GoodsPag
 func (m *defaultShopTraining) GetGoodsTrainingResult(ctx context.Context, in *GetGoodsTrainingResultReq, opts ...grpc.CallOption) (*GetGoodsTrainingResultResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
 	return client.GetGoodsTrainingResult(ctx, in, opts...)
+}
+
+// 预训练商品
+func (m *defaultShopTraining) PreSettingGoods(ctx context.Context, in *PreSettingGoodsReq, opts ...grpc.CallOption) (*PreSettingGoodsResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.PreSettingGoods(ctx, in, opts...)
+}
+
+// 取消预训练商品
+func (m *defaultShopTraining) CancelPreSettingGoods(ctx context.Context, in *CancelPreSettingGoodsReq, opts ...grpc.CallOption) (*CancelPreSettingGoodsResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.CancelPreSettingGoods(ctx, in, opts...)
 }
 
 // 训练商品

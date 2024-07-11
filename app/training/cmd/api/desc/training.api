@@ -41,11 +41,11 @@ service training {
 	jwt:    Auth
 )
 service training {
-	@doc "预训练"
+	@doc "店铺预训练"
 	@handler preSetting
 	post /preSetting (ShopTrainingReq) returns (ShopTrainingResp)
 
-	@doc "取消预训练"
+	@doc "取消店铺预训练"
 	@handler cancelPreSetting
 	post /cancelPreSetting (CancelPreSettingReq) returns (BaseResp)
 
@@ -72,6 +72,14 @@ service training {
 	@doc "获取商品训练结果"
 	@handler getGoodsTrainingResult
 	post /getGoodsTrainingResult (GetGoodsTrainingResultReq) returns (GetGoodsTrainingResultResp)
+
+	@doc "预训练商品"
+	@handler preSettingGoods
+	post /preSettingGoods (PreSettingGoodsReq) returns (BaseResp)
+
+	@doc "取消预训练商品"
+	@handler cancelPreSettingGoods
+	post /cancelPreSettingGoods (CancelPreSettingGoodsReq) returns (BaseResp)
 
 	@doc "训练商品"
 	@handler trainingGoods
