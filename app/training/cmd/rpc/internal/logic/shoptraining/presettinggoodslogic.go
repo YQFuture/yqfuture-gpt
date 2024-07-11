@@ -2,6 +2,11 @@ package shoptraininglogic
 
 import (
 	"context"
+	"time"
+	"yufuture-gpt/app/training/model/common"
+	yqmongo "yufuture-gpt/app/training/model/mongo"
+	"yufuture-gpt/app/training/model/orm"
+	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
@@ -25,7 +30,55 @@ func NewPreSettingGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *P
 
 // 预训练商品
 func (l *PreSettingGoodsLogic) PreSettingGoods(in *training.PreSettingGoodsReq) (*training.PreSettingGoodsResp, error) {
-	// todo: add your logic here and delete this line
+	tsGoods, err := l.svcCtx.TsGoodsModel.FindOne(l.ctx, in.GoodsId)
+	if err != nil {
+		l.Logger.Error("根据goodsId查找商品失败", err)
+		return nil, err
+	}
+	// 排除掉状态已经在预训练中/训练中/预训练完成的商品
+	if tsGoods.TrainingStatus == consts.Presetting || tsGoods.TrainingStatus == consts.Training || tsGoods.TrainingStatus == consts.PresettingComplete {
+		l.Logger.Error("商品不是可预训练状态", err)
+		return nil, err
+	}
+
+	tsShop, err := l.svcCtx.TsShopModel.FindOne(l.ctx, tsGoods.ShopId)
+	if err != nil {
+		l.Logger.Error("根据ShopId查找店铺失败", err)
+		return nil, err
+	}
+
+	var presettingGoods []*orm.TsGoods
+	presettingGoods = append(presettingGoods, tsGoods)
+
+	// 请求获取商品JSON
+	err = ApplyGoodsJson(l.svcCtx, presettingGoods)
+	if err != nil {
+		l.Logger.Info("发送获取商品JSON请求失败", err)
+		return nil, err
+	}
+
+	// 等待2分钟
+	time.Sleep(time.Minute * 2)
+
+	// 每6分钟调用一次接口 连续10次失败则结束
+	FetchAndSaveGoodsJson(l.Logger, l.ctx, l.svcCtx, presettingGoods)
+
+	// 最终保存到ES的结果文档
+	var goodsDocumentList []*common.PddGoodsDocument
+	// 获取并解析商品JSON到结果文档列表
+	GetAndParseGoodsJson(l.Logger, tsShop, goodsDocumentList, presettingGoods)
+
+	// 构建获取训练时长的请求图片列表
+	var goodPicList []string
+	for _, goodsDocument := range goodsDocumentList {
+		goodPicList = append(goodPicList, goodsDocument.PictureUrlList...)
+	}
+
+	// TODO 发送请求 获取商品训练所需资源和时长
+
+	// 设计结构化文档 预训练结果保存到mongo 正式训练时直接从mongo中取
+	shoppresettinggoodstitles := &yqmongo.Shoppresettinggoodstitles{}
+	err = l.svcCtx.ShoppresettinggoodstitlesModel.Insert(l.ctx, shoppresettinggoodstitles)
 
 	return &training.PreSettingGoodsResp{}, nil
 }

@@ -6,7 +6,6 @@ import (
 	"time"
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
-	"yufuture-gpt/app/training/model/common"
 	"yufuture-gpt/app/training/model/orm"
 	"yufuture-gpt/common/utils"
 
@@ -29,6 +28,14 @@ func NewTrainingGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Tra
 
 // 训练商品
 func (l *TrainingGoodsLogic) TrainingGoods(in *training.TrainingGoodsReq) (*training.TrainingGoodsResp, error) {
+	// 根据shopId从mongo中找到最新的一条预训练商品数据
+	shoppresettinggoodstitles, err := l.svcCtx.ShoppresettinggoodstitlesModel.FindNewOneByGoodsId(l.ctx, in.GoodsId)
+	if shoppresettinggoodstitles == nil || len(shoppresettinggoodstitles.GoodsDocumentList) == 0 {
+		l.Logger.Error("mongo中没有可用的预训练数据", err)
+		return nil, err
+	}
+	// 预训练保存的商品文档列表
+	var goodsDocumentList = shoppresettinggoodstitles.GoodsDocumentList
 	// 从mysql中查询出商品
 	tsGoods, err := l.svcCtx.TsGoodsModel.FindOne(l.ctx, in.GoodsId)
 	if err != nil {
@@ -40,32 +47,14 @@ func (l *TrainingGoodsLogic) TrainingGoods(in *training.TrainingGoodsReq) (*trai
 			Result: "商品已经在训练中",
 		}, nil
 	}
-	tsShop, err := l.svcCtx.TsShopModel.FindOne(l.ctx, tsGoods.ShopId)
-	if err != nil {
-		l.Logger.Error("根据ShopId查找店铺失败", err)
-		return nil, err
-	}
-
+	// 训练的商品列表
 	var trainingGoodsList []*orm.TsGoods
 	trainingGoodsList = append(trainingGoodsList, tsGoods)
-
-	// 请求获取商品JSON
-	err = ApplyGoodsJson(l.svcCtx, trainingGoodsList)
+	// 更新商品状态为训练中
+	err = UpdateGoodsTraining(l.ctx, l.svcCtx, tsGoods, in.UserId)
 	if err != nil {
-		l.Logger.Info("发送获取商品JSON请求失败", err)
-		return nil, err
+		l.Logger.Error("修改商品状态失败", err)
 	}
-
-	// 等待2分钟
-	time.Sleep(time.Minute * 2)
-
-	// 每6分钟调用一次接口 连续10次失败则结束
-	FetchAndSaveGoodsJson(l.Logger, l.ctx, l.svcCtx, trainingGoodsList)
-
-	// 最终保存到ES的结果文档
-	var goodsDocumentList []*common.PddGoodsDocument
-	// 获取并解析商品JSON到结果文档列表
-	GetAndParseGoodsJson(l.Logger, tsShop, goodsDocumentList, trainingGoodsList)
 
 	// 发起店铺训练批处理 获取返回的batchId
 	var createBatchTaskResp string
@@ -74,16 +63,13 @@ func (l *TrainingGoodsLogic) TrainingGoods(in *training.TrainingGoodsReq) (*trai
 		l.Logger.Error("发送创建店铺训练批处理请求失败", err)
 		return nil, err
 	}
-
 	// 等待2分钟
 	time.Sleep(time.Minute * 2)
-
 	// 轮询等待批处理完成 获取返回的fileId
 	fileId, err := GetBatchTaskStatus(l.Logger, l.svcCtx, batchId)
 	if err != nil {
 		return nil, err
 	}
-
 	// 获取批处理结果 对于识别失败的结果将不返回
 	var batchTaskResultResp string
 	err = utils.HTTPGetAndParseJSON(l.svcCtx.Config.TrainingGoodsConf.QueryBatchTaskResultUrl+"?file_id="+fileId, &batchTaskResultResp)
@@ -91,7 +77,6 @@ func (l *TrainingGoodsLogic) TrainingGoods(in *training.TrainingGoodsReq) (*trai
 		l.Logger.Error("发送获取批处理结果请求失败", err)
 		return nil, err
 	}
-
 	// 解析结果写入goodsDocument
 	var batchTaskResultMap map[string]*gjson.Result
 	for _, batchTaskResult := range gjson.Get(batchTaskResultResp, "data").Array() {
@@ -122,7 +107,6 @@ func (l *TrainingGoodsLogic) TrainingGoods(in *training.TrainingGoodsReq) (*trai
 			return nil, err
 		}
 	}
-
 	// 返回正常
 	return &training.TrainingGoodsResp{}, nil
 }

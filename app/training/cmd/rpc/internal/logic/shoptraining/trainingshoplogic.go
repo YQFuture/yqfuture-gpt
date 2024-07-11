@@ -42,13 +42,16 @@ func NewTrainingShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Trai
 func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*training.TrainingShopResp, error) {
 	// 根据uuid和userId从mongo中找到最新的一条预训练店铺数据
 	shoppresettingshoptitles, err := l.svcCtx.ShoppresettingshoptitlesModel.FindNewOneByUuidAndUserId(l.ctx, in.Uuid, in.UserId)
+	if shoppresettingshoptitles == nil || len(shoppresettingshoptitles.GoodsDocumentList) == 0 {
+		l.Logger.Error("mongo中没有可用的预训练数据", err)
+		return nil, err
+	}
 	if err != nil {
 		l.Logger.Error("根据uuid和userId从mongo中找到最新的一条预训练店铺数据失败", err)
 		return nil, err
 	}
 	// 预训练保存的商品文档列表
 	var goodsDocumentList = shoppresettingshoptitles.GoodsDocumentList
-
 	// 根据uuid和userid从mysql中查找出店铺
 	tsShop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in.UserId, in.Uuid)
 	if err != nil {
@@ -86,9 +89,9 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 	}
 	// 更新商品状态为训练中 同时提取本次需要训练的商品列表
 	var trainingGoodsList []*orm.TsGoods
-	for _, goodsDocumentList := range goodsDocumentList {
+	for _, goodsDocument := range goodsDocumentList {
 		// 同时在mongo中并且enabled字段为2启用的商品即为本次需要训练的商品
-		if tsGoods, ok := tsGoodsMap[goodsDocumentList.PlatformGoodsId]; ok {
+		if tsGoods, ok := tsGoodsMap[goodsDocument.PlatformGoodsId]; ok {
 			// 排除掉并非预训练完成状态的商品
 			if tsGoods.TrainingStatus != consts.TrainingComplete {
 				continue
@@ -104,13 +107,6 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 		}
 	}
 
-	// 请求获取商品JSON
-	err = ApplyGoodsJson(l.svcCtx, trainingGoodsList)
-	if err != nil {
-		l.Logger.Info("发送获取商品JSON请求失败", err)
-		return nil, err
-	}
-
 	// 发起店铺训练批处理 获取返回的batchId
 	var createBatchTaskResp string
 	batchId, err := CreateBatchTask(l.Logger, l.svcCtx, goodsDocumentList, &createBatchTaskResp)
@@ -118,17 +114,14 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 		l.Logger.Error("发送创建店铺训练批处理请求失败", err)
 		return nil, err
 	}
-
 	// 等待2分钟
 	time.Sleep(time.Minute * 2)
-
 	// 轮询等待批处理完成 获取返回的fileId
 	fileId, err := GetBatchTaskStatus(l.Logger, l.svcCtx, batchId)
 	if err != nil {
 		l.Logger.Error("获取批处理状态失败", err)
 		return nil, err
 	}
-
 	// 获取批处理结果 对于识别失败的结果将不返回
 	var batchTaskResultResp string
 	err = utils.HTTPGetAndParseJSON(l.svcCtx.Config.TrainingGoodsConf.QueryBatchTaskResultUrl+"?file_id="+fileId, &batchTaskResultResp)
@@ -136,7 +129,6 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 		l.Logger.Error("发送获取批处理结果请求失败", err)
 		return nil, err
 	}
-
 	// 解析结果写入goodsDocument
 	var batchTaskResultMap map[string]*gjson.Result
 	for _, batchTaskResult := range gjson.Get(batchTaskResultResp, "data").Array() {
@@ -172,7 +164,6 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 			return nil, err
 		}
 	}
-
 	// 返回正常
 	return &training.TrainingShopResp{}, nil
 }

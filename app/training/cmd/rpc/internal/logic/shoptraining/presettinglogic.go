@@ -97,7 +97,7 @@ func (l *PreSettingLogic) PreSetting(in *training.ShopTrainingReq) (*training.Sh
 	for _, saveGoods := range saveShop.GoodsList {
 		// 同时在mongo中并且enabled字段为2启用的商品即为本次需要预训练的商品
 		if tsGoods, ok := tsGoodsMap[saveGoods.PlatformId]; ok {
-			// 排除掉状态已经在预训练中/训练中/训练完成的商品
+			// 排除掉状态已经在预训练中/训练中/预训练完成的商品
 			if tsGoods.TrainingStatus == consts.Presetting || tsGoods.TrainingStatus == consts.Training || tsGoods.TrainingStatus == consts.PresettingComplete {
 				continue
 			}
@@ -138,7 +138,7 @@ func (l *PreSettingLogic) PreSetting(in *training.ShopTrainingReq) (*training.Sh
 
 	// TODO 发送请求 获取商品训练所需资源和时长
 
-	// 设计结构化文档 预训练结果保存到mongo 正式训练时直接从mongo中取
+	// TODO 设计结构化文档 预训练结果保存到mongo 正式训练时直接从mongo中取
 	shoppresettingshoptitles := &yqmongo.Shoppresettingshoptitles{}
 	err = l.svcCtx.ShoppresettingshoptitlesModel.Insert(l.ctx, shoppresettingshoptitles)
 	if err != nil {
