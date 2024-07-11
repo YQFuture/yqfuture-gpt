@@ -7,6 +7,7 @@ import (
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 	"yufuture-gpt/app/training/model/common"
+	yqmongo "yufuture-gpt/app/training/model/mongo"
 	"yufuture-gpt/app/training/model/orm"
 	"yufuture-gpt/common/consts"
 )
@@ -110,11 +111,28 @@ func (l *PreSettingLogic) PreSetting(in *training.ShopTrainingReq) (*training.Sh
 		goodPicList = append(goodPicList, goodsDocument.PictureUrlList...)
 	}
 
-	// TODO 发送请求 获取商品训练所需时长
+	// TODO 发送请求 获取商品训练所需资源和时长
 
 	// 设计结构化文档 预训练结果保存到mongo 正式训练时直接从mongo中取
+	shoppresettingshoptitles := &yqmongo.Shoppresettingshoptitles{}
+	err = l.svcCtx.ShoppresettingshoptitlesModel.Insert(l.ctx, shoppresettingshoptitles)
+	if err != nil {
+		l.Logger.Error("保存训练到mongo失败", err)
+		return nil, err
+	}
 
 	// 更新店铺和商品状态为预训练完成
+	err = UpdateShopPreSettingComplete(l.ctx, l.svcCtx, tsShop, in.UserId)
+	if err != nil {
+		l.Logger.Error("修改店铺状态失败", err)
+	}
+	for _, preSettingGoods := range preSettingGoodsList {
+		// 更新商品状态为预训练完成
+		err = UpdateGoodsPreSettingComplete(l.ctx, l.svcCtx, preSettingGoods, in.UserId)
+		if err != nil {
+			l.Logger.Error("修改商品状态失败", err)
+		}
+	}
 
 	return &training.ShopTrainingResp{}, nil
 }
