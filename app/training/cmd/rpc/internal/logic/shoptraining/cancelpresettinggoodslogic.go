@@ -2,6 +2,7 @@ package shoptraininglogic
 
 import (
 	"context"
+	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
@@ -25,7 +26,18 @@ func NewCancelPreSettingGoodsLogic(ctx context.Context, svcCtx *svc.ServiceConte
 
 // 取消预训练商品
 func (l *CancelPreSettingGoodsLogic) CancelPreSettingGoods(in *training.CancelPreSettingGoodsReq) (*training.CancelPreSettingGoodsResp, error) {
-	// todo: add your logic here and delete this line
-
+	tsGoods, err := l.svcCtx.TsGoodsModel.FindOne(l.ctx, in.GoodsId)
+	if err != nil {
+		l.Logger.Error("查询商品失败", err)
+		return nil, err
+	}
+	if tsGoods.TrainingStatus != consts.TrainingComplete {
+		l.Logger.Error("商品状态不是预训练状态")
+		return nil, err
+	}
+	if err := CancelGoodsPreSetting(l.ctx, l.svcCtx, tsGoods, in.UserId); err != nil {
+		l.Logger.Error("取消预训练商品失败", err)
+		return nil, err
+	}
 	return &training.CancelPreSettingGoodsResp{}, nil
 }

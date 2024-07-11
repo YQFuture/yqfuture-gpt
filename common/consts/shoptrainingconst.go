@@ -12,6 +12,8 @@ const (
 
 // 训练状态
 const (
+	// Undefined 未定义
+	Undefined = 0
 	// Presetting 预设中
 	Presetting = 1
 	// PresettingComplete 预设完成

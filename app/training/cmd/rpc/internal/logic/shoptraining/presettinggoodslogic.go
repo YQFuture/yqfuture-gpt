@@ -79,6 +79,11 @@ func (l *PreSettingGoodsLogic) PreSettingGoods(in *training.PreSettingGoodsReq) 
 	// 设计结构化文档 预训练结果保存到mongo 正式训练时直接从mongo中取
 	shoppresettinggoodstitles := &yqmongo.Shoppresettinggoodstitles{}
 	err = l.svcCtx.ShoppresettinggoodstitlesModel.Insert(l.ctx, shoppresettinggoodstitles)
+	// 更新商品状态为预训练完成
+	err = UpdateGoodsPreSettingComplete(l.ctx, l.svcCtx, tsGoods, in.UserId)
+	if err != nil {
+		l.Logger.Error("修改商品状态失败", err)
+	}
 
 	return &training.PreSettingGoodsResp{}, nil
 }
