@@ -96,6 +96,7 @@ type (
 type (
     // 店铺预训练参数
     ShopTrainingReq {
+        Authorization string `header:"Authorization"` // JWT
         Uuid string `json:"uuid"` // 唯一标识
         PlatFormType int64 `json:"platFormType"` // 平台类型
         ShopName string `json:"shopName"`

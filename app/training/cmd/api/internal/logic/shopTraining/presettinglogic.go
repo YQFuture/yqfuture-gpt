@@ -35,6 +35,9 @@ func (l *PreSettingLogic) PreSetting(req *types.ShopTrainingReq) (resp *types.Sh
 		return nil, err
 	}
 	l.Logger.Info("token中的userId", userId)
+
+	l.Logger.Error("JWT", req.Authorization)
+
 	result, err := l.svcCtx.ShopTrainingClient.PreSetting(l.ctx, &training.ShopTrainingReq{})
 	if err != nil {
 		l.Logger.Error("获取店铺列表失败", err)

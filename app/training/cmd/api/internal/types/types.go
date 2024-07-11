@@ -168,10 +168,11 @@ type ShopResp struct {
 }
 
 type ShopTrainingReq struct {
-	Uuid         string `json:"uuid"`         // 唯一标识
-	PlatFormType int64  `json:"platFormType"` // 平台类型
-	ShopName     string `json:"shopName"`
-	Cookies      string `json:"cookies"`
+	Authorization string `header:"Authorization"` // JWT
+	Uuid          string `json:"uuid"`            // 唯一标识
+	PlatFormType  int64  `json:"platFormType"`    // 平台类型
+	ShopName      string `json:"shopName"`
+	Cookies       string `json:"cookies"`
 }
 
 type ShopTrainingResp struct {
