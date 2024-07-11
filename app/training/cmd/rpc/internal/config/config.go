@@ -38,6 +38,11 @@ type Config struct {
 		ApplyGoodsJsonChannel string
 		// 拉取商品JSON接口
 		FetchGoodsJsonUrl string
+
+		// 大模型接口-申请爬取商品ID列表
+		ApplyGoodsIdListUrl string
+		// 大模型接口-获取预估结果
+		FetchEstimateResultUrl string
 		// 大模型接口-创建批处理任务
 		CreateBatchTaskUrl string
 		// 大模型接口-查询处理任务状态
