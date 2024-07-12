@@ -47,9 +47,11 @@ func (l *PreSettingGoodsLogic) PreSettingGoods(in *training.PreSettingGoodsReq) 
 		return nil, err
 	}
 
+	// 更新商品状态为预训练中
+	err = UpdateGoodsPreSetting(l.ctx, l.svcCtx, tsGoods, in.UserId)
+
 	var presettingGoods []*orm.TsGoods
 	presettingGoods = append(presettingGoods, tsGoods)
-
 	// 请求获取商品JSON
 	err = ApplyGoodsJson(l.svcCtx, presettingGoods)
 	if err != nil {
