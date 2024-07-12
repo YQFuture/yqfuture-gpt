@@ -19,6 +19,25 @@ type PreSettingLogic struct {
 	logx.Logger
 }
 
+type ApplyGoodsIdListReq struct {
+	SerialNumber string        `json:"serialNumber"`
+	Uuid         string        `json:"uuid"`
+	ShopName     string        `json:"shop_name"`
+	Platform     string        `json:"platform"`
+	Token        string        `json:"token"`
+	Cookies      []interface{} `json:"cookies"`
+}
+
+// FetchEstimateResultResp 预估训练所需消耗的资源
+type FetchEstimateResultResp struct {
+	Code int64 `json:"code"`
+	Data struct {
+		Token    int64 `json:"token"`
+		Power    int64 `json:"power"`
+		FileSize int64 `json:"filesize"`
+	} `json:"data"`
+}
+
 type ApplyGoodsJsonReq struct {
 	AppType string    `json:"app_type"`
 	SkuList []*string `json:"sku_list"`
@@ -52,19 +71,34 @@ func NewPreSettingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PreSet
 }
 
 func (l *PreSettingLogic) PreSetting(in *training.ShopTrainingReq) (*training.ShopTrainingResp, error) {
-	// TODO 发送爬取商品ID请求
-
-	// TODO 轮询等待爬取商品ID落库完成
-
-	// TODO 将店铺和商品置为预训练状态
-
-	// 根据uuid和userId从mongo中找到最新的一条店铺数据
-	saveShop, err := l.svcCtx.ShoptrainingshoptitlesModel.FindNewOneByUuidAndUserId(l.ctx, in.Uuid, in.UserId)
+	// 构建请求体 发送爬取商品ID请求
+	serialNumber := l.svcCtx.SnowFlakeNode.Generate().String()
+	err := ApplyGoodsListId(l.Logger, l.svcCtx, in.Uuid, in.ShopName, in.PlatformType, serialNumber, in.Authorization, in.Cookies)
 	if err != nil {
-		l.Logger.Error("根据uuid和userId从mongo中找到最新的一条店铺数据失败", err)
+		l.Logger.Error("发送爬取商品ID请求失败", err)
 		return nil, err
 	}
-
+	// 等待两分钟
+	time.Sleep(time.Minute * 2)
+	// 轮询等待爬取商品ID落库完成 通过serialNumber在mongo中查找
+	var saveShop *yqmongo.Shoptrainingshoptitles
+	i := 0
+	for i < 10 {
+		saveShop, err = l.svcCtx.ShoptrainingshoptitlesModel.FindOneBySerialNumber(l.ctx, serialNumber)
+		if err != nil {
+			l.Logger.Error("根据serialNumber在mongo中查找店铺失败", err)
+		} else if saveShop != nil {
+			break
+		}
+		time.Sleep(time.Minute * 6)
+		i++
+	}
+	// 没查到直接认为此次预训练失败
+	if saveShop == nil {
+		l.Logger.Error("根据serialNumber在mongo中查找店铺失败", err)
+		return nil, err
+	}
+	// 将店铺和商品置为预训练状态
 	// 根据uuid和userid从mysql中查找出店铺
 	tsShop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in.UserId, in.Uuid)
 	if err != nil {
@@ -85,7 +119,6 @@ func (l *PreSettingLogic) PreSetting(in *training.ShopTrainingReq) (*training.Sh
 			tsGoodsMap[tsGoods.PlatformId] = tsGoods
 		}
 	}
-
 	// 更新店铺状态为预训练中
 	err = UpdateShopPreSetting(l.ctx, l.svcCtx, tsShop, in.UserId)
 	if err != nil {
@@ -118,34 +151,47 @@ func (l *PreSettingLogic) PreSetting(in *training.ShopTrainingReq) (*training.Sh
 		l.Logger.Info("发送获取商品JSON请求失败", err)
 		return nil, err
 	}
-
 	// 等待2分钟
 	time.Sleep(time.Minute * 2)
-
 	// 每6分钟调用一次接口 连续10次失败则结束
 	FetchAndSaveGoodsJson(l.Logger, l.ctx, l.svcCtx, preSettingGoodsList)
-
 	// 从jSON解析的商品列表文档
 	var goodsDocumentList []*common.PddGoodsDocument
 	// 获取并解析商品JSON到结果文档列表
 	GetAndParseGoodsJson(l.Logger, tsShop, goodsDocumentList, preSettingGoodsList)
-
 	// 构建获取训练时长的请求图片列表
 	var goodPicList []string
 	for _, goodsDocument := range goodsDocumentList {
 		goodPicList = append(goodPicList, goodsDocument.PictureUrlList...)
 	}
 
-	// TODO 发送请求 获取商品训练所需资源和时长
+	// 发送请求 获取商品训练所需资源和时长
+	var fetchEstimateResultResp FetchEstimateResultResp
+	err = utils.HTTPPostAndParseJSON(l.svcCtx.Config.TrainingGoodsConf.FetchEstimateResultUrl, struct {
+		Urls []string `json:"urls"`
+	}{Urls: goodPicList}, &fetchEstimateResultResp)
+	if err != nil {
+		l.Logger.Error("获取商品训练所需资源和时长失败", err)
+	}
 
-	// TODO 设计结构化文档 预训练结果保存到mongo 正式训练时直接从mongo中取
-	shoppresettingshoptitles := &yqmongo.Shoppresettingshoptitles{}
+	// 设计结构化文档 预训练结果保存到mongo 正式训练时直接从mongo中取
+	shoppresettingshoptitles := &yqmongo.Shoppresettingshoptitles{
+		ShopId:     tsShop.Id,
+		PlatformId: goodsDocumentList[0].PlatformMallId,
+		UUID:       in.Uuid,
+		UserID:     in.UserId,
+
+		PreSettingToken:    fetchEstimateResultResp.Data.Token,
+		PresettingPower:    fetchEstimateResultResp.Data.Power,
+		PresettingFileSize: fetchEstimateResultResp.Data.FileSize,
+		//PreSettingTime:
+		GoodsDocumentList: goodsDocumentList,
+	}
 	err = l.svcCtx.ShoppresettingshoptitlesModel.Insert(l.ctx, shoppresettingshoptitles)
 	if err != nil {
 		l.Logger.Error("保存训练到mongo失败", err)
 		return nil, err
 	}
-
 	// 更新店铺和商品状态为预训练完成
 	err = UpdateShopPreSettingComplete(l.ctx, l.svcCtx, tsShop, in.UserId)
 	if err != nil {
@@ -158,7 +204,6 @@ func (l *PreSettingLogic) PreSetting(in *training.ShopTrainingReq) (*training.Sh
 			l.Logger.Error("修改商品状态失败", err)
 		}
 	}
-
 	return &training.ShopTrainingResp{}, nil
 }
 
@@ -201,6 +246,34 @@ func UpdateGoodsPreSettingComplete(ctx context.Context, svcCtx *svc.ServiceConte
 	tsGoods.UpdateBy = userId
 	err := svcCtx.TsGoodsModel.Update(ctx, tsGoods)
 	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func ApplyGoodsListId(log logx.Logger, svcCtx *svc.ServiceContext, uuid string, shopName string, platformType int64, serialNumber string, token string, cookie string) error {
+	var platform string
+	if platformType == consts.Pdd {
+		platform = "pdd"
+	}
+	var cookies []interface{}
+	err := utils.StringToAny(cookie, &cookies)
+	if err != nil {
+		log.Error("cookie转换cookies数组失败", err)
+		return err
+	}
+	applyGoodsIdReq := &ApplyGoodsIdListReq{
+		SerialNumber: serialNumber,
+		Uuid:         uuid,
+		ShopName:     shopName,
+		Platform:     platform,
+		Token:        token,
+		Cookies:      []interface{}{},
+	}
+	var applyGoodsIdResp interface{}
+	err = utils.HTTPPostAndParseJSON(svcCtx.Config.TrainingGoodsConf.ApplyGoodsIdListUrl, applyGoodsIdReq, &applyGoodsIdResp)
+	if err != nil {
+		log.Error("发送获取商品ID列表请求失败", err)
 		return err
 	}
 	return nil

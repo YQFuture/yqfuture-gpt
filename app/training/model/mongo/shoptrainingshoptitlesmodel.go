@@ -16,6 +16,7 @@ type (
 	ShoptrainingshoptitlesModel interface {
 		shoptrainingshoptitlesModel
 		FindNewOneByUuidAndUserId(ctx context.Context, uuid string, userId int64) (*Shoptrainingshoptitles, error)
+		FindOneBySerialNumber(ctx context.Context, serialNumber string) (*Shoptrainingshoptitles, error)
 	}
 
 	customShoptrainingshoptitlesModel struct {
@@ -35,6 +36,19 @@ func (m *defaultShoptrainingshoptitlesModel) FindNewOneByUuidAndUserId(ctx conte
 	var data Shoptrainingshoptitles
 	opts := options.FindOne().SetSort(map[string]interface{}{"createdAt": -1})
 	err := m.conn.FindOne(ctx, &data, bson.M{"uuid": uuid, "userId": userId}, opts)
+	switch {
+	case err == nil:
+		return &data, nil
+	case errors.Is(err, mon.ErrNotFound):
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+
+func (m *defaultShoptrainingshoptitlesModel) FindOneBySerialNumber(ctx context.Context, serialNumber string) (*Shoptrainingshoptitles, error) {
+	var data Shoptrainingshoptitles
+	err := m.conn.FindOne(ctx, &data, bson.M{"serialNumber": serialNumber})
 	switch {
 	case err == nil:
 		return &data, nil

@@ -3,6 +3,7 @@ package shopTraining
 import (
 	"context"
 	"encoding/json"
+	"strings"
 	"yufuture-gpt/app/training/cmd/api/internal/svc"
 	"yufuture-gpt/app/training/cmd/api/internal/types"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
@@ -38,7 +39,7 @@ func (l *PreSettingLogic) PreSetting(req *types.ShopTrainingReq) (resp *types.Sh
 		Uuid:          req.Uuid,
 		ShopName:      req.ShopName,
 		PlatformType:  req.PlatFormType,
-		Authorization: req.Authorization,
+		Authorization: strings.TrimPrefix(req.Authorization, "Bearer "),
 		Cookies:       req.Cookies,
 	})
 	// 后台会进行较长时间的轮询等待 所以会返回超时错误 无需处理 仅打印日志 前端关注店铺和商品的训练状态即可
