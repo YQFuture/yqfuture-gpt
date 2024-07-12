@@ -46,6 +46,13 @@ func (l *GetShopTrainingProgressLogic) GetShopTrainingProgress(req *types.GetSho
 			Code: consts.Success,
 			Msg:  "获取店铺训练进度成功",
 		},
-		Data: result.Result,
+		Data: &types.ShopTrainingProgress{
+			TrainingStatus: result.TrainingStatus,
+			GoodsNum:       result.GoodsNum,
+			Token:          result.Token,
+			FileSize:       result.FileSize,
+			Power:          result.Power,
+			Time:           result.Time,
+		},
 	}, nil
 }

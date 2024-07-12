@@ -25,6 +25,12 @@ func NewGetGoodsTrainingProgressLogic(ctx context.Context, svcCtx *svc.ServiceCo
 
 // 获取商品训练进度
 func (l *GetGoodsTrainingProgressLogic) GetGoodsTrainingProgress(in *training.GetGoodsTrainingProgressReq) (*training.GetGoodsTrainingProgressResp, error) {
-
-	return &training.GetGoodsTrainingProgressResp{}, nil
+	tsGoods, err := l.svcCtx.TsGoodsModel.FindOne(l.ctx, in.GoodsId)
+	if err != nil {
+		l.Logger.Error("根据商品ID查找商品失败", err)
+		return nil, err
+	}
+	return &training.GetGoodsTrainingProgressResp{
+		TrainingStatus: tsGoods.TrainingStatus,
+	}, nil
 }

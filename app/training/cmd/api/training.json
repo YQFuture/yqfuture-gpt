@@ -27,42 +27,6 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "Authorization",
-            "description": " JWT",
-            "in": "header",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "uuid",
-            "description": " 唯一标识",
-            "in": "query",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "shopName",
-            "in": "query",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "platFormType",
-            "description": " 平台类型",
-            "in": "query",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "cookies",
-            "in": "query",
-            "required": true,
-            "type": "string"
-          }
-        ],
         "tags": [
           "JWT"
         ]
@@ -855,7 +819,7 @@
           "description": " 信息"
         },
         "data": {
-          "type": "object",
+          "$ref": "#/definitions/GoodsTrainingProgress",
           "description": " 训练进度"
         }
       },
@@ -925,7 +889,7 @@
           "description": " 信息"
         },
         "data": {
-          "type": "object",
+          "$ref": "#/definitions/ShopTrainingProgress",
           "description": " 训练进度"
         }
       },
@@ -1081,6 +1045,50 @@
         "trainStatus",
         "trainingTimes",
         "updateTime"
+      ]
+    },
+    "GoodsTrainingProgress": {
+      "type": "object",
+      "properties": {
+        "trainStatus": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 训练状态 训练状态 0: 未训练 1: 训练中 2: 训练完成"
+        },
+        "goodsNum": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 商品数量"
+        },
+        "token": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 训练token"
+        },
+        "fileSize": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件大小"
+        },
+        "power": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 训练算力"
+        },
+        "time": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 训练耗时"
+        }
+      },
+      "title": "GoodsTrainingProgress",
+      "required": [
+        "trainStatus",
+        "goodsNum",
+        "token",
+        "fileSize",
+        "power",
+        "time"
       ]
     },
     "JudgeFirstShopReq": {
@@ -1340,6 +1348,50 @@
         "trainStatus",
         "trainTimes",
         "updateTime"
+      ]
+    },
+    "ShopTrainingProgress": {
+      "type": "object",
+      "properties": {
+        "trainStatus": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 训练状态 训练状态 0: 未训练 1: 训练中 2: 训练完成"
+        },
+        "goodsNum": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 商品数量"
+        },
+        "token": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 训练token"
+        },
+        "fileSize": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 文件大小"
+        },
+        "power": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 训练算力"
+        },
+        "time": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 训练耗时"
+        }
+      },
+      "title": "ShopTrainingProgress",
+      "required": [
+        "trainStatus",
+        "goodsNum",
+        "token",
+        "fileSize",
+        "power",
+        "time"
       ]
     },
     "ShopTrainingReq": {

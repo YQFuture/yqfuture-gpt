@@ -53,6 +53,13 @@ func (l *GetGoodsTrainingProgressLogic) GetGoodsTrainingProgress(req *types.GetG
 			Code: consts.Success,
 			Msg:  "获取商品训练进度成功",
 		},
-		Data: result.Result,
+		Data: &types.GoodsTrainingProgress{
+			TrainingStatus: result.TrainingStatus,
+			GoodsNum:       result.GoodsNum,
+			Token:          result.Token,
+			FileSize:       result.FileSize,
+			Power:          result.Power,
+			Time:           result.Time,
+		},
 	}, nil
 }

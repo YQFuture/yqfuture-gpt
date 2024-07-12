@@ -2,8 +2,6 @@ package shoptraininglogic
 
 import (
 	"context"
-	"yufuture-gpt/common/utils"
-
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 
@@ -32,12 +30,7 @@ func (l *GetShopTrainingProgressLogic) GetShopTrainingProgress(in *training.GetS
 		l.Logger.Error("根据uuid和userid查找店铺失败", err)
 		return nil, err
 	}
-	process, err := utils.AnyToString(shop)
-	if err != nil {
-		l.Logger.Info("序列化店铺训练进度失败", shop)
-		return nil, err
-	}
 	return &training.GetShopTrainingProgressResp{
-		Result: process,
+		TrainingStatus: shop.TrainingStatus,
 	}, nil
 }

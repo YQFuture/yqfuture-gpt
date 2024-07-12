@@ -59,7 +59,7 @@ type GetGoodsTrainingProgressReq struct {
 
 type GetGoodsTrainingProgressResp struct {
 	BaseResp
-	Data interface{} `json:"data"` // 训练进度
+	Data *GoodsTrainingProgress `json:"data"` // 训练进度
 }
 
 type GetGoodsTrainingResultReq struct {
@@ -77,7 +77,7 @@ type GetShopTrainingProgressReq struct {
 
 type GetShopTrainingProgressResp struct {
 	BaseResp
-	Data interface{} `json:"data"` // 训练进度
+	Data *ShopTrainingProgress `json:"data"` // 训练进度
 }
 
 type GoodsListResp struct {
@@ -107,6 +107,15 @@ type GoodsResp struct {
 	TrainingStatus  int64  `json:"trainStatus"`     // 训练状态 训练状态 0: 未训练 1: 训练中 2: 训练完成
 	TrainingTimes   int64  `json:"trainingTimes"`   // 训练次数
 	UpdateTime      int64  `json:"updateTime"`      // 更新时间
+}
+
+type GoodsTrainingProgress struct {
+	TrainingStatus int64 `json:"trainStatus"` // 训练状态 训练状态 0: 未训练 1: 训练中 2: 训练完成
+	GoodsNum       int64 `json:"goodsNum"`    // 商品数量
+	Token          int64 `json:"token"`       // 训练token
+	FileSize       int64 `json:"fileSize"`    // 文件大小
+	Power          int64 `json:"power"`       // 训练算力
+	Time           int64 `json:"time"`        // 训练耗时
 }
 
 type JudgeFirstShopReq struct {
@@ -167,6 +176,15 @@ type ShopResp struct {
 	TrainingStatus int64  `json:"trainStatus"`  // 训练状态
 	TrainingTimes  int64  `json:"trainTimes"`   // 训练次数
 	UpdateTime     int64  `json:"updateTime"`   // 更新时间
+}
+
+type ShopTrainingProgress struct {
+	TrainingStatus int64 `json:"trainStatus"` // 训练状态 训练状态 0: 未训练 1: 训练中 2: 训练完成
+	GoodsNum       int64 `json:"goodsNum"`    // 商品数量
+	Token          int64 `json:"token"`       // 训练token
+	FileSize       int64 `json:"fileSize"`    // 文件大小
+	Power          int64 `json:"power"`       // 训练算力
+	Time           int64 `json:"time"`        // 训练耗时
 }
 
 type ShopTrainingReq struct {
