@@ -40,7 +40,7 @@ func (l *PreSettingLogic) PreSetting(req *types.ShopTrainingReq) (resp *types.Sh
 
 	result, err := l.svcCtx.ShopTrainingClient.PreSetting(l.ctx, &training.ShopTrainingReq{})
 	if err != nil {
-		l.Logger.Error("获取店铺列表失败", err)
+		l.Logger.Error("开启预训练失败", err)
 		return nil, err
 	}
 	var shopList []*orm.TsShop

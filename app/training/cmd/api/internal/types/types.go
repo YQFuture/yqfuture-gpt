@@ -119,7 +119,9 @@ type JudgeFirstShopResp struct {
 }
 
 type PreSettingGoodsReq struct {
-	GoodsId string `json:"goodsId"` // 商品id
+	GoodsId       string `json:"goodsId"`         // 商品id
+	Authorization string `header:"Authorization"` // JWT
+	Cookies       string `json:"cookies"`
 }
 
 type SaveGoods struct {
@@ -168,10 +170,10 @@ type ShopResp struct {
 }
 
 type ShopTrainingReq struct {
-	Authorization string `header:"Authorization"` // JWT
-	Uuid          string `json:"uuid"`            // 唯一标识
-	PlatFormType  int64  `json:"platFormType"`    // 平台类型
+	Uuid          string `json:"uuid"` // 唯一标识
 	ShopName      string `json:"shopName"`
+	PlatFormType  int64  `json:"platFormType"`    // 平台类型
+	Authorization string `header:"Authorization"` // JWT
 	Cookies       string `json:"cookies"`
 }
 

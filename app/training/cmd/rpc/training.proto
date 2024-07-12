@@ -33,6 +33,10 @@ service KnowledgeBaseTraining {
 message ShopTrainingReq {
   int64 userId = 1;
   string uuid = 2;
+  string shopName = 3;
+  int64 platformType = 4;
+  string authorization = 5;
+  string cookies = 6;
 }
 message ShopTrainingResp {
   string result = 1;
@@ -120,6 +124,8 @@ message GetShopTrainingProgressResp {
 message PreSettingGoodsReq {
   int64 goodsId = 1;
   int64 userId = 2;
+  string authorization = 5;
+  string cookies = 6;
 }
 message PreSettingGoodsResp {
   string result = 1;
