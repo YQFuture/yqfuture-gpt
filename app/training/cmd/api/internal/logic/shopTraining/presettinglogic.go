@@ -34,11 +34,15 @@ func (l *PreSettingLogic) PreSetting(req *types.ShopTrainingReq) (resp *types.Sh
 		l.Logger.Error("获取用户id失败", err)
 		return nil, err
 	}
-	l.Logger.Info("token中的userId", userId)
 
-	l.Logger.Error("JWT", req.Authorization)
-
-	result, err := l.svcCtx.ShopTrainingClient.PreSetting(l.ctx, &training.ShopTrainingReq{})
+	result, err := l.svcCtx.ShopTrainingClient.PreSetting(l.ctx, &training.ShopTrainingReq{
+		UserId:        userId,
+		Uuid:          req.Uuid,
+		ShopName:      req.ShopName,
+		PlatformType:  req.PlatFormType,
+		Authorization: req.Authorization,
+		Cookies:       req.Cookies,
+	})
 	if err != nil {
 		l.Logger.Error("开启预训练失败", err)
 		return nil, err

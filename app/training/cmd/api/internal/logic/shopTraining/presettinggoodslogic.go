@@ -41,8 +41,10 @@ func (l *PreSettingGoodsLogic) PreSettingGoods(req *types.PreSettingGoodsReq) (r
 		return nil, err
 	}
 	_, err = l.svcCtx.ShopTrainingClient.PreSettingGoods(l.ctx, &training.PreSettingGoodsReq{
-		GoodsId: goodsIdInt,
-		UserId:  userId,
+		GoodsId:       goodsIdInt,
+		UserId:        userId,
+		Authorization: req.Authorization,
+		Cookies:       req.Cookies,
 	})
 	if err != nil {
 		l.Logger.Error("预训练商品失败", err)
