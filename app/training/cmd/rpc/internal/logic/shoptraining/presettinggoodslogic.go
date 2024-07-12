@@ -7,6 +7,7 @@ import (
 	yqmongo "yufuture-gpt/app/training/model/mongo"
 	"yufuture-gpt/app/training/model/orm"
 	"yufuture-gpt/common/consts"
+	"yufuture-gpt/common/utils"
 
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
@@ -40,7 +41,6 @@ func (l *PreSettingGoodsLogic) PreSettingGoods(in *training.PreSettingGoodsReq) 
 		l.Logger.Error("商品不是可预训练状态", err)
 		return nil, err
 	}
-
 	tsShop, err := l.svcCtx.TsShopModel.FindOne(l.ctx, tsGoods.ShopId)
 	if err != nil {
 		l.Logger.Error("根据ShopId查找店铺失败", err)
@@ -56,13 +56,10 @@ func (l *PreSettingGoodsLogic) PreSettingGoods(in *training.PreSettingGoodsReq) 
 		l.Logger.Info("发送获取商品JSON请求失败", err)
 		return nil, err
 	}
-
 	// 等待2分钟
 	time.Sleep(time.Minute * 2)
-
 	// 每6分钟调用一次接口 连续10次失败则结束
 	FetchAndSaveGoodsJson(l.Logger, l.ctx, l.svcCtx, presettingGoods)
-
 	// 最终保存到ES的结果文档
 	var goodsDocumentList []*common.PddGoodsDocument
 	// 获取并解析商品JSON到结果文档列表
@@ -73,11 +70,27 @@ func (l *PreSettingGoodsLogic) PreSettingGoods(in *training.PreSettingGoodsReq) 
 	for _, goodsDocument := range goodsDocumentList {
 		goodPicList = append(goodPicList, goodsDocument.PictureUrlList...)
 	}
-
-	// TODO 发送请求 获取商品训练所需资源和时长
+	//发送请求 获取商品训练所需资源和时长
+	var fetchEstimateResultResp FetchEstimateResultResp
+	err = utils.HTTPPostAndParseJSON(l.svcCtx.Config.TrainingGoodsConf.FetchEstimateResultUrl, struct {
+		Urls []string `json:"urls"`
+	}{Urls: goodPicList}, &fetchEstimateResultResp)
+	if err != nil {
+		l.Logger.Error("获取商品训练所需资源和时长失败", err)
+	}
 
 	// 设计结构化文档 预训练结果保存到mongo 正式训练时直接从mongo中取
-	shoppresettinggoodstitles := &yqmongo.Shoppresettinggoodstitles{}
+	shoppresettinggoodstitles := &yqmongo.Shoppresettinggoodstitles{
+		GoodsId:    tsGoods.Id,
+		PlatformId: goodsDocumentList[0].PlatformMallId,
+		UserID:     in.UserId,
+
+		PreSettingToken:    fetchEstimateResultResp.Data.Token,
+		PresettingPower:    fetchEstimateResultResp.Data.Power,
+		PresettingFileSize: fetchEstimateResultResp.Data.FileSize,
+		//PreSettingTime:
+		GoodsDocumentList: goodsDocumentList,
+	}
 	err = l.svcCtx.ShoppresettinggoodstitlesModel.Insert(l.ctx, shoppresettinggoodstitles)
 	// 更新商品状态为预训练完成
 	err = UpdateGoodsPreSettingComplete(l.ctx, l.svcCtx, tsGoods, in.UserId)

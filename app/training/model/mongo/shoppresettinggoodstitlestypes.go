@@ -12,8 +12,9 @@ type Shoppresettinggoodstitles struct {
 	UpdateAt time.Time          `bson:"updateAt,omitempty" json:"updateAt,omitempty"`
 	CreateAt time.Time          `bson:"createAt,omitempty" json:"createAt,omitempty"`
 
-	GoodsId    string `bson:"goodsId" json:"goodsId"`
+	GoodsId    int64  `bson:"goodsId" json:"goodsId"`
 	PlatformId string `bson:"platformId" json:"platformId"`
+	UserID     int64  `bson:"userId" json:"userId"`
 
 	PreSettingToken    int64                      `bson:"preSettingToken" json:"preSettingToken"`
 	PresettingPower    int64                      `bson:"presettingPower" json:"presettingPower"`
