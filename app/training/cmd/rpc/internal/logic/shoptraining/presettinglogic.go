@@ -212,7 +212,7 @@ func ApplyGoodsJson(svcCtx *svc.ServiceContext, trainingGoodsList []*orm.TsGoods
 		skuList = append(skuList, &trainingGoods.PlatformId)
 	}
 	// 发送获取商品JSON请求
-	var applyGoodsJsonResp string
+	var applyGoodsJsonResp interface{}
 	err := utils.HTTPPostAndParseJSON(svcCtx.Config.TrainingGoodsConf.ApplyGoodsJsonUrl, ApplyGoodsJsonReq{
 		AppType: "pdd",
 		Channel: svcCtx.Config.TrainingGoodsConf.ApplyGoodsJsonChannel,

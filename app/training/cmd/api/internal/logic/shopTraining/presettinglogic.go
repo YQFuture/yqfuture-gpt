@@ -41,9 +41,9 @@ func (l *PreSettingLogic) PreSetting(req *types.ShopTrainingReq) (resp *types.Sh
 		Authorization: req.Authorization,
 		Cookies:       req.Cookies,
 	})
+	// 后台会进行较长时间的轮询等待 所以会返回超时错误 无需处理 仅打印日志 前端关注店铺和商品的训练状态即可
 	if err != nil {
-		l.Logger.Error("开启预训练失败", err)
-		return nil, err
+		l.Logger.Error("开启预训练店铺异常", err)
 	}
 	return &types.ShopTrainingResp{
 		BaseResp: types.BaseResp{
