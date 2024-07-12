@@ -6,6 +6,7 @@ import (
 	"yufuture-gpt/app/training/cmd/api/internal/svc"
 	"yufuture-gpt/app/training/cmd/api/internal/types"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
+	"yufuture-gpt/common/consts"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -46,7 +47,7 @@ func (l *PreSettingLogic) PreSetting(req *types.ShopTrainingReq) (resp *types.Sh
 	}
 	return &types.ShopTrainingResp{
 		BaseResp: types.BaseResp{
-			Code: 0,
+			Code: consts.Success,
 			Msg:  "success",
 		},
 	}, nil
