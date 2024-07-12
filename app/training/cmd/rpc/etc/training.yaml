@@ -46,7 +46,7 @@ Elasticsearch:
   Username: elastic
   Password: Elastic_HMYzHB
 
-#雪花算法节点ID 每个节点的值不能一样
+#雪花算法节点ID 每个服务节点的值不能一样
 SnowFlakeNode: 1
 
 TrainingGoodsConf:
@@ -60,7 +60,7 @@ TrainingGoodsConf:
   FetchGoodsJsonUrl: http://43.138.205.29:6001/task/channel/fetch_data
 
   #大模型接口-申请爬取商品ID列表
-  ApplyGoodsIdListUrl: http://192.168.3.200:8447/openai/batch/get_result
+  ApplyGoodsIdListUrl: http://192.168.3.200:3000/task/pptr/pdd/goods-list
   #大模型接口-获取预估结果
   FetchEstimateResultUrl: http://192.168.3.200:8447/precalc-token
   #大模型接口-创建批处理任务
