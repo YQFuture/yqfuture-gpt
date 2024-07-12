@@ -3,12 +3,9 @@ package shopTraining
 import (
 	"context"
 	"encoding/json"
-	"yufuture-gpt/app/training/cmd/rpc/pb/training"
-	"yufuture-gpt/app/training/model/orm"
-	"yufuture-gpt/common/utils"
-
 	"yufuture-gpt/app/training/cmd/api/internal/svc"
 	"yufuture-gpt/app/training/cmd/api/internal/types"
+	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -47,17 +44,10 @@ func (l *PreSettingLogic) PreSetting(req *types.ShopTrainingReq) (resp *types.Sh
 		l.Logger.Error("开启预训练失败", err)
 		return nil, err
 	}
-	var shopList []*orm.TsShop
-	err = utils.StringToAny(result.Result, &shopList)
-	if err != nil {
-		l.Logger.Error("反序列化数据失败", err)
-		return nil, err
-	}
 	return &types.ShopTrainingResp{
 		BaseResp: types.BaseResp{
 			Code: 0,
 			Msg:  "success",
 		},
-		Data: shopList,
 	}, nil
 }
