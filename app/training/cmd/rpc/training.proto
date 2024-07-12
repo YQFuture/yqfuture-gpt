@@ -119,7 +119,7 @@ message GetShopTrainingProgressReq {
   int64 userId = 2;
 }
 message GetShopTrainingProgressResp {
-  int64 training_status = 1; // 训练状态 0: 未训练 1: 训练中 2: 训练完成
+  int64 training_status = 1; // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
   int64 goods_num = 2;       // 商品数量
   int64 token = 3;           // 训练token
   int64 file_size = 4;       // 文件大小
@@ -154,7 +154,7 @@ message GetGoodsTrainingProgressReq {
   int64 userId = 2;
 }
 message GetGoodsTrainingProgressResp {
-  int64 training_status = 1; // 训练状态 0: 未训练 1: 训练中 2: 训练完成
+  int64 training_status = 1; // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
   int64 goods_num = 2;       // 商品数量
   int64 token = 3;           // 训练token
   int64 file_size = 4;       // 文件大小
