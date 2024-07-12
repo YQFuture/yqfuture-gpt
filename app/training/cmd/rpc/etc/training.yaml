@@ -60,14 +60,14 @@ TrainingGoodsConf:
   FetchGoodsJsonUrl: http://43.138.205.29:6001/task/channel/fetch_data
 
   #大模型接口-申请爬取商品ID列表
-  ApplyGoodsIdListUrl: http://192.168.3.200:3000/task/pptr/pdd/goods-list
+  ApplyGoodsIdListUrl: http://192.168.3.118:3000/task/pptr/pdd/goods-list
   #大模型接口-获取预估结果
-  FetchEstimateResultUrl: http://192.168.3.200:8447/precalc-token
+  FetchEstimateResultUrl: http://192.168.3.118:8447/precalc-token
   #大模型接口-创建批处理任务
-  CreateBatchTaskUrl: http://192.168.3.200:8447/openai/batch/chat_with_image
+  CreateBatchTaskUrl: http://192.168.3.118:8447/openai/batch/chat_with_image
   #大模型接口-查询处理任务状态
-  QueryBatchTaskStatusUrl: http://192.168.3.200:8447/openai/batch/check_status
+  QueryBatchTaskStatusUrl: http://192.168.3.118:8447/openai/batch/check_status
   #大模型接口-获取批处理返回结果
-  QueryBatchTaskResultUrl: http://192.168.3.200:8447/openai/batch/get_result
+  QueryBatchTaskResultUrl: http://192.168.3.118:8447/openai/batch/get_result
 
 

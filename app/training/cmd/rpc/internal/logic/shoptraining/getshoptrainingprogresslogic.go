@@ -45,7 +45,7 @@ func (l *GetShopTrainingProgressLogic) GetShopTrainingProgress(in *training.GetS
 		shopTrainingProgressResp.Power = shoppresettingshoptitles.PresettingPower
 		shopTrainingProgressResp.FileSize = shoppresettingshoptitles.PresettingFileSize
 	}
-	// 训练完成 则从es中获取训练结果
+	// TODO 训练完成 则从es中获取训练结果
 	if tsShop.TrainingStatus == consts.TrainingComplete {
 
 	}
