@@ -32,7 +32,7 @@ func (l *PreSettingLogic) PreSetting(req *types.ShopTrainingReq) (resp *types.Sh
 		return nil, err
 	}
 
-	result, err := l.svcCtx.ShopTrainingClient.PreSetting(l.ctx, &training.ShopTrainingReq{
+	_, err = l.svcCtx.ShopTrainingClient.PreSetting(l.ctx, &training.ShopTrainingReq{
 		UserId:        userId,
 		Uuid:          req.Uuid,
 		ShopName:      req.ShopName,
