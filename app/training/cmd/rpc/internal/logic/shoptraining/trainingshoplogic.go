@@ -140,6 +140,8 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 			// 保存训练结果和消耗的token
 			goodsDocument.DetailGalleryDescription = batchTaskResultMap[goodsDocument.PlatformGoodsId].Get("content").String()
 			goodsDocument.Token = batchTaskResultMap[goodsDocument.PlatformGoodsId].Get("token").Int()
+			goodsDocument.Power = batchTaskResultMap[goodsDocument.PlatformGoodsId].Get("power").Int()
+			goodsDocument.FileSize = batchTaskResultMap[goodsDocument.PlatformGoodsId].Get("filesize").Int()
 		}
 		// 保存训练结果到ES
 		es := l.svcCtx.Elasticsearch

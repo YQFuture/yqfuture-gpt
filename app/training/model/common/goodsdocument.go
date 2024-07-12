@@ -24,6 +24,8 @@ type PddGoodsDocument struct {
 	DetailGalleryDescription string            `bson:"detailGalleryDescription" json:"detailGalleryDescription"` // 图片训练结果描述
 
 	PictureUrlList []string  `bson:"pictureUrlList" json:"pictureUrlList"`
-	Token          int64     `bson:"token" json:"token"` // 消耗的token
+	Token          int64     `bson:"token" json:"token"`       // 消耗的token
+	Power          int64     `bson:"power" json:"power"`       // 消耗的算力
+	FileSize       int64     `bson:"fileSize" json:"fileSize"` // 文件大小
 	CreatedAt      time.Time `bson:"createdAt" json:"createdAt"`
 }
