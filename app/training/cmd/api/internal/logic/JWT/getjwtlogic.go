@@ -26,7 +26,7 @@ func NewGetJWTLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetJWTLogi
 	}
 }
 
-func (l *GetJWTLogic) GetJWT(req *types.ShopTrainingReq) (resp *types.ShopTrainingResp, err error) {
+func (l *GetJWTLogic) GetJWT(req *types.BaseReq) (resp *types.ShopTrainingResp, err error) {
 	playload := map[string]interface{}{
 		"id":      1,
 		"ex_time": time.Now().AddDate(0, 0, 7),

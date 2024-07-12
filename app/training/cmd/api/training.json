@@ -29,8 +29,35 @@
         },
         "parameters": [
           {
+            "name": "Authorization",
+            "description": " JWT",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "uuid",
             "description": " 唯一标识",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "shopName",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "platFormType",
+            "description": " 平台类型",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "cookies",
             "in": "query",
             "required": true,
             "type": "string"
@@ -139,8 +166,41 @@
     },
     "/shopTraining/cancelPreSetting": {
       "post": {
-        "summary": "取消预训练",
+        "summary": "取消店铺预训练",
         "operationId": "cancelPreSetting",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 取消店铺预训练参数",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CancelPreSettingReq"
+            }
+          }
+        ],
+        "tags": [
+          "shopTraining"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/shopTraining/cancelPreSettingGoods": {
+      "post": {
+        "summary": "取消预训练商品",
+        "operationId": "cancelPreSettingGoods",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -155,7 +215,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CancelPreSettingReq"
+              "$ref": "#/definitions/CancelPreSettingGoodsReq"
             }
           }
         ],
@@ -363,7 +423,7 @@
     },
     "/shopTraining/preSetting": {
       "post": {
-        "summary": "预训练",
+        "summary": "店铺预训练",
         "operationId": "preSetting",
         "responses": {
           "200": {
@@ -375,11 +435,58 @@
         },
         "parameters": [
           {
+            "name": "Authorization",
+            "description": " JWT",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
+            "description": " 店铺预训练参数",
             "in": "body",
             "required": true,
             "schema": {
               "$ref": "#/definitions/ShopTrainingReq"
+            }
+          }
+        ],
+        "tags": [
+          "shopTraining"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/shopTraining/preSettingGoods": {
+      "post": {
+        "summary": "预训练商品",
+        "operationId": "preSettingGoods",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Authorization",
+            "description": " JWT",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PreSettingGoodsReq"
             }
           }
         ],
@@ -632,6 +739,19 @@
       "required": [
         "code",
         "msg"
+      ]
+    },
+    "CancelPreSettingGoodsReq": {
+      "type": "object",
+      "properties": {
+        "goodsId": {
+          "type": "string",
+          "description": " 商品id"
+        }
+      },
+      "title": "CancelPreSettingGoodsReq",
+      "required": [
+        "goodsId"
       ]
     },
     "CancelPreSettingReq": {
@@ -999,6 +1119,23 @@
         "data"
       ]
     },
+    "PreSettingGoodsReq": {
+      "type": "object",
+      "properties": {
+        "goodsId": {
+          "type": "string",
+          "description": " 商品id"
+        },
+        "cookies": {
+          "type": "string"
+        }
+      },
+      "title": "PreSettingGoodsReq",
+      "required": [
+        "goodsId",
+        "cookies"
+      ]
+    },
     "SaveGoods": {
       "type": "object",
       "properties": {
@@ -1022,6 +1159,9 @@
     "SaveShopReq": {
       "type": "object",
       "properties": {
+        "serial_number": {
+          "type": "string"
+        },
         "uuid": {
           "type": "string"
         },
@@ -1040,6 +1180,7 @@
       },
       "title": "SaveShopReq",
       "required": [
+        "serial_number",
         "uuid",
         "shop_name",
         "platform",
@@ -1207,11 +1348,25 @@
         "uuid": {
           "type": "string",
           "description": " 唯一标识"
+        },
+        "shopName": {
+          "type": "string"
+        },
+        "platFormType": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 平台类型"
+        },
+        "cookies": {
+          "type": "string"
         }
       },
       "title": "ShopTrainingReq",
       "required": [
-        "uuid"
+        "uuid",
+        "shopName",
+        "platFormType",
+        "cookies"
       ]
     },
     "ShopTrainingResp": {

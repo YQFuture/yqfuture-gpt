@@ -20,7 +20,7 @@ import (
 )
 service training {
 	@handler getJWT
-	get /getJWT (ShopTrainingReq) returns (ShopTrainingResp)
+	get /getJWT (BaseReq) returns (ShopTrainingResp)
 }
 
 // 基础服务相关 后续迁移到基础服务
