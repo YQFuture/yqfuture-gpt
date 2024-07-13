@@ -22,6 +22,12 @@ func NewShopTrainingServer(svcCtx *svc.ServiceContext) *ShopTrainingServer {
 	}
 }
 
+// 判断店铺是否首次登录 即从未进行过训练
+func (s *ShopTrainingServer) JudgeShopFirst(ctx context.Context, in *training.JudgeShopFirstReq) (*training.JudgeShopFirstResp, error) {
+	l := shoptraininglogic.NewJudgeShopFirstLogic(ctx, s.svcCtx)
+	return l.JudgeShopFirst(in)
+}
+
 // 预设
 func (s *ShopTrainingServer) PreSetting(ctx context.Context, in *training.ShopTrainingReq) (*training.ShopTrainingResp, error) {
 	l := shoptraininglogic.NewPreSettingLogic(ctx, s.svcCtx)
@@ -50,12 +56,6 @@ func (s *ShopTrainingServer) TrainingShop(ctx context.Context, in *training.Trai
 func (s *ShopTrainingServer) GetShopTrainingProgress(ctx context.Context, in *training.GetShopTrainingProgressReq) (*training.GetShopTrainingProgressResp, error) {
 	l := shoptraininglogic.NewGetShopTrainingProgressLogic(ctx, s.svcCtx)
 	return l.GetShopTrainingProgress(in)
-}
-
-// 判断店铺是否初次登录(从未进行过训练)
-func (s *ShopTrainingServer) JudgeShopFirst(ctx context.Context, in *training.JudgeShopFirstReq) (*training.JudgeShopFirstResp, error) {
-	l := shoptraininglogic.NewJudgeShopFirstLogic(ctx, s.svcCtx)
-	return l.JudgeShopFirst(in)
 }
 
 // 查询商品列表

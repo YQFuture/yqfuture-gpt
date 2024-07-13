@@ -201,12 +201,12 @@ var KnowledgeBaseTraining_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
+	ShopTraining_JudgeShopFirst_FullMethodName           = "/training.ShopTraining/judgeShopFirst"
 	ShopTraining_PreSetting_FullMethodName               = "/training.ShopTraining/preSetting"
 	ShopTraining_CancelPreSetting_FullMethodName         = "/training.ShopTraining/cancelPreSetting"
 	ShopTraining_GetShopPageList_FullMethodName          = "/training.ShopTraining/getShopPageList"
 	ShopTraining_TrainingShop_FullMethodName             = "/training.ShopTraining/trainingShop"
 	ShopTraining_GetShopTrainingProgress_FullMethodName  = "/training.ShopTraining/getShopTrainingProgress"
-	ShopTraining_JudgeShopFirst_FullMethodName           = "/training.ShopTraining/judgeShopFirst"
 	ShopTraining_GetGoodsPageList_FullMethodName         = "/training.ShopTraining/getGoodsPageList"
 	ShopTraining_GetGoodsTrainingResult_FullMethodName   = "/training.ShopTraining/getGoodsTrainingResult"
 	ShopTraining_PreSettingGoods_FullMethodName          = "/training.ShopTraining/preSettingGoods"
@@ -223,6 +223,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ShopTrainingClient interface {
+	// 判断店铺是否首次登录 即从未进行过训练
+	JudgeShopFirst(ctx context.Context, in *JudgeShopFirstReq, opts ...grpc.CallOption) (*JudgeShopFirstResp, error)
 	// 预设
 	PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
 	// 取消预设
@@ -233,8 +235,6 @@ type ShopTrainingClient interface {
 	TrainingShop(ctx context.Context, in *TrainingShopReq, opts ...grpc.CallOption) (*TrainingShopResp, error)
 	// 获取店铺训练进度
 	GetShopTrainingProgress(ctx context.Context, in *GetShopTrainingProgressReq, opts ...grpc.CallOption) (*GetShopTrainingProgressResp, error)
-	// 判断店铺是否初次登录(从未进行过训练)
-	JudgeShopFirst(ctx context.Context, in *JudgeShopFirstReq, opts ...grpc.CallOption) (*JudgeShopFirstResp, error)
 	// 查询商品列表
 	GetGoodsPageList(ctx context.Context, in *GoodsPageListReq, opts ...grpc.CallOption) (*GoodsPageListResp, error)
 	// 获取商品训练结果
@@ -263,6 +263,16 @@ type shopTrainingClient struct {
 
 func NewShopTrainingClient(cc grpc.ClientConnInterface) ShopTrainingClient {
 	return &shopTrainingClient{cc}
+}
+
+func (c *shopTrainingClient) JudgeShopFirst(ctx context.Context, in *JudgeShopFirstReq, opts ...grpc.CallOption) (*JudgeShopFirstResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(JudgeShopFirstResp)
+	err := c.cc.Invoke(ctx, ShopTraining_JudgeShopFirst_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *shopTrainingClient) PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
@@ -309,16 +319,6 @@ func (c *shopTrainingClient) GetShopTrainingProgress(ctx context.Context, in *Ge
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetShopTrainingProgressResp)
 	err := c.cc.Invoke(ctx, ShopTraining_GetShopTrainingProgress_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *shopTrainingClient) JudgeShopFirst(ctx context.Context, in *JudgeShopFirstReq, opts ...grpc.CallOption) (*JudgeShopFirstResp, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(JudgeShopFirstResp)
-	err := c.cc.Invoke(ctx, ShopTraining_JudgeShopFirst_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -429,6 +429,8 @@ func (c *shopTrainingClient) SaveShop(ctx context.Context, in *SaveShopReq, opts
 // All implementations must embed UnimplementedShopTrainingServer
 // for forward compatibility
 type ShopTrainingServer interface {
+	// 判断店铺是否首次登录 即从未进行过训练
+	JudgeShopFirst(context.Context, *JudgeShopFirstReq) (*JudgeShopFirstResp, error)
 	// 预设
 	PreSetting(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error)
 	// 取消预设
@@ -439,8 +441,6 @@ type ShopTrainingServer interface {
 	TrainingShop(context.Context, *TrainingShopReq) (*TrainingShopResp, error)
 	// 获取店铺训练进度
 	GetShopTrainingProgress(context.Context, *GetShopTrainingProgressReq) (*GetShopTrainingProgressResp, error)
-	// 判断店铺是否初次登录(从未进行过训练)
-	JudgeShopFirst(context.Context, *JudgeShopFirstReq) (*JudgeShopFirstResp, error)
 	// 查询商品列表
 	GetGoodsPageList(context.Context, *GoodsPageListReq) (*GoodsPageListResp, error)
 	// 获取商品训练结果
@@ -468,6 +468,9 @@ type ShopTrainingServer interface {
 type UnimplementedShopTrainingServer struct {
 }
 
+func (UnimplementedShopTrainingServer) JudgeShopFirst(context.Context, *JudgeShopFirstReq) (*JudgeShopFirstResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method JudgeShopFirst not implemented")
+}
 func (UnimplementedShopTrainingServer) PreSetting(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PreSetting not implemented")
 }
@@ -482,9 +485,6 @@ func (UnimplementedShopTrainingServer) TrainingShop(context.Context, *TrainingSh
 }
 func (UnimplementedShopTrainingServer) GetShopTrainingProgress(context.Context, *GetShopTrainingProgressReq) (*GetShopTrainingProgressResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetShopTrainingProgress not implemented")
-}
-func (UnimplementedShopTrainingServer) JudgeShopFirst(context.Context, *JudgeShopFirstReq) (*JudgeShopFirstResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method JudgeShopFirst not implemented")
 }
 func (UnimplementedShopTrainingServer) GetGoodsPageList(context.Context, *GoodsPageListReq) (*GoodsPageListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGoodsPageList not implemented")
@@ -527,6 +527,24 @@ type UnsafeShopTrainingServer interface {
 
 func RegisterShopTrainingServer(s grpc.ServiceRegistrar, srv ShopTrainingServer) {
 	s.RegisterService(&ShopTraining_ServiceDesc, srv)
+}
+
+func _ShopTraining_JudgeShopFirst_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JudgeShopFirstReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShopTrainingServer).JudgeShopFirst(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShopTraining_JudgeShopFirst_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShopTrainingServer).JudgeShopFirst(ctx, req.(*JudgeShopFirstReq))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _ShopTraining_PreSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -615,24 +633,6 @@ func _ShopTraining_GetShopTrainingProgress_Handler(srv interface{}, ctx context.
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ShopTrainingServer).GetShopTrainingProgress(ctx, req.(*GetShopTrainingProgressReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _ShopTraining_JudgeShopFirst_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(JudgeShopFirstReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ShopTrainingServer).JudgeShopFirst(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: ShopTraining_JudgeShopFirst_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShopTrainingServer).JudgeShopFirst(ctx, req.(*JudgeShopFirstReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -825,6 +825,10 @@ var ShopTraining_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*ShopTrainingServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "judgeShopFirst",
+			Handler:    _ShopTraining_JudgeShopFirst_Handler,
+		},
+		{
 			MethodName: "preSetting",
 			Handler:    _ShopTraining_PreSetting_Handler,
 		},
@@ -843,10 +847,6 @@ var ShopTraining_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "getShopTrainingProgress",
 			Handler:    _ShopTraining_GetShopTrainingProgress_Handler,
-		},
-		{
-			MethodName: "judgeShopFirst",
-			Handler:    _ShopTraining_JudgeShopFirst_Handler,
 		},
 		{
 			MethodName: "getGoodsPageList",

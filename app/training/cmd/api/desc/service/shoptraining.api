@@ -39,7 +39,7 @@ type (
         Data *ShopListResp `json:"data"` // 数据
     }
 
-    // 店铺分类列表返回体
+    // 店铺分页列表返回体
     ShopListResp {
         BasePageResp
         List []*ShopResp `json:"list"` // 列表

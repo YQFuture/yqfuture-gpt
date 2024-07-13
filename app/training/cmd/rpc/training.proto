@@ -37,8 +37,37 @@ message JudgeShopFirstReq {
 }
 // 判断店铺是否首次登录返回体
 message JudgeShopFirstResp {
-  int64 first = 1; // 是否首次 0: 是 1: 否
+  int64 first = 1;
 }
+
+// 分页查询店铺列表请求体
+message ShopPageListReq {
+  int64  pageNum = 1;
+  int64  pageSize = 2;
+  string query = 3;
+  int64  userId = 4;
+  int64  platFormType = 5;
+  int64  trainingStatus = 6;
+  int64  updateTime = 7;
+}
+// 店铺分页列表返回体
+message ShopPageListResp {
+  int64 pageNum = 1;
+  int64 pageSize = 2;
+  int64 total = 3;
+  repeated ShopResp list = 4;
+}
+// 单条店铺数据返回体
+message ShopResp {
+  int64  id = 1;
+  string uuid = 2;
+  string shopName = 3;
+  int64  platformType = 4;
+  int64  trainingStatus = 5;
+  int64  trainingTimes = 6;
+  int64  updateTime = 7;
+}
+
 message ShopTrainingReq {
   int64 userId = 1;
   string uuid = 2;
@@ -54,30 +83,7 @@ message CancelPreSettingReq {
   int64 userId = 1;
   string uuid = 2;
 }
-message ShopPageListReq {
-  int64  userId = 1;
-  int64  pageNum = 2;
-  int64  pageSize = 3;
-  string query = 4;
-  int64  platFormType = 5;
-  int64  trainingStatus = 6;
-  int64  updateTime = 7;
-}
-message ShopResp {
-  int64  id = 1;
-  string uuid = 2;
-  string shopName = 3;
-  int64  platformType = 4;
-  int64  trainingStatus = 5;
-  int64  trainingTimes = 6;
-  int64  updateTime = 7;
-}
-message ShopPageListResp {
-  int64 pageNum = 1;
-  int64 pageSize = 2;
-  int64 total = 3;
-  repeated ShopResp list = 4;
-}
+
 message GoodsPageListReq {
   int64  shopId = 1;
   int64  pageNum = 2;

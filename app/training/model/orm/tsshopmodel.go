@@ -20,7 +20,7 @@ type (
 		withSession(session sqlx.Session) TsShopModel
 		FindList(ctx context.Context) (any, error)
 		GetShopPageTotal(ctx context.Context, in *training.ShopPageListReq) (int, error)
-		GetShopPageList(ctx context.Context, in *training.ShopPageListReq) (*[]*TsShop, error)
+		GetShopPageList(ctx context.Context, in *training.ShopPageListReq) ([]TsShop, error)
 		JudgeShopFirst(ctx context.Context, userId int64, uuid string) (int, error)
 		FindOneByUuidAndUserId(ctx context.Context, userId int64, uuid string) (*TsShop, error)
 	}
@@ -74,7 +74,7 @@ func (m *customTsShopModel) FindOneByUuidAndUserId(ctx context.Context, userId i
 }
 
 func (m *customTsShopModel) JudgeShopFirst(ctx context.Context, userId int64, uuid string) (int, error) {
-	query := fmt.Sprintf("select %s from %s where user_id = ? and uuid = ? and training_times = 0", tsShopRows, m.table)
+	query := fmt.Sprintf("SELECT %s FROM %s WHERE user_id = ? AND uuid = ? AND training_times = 0", tsShopRows, m.table)
 	var args []interface{}
 	args = append(args, userId, uuid)
 	var resp []*TsShop
@@ -98,7 +98,6 @@ func (m *customTsShopModel) GetShopPageTotal(ctx context.Context, in *training.S
 	// 动态构建WHERE子句
 	var whereClauses []string
 	var args []interface{}
-
 	if in.UserId > 0 {
 		whereClauses = append(whereClauses, "user_id = ?")
 		args = append(args, in.UserId)
@@ -134,21 +133,19 @@ func (m *customTsShopModel) GetShopPageTotal(ctx context.Context, in *training.S
 	case err == nil:
 		return count, nil
 	case errors.Is(err, sqlx.ErrNotFound):
-		return 0, ErrNotFound
+		return 0, nil
 	default:
 		return 0, err
 	}
 }
 
-func (m *customTsShopModel) GetShopPageList(ctx context.Context, in *training.ShopPageListReq) (*[]*TsShop, error) {
+func (m *customTsShopModel) GetShopPageList(ctx context.Context, in *training.ShopPageListReq) ([]TsShop, error) {
 	// 初始化偏移量和限制
 	offset := (in.PageNum - 1) * in.PageSize
 	limit := in.PageSize
-
 	// 动态构建WHERE子句
 	var whereClauses []string
 	var args []interface{}
-
 	if in.UserId > 0 {
 		whereClauses = append(whereClauses, "user_id = ?")
 		args = append(args, in.UserId)
@@ -178,14 +175,14 @@ func (m *customTsShopModel) GetShopPageList(ctx context.Context, in *training.Sh
 	query := fmt.Sprintf("SELECT %s FROM %s %s ORDER BY create_time DESC LIMIT ? OFFSET ?", tsShopRows, m.table, whereStr)
 	args = append(args, limit, offset)
 
-	var resp []*TsShop
+	var resp []TsShop
 	err := m.conn.QueryRowsCtx(ctx, &resp, query, args...)
 
-	switch err {
-	case nil:
-		return &resp, nil
-	case sqlx.ErrNotFound:
-		return nil, ErrNotFound
+	switch {
+	case err == nil:
+		return resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return nil, nil
 	default:
 		return nil, err
 	}

@@ -34,9 +34,8 @@ func (l *GetShopPageListLogic) GetShopPageList(in *training.ShopPageListReq) (*t
 		l.Logger.Error("查询店铺列表失败", err)
 		return nil, err
 	}
-
 	var shopRespList []*training.ShopResp
-	for _, shop := range *list {
+	for _, shop := range list {
 		shopRespList = append(shopRespList, &training.ShopResp{
 			Id:             shop.Id,
 			Uuid:           shop.Uuid,
@@ -47,7 +46,6 @@ func (l *GetShopPageListLogic) GetShopPageList(in *training.ShopPageListReq) (*t
 			UpdateTime:     shop.UpdateTime.Unix(),
 		})
 	}
-
 	return &training.ShopPageListResp{
 		Total: int64(total),
 		List:  shopRespList,

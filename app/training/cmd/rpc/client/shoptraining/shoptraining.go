@@ -52,6 +52,8 @@ type (
 	TrainingShopResp             = training.TrainingShopResp
 
 	ShopTraining interface {
+		// 判断店铺是否首次登录 即从未进行过训练
+		JudgeShopFirst(ctx context.Context, in *JudgeShopFirstReq, opts ...grpc.CallOption) (*JudgeShopFirstResp, error)
 		// 预设
 		PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
 		// 取消预设
@@ -62,8 +64,6 @@ type (
 		TrainingShop(ctx context.Context, in *TrainingShopReq, opts ...grpc.CallOption) (*TrainingShopResp, error)
 		// 获取店铺训练进度
 		GetShopTrainingProgress(ctx context.Context, in *GetShopTrainingProgressReq, opts ...grpc.CallOption) (*GetShopTrainingProgressResp, error)
-		// 判断店铺是否初次登录(从未进行过训练)
-		JudgeShopFirst(ctx context.Context, in *JudgeShopFirstReq, opts ...grpc.CallOption) (*JudgeShopFirstResp, error)
 		// 查询商品列表
 		GetGoodsPageList(ctx context.Context, in *GoodsPageListReq, opts ...grpc.CallOption) (*GoodsPageListResp, error)
 		// 获取商品训练结果
@@ -97,6 +97,12 @@ func NewShopTraining(cli zrpc.Client) ShopTraining {
 	}
 }
 
+// 判断店铺是否首次登录 即从未进行过训练
+func (m *defaultShopTraining) JudgeShopFirst(ctx context.Context, in *JudgeShopFirstReq, opts ...grpc.CallOption) (*JudgeShopFirstResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.JudgeShopFirst(ctx, in, opts...)
+}
+
 // 预设
 func (m *defaultShopTraining) PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
@@ -125,12 +131,6 @@ func (m *defaultShopTraining) TrainingShop(ctx context.Context, in *TrainingShop
 func (m *defaultShopTraining) GetShopTrainingProgress(ctx context.Context, in *GetShopTrainingProgressReq, opts ...grpc.CallOption) (*GetShopTrainingProgressResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
 	return client.GetShopTrainingProgress(ctx, in, opts...)
-}
-
-// 判断店铺是否初次登录(从未进行过训练)
-func (m *defaultShopTraining) JudgeShopFirst(ctx context.Context, in *JudgeShopFirstReq, opts ...grpc.CallOption) (*JudgeShopFirstResp, error) {
-	client := training.NewShopTrainingClient(m.cli.Conn())
-	return client.JudgeShopFirst(ctx, in, opts...)
 }
 
 // 查询商品列表
