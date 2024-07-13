@@ -9,7 +9,7 @@ import (
 	"yufuture-gpt/app/training/cmd/api/internal/types"
 )
 
-// 预训练商品
+// 预设商品
 func PreSettingGoodsHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.PreSettingGoodsReq

@@ -130,7 +130,7 @@
     },
     "/shopTraining/cancelPreSetting": {
       "post": {
-        "summary": "取消店铺预训练",
+        "summary": "取消店铺预设",
         "operationId": "cancelPreSetting",
         "responses": {
           "200": {
@@ -143,7 +143,7 @@
         "parameters": [
           {
             "name": "body",
-            "description": " 取消店铺预训练参数",
+            "description": " 取消店铺预设参数",
             "in": "body",
             "required": true,
             "schema": {
@@ -163,7 +163,7 @@
     },
     "/shopTraining/cancelPreSettingGoods": {
       "post": {
-        "summary": "取消预训练商品",
+        "summary": "取消预设商品",
         "operationId": "cancelPreSettingGoods",
         "responses": {
           "200": {
@@ -387,7 +387,7 @@
     },
     "/shopTraining/preSetting": {
       "post": {
-        "summary": "店铺预训练",
+        "summary": "店铺预设",
         "operationId": "preSetting",
         "responses": {
           "200": {
@@ -407,7 +407,7 @@
           },
           {
             "name": "body",
-            "description": " 店铺预训练参数",
+            "description": " 店铺预设参数",
             "in": "body",
             "required": true,
             "schema": {
@@ -427,7 +427,7 @@
     },
     "/shopTraining/preSettingGoods": {
       "post": {
-        "summary": "预训练商品",
+        "summary": "预设商品",
         "operationId": "preSettingGoods",
         "responses": {
           "200": {

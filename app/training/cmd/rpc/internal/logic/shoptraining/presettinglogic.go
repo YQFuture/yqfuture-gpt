@@ -93,12 +93,12 @@ func (l *PreSettingLogic) PreSetting(in *training.ShopTrainingReq) (*training.Sh
 		time.Sleep(time.Minute * 6)
 		i++
 	}
-	// 没查到直接认为此次预训练失败
+	// 没查到直接认为此次预设失败
 	if saveShop == nil {
 		l.Logger.Error("根据serialNumber在mongo中查找店铺失败", err)
 		return nil, err
 	}
-	// 将店铺和商品置为预训练状态
+	// 将店铺和商品置为预设状态
 	// 根据uuid和userid从mysql中查找出店铺
 	tsShop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in.UserId, in.Uuid)
 	if err != nil {
@@ -119,28 +119,28 @@ func (l *PreSettingLogic) PreSetting(in *training.ShopTrainingReq) (*training.Sh
 			tsGoodsMap[tsGoods.PlatformId] = tsGoods
 		}
 	}
-	// 更新店铺状态为预训练中
+	// 更新店铺状态为预设中
 	err = UpdateShopPreSetting(l.ctx, l.svcCtx, tsShop, in.UserId)
 	if err != nil {
 		l.Logger.Error("修改店铺状态失败", in)
 		return nil, err
 	}
-	// 更新商品状态为预训练中 同时提取本次需要预训练的商品列表
+	// 更新商品状态为预设中 同时提取本次需要预设的商品列表
 	var preSettingGoodsList []*orm.TsGoods
 	for _, saveGoods := range saveShop.GoodsList {
-		// 同时在mongo中并且enabled字段为2启用的商品即为本次需要预训练的商品
+		// 同时在mongo中并且enabled字段为2启用的商品即为本次需要预设的商品
 		if tsGoods, ok := tsGoodsMap[saveGoods.PlatformId]; ok {
-			// 排除掉状态已经在预训练中/训练中/预训练完成的商品
+			// 排除掉状态已经在预设中/训练中/预设完成的商品
 			if tsGoods.TrainingStatus == consts.Presetting || tsGoods.TrainingStatus == consts.Training || tsGoods.TrainingStatus == consts.PresettingComplete {
 				continue
 			}
-			// 更新商品状态为预训练中
+			// 更新商品状态为预设中
 			err = UpdateGoodsPreSetting(l.ctx, l.svcCtx, tsGoods, in.UserId)
 			if err != nil {
 				l.Logger.Error("修改商品状态失败", tsGoods)
 				return nil, err
 			}
-			//将筛选出的商品添加到预训练商品列表
+			//将筛选出的商品添加到预设商品列表
 			preSettingGoodsList = append(preSettingGoodsList, tsGoods)
 		}
 	}
@@ -174,7 +174,7 @@ func (l *PreSettingLogic) PreSetting(in *training.ShopTrainingReq) (*training.Sh
 		l.Logger.Error("获取商品训练所需资源和时长失败", err)
 	}
 
-	// 设计结构化文档 预训练结果保存到mongo 正式训练时直接从mongo中取
+	// 设计结构化文档 预设结果保存到mongo 正式训练时直接从mongo中取
 	shoppresettingshoptitles := &yqmongo.Shoppresettingshoptitles{
 		ShopId:     tsShop.Id,
 		PlatformId: goodsDocumentList[0].PlatformMallId,
@@ -192,13 +192,13 @@ func (l *PreSettingLogic) PreSetting(in *training.ShopTrainingReq) (*training.Sh
 		l.Logger.Error("保存训练到mongo失败", err)
 		return nil, err
 	}
-	// 更新店铺和商品状态为预训练完成
+	// 更新店铺和商品状态为预设完成
 	err = UpdateShopPreSettingComplete(l.ctx, l.svcCtx, tsShop, in.UserId)
 	if err != nil {
 		l.Logger.Error("修改店铺状态失败", err)
 	}
 	for _, preSettingGoods := range preSettingGoodsList {
-		// 更新商品状态为预训练完成
+		// 更新商品状态为预设完成
 		err = UpdateGoodsPreSettingComplete(l.ctx, l.svcCtx, preSettingGoods, in.UserId)
 		if err != nil {
 			l.Logger.Error("修改商品状态失败", err)

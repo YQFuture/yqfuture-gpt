@@ -19,7 +19,7 @@ type CancelPreSettingGoodsLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 取消预训练商品
+// 取消预设商品
 func NewCancelPreSettingGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CancelPreSettingGoodsLogic {
 	return &CancelPreSettingGoodsLogic{
 		Logger: logx.WithContext(ctx),
@@ -45,11 +45,11 @@ func (l *CancelPreSettingGoodsLogic) CancelPreSettingGoods(req *types.CancelPreS
 		UserId:  userId,
 	})
 	if err != nil {
-		l.Logger.Error("取消预训练商品失败", err)
+		l.Logger.Error("取消预设商品失败", err)
 		return nil, err
 	}
 	return &types.BaseResp{
 		Code: consts.Success,
-		Msg:  "取消预训练商品成功",
+		Msg:  "取消预设商品成功",
 	}, nil
 }

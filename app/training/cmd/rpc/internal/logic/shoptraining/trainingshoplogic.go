@@ -40,17 +40,17 @@ func NewTrainingShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Trai
 
 // 训练店铺
 func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*training.TrainingShopResp, error) {
-	// 根据uuid和userId从mongo中找到最新的一条预训练店铺数据
+	// 根据uuid和userId从mongo中找到最新的一条预设店铺数据
 	shoppresettingshoptitles, err := l.svcCtx.ShoppresettingshoptitlesModel.FindNewOneByUuidAndUserId(l.ctx, in.Uuid, in.UserId)
 	if shoppresettingshoptitles == nil || len(shoppresettingshoptitles.GoodsDocumentList) == 0 {
-		l.Logger.Error("mongo中没有可用的预训练数据", err)
+		l.Logger.Error("mongo中没有可用的预设数据", err)
 		return nil, err
 	}
 	if err != nil {
-		l.Logger.Error("根据uuid和userId从mongo中找到最新的一条预训练店铺数据失败", err)
+		l.Logger.Error("根据uuid和userId从mongo中找到最新的一条预设店铺数据失败", err)
 		return nil, err
 	}
-	// 预训练保存的商品文档列表
+	// 预设保存的商品文档列表
 	var goodsDocumentList = shoppresettingshoptitles.GoodsDocumentList
 	// 根据uuid和userid从mysql中查找出店铺
 	tsShop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in.UserId, in.Uuid)
@@ -59,7 +59,7 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 		return nil, err
 	}
 	if tsShop.TrainingStatus != consts.PresettingComplete {
-		l.Logger.Error("只有预训练完成的店铺才能进行训练", err)
+		l.Logger.Error("只有预设完成的店铺才能进行训练", err)
 		return nil, err
 	}
 	// 根据店铺shopId从mysql中查找出enabled字段为2启用商品列表
@@ -73,7 +73,7 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 	if tsGoodsList != nil {
 		tsGoodsMap = make(map[string]*orm.TsGoods)
 		for _, tsGoods := range *tsGoodsList {
-			// 只保留预训练完成状态的商品
+			// 只保留预设完成状态的商品
 			if tsGoods.TrainingStatus != consts.TrainingComplete {
 				continue
 			}
@@ -92,7 +92,7 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 	for _, goodsDocument := range goodsDocumentList {
 		// 同时在mongo中并且enabled字段为2启用的商品即为本次需要训练的商品
 		if tsGoods, ok := tsGoodsMap[goodsDocument.PlatformGoodsId]; ok {
-			// 排除掉并非预训练完成状态的商品
+			// 排除掉并非预设完成状态的商品
 			if tsGoods.TrainingStatus != consts.TrainingComplete {
 				continue
 			}

@@ -26,7 +26,7 @@ func NewCancelPreSettingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-// 取消预训练
+// 取消预设
 func (l *CancelPreSettingLogic) CancelPreSetting(in *training.CancelPreSettingReq) (*training.ShopTrainingResp, error) {
 	// 根据uuid和userid从mysql中查找出店铺
 	tsShop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in.UserId, in.Uuid)
@@ -41,22 +41,22 @@ func (l *CancelPreSettingLogic) CancelPreSetting(in *training.CancelPreSettingRe
 		return nil, err
 	}
 	if tsShop.TrainingStatus != consts.TrainingComplete {
-		l.Logger.Error("店铺状态不是预训练状态")
+		l.Logger.Error("店铺状态不是预设状态")
 		return nil, err
 	}
 	err = CancelShopPreSetting(l.ctx, l.svcCtx, tsShop, in.UserId)
 	if err != nil {
-		l.Logger.Error("取消预训练店铺成功", err)
+		l.Logger.Error("取消预设店铺成功", err)
 		return nil, err
 	}
 	for _, tsGoods := range *tsGoodsList {
-		// 排除掉不是预训练完成的商品
+		// 排除掉不是预设完成的商品
 		if tsGoods.TrainingStatus != consts.TrainingComplete {
 			continue
 		}
 		err = CancelGoodsPreSetting(l.ctx, l.svcCtx, tsGoods, in.UserId)
 		if err != nil {
-			l.Logger.Error("取消预训练店铺失败", err)
+			l.Logger.Error("取消预设店铺失败", err)
 			return nil, err
 		}
 	}

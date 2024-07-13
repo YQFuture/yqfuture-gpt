@@ -39,25 +39,19 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				// 判断店铺是否初次登录(即从未进行过训练)
-				Method:  http.MethodPost,
-				Path:    "/JudgeFirstShop",
-				Handler: shopTraining.JudgeFirstShopHandler(serverCtx),
-			},
-			{
 				// 添加商品
 				Method:  http.MethodPost,
 				Path:    "/addGoods",
 				Handler: shopTraining.AddGoodsHandler(serverCtx),
 			},
 			{
-				// 取消店铺预训练
+				// 取消店铺预设
 				Method:  http.MethodPost,
 				Path:    "/cancelPreSetting",
 				Handler: shopTraining.CancelPreSettingHandler(serverCtx),
 			},
 			{
-				// 取消预训练商品
+				// 取消预设商品
 				Method:  http.MethodPost,
 				Path:    "/cancelPreSettingGoods",
 				Handler: shopTraining.CancelPreSettingGoodsHandler(serverCtx),
@@ -99,13 +93,19 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: shopTraining.GetShopTrainingProgressHandler(serverCtx),
 			},
 			{
-				// 店铺预训练
+				// 判断店铺是否首次登录 即从未进行过店铺训练或预设
+				Method:  http.MethodPost,
+				Path:    "/judgeShopFirst",
+				Handler: shopTraining.JudgeShopFirstHandler(serverCtx),
+			},
+			{
+				// 店铺预设
 				Method:  http.MethodPost,
 				Path:    "/preSetting",
 				Handler: shopTraining.PreSettingHandler(serverCtx),
 			},
 			{
-				// 预训练商品
+				// 预设商品
 				Method:  http.MethodPost,
 				Path:    "/preSettingGoods",
 				Handler: shopTraining.PreSettingGoodsHandler(serverCtx),

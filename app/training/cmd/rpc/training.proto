@@ -192,9 +192,9 @@ message SaveShopResp {
   string result = 1;
 }
 service ShopTraining {
-  // 预训练
+  // 预设
   rpc preSetting(ShopTrainingReq) returns (ShopTrainingResp);
-  // 取消预训练
+  // 取消预设
   rpc cancelPreSetting(CancelPreSettingReq) returns (ShopTrainingResp);
 
   // 查询店铺列表
@@ -210,9 +210,9 @@ service ShopTraining {
   rpc getGoodsPageList(GoodsPageListReq) returns (GoodsPageListResp);
   // 获取商品训练结果
   rpc getGoodsTrainingResult(GetGoodsTrainingResultReq) returns (GetGoodsTrainingResultResp);
-  // 预训练商品
+  // 预设商品
   rpc preSettingGoods(PreSettingGoodsReq) returns (PreSettingGoodsResp);
-  // 取消预训练商品
+  // 取消预设商品
   rpc cancelPreSettingGoods(CancelPreSettingGoodsReq) returns (CancelPreSettingGoodsResp);
   // 训练商品
   rpc trainingGoods(TrainingGoodsReq) returns (TrainingGoodsResp);

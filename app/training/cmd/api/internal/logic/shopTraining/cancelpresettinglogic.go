@@ -16,7 +16,7 @@ type CancelPreSettingLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 取消预训练
+// 取消预设
 func NewCancelPreSettingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CancelPreSettingLogic {
 	return &CancelPreSettingLogic{
 		Logger: logx.WithContext(ctx),
@@ -35,6 +35,6 @@ func (l *CancelPreSettingLogic) CancelPreSetting(req *types.CancelPreSettingReq)
 	l.Logger.Info("userId", userId)
 	return &types.BaseResp{
 		Code: consts.Success,
-		Msg:  "取消预训练成功",
+		Msg:  "取消预设成功",
 	}, nil
 }

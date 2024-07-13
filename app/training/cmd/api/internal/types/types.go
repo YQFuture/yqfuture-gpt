@@ -104,13 +104,13 @@ type GoodsResp struct {
 	GoodsUrl        string `json:"goodsUrl"`        // 商品url
 	TrainingSummary string `json:"trainingSummary"` // 训练摘要
 	Enabled         int64  `json:"enabled"`         // 启用状态 0: 未定义 1: 未启用 2: 启用
-	TrainingStatus  int64  `json:"trainStatus"`     // 训练状态 训练状态 0: 未训练 1: 训练中 2: 训练完成
+	TrainingStatus  int64  `json:"trainStatus"`     // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
 	TrainingTimes   int64  `json:"trainingTimes"`   // 训练次数
 	UpdateTime      int64  `json:"updateTime"`      // 更新时间
 }
 
 type GoodsTrainingProgress struct {
-	TrainingStatus int64 `json:"trainStatus"` // 训练状态 训练状态 0: 未训练 1: 训练中 2: 训练完成
+	TrainingStatus int64 `json:"trainStatus"` // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
 	GoodsNum       int64 `json:"goodsNum"`    // 商品数量
 	Token          int64 `json:"token"`       // 训练token
 	FileSize       int64 `json:"fileSize"`    // 文件大小
@@ -118,13 +118,13 @@ type GoodsTrainingProgress struct {
 	Time           int64 `json:"time"`        // 训练耗时
 }
 
-type JudgeFirstShopReq struct {
+type JudgeShopFirstReq struct {
 	Uuid string `json:"uuid"` // 唯一标识
 }
 
-type JudgeFirstShopResp struct {
+type JudgeShopFirstResp struct {
 	BaseResp
-	Data int64 `json:"data"` // 是否初次 0: 是 1: 否
+	Data int64 `json:"data"` // 是否首次 0: 是 1: 否
 }
 
 type PreSettingGoodsReq struct {
@@ -179,7 +179,7 @@ type ShopResp struct {
 }
 
 type ShopTrainingProgress struct {
-	TrainingStatus int64 `json:"trainStatus"` // 训练状态 训练状态 0: 未训练 1: 训练中 2: 训练完成
+	TrainingStatus int64 `json:"trainStatus"` // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
 	GoodsNum       int64 `json:"goodsNum"`    // 商品数量
 	Token          int64 `json:"token"`       // 训练token
 	FileSize       int64 `json:"fileSize"`    // 文件大小
@@ -206,7 +206,7 @@ type TrainingGoodsReq struct {
 
 type TrainingGoodsResp struct {
 	BaseResp
-	Data int64 `json:"data"` // 训练状态 0: 未训练 1: 训练中 2: 训练完成
+	Data int64 `json:"data"` // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
 }
 
 type TrainingShopReq struct {
@@ -215,5 +215,5 @@ type TrainingShopReq struct {
 
 type TrainingShopResp struct {
 	BaseResp
-	Data int64 `json:"data"` // 训练状态 0: 未训练 1: 训练中 2: 训练完成
+	Data int64 `json:"data"`
 }

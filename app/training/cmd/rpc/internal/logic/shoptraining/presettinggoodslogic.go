@@ -29,16 +29,16 @@ func NewPreSettingGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *P
 	}
 }
 
-// 预训练商品
+// 预设商品
 func (l *PreSettingGoodsLogic) PreSettingGoods(in *training.PreSettingGoodsReq) (*training.PreSettingGoodsResp, error) {
 	tsGoods, err := l.svcCtx.TsGoodsModel.FindOne(l.ctx, in.GoodsId)
 	if err != nil {
 		l.Logger.Error("根据goodsId查找商品失败", err)
 		return nil, err
 	}
-	// 排除掉状态已经在预训练中/训练中/预训练完成的商品
+	// 排除掉状态已经在预设中/训练中/预设完成的商品
 	if tsGoods.TrainingStatus == consts.Presetting || tsGoods.TrainingStatus == consts.Training || tsGoods.TrainingStatus == consts.PresettingComplete {
-		l.Logger.Error("商品不是可预训练状态", err)
+		l.Logger.Error("商品不是可预设状态", err)
 		return nil, err
 	}
 	tsShop, err := l.svcCtx.TsShopModel.FindOne(l.ctx, tsGoods.ShopId)
@@ -47,7 +47,7 @@ func (l *PreSettingGoodsLogic) PreSettingGoods(in *training.PreSettingGoodsReq) 
 		return nil, err
 	}
 
-	// 更新商品状态为预训练中
+	// 更新商品状态为预设中
 	err = UpdateGoodsPreSetting(l.ctx, l.svcCtx, tsGoods, in.UserId)
 
 	var presettingGoods []*orm.TsGoods
@@ -81,7 +81,7 @@ func (l *PreSettingGoodsLogic) PreSettingGoods(in *training.PreSettingGoodsReq) 
 		l.Logger.Error("获取商品训练所需资源和时长失败", err)
 	}
 
-	// 设计结构化文档 预训练结果保存到mongo 正式训练时直接从mongo中取
+	// 设计结构化文档 预设结果保存到mongo 正式训练时直接从mongo中取
 	shoppresettinggoodstitles := &yqmongo.Shoppresettinggoodstitles{
 		GoodsId:    tsGoods.Id,
 		PlatformId: goodsDocumentList[0].PlatformMallId,
@@ -94,7 +94,7 @@ func (l *PreSettingGoodsLogic) PreSettingGoods(in *training.PreSettingGoodsReq) 
 		GoodsDocumentList: goodsDocumentList,
 	}
 	err = l.svcCtx.ShoppresettinggoodstitlesModel.Insert(l.ctx, shoppresettinggoodstitles)
-	// 更新商品状态为预训练完成
+	// 更新商品状态为预设完成
 	err = UpdateGoodsPreSettingComplete(l.ctx, l.svcCtx, tsGoods, in.UserId)
 	if err != nil {
 		l.Logger.Error("修改商品状态失败", err)

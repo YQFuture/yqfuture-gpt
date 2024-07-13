@@ -10,7 +10,7 @@ info (
 
 import (
 	"service/shoptraining.api"
-	"service/basicfunction.api"
+	"service/basefunction.api"
 )
 
 // TODO 生成token 开发阶段临时使用 提测前删除
@@ -23,7 +23,7 @@ service training {
 	get /getJWT (BaseReq) returns (ShopTrainingResp)
 }
 
-// 基础服务相关 后续迁移到基础服务
+// TODO 基础服务相关 后续迁移到基础服务
 @server (
 	prefix: basicFunction
 	group:  basicFunction
@@ -41,17 +41,17 @@ service training {
 	jwt:    Auth
 )
 service training {
-	@doc "店铺预训练"
+	@doc "判断店铺是否首次登录 即从未进行过店铺训练或预设"
+	@handler JudgeShopFirst
+	post /judgeShopFirst (JudgeShopFirstReq) returns (JudgeShopFirstResp)
+
+	@doc "店铺预设"
 	@handler preSetting
 	post /preSetting (ShopTrainingReq) returns (ShopTrainingResp)
 
-	@doc "取消店铺预训练"
+	@doc "取消店铺预设"
 	@handler cancelPreSetting
 	post /cancelPreSetting (CancelPreSettingReq) returns (BaseResp)
-
-	@doc "判断店铺是否初次登录(即从未进行过训练)"
-	@handler JudgeFirstShop
-	post /JudgeFirstShop (JudgeFirstShopReq) returns (JudgeFirstShopResp)
 
 	@doc "查询店铺列表"
 	@handler getShopPageList
@@ -73,11 +73,11 @@ service training {
 	@handler getGoodsTrainingResult
 	post /getGoodsTrainingResult (GetGoodsTrainingResultReq) returns (GetGoodsTrainingResultResp)
 
-	@doc "预训练商品"
+	@doc "预设商品"
 	@handler preSettingGoods
 	post /preSettingGoods (PreSettingGoodsReq) returns (BaseResp)
 
-	@doc "取消预训练商品"
+	@doc "取消预设商品"
 	@handler cancelPreSettingGoods
 	post /cancelPreSettingGoods (CancelPreSettingGoodsReq) returns (BaseResp)
 

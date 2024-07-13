@@ -223,9 +223,9 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ShopTrainingClient interface {
-	// 预训练
+	// 预设
 	PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
-	// 取消预训练
+	// 取消预设
 	CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
 	// 查询店铺列表
 	GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error)
@@ -239,9 +239,9 @@ type ShopTrainingClient interface {
 	GetGoodsPageList(ctx context.Context, in *GoodsPageListReq, opts ...grpc.CallOption) (*GoodsPageListResp, error)
 	// 获取商品训练结果
 	GetGoodsTrainingResult(ctx context.Context, in *GetGoodsTrainingResultReq, opts ...grpc.CallOption) (*GetGoodsTrainingResultResp, error)
-	// 预训练商品
+	// 预设商品
 	PreSettingGoods(ctx context.Context, in *PreSettingGoodsReq, opts ...grpc.CallOption) (*PreSettingGoodsResp, error)
-	// 取消预训练商品
+	// 取消预设商品
 	CancelPreSettingGoods(ctx context.Context, in *CancelPreSettingGoodsReq, opts ...grpc.CallOption) (*CancelPreSettingGoodsResp, error)
 	// 训练商品
 	TrainingGoods(ctx context.Context, in *TrainingGoodsReq, opts ...grpc.CallOption) (*TrainingGoodsResp, error)
@@ -429,9 +429,9 @@ func (c *shopTrainingClient) SaveShop(ctx context.Context, in *SaveShopReq, opts
 // All implementations must embed UnimplementedShopTrainingServer
 // for forward compatibility
 type ShopTrainingServer interface {
-	// 预训练
+	// 预设
 	PreSetting(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error)
-	// 取消预训练
+	// 取消预设
 	CancelPreSetting(context.Context, *CancelPreSettingReq) (*ShopTrainingResp, error)
 	// 查询店铺列表
 	GetShopPageList(context.Context, *ShopPageListReq) (*ShopPageListResp, error)
@@ -445,9 +445,9 @@ type ShopTrainingServer interface {
 	GetGoodsPageList(context.Context, *GoodsPageListReq) (*GoodsPageListResp, error)
 	// 获取商品训练结果
 	GetGoodsTrainingResult(context.Context, *GetGoodsTrainingResultReq) (*GetGoodsTrainingResultResp, error)
-	// 预训练商品
+	// 预设商品
 	PreSettingGoods(context.Context, *PreSettingGoodsReq) (*PreSettingGoodsResp, error)
-	// 取消预训练商品
+	// 取消预设商品
 	CancelPreSettingGoods(context.Context, *CancelPreSettingGoodsReq) (*CancelPreSettingGoodsResp, error)
 	// 训练商品
 	TrainingGoods(context.Context, *TrainingGoodsReq) (*TrainingGoodsResp, error)

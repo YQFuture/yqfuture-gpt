@@ -24,7 +24,7 @@ func NewCancelPreSettingGoodsLogic(ctx context.Context, svcCtx *svc.ServiceConte
 	}
 }
 
-// 取消预训练商品
+// 取消预设商品
 func (l *CancelPreSettingGoodsLogic) CancelPreSettingGoods(in *training.CancelPreSettingGoodsReq) (*training.CancelPreSettingGoodsResp, error) {
 	tsGoods, err := l.svcCtx.TsGoodsModel.FindOne(l.ctx, in.GoodsId)
 	if err != nil {
@@ -32,11 +32,11 @@ func (l *CancelPreSettingGoodsLogic) CancelPreSettingGoods(in *training.CancelPr
 		return nil, err
 	}
 	if tsGoods.TrainingStatus != consts.TrainingComplete {
-		l.Logger.Error("商品状态不是预训练状态")
+		l.Logger.Error("商品状态不是预设状态")
 		return nil, err
 	}
 	if err := CancelGoodsPreSetting(l.ctx, l.svcCtx, tsGoods, in.UserId); err != nil {
-		l.Logger.Error("取消预训练商品失败", err)
+		l.Logger.Error("取消预设商品失败", err)
 		return nil, err
 	}
 	return &training.CancelPreSettingGoodsResp{}, nil

@@ -19,7 +19,7 @@ type PreSettingGoodsLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 预训练商品
+// 预设商品
 func NewPreSettingGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PreSettingGoodsLogic {
 	return &PreSettingGoodsLogic{
 		Logger: logx.WithContext(ctx),
@@ -48,10 +48,10 @@ func (l *PreSettingGoodsLogic) PreSettingGoods(req *types.PreSettingGoodsReq) (r
 	})
 	// 后台会进行较长时间的轮询等待 所以会返回超时错误 无需处理 仅打印日志 前端关注店铺和商品的训练状态即可
 	if err != nil {
-		l.Logger.Error("开启预训练商品异常", err)
+		l.Logger.Error("开启预设商品异常", err)
 	}
 	return &types.BaseResp{
 		Code: consts.Success,
-		Msg:  "预训练商品成功",
+		Msg:  "预设商品成功",
 	}, nil
 }

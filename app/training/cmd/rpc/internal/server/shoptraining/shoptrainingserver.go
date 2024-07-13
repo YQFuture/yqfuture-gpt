@@ -22,13 +22,13 @@ func NewShopTrainingServer(svcCtx *svc.ServiceContext) *ShopTrainingServer {
 	}
 }
 
-// 预训练
+// 预设
 func (s *ShopTrainingServer) PreSetting(ctx context.Context, in *training.ShopTrainingReq) (*training.ShopTrainingResp, error) {
 	l := shoptraininglogic.NewPreSettingLogic(ctx, s.svcCtx)
 	return l.PreSetting(in)
 }
 
-// 取消预训练
+// 取消预设
 func (s *ShopTrainingServer) CancelPreSetting(ctx context.Context, in *training.CancelPreSettingReq) (*training.ShopTrainingResp, error) {
 	l := shoptraininglogic.NewCancelPreSettingLogic(ctx, s.svcCtx)
 	return l.CancelPreSetting(in)
@@ -70,13 +70,13 @@ func (s *ShopTrainingServer) GetGoodsTrainingResult(ctx context.Context, in *tra
 	return l.GetGoodsTrainingResult(in)
 }
 
-// 预训练商品
+// 预设商品
 func (s *ShopTrainingServer) PreSettingGoods(ctx context.Context, in *training.PreSettingGoodsReq) (*training.PreSettingGoodsResp, error) {
 	l := shoptraininglogic.NewPreSettingGoodsLogic(ctx, s.svcCtx)
 	return l.PreSettingGoods(in)
 }
 
-// 取消预训练商品
+// 取消预设商品
 func (s *ShopTrainingServer) CancelPreSettingGoods(ctx context.Context, in *training.CancelPreSettingGoodsReq) (*training.CancelPreSettingGoodsResp, error) {
 	l := shoptraininglogic.NewCancelPreSettingGoodsLogic(ctx, s.svcCtx)
 	return l.CancelPreSettingGoods(in)

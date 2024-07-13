@@ -9,7 +9,7 @@ import (
 	"yufuture-gpt/app/training/cmd/api/internal/types"
 )
 
-// 取消预训练
+// 取消预设
 func CancelPreSettingHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.CancelPreSettingReq

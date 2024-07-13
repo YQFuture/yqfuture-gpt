@@ -6,6 +6,7 @@ require (
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/olivere/elastic/v7 v7.0.32
+	github.com/tidwall/gjson v1.17.1
 	github.com/zeromicro/go-queue v1.2.1
 	github.com/zeromicro/go-zero v1.6.6
 	github.com/zeromicro/zero-contrib/zrpc/registry/consul v0.0.0-20231030135404-af9ae855016f
@@ -74,7 +75,6 @@ require (
 	github.com/redis/go-redis/v9 v9.5.3 // indirect
 	github.com/segmentio/kafka-go v0.4.47 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
-	github.com/tidwall/gjson v1.17.1 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.1 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect

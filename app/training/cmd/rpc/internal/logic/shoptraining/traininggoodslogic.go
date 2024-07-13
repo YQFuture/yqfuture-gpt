@@ -28,13 +28,13 @@ func NewTrainingGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Tra
 
 // 训练商品
 func (l *TrainingGoodsLogic) TrainingGoods(in *training.TrainingGoodsReq) (*training.TrainingGoodsResp, error) {
-	// 根据shopId从mongo中找到最新的一条预训练商品数据
+	// 根据shopId从mongo中找到最新的一条预设商品数据
 	shoppresettinggoodstitles, err := l.svcCtx.ShoppresettinggoodstitlesModel.FindNewOneByGoodsId(l.ctx, in.GoodsId)
 	if shoppresettinggoodstitles == nil || len(shoppresettinggoodstitles.GoodsDocumentList) == 0 {
-		l.Logger.Error("mongo中没有可用的预训练数据", err)
+		l.Logger.Error("mongo中没有可用的预设数据", err)
 		return nil, err
 	}
-	// 预训练保存的商品文档列表
+	// 预设保存的商品文档列表
 	var goodsDocumentList = shoppresettinggoodstitles.GoodsDocumentList
 	// 从mysql中查询出商品
 	tsGoods, err := l.svcCtx.TsGoodsModel.FindOne(l.ctx, in.GoodsId)

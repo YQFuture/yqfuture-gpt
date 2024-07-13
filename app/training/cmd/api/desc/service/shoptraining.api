@@ -9,18 +9,20 @@ info(
 )
 
 import (
-    "basicfunction.api"
+    "basefunction.api"
 )
 
-// 店铺基础信息和分页相关
+// 店铺基础信息和分页相关实体
 type (
-    JudgeFirstShopReq {
+    // 判断店铺是否首次登录请求体 即从未进行过店铺训练或预设
+    JudgeShopFirstReq {
         Uuid string `json:"uuid"` // 唯一标识
     }
 
-    JudgeFirstShopResp {
+    // 判断店铺是否首次登录返回体
+    JudgeShopFirstResp {
         BaseResp
-        Data int64 `json:"data"` // 是否初次 0: 是 1: 否
+        Data int64 `json:"data"` // 是否首次 0: 是 1: 否
     }
 
     ShopPageListReq {
@@ -94,7 +96,7 @@ type (
 
 // 店铺训练/商品训练相关
 type (
-    // 店铺预训练参数
+    // 店铺预设参数
     ShopTrainingReq {
         Uuid string `json:"uuid"`                     // 唯一标识
         ShopName string `json:"shopName"`
@@ -103,13 +105,13 @@ type (
         Cookies string `json:"cookies"`
     }
 
-        // 店铺预训练返回
+        // 店铺预设返回
     ShopTrainingResp {
         BaseResp
         Data interface{} `json:"data"` // 数据
     }
 
-        // 取消店铺预训练参数
+        // 取消店铺预设参数
     CancelPreSettingReq {
         Uuid string `json:"uuid"` // 唯一标识
     }
