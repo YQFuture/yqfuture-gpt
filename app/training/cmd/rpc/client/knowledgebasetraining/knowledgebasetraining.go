@@ -32,8 +32,8 @@ type (
 	GoodsResp                    = training.GoodsResp
 	GoodsTrainingReq             = training.GoodsTrainingReq
 	GoodsTrainingResp            = training.GoodsTrainingResp
-	JudgeFirstShopReq            = training.JudgeFirstShopReq
-	JudgeFirstShopResp           = training.JudgeFirstShopResp
+	JudgeShopFirstReq            = training.JudgeShopFirstReq
+	JudgeShopFirstResp           = training.JudgeShopFirstResp
 	KnowledgeBaseTrainingReq     = training.KnowledgeBaseTrainingReq
 	KnowledgeBaseTrainingResp    = training.KnowledgeBaseTrainingResp
 	PreSettingGoodsReq           = training.PreSettingGoodsReq

@@ -14,9 +14,9 @@ import (
 
 // 店铺基础信息和分页相关实体
 type (
-    // 判断店铺是否首次登录请求体 即从未进行过店铺训练或预设
+    // 判断店铺是否首次登录请求体 即从未进行过训练
     JudgeShopFirstReq {
-        Uuid string `json:"uuid"` // 唯一标识
+        Uuid string `json:"uuid"` // 店铺uuid
     }
 
     // 判断店铺是否首次登录返回体

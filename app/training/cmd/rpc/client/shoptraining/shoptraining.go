@@ -32,8 +32,8 @@ type (
 	GoodsResp                    = training.GoodsResp
 	GoodsTrainingReq             = training.GoodsTrainingReq
 	GoodsTrainingResp            = training.GoodsTrainingResp
-	JudgeFirstShopReq            = training.JudgeFirstShopReq
-	JudgeFirstShopResp           = training.JudgeFirstShopResp
+	JudgeShopFirstReq            = training.JudgeShopFirstReq
+	JudgeShopFirstResp           = training.JudgeShopFirstResp
 	KnowledgeBaseTrainingReq     = training.KnowledgeBaseTrainingReq
 	KnowledgeBaseTrainingResp    = training.KnowledgeBaseTrainingResp
 	PreSettingGoodsReq           = training.PreSettingGoodsReq
@@ -63,7 +63,7 @@ type (
 		// 获取店铺训练进度
 		GetShopTrainingProgress(ctx context.Context, in *GetShopTrainingProgressReq, opts ...grpc.CallOption) (*GetShopTrainingProgressResp, error)
 		// 判断店铺是否初次登录(从未进行过训练)
-		JudgeFirstShop(ctx context.Context, in *JudgeFirstShopReq, opts ...grpc.CallOption) (*JudgeFirstShopResp, error)
+		JudgeShopFirst(ctx context.Context, in *JudgeShopFirstReq, opts ...grpc.CallOption) (*JudgeShopFirstResp, error)
 		// 查询商品列表
 		GetGoodsPageList(ctx context.Context, in *GoodsPageListReq, opts ...grpc.CallOption) (*GoodsPageListResp, error)
 		// 获取商品训练结果
@@ -128,9 +128,9 @@ func (m *defaultShopTraining) GetShopTrainingProgress(ctx context.Context, in *G
 }
 
 // 判断店铺是否初次登录(从未进行过训练)
-func (m *defaultShopTraining) JudgeFirstShop(ctx context.Context, in *JudgeFirstShopReq, opts ...grpc.CallOption) (*JudgeFirstShopResp, error) {
+func (m *defaultShopTraining) JudgeShopFirst(ctx context.Context, in *JudgeShopFirstReq, opts ...grpc.CallOption) (*JudgeShopFirstResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
-	return client.JudgeFirstShop(ctx, in, opts...)
+	return client.JudgeShopFirst(ctx, in, opts...)
 }
 
 // 查询商品列表

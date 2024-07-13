@@ -206,7 +206,7 @@ const (
 	ShopTraining_GetShopPageList_FullMethodName          = "/training.ShopTraining/getShopPageList"
 	ShopTraining_TrainingShop_FullMethodName             = "/training.ShopTraining/trainingShop"
 	ShopTraining_GetShopTrainingProgress_FullMethodName  = "/training.ShopTraining/getShopTrainingProgress"
-	ShopTraining_JudgeFirstShop_FullMethodName           = "/training.ShopTraining/judgeFirstShop"
+	ShopTraining_JudgeShopFirst_FullMethodName           = "/training.ShopTraining/judgeShopFirst"
 	ShopTraining_GetGoodsPageList_FullMethodName         = "/training.ShopTraining/getGoodsPageList"
 	ShopTraining_GetGoodsTrainingResult_FullMethodName   = "/training.ShopTraining/getGoodsTrainingResult"
 	ShopTraining_PreSettingGoods_FullMethodName          = "/training.ShopTraining/preSettingGoods"
@@ -234,7 +234,7 @@ type ShopTrainingClient interface {
 	// 获取店铺训练进度
 	GetShopTrainingProgress(ctx context.Context, in *GetShopTrainingProgressReq, opts ...grpc.CallOption) (*GetShopTrainingProgressResp, error)
 	// 判断店铺是否初次登录(从未进行过训练)
-	JudgeFirstShop(ctx context.Context, in *JudgeFirstShopReq, opts ...grpc.CallOption) (*JudgeFirstShopResp, error)
+	JudgeShopFirst(ctx context.Context, in *JudgeShopFirstReq, opts ...grpc.CallOption) (*JudgeShopFirstResp, error)
 	// 查询商品列表
 	GetGoodsPageList(ctx context.Context, in *GoodsPageListReq, opts ...grpc.CallOption) (*GoodsPageListResp, error)
 	// 获取商品训练结果
@@ -315,10 +315,10 @@ func (c *shopTrainingClient) GetShopTrainingProgress(ctx context.Context, in *Ge
 	return out, nil
 }
 
-func (c *shopTrainingClient) JudgeFirstShop(ctx context.Context, in *JudgeFirstShopReq, opts ...grpc.CallOption) (*JudgeFirstShopResp, error) {
+func (c *shopTrainingClient) JudgeShopFirst(ctx context.Context, in *JudgeShopFirstReq, opts ...grpc.CallOption) (*JudgeShopFirstResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(JudgeFirstShopResp)
-	err := c.cc.Invoke(ctx, ShopTraining_JudgeFirstShop_FullMethodName, in, out, cOpts...)
+	out := new(JudgeShopFirstResp)
+	err := c.cc.Invoke(ctx, ShopTraining_JudgeShopFirst_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -440,7 +440,7 @@ type ShopTrainingServer interface {
 	// 获取店铺训练进度
 	GetShopTrainingProgress(context.Context, *GetShopTrainingProgressReq) (*GetShopTrainingProgressResp, error)
 	// 判断店铺是否初次登录(从未进行过训练)
-	JudgeFirstShop(context.Context, *JudgeFirstShopReq) (*JudgeFirstShopResp, error)
+	JudgeShopFirst(context.Context, *JudgeShopFirstReq) (*JudgeShopFirstResp, error)
 	// 查询商品列表
 	GetGoodsPageList(context.Context, *GoodsPageListReq) (*GoodsPageListResp, error)
 	// 获取商品训练结果
@@ -483,8 +483,8 @@ func (UnimplementedShopTrainingServer) TrainingShop(context.Context, *TrainingSh
 func (UnimplementedShopTrainingServer) GetShopTrainingProgress(context.Context, *GetShopTrainingProgressReq) (*GetShopTrainingProgressResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetShopTrainingProgress not implemented")
 }
-func (UnimplementedShopTrainingServer) JudgeFirstShop(context.Context, *JudgeFirstShopReq) (*JudgeFirstShopResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method JudgeFirstShop not implemented")
+func (UnimplementedShopTrainingServer) JudgeShopFirst(context.Context, *JudgeShopFirstReq) (*JudgeShopFirstResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method JudgeShopFirst not implemented")
 }
 func (UnimplementedShopTrainingServer) GetGoodsPageList(context.Context, *GoodsPageListReq) (*GoodsPageListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGoodsPageList not implemented")
@@ -619,20 +619,20 @@ func _ShopTraining_GetShopTrainingProgress_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ShopTraining_JudgeFirstShop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(JudgeFirstShopReq)
+func _ShopTraining_JudgeShopFirst_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(JudgeShopFirstReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ShopTrainingServer).JudgeFirstShop(ctx, in)
+		return srv.(ShopTrainingServer).JudgeShopFirst(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ShopTraining_JudgeFirstShop_FullMethodName,
+		FullMethod: ShopTraining_JudgeShopFirst_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShopTrainingServer).JudgeFirstShop(ctx, req.(*JudgeFirstShopReq))
+		return srv.(ShopTrainingServer).JudgeShopFirst(ctx, req.(*JudgeShopFirstReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -845,8 +845,8 @@ var ShopTraining_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ShopTraining_GetShopTrainingProgress_Handler,
 		},
 		{
-			MethodName: "judgeFirstShop",
-			Handler:    _ShopTraining_JudgeFirstShop_Handler,
+			MethodName: "judgeShopFirst",
+			Handler:    _ShopTraining_JudgeShopFirst_Handler,
 		},
 		{
 			MethodName: "getGoodsPageList",

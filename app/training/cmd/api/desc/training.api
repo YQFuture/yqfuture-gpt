@@ -41,7 +41,7 @@ service training {
 	jwt:    Auth
 )
 service training {
-	@doc "判断店铺是否首次登录 即从未进行过店铺训练或预设"
+	@doc "判断店铺是否首次登录 即从未进行过训练"
 	@handler JudgeShopFirst
 	post /judgeShopFirst (JudgeShopFirstReq) returns (JudgeShopFirstResp)
 

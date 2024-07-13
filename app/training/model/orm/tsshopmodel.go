@@ -21,7 +21,7 @@ type (
 		FindList(ctx context.Context) (any, error)
 		GetShopPageTotal(ctx context.Context, in *training.ShopPageListReq) (int, error)
 		GetShopPageList(ctx context.Context, in *training.ShopPageListReq) (*[]*TsShop, error)
-		JudgeFirstShop(ctx context.Context, in *training.JudgeFirstShopReq) (int, error)
+		JudgeShopFirst(ctx context.Context, userId int64, uuid string) (int, error)
 		FindOneByUuidAndUserId(ctx context.Context, userId int64, uuid string) (*TsShop, error)
 	}
 
@@ -73,10 +73,10 @@ func (m *customTsShopModel) FindOneByUuidAndUserId(ctx context.Context, userId i
 	}
 }
 
-func (m *customTsShopModel) JudgeFirstShop(ctx context.Context, in *training.JudgeFirstShopReq) (int, error) {
-	query := fmt.Sprintf("select %s from %s where user_id = ? AND uuid = ? AND training_times = 0", tsShopRows, m.table)
+func (m *customTsShopModel) JudgeShopFirst(ctx context.Context, userId int64, uuid string) (int, error) {
+	query := fmt.Sprintf("select %s from %s where user_id = ? and uuid = ? and training_times = 0", tsShopRows, m.table)
 	var args []interface{}
-	args = append(args, in.UserId, in.Uuid)
+	args = append(args, userId, uuid)
 	var resp []*TsShop
 	err := m.conn.QueryRowsCtx(ctx, &resp, query, args...)
 	//判断是否初次登录 0: 是 1: 否

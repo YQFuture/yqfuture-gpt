@@ -53,9 +53,9 @@ func (s *ShopTrainingServer) GetShopTrainingProgress(ctx context.Context, in *tr
 }
 
 // 判断店铺是否初次登录(从未进行过训练)
-func (s *ShopTrainingServer) JudgeFirstShop(ctx context.Context, in *training.JudgeFirstShopReq) (*training.JudgeFirstShopResp, error) {
-	l := shoptraininglogic.NewJudgeFirstShopLogic(ctx, s.svcCtx)
-	return l.JudgeFirstShop(in)
+func (s *ShopTrainingServer) JudgeShopFirst(ctx context.Context, in *training.JudgeShopFirstReq) (*training.JudgeShopFirstResp, error) {
+	l := shoptraininglogic.NewJudgeShopFirstLogic(ctx, s.svcCtx)
+	return l.JudgeShopFirst(in)
 }
 
 // 查询商品列表

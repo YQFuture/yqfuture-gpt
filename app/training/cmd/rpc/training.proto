@@ -29,7 +29,16 @@ service KnowledgeBaseTraining {
   rpc preSetting(KnowledgeBaseTrainingReq) returns (KnowledgeBaseTrainingResp);
 }
 
-//店铺训练
+// 店铺训练
+// 判断店铺是否首次登录请求体 即从未进行过训练
+message JudgeShopFirstReq {
+  int64 userId = 1; // 用户id
+  string uuid = 2; // 店铺uuid
+}
+// 判断店铺是否首次登录返回体
+message JudgeShopFirstResp {
+  int64 first = 1; // 是否首次 0: 是 1: 否
+}
 message ShopTrainingReq {
   int64 userId = 1;
   string uuid = 2;
@@ -44,13 +53,6 @@ message ShopTrainingResp {
 message CancelPreSettingReq {
   int64 userId = 1;
   string uuid = 2;
-}
-message JudgeFirstShopReq {
-  int64 userId = 1;
-  string uuid = 2;
-}
-message JudgeFirstShopResp {
-  int64 first = 1;
 }
 message ShopPageListReq {
   int64  userId = 1;
@@ -192,6 +194,9 @@ message SaveShopResp {
   string result = 1;
 }
 service ShopTraining {
+  // 判断店铺是否首次登录 即从未进行过训练
+  rpc judgeShopFirst(JudgeShopFirstReq) returns (JudgeShopFirstResp);
+
   // 预设
   rpc preSetting(ShopTrainingReq) returns (ShopTrainingResp);
   // 取消预设
@@ -203,8 +208,7 @@ service ShopTraining {
   rpc trainingShop(TrainingShopReq) returns (TrainingShopResp);
   // 获取店铺训练进度
   rpc getShopTrainingProgress(GetShopTrainingProgressReq) returns (GetShopTrainingProgressResp);
-  // 判断店铺是否初次登录(从未进行过训练)
-  rpc judgeFirstShop(JudgeFirstShopReq) returns (JudgeFirstShopResp);
+
 
   // 查询商品列表
   rpc getGoodsPageList(GoodsPageListReq) returns (GoodsPageListResp);

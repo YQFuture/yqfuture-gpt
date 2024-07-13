@@ -255,7 +255,110 @@ func (*KnowledgeBaseTrainingResp) Descriptor() ([]byte, []int) {
 	return file_training_proto_rawDescGZIP(), []int{4}
 }
 
-// 店铺训练
+// 判断店铺是否首次登录请求体 即从未进行过店铺训练或预设
+type JudgeShopFirstReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UserId int64  `protobuf:"varint,1,opt,name=userId,proto3" json:"userId,omitempty"` // 用户id
+	Uuid   string `protobuf:"bytes,2,opt,name=uuid,proto3" json:"uuid,omitempty"`      // 店铺uuid
+}
+
+func (x *JudgeShopFirstReq) Reset() {
+	*x = JudgeShopFirstReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_training_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *JudgeShopFirstReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JudgeShopFirstReq) ProtoMessage() {}
+
+func (x *JudgeShopFirstReq) ProtoReflect() protoreflect.Message {
+	mi := &file_training_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JudgeShopFirstReq.ProtoReflect.Descriptor instead.
+func (*JudgeShopFirstReq) Descriptor() ([]byte, []int) {
+	return file_training_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *JudgeShopFirstReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *JudgeShopFirstReq) GetUuid() string {
+	if x != nil {
+		return x.Uuid
+	}
+	return ""
+}
+
+// 判断店铺是否首次登录返回体
+type JudgeShopFirstResp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	First int64 `protobuf:"varint,1,opt,name=first,proto3" json:"first,omitempty"` // 是否首次 0: 是 1: 否
+}
+
+func (x *JudgeShopFirstResp) Reset() {
+	*x = JudgeShopFirstResp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_training_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *JudgeShopFirstResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*JudgeShopFirstResp) ProtoMessage() {}
+
+func (x *JudgeShopFirstResp) ProtoReflect() protoreflect.Message {
+	mi := &file_training_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use JudgeShopFirstResp.ProtoReflect.Descriptor instead.
+func (*JudgeShopFirstResp) Descriptor() ([]byte, []int) {
+	return file_training_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *JudgeShopFirstResp) GetFirst() int64 {
+	if x != nil {
+		return x.First
+	}
+	return 0
+}
+
 type ShopTrainingReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +375,7 @@ type ShopTrainingReq struct {
 func (x *ShopTrainingReq) Reset() {
 	*x = ShopTrainingReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_training_proto_msgTypes[5]
+		mi := &file_training_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -285,7 +388,7 @@ func (x *ShopTrainingReq) String() string {
 func (*ShopTrainingReq) ProtoMessage() {}
 
 func (x *ShopTrainingReq) ProtoReflect() protoreflect.Message {
-	mi := &file_training_proto_msgTypes[5]
+	mi := &file_training_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -298,7 +401,7 @@ func (x *ShopTrainingReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ShopTrainingReq.ProtoReflect.Descriptor instead.
 func (*ShopTrainingReq) Descriptor() ([]byte, []int) {
-	return file_training_proto_rawDescGZIP(), []int{5}
+	return file_training_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ShopTrainingReq) GetUserId() int64 {
@@ -354,7 +457,7 @@ type ShopTrainingResp struct {
 func (x *ShopTrainingResp) Reset() {
 	*x = ShopTrainingResp{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_training_proto_msgTypes[6]
+		mi := &file_training_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -367,7 +470,7 @@ func (x *ShopTrainingResp) String() string {
 func (*ShopTrainingResp) ProtoMessage() {}
 
 func (x *ShopTrainingResp) ProtoReflect() protoreflect.Message {
-	mi := &file_training_proto_msgTypes[6]
+	mi := &file_training_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -380,7 +483,7 @@ func (x *ShopTrainingResp) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ShopTrainingResp.ProtoReflect.Descriptor instead.
 func (*ShopTrainingResp) Descriptor() ([]byte, []int) {
-	return file_training_proto_rawDescGZIP(), []int{6}
+	return file_training_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ShopTrainingResp) GetResult() string {
@@ -402,7 +505,7 @@ type CancelPreSettingReq struct {
 func (x *CancelPreSettingReq) Reset() {
 	*x = CancelPreSettingReq{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_training_proto_msgTypes[7]
+		mi := &file_training_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -415,7 +518,7 @@ func (x *CancelPreSettingReq) String() string {
 func (*CancelPreSettingReq) ProtoMessage() {}
 
 func (x *CancelPreSettingReq) ProtoReflect() protoreflect.Message {
-	mi := &file_training_proto_msgTypes[7]
+	mi := &file_training_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -428,7 +531,7 @@ func (x *CancelPreSettingReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CancelPreSettingReq.ProtoReflect.Descriptor instead.
 func (*CancelPreSettingReq) Descriptor() ([]byte, []int) {
-	return file_training_proto_rawDescGZIP(), []int{7}
+	return file_training_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *CancelPreSettingReq) GetUserId() int64 {
@@ -443,108 +546,6 @@ func (x *CancelPreSettingReq) GetUuid() string {
 		return x.Uuid
 	}
 	return ""
-}
-
-type JudgeFirstShopReq struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	UserId int64  `protobuf:"varint,1,opt,name=userId,proto3" json:"userId,omitempty"`
-	Uuid   string `protobuf:"bytes,2,opt,name=uuid,proto3" json:"uuid,omitempty"`
-}
-
-func (x *JudgeFirstShopReq) Reset() {
-	*x = JudgeFirstShopReq{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_training_proto_msgTypes[8]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *JudgeFirstShopReq) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*JudgeFirstShopReq) ProtoMessage() {}
-
-func (x *JudgeFirstShopReq) ProtoReflect() protoreflect.Message {
-	mi := &file_training_proto_msgTypes[8]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use JudgeFirstShopReq.ProtoReflect.Descriptor instead.
-func (*JudgeFirstShopReq) Descriptor() ([]byte, []int) {
-	return file_training_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *JudgeFirstShopReq) GetUserId() int64 {
-	if x != nil {
-		return x.UserId
-	}
-	return 0
-}
-
-func (x *JudgeFirstShopReq) GetUuid() string {
-	if x != nil {
-		return x.Uuid
-	}
-	return ""
-}
-
-type JudgeFirstShopResp struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	First int64 `protobuf:"varint,1,opt,name=first,proto3" json:"first,omitempty"`
-}
-
-func (x *JudgeFirstShopResp) Reset() {
-	*x = JudgeFirstShopResp{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_training_proto_msgTypes[9]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *JudgeFirstShopResp) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*JudgeFirstShopResp) ProtoMessage() {}
-
-func (x *JudgeFirstShopResp) ProtoReflect() protoreflect.Message {
-	mi := &file_training_proto_msgTypes[9]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use JudgeFirstShopResp.ProtoReflect.Descriptor instead.
-func (*JudgeFirstShopResp) Descriptor() ([]byte, []int) {
-	return file_training_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *JudgeFirstShopResp) GetFirst() int64 {
-	if x != nil {
-		return x.First
-	}
-	return 0
 }
 
 type ShopPageListReq struct {
@@ -1333,7 +1334,7 @@ type GetShopTrainingProgressResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TrainingStatus int64 `protobuf:"varint,1,opt,name=training_status,json=trainingStatus,proto3" json:"training_status,omitempty"` // 训练状态 0: 未训练 1: 训练中 2: 训练完成
+	TrainingStatus int64 `protobuf:"varint,1,opt,name=training_status,json=trainingStatus,proto3" json:"training_status,omitempty"` // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
 	GoodsNum       int64 `protobuf:"varint,2,opt,name=goods_num,json=goodsNum,proto3" json:"goods_num,omitempty"`                   // 商品数量
 	Token          int64 `protobuf:"varint,3,opt,name=token,proto3" json:"token,omitempty"`                                         // 训练token
 	FileSize       int64 `protobuf:"varint,4,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty"`                   // 文件大小
@@ -1797,7 +1798,7 @@ type GetGoodsTrainingProgressResp struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TrainingStatus int64 `protobuf:"varint,1,opt,name=training_status,json=trainingStatus,proto3" json:"training_status,omitempty"` // 训练状态 0: 未训练 1: 训练中 2: 训练完成
+	TrainingStatus int64 `protobuf:"varint,1,opt,name=training_status,json=trainingStatus,proto3" json:"training_status,omitempty"` // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
 	GoodsNum       int64 `protobuf:"varint,2,opt,name=goods_num,json=goodsNum,proto3" json:"goods_num,omitempty"`                   // 商品数量
 	Token          int64 `protobuf:"varint,3,opt,name=token,proto3" json:"token,omitempty"`                                         // 训练token
 	FileSize       int64 `protobuf:"varint,4,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty"`                   // 文件大小
@@ -2299,33 +2300,33 @@ var file_training_proto_rawDesc = []byte{
 	0x6d, 0x22, 0x1a, 0x0a, 0x18, 0x4b, 0x6e, 0x6f, 0x77, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x42, 0x61,
 	0x73, 0x65, 0x54, 0x72, 0x61, 0x69, 0x6e, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x71, 0x22, 0x1b, 0x0a,
 	0x19, 0x4b, 0x6e, 0x6f, 0x77, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x42, 0x61, 0x73, 0x65, 0x54, 0x72,
-	0x61, 0x69, 0x6e, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x73, 0x70, 0x22, 0xbd, 0x01, 0x0a, 0x0f, 0x53,
-	0x68, 0x6f, 0x70, 0x54, 0x72, 0x61, 0x69, 0x6e, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x71, 0x12, 0x16,
-	0x0a, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06,
-	0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x75, 0x75, 0x69, 0x64, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x75, 0x75, 0x69, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x73, 0x68,
-	0x6f, 0x70, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x73, 0x68,
-	0x6f, 0x70, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x22, 0x0a, 0x0c, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f,
-	0x72, 0x6d, 0x54, 0x79, 0x70, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0c, 0x70, 0x6c,
-	0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x54, 0x79, 0x70, 0x65, 0x12, 0x24, 0x0a, 0x0d, 0x61, 0x75,
-	0x74, 0x68, 0x6f, 0x72, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x05, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x0d, 0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6f, 0x6b, 0x69, 0x65, 0x73, 0x18, 0x06, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x07, 0x63, 0x6f, 0x6f, 0x6b, 0x69, 0x65, 0x73, 0x22, 0x2a, 0x0a, 0x10, 0x53, 0x68,
-	0x6f, 0x70, 0x54, 0x72, 0x61, 0x69, 0x6e, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x73, 0x70, 0x12, 0x16,
-	0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06,
-	0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x22, 0x41, 0x0a, 0x13, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c,
-	0x50, 0x72, 0x65, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x71, 0x12, 0x16, 0x0a,
-	0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x75,
-	0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x75, 0x75, 0x69, 0x64, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x04, 0x75, 0x75, 0x69, 0x64, 0x22, 0x3f, 0x0a, 0x11, 0x4a, 0x75, 0x64,
-	0x67, 0x65, 0x46, 0x69, 0x72, 0x73, 0x74, 0x53, 0x68, 0x6f, 0x70, 0x52, 0x65, 0x71, 0x12, 0x16,
-	0x0a, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06,
-	0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x75, 0x75, 0x69, 0x64, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x75, 0x75, 0x69, 0x64, 0x22, 0x2a, 0x0a, 0x12, 0x4a, 0x75,
-	0x64, 0x67, 0x65, 0x46, 0x69, 0x72, 0x73, 0x74, 0x53, 0x68, 0x6f, 0x70, 0x52, 0x65, 0x73, 0x70,
-	0x12, 0x14, 0x0a, 0x05, 0x66, 0x69, 0x72, 0x73, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52,
-	0x05, 0x66, 0x69, 0x72, 0x73, 0x74, 0x22, 0xe1, 0x01, 0x0a, 0x0f, 0x53, 0x68, 0x6f, 0x70, 0x50,
+	0x61, 0x69, 0x6e, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x73, 0x70, 0x22, 0x3f, 0x0a, 0x11, 0x4a, 0x75,
+	0x64, 0x67, 0x65, 0x53, 0x68, 0x6f, 0x70, 0x46, 0x69, 0x72, 0x73, 0x74, 0x52, 0x65, 0x71, 0x12,
+	0x16, 0x0a, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52,
+	0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x75, 0x75, 0x69, 0x64, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x75, 0x75, 0x69, 0x64, 0x22, 0x2a, 0x0a, 0x12, 0x4a,
+	0x75, 0x64, 0x67, 0x65, 0x53, 0x68, 0x6f, 0x70, 0x46, 0x69, 0x72, 0x73, 0x74, 0x52, 0x65, 0x73,
+	0x70, 0x12, 0x14, 0x0a, 0x05, 0x66, 0x69, 0x72, 0x73, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03,
+	0x52, 0x05, 0x66, 0x69, 0x72, 0x73, 0x74, 0x22, 0xbd, 0x01, 0x0a, 0x0f, 0x53, 0x68, 0x6f, 0x70,
+	0x54, 0x72, 0x61, 0x69, 0x6e, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x71, 0x12, 0x16, 0x0a, 0x06, 0x75,
+	0x73, 0x65, 0x72, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x75, 0x73, 0x65,
+	0x72, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x75, 0x75, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x04, 0x75, 0x75, 0x69, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x73, 0x68, 0x6f, 0x70, 0x4e,
+	0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x73, 0x68, 0x6f, 0x70, 0x4e,
+	0x61, 0x6d, 0x65, 0x12, 0x22, 0x0a, 0x0c, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x54,
+	0x79, 0x70, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0c, 0x70, 0x6c, 0x61, 0x74, 0x66,
+	0x6f, 0x72, 0x6d, 0x54, 0x79, 0x70, 0x65, 0x12, 0x24, 0x0a, 0x0d, 0x61, 0x75, 0x74, 0x68, 0x6f,
+	0x72, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d,
+	0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x18, 0x0a,
+	0x07, 0x63, 0x6f, 0x6f, 0x6b, 0x69, 0x65, 0x73, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07,
+	0x63, 0x6f, 0x6f, 0x6b, 0x69, 0x65, 0x73, 0x22, 0x2a, 0x0a, 0x10, 0x53, 0x68, 0x6f, 0x70, 0x54,
+	0x72, 0x61, 0x69, 0x6e, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x73, 0x70, 0x12, 0x16, 0x0a, 0x06, 0x72,
+	0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x72, 0x65, 0x73,
+	0x75, 0x6c, 0x74, 0x22, 0x41, 0x0a, 0x13, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c, 0x50, 0x72, 0x65,
+	0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x52, 0x65, 0x71, 0x12, 0x16, 0x0a, 0x06, 0x75, 0x73,
+	0x65, 0x72, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72,
+	0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x75, 0x75, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x04, 0x75, 0x75, 0x69, 0x64, 0x22, 0xe1, 0x01, 0x0a, 0x0f, 0x53, 0x68, 0x6f, 0x70, 0x50,
 	0x61, 0x67, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x12, 0x16, 0x0a, 0x06, 0x75, 0x73,
 	0x65, 0x72, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72,
 	0x49, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x70, 0x61, 0x67, 0x65, 0x4e, 0x75, 0x6d, 0x18, 0x02, 0x20,
@@ -2549,10 +2550,10 @@ var file_training_proto_rawDesc = []byte{
 	0x1a, 0x25, 0x2e, 0x74, 0x72, 0x61, 0x69, 0x6e, 0x69, 0x6e, 0x67, 0x2e, 0x47, 0x65, 0x74, 0x53,
 	0x68, 0x6f, 0x70, 0x54, 0x72, 0x61, 0x69, 0x6e, 0x69, 0x6e, 0x67, 0x50, 0x72, 0x6f, 0x67, 0x72,
 	0x65, 0x73, 0x73, 0x52, 0x65, 0x73, 0x70, 0x12, 0x4b, 0x0a, 0x0e, 0x6a, 0x75, 0x64, 0x67, 0x65,
-	0x46, 0x69, 0x72, 0x73, 0x74, 0x53, 0x68, 0x6f, 0x70, 0x12, 0x1b, 0x2e, 0x74, 0x72, 0x61, 0x69,
-	0x6e, 0x69, 0x6e, 0x67, 0x2e, 0x4a, 0x75, 0x64, 0x67, 0x65, 0x46, 0x69, 0x72, 0x73, 0x74, 0x53,
-	0x68, 0x6f, 0x70, 0x52, 0x65, 0x71, 0x1a, 0x1c, 0x2e, 0x74, 0x72, 0x61, 0x69, 0x6e, 0x69, 0x6e,
-	0x67, 0x2e, 0x4a, 0x75, 0x64, 0x67, 0x65, 0x46, 0x69, 0x72, 0x73, 0x74, 0x53, 0x68, 0x6f, 0x70,
+	0x53, 0x68, 0x6f, 0x70, 0x46, 0x69, 0x72, 0x73, 0x74, 0x12, 0x1b, 0x2e, 0x74, 0x72, 0x61, 0x69,
+	0x6e, 0x69, 0x6e, 0x67, 0x2e, 0x4a, 0x75, 0x64, 0x67, 0x65, 0x53, 0x68, 0x6f, 0x70, 0x46, 0x69,
+	0x72, 0x73, 0x74, 0x52, 0x65, 0x71, 0x1a, 0x1c, 0x2e, 0x74, 0x72, 0x61, 0x69, 0x6e, 0x69, 0x6e,
+	0x67, 0x2e, 0x4a, 0x75, 0x64, 0x67, 0x65, 0x53, 0x68, 0x6f, 0x70, 0x46, 0x69, 0x72, 0x73, 0x74,
 	0x52, 0x65, 0x73, 0x70, 0x12, 0x4b, 0x0a, 0x10, 0x67, 0x65, 0x74, 0x47, 0x6f, 0x6f, 0x64, 0x73,
 	0x50, 0x61, 0x67, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x1a, 0x2e, 0x74, 0x72, 0x61, 0x69, 0x6e,
 	0x69, 0x6e, 0x67, 0x2e, 0x47, 0x6f, 0x6f, 0x64, 0x73, 0x50, 0x61, 0x67, 0x65, 0x4c, 0x69, 0x73,
@@ -2626,11 +2627,11 @@ var file_training_proto_goTypes = []any{
 	(*DictInfo)(nil),                     // 2: training.DictInfo
 	(*KnowledgeBaseTrainingReq)(nil),     // 3: training.KnowledgeBaseTrainingReq
 	(*KnowledgeBaseTrainingResp)(nil),    // 4: training.KnowledgeBaseTrainingResp
-	(*ShopTrainingReq)(nil),              // 5: training.ShopTrainingReq
-	(*ShopTrainingResp)(nil),             // 6: training.ShopTrainingResp
-	(*CancelPreSettingReq)(nil),          // 7: training.CancelPreSettingReq
-	(*JudgeFirstShopReq)(nil),            // 8: training.JudgeFirstShopReq
-	(*JudgeFirstShopResp)(nil),           // 9: training.JudgeFirstShopResp
+	(*JudgeShopFirstReq)(nil),            // 5: training.JudgeShopFirstReq
+	(*JudgeShopFirstResp)(nil),           // 6: training.JudgeShopFirstResp
+	(*ShopTrainingReq)(nil),              // 7: training.ShopTrainingReq
+	(*ShopTrainingResp)(nil),             // 8: training.ShopTrainingResp
+	(*CancelPreSettingReq)(nil),          // 9: training.CancelPreSettingReq
 	(*ShopPageListReq)(nil),              // 10: training.ShopPageListReq
 	(*ShopResp)(nil),                     // 11: training.ShopResp
 	(*ShopPageListResp)(nil),             // 12: training.ShopPageListResp
@@ -2666,12 +2667,12 @@ var file_training_proto_depIdxs = []int32{
 	35, // 3: training.SaveShopReq.list:type_name -> training.SaveGoods
 	0,  // 4: training.BasicFunction.getDictInfoByType:input_type -> training.DictInfoByTypeReq
 	3,  // 5: training.KnowledgeBaseTraining.preSetting:input_type -> training.KnowledgeBaseTrainingReq
-	5,  // 6: training.ShopTraining.preSetting:input_type -> training.ShopTrainingReq
-	7,  // 7: training.ShopTraining.cancelPreSetting:input_type -> training.CancelPreSettingReq
+	7,  // 6: training.ShopTraining.preSetting:input_type -> training.ShopTrainingReq
+	9,  // 7: training.ShopTraining.cancelPreSetting:input_type -> training.CancelPreSettingReq
 	10, // 8: training.ShopTraining.getShopPageList:input_type -> training.ShopPageListReq
 	18, // 9: training.ShopTraining.trainingShop:input_type -> training.TrainingShopReq
 	20, // 10: training.ShopTraining.getShopTrainingProgress:input_type -> training.GetShopTrainingProgressReq
-	8,  // 11: training.ShopTraining.judgeFirstShop:input_type -> training.JudgeFirstShopReq
+	5,  // 11: training.ShopTraining.judgeShopFirst:input_type -> training.JudgeShopFirstReq
 	13, // 12: training.ShopTraining.getGoodsPageList:input_type -> training.GoodsPageListReq
 	32, // 13: training.ShopTraining.getGoodsTrainingResult:input_type -> training.GetGoodsTrainingResultReq
 	22, // 14: training.ShopTraining.preSettingGoods:input_type -> training.PreSettingGoodsReq
@@ -2684,12 +2685,12 @@ var file_training_proto_depIdxs = []int32{
 	34, // 21: training.ShopTraining.saveShop:input_type -> training.SaveShopReq
 	1,  // 22: training.BasicFunction.getDictInfoByType:output_type -> training.DictInfoByTypeResp
 	4,  // 23: training.KnowledgeBaseTraining.preSetting:output_type -> training.KnowledgeBaseTrainingResp
-	6,  // 24: training.ShopTraining.preSetting:output_type -> training.ShopTrainingResp
-	6,  // 25: training.ShopTraining.cancelPreSetting:output_type -> training.ShopTrainingResp
+	8,  // 24: training.ShopTraining.preSetting:output_type -> training.ShopTrainingResp
+	8,  // 25: training.ShopTraining.cancelPreSetting:output_type -> training.ShopTrainingResp
 	12, // 26: training.ShopTraining.getShopPageList:output_type -> training.ShopPageListResp
 	19, // 27: training.ShopTraining.trainingShop:output_type -> training.TrainingShopResp
 	21, // 28: training.ShopTraining.getShopTrainingProgress:output_type -> training.GetShopTrainingProgressResp
-	9,  // 29: training.ShopTraining.judgeFirstShop:output_type -> training.JudgeFirstShopResp
+	6,  // 29: training.ShopTraining.judgeShopFirst:output_type -> training.JudgeShopFirstResp
 	15, // 30: training.ShopTraining.getGoodsPageList:output_type -> training.GoodsPageListResp
 	33, // 31: training.ShopTraining.getGoodsTrainingResult:output_type -> training.GetGoodsTrainingResultResp
 	23, // 32: training.ShopTraining.preSettingGoods:output_type -> training.PreSettingGoodsResp
@@ -2774,7 +2775,7 @@ func file_training_proto_init() {
 			}
 		}
 		file_training_proto_msgTypes[5].Exporter = func(v any, i int) any {
-			switch v := v.(*ShopTrainingReq); i {
+			switch v := v.(*JudgeShopFirstReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2786,7 +2787,7 @@ func file_training_proto_init() {
 			}
 		}
 		file_training_proto_msgTypes[6].Exporter = func(v any, i int) any {
-			switch v := v.(*ShopTrainingResp); i {
+			switch v := v.(*JudgeShopFirstResp); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2798,7 +2799,7 @@ func file_training_proto_init() {
 			}
 		}
 		file_training_proto_msgTypes[7].Exporter = func(v any, i int) any {
-			switch v := v.(*CancelPreSettingReq); i {
+			switch v := v.(*ShopTrainingReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2810,7 +2811,7 @@ func file_training_proto_init() {
 			}
 		}
 		file_training_proto_msgTypes[8].Exporter = func(v any, i int) any {
-			switch v := v.(*JudgeFirstShopReq); i {
+			switch v := v.(*ShopTrainingResp); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2822,7 +2823,7 @@ func file_training_proto_init() {
 			}
 		}
 		file_training_proto_msgTypes[9].Exporter = func(v any, i int) any {
-			switch v := v.(*JudgeFirstShopResp); i {
+			switch v := v.(*CancelPreSettingReq); i {
 			case 0:
 				return &v.state
 			case 1:

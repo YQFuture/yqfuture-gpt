@@ -18,7 +18,7 @@ type JudgeShopFirstLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 判断店铺是否初次登录(即从未进行过训练)
+// NewJudgeShopFirstLogic 判断店铺是否首次登录 即从未进行过训练
 func NewJudgeShopFirstLogic(ctx context.Context, svcCtx *svc.ServiceContext) *JudgeShopFirstLogic {
 	return &JudgeShopFirstLogic{
 		Logger: logx.WithContext(ctx),
@@ -34,19 +34,19 @@ func (l *JudgeShopFirstLogic) JudgeShopFirst(req *types.JudgeShopFirstReq) (resp
 		l.Logger.Error("获取用户id失败", err)
 		return nil, err
 	}
-	first, err := l.svcCtx.ShopTrainingClient.JudgeFirstShop(l.ctx, &training.JudgeFirstShopReq{
+	result, err := l.svcCtx.ShopTrainingClient.JudgeShopFirst(l.ctx, &training.JudgeShopFirstReq{
 		Uuid:   req.Uuid,
 		UserId: userId,
 	})
 	if err != nil {
-		l.Logger.Error("判断店铺是否初次登录失败", err)
+		l.Logger.Error("判断店铺是否首次登录失败", err)
 		return nil, err
 	}
 	return &types.JudgeShopFirstResp{
 		BaseResp: types.BaseResp{
 			Code: consts.Success,
-			Msg:  "查询店铺列表成功",
+			Msg:  "判断店铺是否首次登录成功",
 		},
-		Data: first.First,
+		Data: result.First,
 	}, nil
 }
