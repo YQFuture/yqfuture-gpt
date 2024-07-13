@@ -19,13 +19,13 @@ type (
         Uuid string `json:"uuid"` // 店铺uuid
     }
 
-    // 判断店铺是否首次登录返回体
+        // 判断店铺是否首次登录返回体
     JudgeShopFirstResp {
         BaseResp
         Data int64 `json:"data"` // 是否首次 0: 是 1: 否
     }
 
-    // 分页查询店铺列表请求体
+        // 分页查询店铺列表请求体
     ShopPageListReq {
         BasePageReq
         PlatFormType int64 `json:"platFormType"`  // 平台类型
@@ -33,19 +33,19 @@ type (
         UpdateTime int64 `json:"updateTime"`      // 更新时间
     }
 
-    // 分页查询店铺列表请求返回
+        // 分页查询店铺列表请求返回
     ShopPageListResp {
         BaseResp
         Data *ShopListResp `json:"data"` // 数据
     }
 
-    // 店铺分页列表返回体
+        // 店铺分页列表返回体
     ShopListResp {
         BasePageResp
         List []*ShopResp `json:"list"` // 列表
     }
 
-    // 单条店铺数据返回体
+        // 单条店铺数据返回体
     ShopResp {
         Id string `json:"id"`                     // 店铺id
         Uuid string `json:"uuid"`                 // 唯一标识
@@ -67,19 +67,19 @@ type (
         UpdateTime int64 `json:"updateTime"` // 更新时间
     }
 
-    // 分页查询商品列表请求返回
+        // 分页查询商品列表请求返回
     GoodsPageListResp {
         BaseResp
         Data *GoodsListResp `json:"data"` // 数据
     }
 
-    // 商品分类列表返回体
+        // 商品分类列表返回体
     GoodsListResp {
         BasePageResp
         List []*GoodsResp `json:"list"` // 列表
     }
 
-    // 单条商品数据返回体
+        // 单条商品数据返回体
     GoodsResp {
         Id string `json:"id"`                           // 商品id
         ShopId string `json:"shopId"`                   // 店铺id
@@ -92,12 +92,12 @@ type (
         UpdateTime int64 `json:"updateTime"`            // 更新时间
     }
 
-    // 店铺基础信息
+        // 店铺基础信息
     BaseGoodsReq {
         GoodsId string `json:"goodsId"` // 商品id
     }
 
-    // 添加商品请求体
+        // 添加商品请求体
     AddGoodsReq {
         ShopId string `json:"shopId"` // 店铺id
         List []string `json:"list"`   // 商品url列表
