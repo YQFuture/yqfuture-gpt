@@ -119,7 +119,7 @@ type GoodsTrainingProgress struct {
 }
 
 type JudgeShopFirstReq struct {
-	Uuid string `json:"uuid"` // 唯一标识
+	Uuid string `json:"uuid"` // 店铺uuid
 }
 
 type JudgeShopFirstResp struct {
@@ -159,7 +159,7 @@ type ShopListResp struct {
 type ShopPageListReq struct {
 	BasePageReq
 	PlatFormType   int64 `json:"platFormType"` // 平台类型
-	TrainingStatus int64 `json:"trainStatus"`  // 训练状态
+	TrainingStatus int64 `json:"trainStatus"`  // 训练状态  0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
 	UpdateTime     int64 `json:"updateTime"`   // 更新时间
 }
 

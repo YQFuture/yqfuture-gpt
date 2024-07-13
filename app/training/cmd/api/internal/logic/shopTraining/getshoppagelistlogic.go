@@ -47,9 +47,7 @@ func (l *GetShopPageListLogic) GetShopPageList(req *types.ShopPageListReq) (resp
 		l.Logger.Error("查询店铺列表失败", err)
 		return nil, err
 	}
-
 	var list []*types.ShopResp
-
 	for _, value := range result.List {
 		list = append(list, &types.ShopResp{
 			Id:             strconv.FormatInt(value.Id, 10),
@@ -75,5 +73,4 @@ func (l *GetShopPageListLogic) GetShopPageList(req *types.ShopPageListReq) (resp
 			List: list,
 		},
 	}, nil
-
 }

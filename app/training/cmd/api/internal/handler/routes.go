@@ -93,13 +93,13 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: shopTraining.GetShopTrainingProgressHandler(serverCtx),
 			},
 			{
-				// 判断店铺是否首次登录 即从未进行过店铺训练或预设
+				// 判断店铺是否首次登录 即从未进行过训练
 				Method:  http.MethodPost,
 				Path:    "/judgeShopFirst",
 				Handler: shopTraining.JudgeShopFirstHandler(serverCtx),
 			},
 			{
-				// 店铺预设
+				// 预设店铺
 				Method:  http.MethodPost,
 				Path:    "/preSetting",
 				Handler: shopTraining.PreSettingHandler(serverCtx),

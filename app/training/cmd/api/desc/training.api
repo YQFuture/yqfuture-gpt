@@ -45,17 +45,17 @@ service training {
 	@handler JudgeShopFirst
 	post /judgeShopFirst (JudgeShopFirstReq) returns (JudgeShopFirstResp)
 
-	@doc "店铺预设"
+	@doc "查询店铺列表"
+	@handler getShopPageList
+	post /getShopPageList (ShopPageListReq) returns (ShopPageListResp)
+
+	@doc "预设店铺"
 	@handler preSetting
 	post /preSetting (ShopTrainingReq) returns (ShopTrainingResp)
 
 	@doc "取消店铺预设"
 	@handler cancelPreSetting
 	post /cancelPreSetting (CancelPreSettingReq) returns (BaseResp)
-
-	@doc "查询店铺列表"
-	@handler getShopPageList
-	post /getShopPageList (ShopPageListReq) returns (ShopPageListResp)
 
 	@doc "训练店铺"
 	@handler trainingShop
