@@ -106,19 +106,18 @@ type (
 
 // 店铺训练/商品训练相关
 type (
-    // 店铺预设参数
-    ShopTrainingReq {
-        Uuid string `json:"uuid"`                     // 唯一标识
-        ShopName string `json:"shopName"`
+    // 预设店铺请求体
+    PresettingShopReq {
+        Uuid string `json:"uuid"`                     // 店铺uuid
+        ShopName string `json:"shopName"`             // 店铺名称
         PlatFormType int64 `json:"platFormType"`      // 平台类型
         Authorization string `header:"Authorization"` // JWT
-        Cookies string `json:"cookies"`
+        Cookies string `json:"cookies"`               // 店铺用户cookie
     }
 
-        // 店铺预设返回
-    ShopTrainingResp {
+        // 预设店铺返回体
+    PresettingShopResp {
         BaseResp
-        Data interface{} `json:"data"` // 数据
     }
 
         // 取消店铺预设参数

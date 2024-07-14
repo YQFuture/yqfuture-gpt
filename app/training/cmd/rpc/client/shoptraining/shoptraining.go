@@ -38,14 +38,14 @@ type (
 	KnowledgeBaseTrainingResp    = training.KnowledgeBaseTrainingResp
 	PreSettingGoodsReq           = training.PreSettingGoodsReq
 	PreSettingGoodsResp          = training.PreSettingGoodsResp
+	PreSettingShopReq            = training.PreSettingShopReq
+	PreSettingShopResp           = training.PreSettingShopResp
 	SaveGoods                    = training.SaveGoods
 	SaveShopReq                  = training.SaveShopReq
 	SaveShopResp                 = training.SaveShopResp
 	ShopPageListReq              = training.ShopPageListReq
 	ShopPageListResp             = training.ShopPageListResp
 	ShopResp                     = training.ShopResp
-	ShopTrainingReq              = training.ShopTrainingReq
-	ShopTrainingResp             = training.ShopTrainingResp
 	TrainingGoodsReq             = training.TrainingGoodsReq
 	TrainingGoodsResp            = training.TrainingGoodsResp
 	TrainingShopReq              = training.TrainingShopReq
@@ -54,10 +54,10 @@ type (
 	ShopTraining interface {
 		// 判断店铺是否首次登录 即从未进行过训练
 		JudgeShopFirst(ctx context.Context, in *JudgeShopFirstReq, opts ...grpc.CallOption) (*JudgeShopFirstResp, error)
-		// 预设
-		PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
-		// 取消预设
-		CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
+		// 预设店铺
+		PreSettingShop(ctx context.Context, in *PreSettingShopReq, opts ...grpc.CallOption) (*PreSettingShopResp, error)
+		// 取消店铺预设
+		CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*PreSettingShopResp, error)
 		// 查询店铺列表
 		GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error)
 		// 训练店铺
@@ -103,14 +103,14 @@ func (m *defaultShopTraining) JudgeShopFirst(ctx context.Context, in *JudgeShopF
 	return client.JudgeShopFirst(ctx, in, opts...)
 }
 
-// 预设
-func (m *defaultShopTraining) PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
+// 预设店铺
+func (m *defaultShopTraining) PreSettingShop(ctx context.Context, in *PreSettingShopReq, opts ...grpc.CallOption) (*PreSettingShopResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
-	return client.PreSetting(ctx, in, opts...)
+	return client.PreSettingShop(ctx, in, opts...)
 }
 
-// 取消预设
-func (m *defaultShopTraining) CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
+// 取消店铺预设
+func (m *defaultShopTraining) CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*PreSettingShopResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
 	return client.CancelPreSetting(ctx, in, opts...)
 }

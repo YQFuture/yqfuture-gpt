@@ -133,6 +133,18 @@ type PreSettingGoodsReq struct {
 	Cookies       string `json:"cookies"`
 }
 
+type PresettingShopReq struct {
+	Uuid          string `json:"uuid"`            // 店铺uuid
+	ShopName      string `json:"shopName"`        // 店铺名称
+	PlatFormType  int64  `json:"platFormType"`    // 平台类型
+	Authorization string `header:"Authorization"` // JWT
+	Cookies       string `json:"cookies"`         // 店铺用户cookie
+}
+
+type PresettingShopResp struct {
+	BaseResp
+}
+
 type SaveGoods struct {
 	GoodsName  string `json:"name"`
 	GoodsUrl   string `json:"url"`
@@ -185,19 +197,6 @@ type ShopTrainingProgress struct {
 	FileSize       int64 `json:"fileSize"`    // 文件大小
 	Power          int64 `json:"power"`       // 训练算力
 	Time           int64 `json:"time"`        // 训练耗时
-}
-
-type ShopTrainingReq struct {
-	Uuid          string `json:"uuid"` // 唯一标识
-	ShopName      string `json:"shopName"`
-	PlatFormType  int64  `json:"platFormType"`    // 平台类型
-	Authorization string `header:"Authorization"` // JWT
-	Cookies       string `json:"cookies"`
-}
-
-type ShopTrainingResp struct {
-	BaseResp
-	Data interface{} `json:"data"` // 数据
 }
 
 type TrainingGoodsReq struct {

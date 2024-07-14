@@ -2,16 +2,24 @@ package shoptraininglogic
 
 import (
 	"context"
-	"github.com/zeromicro/go-zero/core/logx"
 	"time"
-	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
-	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 	"yufuture-gpt/app/training/model/common"
 	yqmongo "yufuture-gpt/app/training/model/mongo"
 	"yufuture-gpt/app/training/model/orm"
 	"yufuture-gpt/common/consts"
 	"yufuture-gpt/common/utils"
+
+	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
+	"yufuture-gpt/app/training/cmd/rpc/pb/training"
+
+	"github.com/zeromicro/go-zero/core/logx"
 )
+
+type PreSettingShopLogic struct {
+	ctx    context.Context
+	svcCtx *svc.ServiceContext
+	logx.Logger
+}
 
 type PreSettingLogic struct {
 	ctx    context.Context
@@ -62,15 +70,16 @@ type FetchGoodsJsonResp struct {
 	} `json:"data"`
 }
 
-func NewPreSettingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PreSettingLogic {
-	return &PreSettingLogic{
+func NewPreSettingShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PreSettingShopLogic {
+	return &PreSettingShopLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-func (l *PreSettingLogic) PreSetting(in *training.ShopTrainingReq) (*training.ShopTrainingResp, error) {
+// 预设店铺
+func (l *PreSettingShopLogic) PreSettingShop(in *training.PreSettingShopReq) (*training.PreSettingShopResp, error) {
 	// 构建请求体 发送爬取商品ID请求
 	serialNumber := l.svcCtx.SnowFlakeNode.Generate().String()
 	err := ApplyGoodsListId(l.Logger, l.svcCtx, in.Uuid, in.ShopName, in.PlatformType, serialNumber, in.Authorization, in.Cookies)
@@ -204,7 +213,7 @@ func (l *PreSettingLogic) PreSetting(in *training.ShopTrainingReq) (*training.Sh
 			l.Logger.Error("修改商品状态失败", err)
 		}
 	}
-	return &training.ShopTrainingResp{}, nil
+	return &training.PreSettingShopResp{}, nil
 }
 
 func UpdateShopPreSetting(ctx context.Context, svcCtx *svc.ServiceContext, tsShop *orm.TsShop, userId int64) error {

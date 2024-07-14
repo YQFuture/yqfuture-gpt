@@ -27,7 +27,7 @@ func NewCancelPreSettingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 // 取消预设
-func (l *CancelPreSettingLogic) CancelPreSetting(in *training.CancelPreSettingReq) (*training.ShopTrainingResp, error) {
+func (l *CancelPreSettingLogic) CancelPreSetting(in *training.CancelPreSettingReq) (*training.PreSettingShopResp, error) {
 	// 根据uuid和userid从mysql中查找出店铺
 	tsShop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in.UserId, in.Uuid)
 	if err != nil {
@@ -61,7 +61,7 @@ func (l *CancelPreSettingLogic) CancelPreSetting(in *training.CancelPreSettingRe
 		}
 	}
 
-	return &training.ShopTrainingResp{}, nil
+	return &training.PreSettingShopResp{}, nil
 }
 
 func CancelShopPreSetting(ctx context.Context, svcCtx *svc.ServiceContext, tsShop *orm.TsShop, userId int64) error {

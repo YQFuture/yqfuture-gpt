@@ -68,7 +68,7 @@ message ShopResp {
   int64  updateTime = 7;
 }
 
-message ShopTrainingReq {
+message PreSettingShopReq {
   int64 userId = 1;
   string uuid = 2;
   string shopName = 3;
@@ -76,7 +76,7 @@ message ShopTrainingReq {
   string authorization = 5;
   string cookies = 6;
 }
-message ShopTrainingResp {
+message PreSettingShopResp {
   string result = 1;
 }
 message CancelPreSettingReq {
@@ -203,10 +203,10 @@ service ShopTraining {
   // 判断店铺是否首次登录 即从未进行过训练
   rpc judgeShopFirst(JudgeShopFirstReq) returns (JudgeShopFirstResp);
 
-  // 预设
-  rpc preSetting(ShopTrainingReq) returns (ShopTrainingResp);
-  // 取消预设
-  rpc cancelPreSetting(CancelPreSettingReq) returns (ShopTrainingResp);
+  // 预设店铺
+  rpc preSettingShop(PreSettingShopReq) returns (PreSettingShopResp);
+  // 取消店铺预设
+  rpc cancelPreSetting(CancelPreSettingReq) returns (PreSettingShopResp);
 
   // 查询店铺列表
   rpc getShopPageList(ShopPageListReq) returns (ShopPageListResp);

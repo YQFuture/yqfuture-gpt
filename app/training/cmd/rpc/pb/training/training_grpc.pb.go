@@ -202,7 +202,7 @@ var KnowledgeBaseTraining_ServiceDesc = grpc.ServiceDesc{
 
 const (
 	ShopTraining_JudgeShopFirst_FullMethodName           = "/training.ShopTraining/judgeShopFirst"
-	ShopTraining_PreSetting_FullMethodName               = "/training.ShopTraining/preSetting"
+	ShopTraining_PreSettingShop_FullMethodName           = "/training.ShopTraining/preSettingShop"
 	ShopTraining_CancelPreSetting_FullMethodName         = "/training.ShopTraining/cancelPreSetting"
 	ShopTraining_GetShopPageList_FullMethodName          = "/training.ShopTraining/getShopPageList"
 	ShopTraining_TrainingShop_FullMethodName             = "/training.ShopTraining/trainingShop"
@@ -225,10 +225,10 @@ const (
 type ShopTrainingClient interface {
 	// 判断店铺是否首次登录 即从未进行过训练
 	JudgeShopFirst(ctx context.Context, in *JudgeShopFirstReq, opts ...grpc.CallOption) (*JudgeShopFirstResp, error)
-	// 预设
-	PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
-	// 取消预设
-	CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error)
+	// 预设店铺
+	PreSettingShop(ctx context.Context, in *PreSettingShopReq, opts ...grpc.CallOption) (*PreSettingShopResp, error)
+	// 取消店铺预设
+	CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*PreSettingShopResp, error)
 	// 查询店铺列表
 	GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error)
 	// 训练店铺
@@ -275,19 +275,19 @@ func (c *shopTrainingClient) JudgeShopFirst(ctx context.Context, in *JudgeShopFi
 	return out, nil
 }
 
-func (c *shopTrainingClient) PreSetting(ctx context.Context, in *ShopTrainingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
+func (c *shopTrainingClient) PreSettingShop(ctx context.Context, in *PreSettingShopReq, opts ...grpc.CallOption) (*PreSettingShopResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ShopTrainingResp)
-	err := c.cc.Invoke(ctx, ShopTraining_PreSetting_FullMethodName, in, out, cOpts...)
+	out := new(PreSettingShopResp)
+	err := c.cc.Invoke(ctx, ShopTraining_PreSettingShop_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *shopTrainingClient) CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*ShopTrainingResp, error) {
+func (c *shopTrainingClient) CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*PreSettingShopResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ShopTrainingResp)
+	out := new(PreSettingShopResp)
 	err := c.cc.Invoke(ctx, ShopTraining_CancelPreSetting_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -431,10 +431,10 @@ func (c *shopTrainingClient) SaveShop(ctx context.Context, in *SaveShopReq, opts
 type ShopTrainingServer interface {
 	// 判断店铺是否首次登录 即从未进行过训练
 	JudgeShopFirst(context.Context, *JudgeShopFirstReq) (*JudgeShopFirstResp, error)
-	// 预设
-	PreSetting(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error)
-	// 取消预设
-	CancelPreSetting(context.Context, *CancelPreSettingReq) (*ShopTrainingResp, error)
+	// 预设店铺
+	PreSettingShop(context.Context, *PreSettingShopReq) (*PreSettingShopResp, error)
+	// 取消店铺预设
+	CancelPreSetting(context.Context, *CancelPreSettingReq) (*PreSettingShopResp, error)
 	// 查询店铺列表
 	GetShopPageList(context.Context, *ShopPageListReq) (*ShopPageListResp, error)
 	// 训练店铺
@@ -471,10 +471,10 @@ type UnimplementedShopTrainingServer struct {
 func (UnimplementedShopTrainingServer) JudgeShopFirst(context.Context, *JudgeShopFirstReq) (*JudgeShopFirstResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method JudgeShopFirst not implemented")
 }
-func (UnimplementedShopTrainingServer) PreSetting(context.Context, *ShopTrainingReq) (*ShopTrainingResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PreSetting not implemented")
+func (UnimplementedShopTrainingServer) PreSettingShop(context.Context, *PreSettingShopReq) (*PreSettingShopResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PreSettingShop not implemented")
 }
-func (UnimplementedShopTrainingServer) CancelPreSetting(context.Context, *CancelPreSettingReq) (*ShopTrainingResp, error) {
+func (UnimplementedShopTrainingServer) CancelPreSetting(context.Context, *CancelPreSettingReq) (*PreSettingShopResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelPreSetting not implemented")
 }
 func (UnimplementedShopTrainingServer) GetShopPageList(context.Context, *ShopPageListReq) (*ShopPageListResp, error) {
@@ -547,20 +547,20 @@ func _ShopTraining_JudgeShopFirst_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ShopTraining_PreSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ShopTrainingReq)
+func _ShopTraining_PreSettingShop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PreSettingShopReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ShopTrainingServer).PreSetting(ctx, in)
+		return srv.(ShopTrainingServer).PreSettingShop(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ShopTraining_PreSetting_FullMethodName,
+		FullMethod: ShopTraining_PreSettingShop_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShopTrainingServer).PreSetting(ctx, req.(*ShopTrainingReq))
+		return srv.(ShopTrainingServer).PreSettingShop(ctx, req.(*PreSettingShopReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -829,8 +829,8 @@ var ShopTraining_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ShopTraining_JudgeShopFirst_Handler,
 		},
 		{
-			MethodName: "preSetting",
-			Handler:    _ShopTraining_PreSetting_Handler,
+			MethodName: "preSettingShop",
+			Handler:    _ShopTraining_PreSettingShop_Handler,
 		},
 		{
 			MethodName: "cancelPreSetting",

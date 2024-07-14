@@ -20,7 +20,7 @@ import (
 )
 service training {
 	@handler getJWT
-	get /getJWT (BaseReq) returns (ShopTrainingResp)
+	get /getJWT (BaseReq) returns (BaseResp)
 }
 
 // TODO 基础服务相关 后续迁移到基础服务
@@ -50,8 +50,8 @@ service training {
 	post /getShopPageList (ShopPageListReq) returns (ShopPageListResp)
 
 	@doc "预设店铺"
-	@handler preSetting
-	post /preSetting (ShopTrainingReq) returns (ShopTrainingResp)
+	@handler preSettingShop
+	post /preSettingShop (PresettingShopReq) returns (PresettingShopResp)
 
 	@doc "取消店铺预设"
 	@handler cancelPreSetting

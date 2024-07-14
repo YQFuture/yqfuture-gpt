@@ -9,16 +9,17 @@ import (
 	"yufuture-gpt/app/training/cmd/api/internal/types"
 )
 
-func PreSettingHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 预设店铺
+func PreSettingShopHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.ShopTrainingReq
+		var req types.PresettingShopReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := shopTraining.NewPreSettingLogic(r.Context(), svcCtx)
-		resp, err := l.PreSetting(&req)
+		l := shopTraining.NewPreSettingShopLogic(r.Context(), svcCtx)
+		resp, err := l.PreSettingShop(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

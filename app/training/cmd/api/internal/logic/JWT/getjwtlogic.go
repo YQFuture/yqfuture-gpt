@@ -26,21 +26,18 @@ func NewGetJWTLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetJWTLogi
 	}
 }
 
-func (l *GetJWTLogic) GetJWT(req *types.BaseReq) (resp *types.ShopTrainingResp, err error) {
-	playload := map[string]interface{}{
+func (l *GetJWTLogic) GetJWT(req *types.BaseReq) (resp *types.BaseResp, err error) {
+	playLoad := map[string]interface{}{
 		"id":      1,
 		"ex_time": time.Now().AddDate(0, 0, 7),
 	}
-	jwtToken, err := getJwtToken(l.svcCtx.Config.Auth.AccessSecret, time.Now().Unix(), l.svcCtx.Config.Auth.AccessExpire, playload)
+	jwtToken, err := getJwtToken(l.svcCtx.Config.Auth.AccessSecret, time.Now().Unix(), l.svcCtx.Config.Auth.AccessExpire, playLoad)
 	if err != nil {
 		return nil, err
 	}
-	return &types.ShopTrainingResp{
-		BaseResp: types.BaseResp{
-			Code: consts.Success,
-			Msg:  "success",
-		},
-		Data: jwtToken,
+	return &types.BaseResp{
+		Code: consts.Success,
+		Msg:  jwtToken,
 	}, nil
 }
 

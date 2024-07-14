@@ -28,14 +28,14 @@ func (s *ShopTrainingServer) JudgeShopFirst(ctx context.Context, in *training.Ju
 	return l.JudgeShopFirst(in)
 }
 
-// 预设
-func (s *ShopTrainingServer) PreSetting(ctx context.Context, in *training.ShopTrainingReq) (*training.ShopTrainingResp, error) {
-	l := shoptraininglogic.NewPreSettingLogic(ctx, s.svcCtx)
-	return l.PreSetting(in)
+// 预设店铺
+func (s *ShopTrainingServer) PreSettingShop(ctx context.Context, in *training.PreSettingShopReq) (*training.PreSettingShopResp, error) {
+	l := shoptraininglogic.NewPreSettingShopLogic(ctx, s.svcCtx)
+	return l.PreSettingShop(in)
 }
 
-// 取消预设
-func (s *ShopTrainingServer) CancelPreSetting(ctx context.Context, in *training.CancelPreSettingReq) (*training.ShopTrainingResp, error) {
+// 取消店铺预设
+func (s *ShopTrainingServer) CancelPreSetting(ctx context.Context, in *training.CancelPreSettingReq) (*training.PreSettingShopResp, error) {
 	l := shoptraininglogic.NewCancelPreSettingLogic(ctx, s.svcCtx)
 	return l.CancelPreSetting(in)
 }

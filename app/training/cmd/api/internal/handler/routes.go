@@ -99,16 +99,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: shopTraining.JudgeShopFirstHandler(serverCtx),
 			},
 			{
-				// 预设店铺
-				Method:  http.MethodPost,
-				Path:    "/preSetting",
-				Handler: shopTraining.PreSettingHandler(serverCtx),
-			},
-			{
 				// 预设商品
 				Method:  http.MethodPost,
 				Path:    "/preSettingGoods",
 				Handler: shopTraining.PreSettingGoodsHandler(serverCtx),
+			},
+			{
+				// 预设店铺
+				Method:  http.MethodPost,
+				Path:    "/preSettingShop",
+				Handler: shopTraining.PreSettingShopHandler(serverCtx),
 			},
 			{
 				// 保存爬取的店铺基本数据

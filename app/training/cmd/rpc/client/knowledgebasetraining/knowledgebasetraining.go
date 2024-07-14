@@ -38,14 +38,14 @@ type (
 	KnowledgeBaseTrainingResp    = training.KnowledgeBaseTrainingResp
 	PreSettingGoodsReq           = training.PreSettingGoodsReq
 	PreSettingGoodsResp          = training.PreSettingGoodsResp
+	PreSettingShopReq            = training.PreSettingShopReq
+	PreSettingShopResp           = training.PreSettingShopResp
 	SaveGoods                    = training.SaveGoods
 	SaveShopReq                  = training.SaveShopReq
 	SaveShopResp                 = training.SaveShopResp
 	ShopPageListReq              = training.ShopPageListReq
 	ShopPageListResp             = training.ShopPageListResp
 	ShopResp                     = training.ShopResp
-	ShopTrainingReq              = training.ShopTrainingReq
-	ShopTrainingResp             = training.ShopTrainingResp
 	TrainingGoodsReq             = training.TrainingGoodsReq
 	TrainingGoodsResp            = training.TrainingGoodsResp
 	TrainingShopReq              = training.TrainingShopReq
