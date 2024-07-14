@@ -21,12 +21,6 @@ type PreSettingShopLogic struct {
 	logx.Logger
 }
 
-type PreSettingLogic struct {
-	ctx    context.Context
-	svcCtx *svc.ServiceContext
-	logx.Logger
-}
-
 type ApplyGoodsIdListReq struct {
 	SerialNumber string        `json:"serialNumber"`
 	Uuid         string        `json:"uuid"`

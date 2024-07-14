@@ -27,6 +27,6 @@ type PddGoodsDocument struct {
 	Token          int64     `bson:"token" json:"token"`       // 消耗的token
 	Power          int64     `bson:"power" json:"power"`       // 消耗的算力
 	FileSize       int64     `bson:"fileSize" json:"fileSize"` // 文件大小
-	UpdateAt       time.Time `bson:"updateAt,omitempty" json:"updateAt,omitempty"`
 	CreatedAt      time.Time `bson:"createdAt" json:"createdAt"`
+	UpdatedAt      time.Time `bson:"updateAt" json:"updateAt"`
 }
