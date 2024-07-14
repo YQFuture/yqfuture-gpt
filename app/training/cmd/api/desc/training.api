@@ -69,9 +69,17 @@ service training {
 	@handler getGoodsPageList
 	post /getGoodsPageList (GoodsPageListReq) returns (BaseResp)
 
-	@doc "获取商品训练结果"
-	@handler getGoodsTrainingResult
-	post /getGoodsTrainingResult (GetGoodsTrainingResultReq) returns (GetGoodsTrainingResultResp)
+	@doc "添加商品"
+	@handler addGoods
+	post /addGoods (AddGoodsReq) returns (BaseResp)
+
+	@doc "启用商品"
+	@handler enableGoods
+	post /enableGoods (BaseGoodsReq) returns (BaseResp)
+
+	@doc "停用商品"
+	@handler unEnableGoods
+	post /unEnableGoods (BaseGoodsReq) returns (BaseResp)
 
 	@doc "预设商品"
 	@handler preSettingGoods
@@ -89,17 +97,9 @@ service training {
 	@handler getGoodsTrainingProgress
 	post /getGoodsTrainingProgress (GetGoodsTrainingProgressReq) returns (GetGoodsTrainingProgressResp)
 
-	@doc "添加商品"
-	@handler addGoods
-	post /addGoods (AddGoodsReq) returns (BaseResp)
-
-	@doc "启用商品"
-	@handler enableGoods
-	post /enableGoods (BaseGoodsReq) returns (BaseResp)
-
-	@doc "停用商品"
-	@handler unEnableGoods
-	post /unEnableGoods (BaseGoodsReq) returns (BaseResp)
+	@doc "获取商品训练结果"
+	@handler getGoodsTrainingResult
+	post /getGoodsTrainingResult (GetGoodsTrainingResultReq) returns (GetGoodsTrainingResultResp)
 
 	@doc "保存爬取的店铺基本数据"
 	@handler saveShop

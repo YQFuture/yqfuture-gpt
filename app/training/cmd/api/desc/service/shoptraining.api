@@ -130,21 +130,29 @@ type (
         BaseResp
     }
 
+        // 训练店铺请求体
     TrainingShopReq {
         Uuid string `json:"uuid"` // 唯一标识
     }
+
+        // 训练店铺返回体
     TrainingShopResp {
         BaseResp
         Data int64 `json:"data"`
     }
+
+        // 获取店铺训练进度请求体
     GetShopTrainingProgressReq {
         Uuid string `json:"uuid"` // 唯一标识
     }
+
+        // 获取店铺训练进度返回体
     GetShopTrainingProgressResp {
         BaseResp
         Data *ShopTrainingProgress `json:"data"` // 训练进度
     }
 
+        // 训练进度内容
     ShopTrainingProgress {
         TrainingStatus int64 `json:"trainStatus"`       // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
         GoodsNum int64 `json:"goodsNum"`                // 商品数量
@@ -154,40 +162,52 @@ type (
         Time int64 `json:"time"`                        // 训练耗时
     }
 
+        // 预设商品请求体
     PreSettingGoodsReq {
         GoodsId string `json:"goodsId"`               // 商品id
         Authorization string `header:"Authorization"` // JWT
         Cookies string `json:"cookies"`
     }
 
+        // 取消商品预设请求体
     CancelPreSettingGoodsReq {
         GoodsId string `json:"goodsId"` // 商品id
     }
 
+        // 训练商品请求体
     TrainingGoodsReq {
         GoodsId string `json:"goodsId"` // 商品id
     }
+
+        // 训练商品返回体
     TrainingGoodsResp {
         BaseResp
         Data int64 `json:"data"` // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
     }
 
+        // 获取商品训练结果请求体
     GetGoodsTrainingResultReq {
         GoodsId string `json:"goodsId"` // 商品id
     }
+
+        // 获取商品训练结果返回体
     GetGoodsTrainingResultResp {
         BaseResp
         Data interface{} `json:"data"` // 训练结果
     }
 
+        // 获取商品训练进度请求体
     GetGoodsTrainingProgressReq {
         GoodsId string `json:"goodsId"` // 商品id
     }
+
+        // 获取商品训练进度返回体
     GetGoodsTrainingProgressResp {
         BaseResp
         Data *GoodsTrainingProgress `json:"data"` // 训练进度
     }
 
+        // 商品训练进度内容
     GoodsTrainingProgress {
         TrainingStatus int64 `json:"trainStatus"`       // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
         GoodsNum int64 `json:"goodsNum"`                // 商品数量
@@ -200,6 +220,7 @@ type (
 
 // 三方接口
 type (
+    // 保存店铺请求体
     SaveShopReq {
         SerialNumber string `json:"serial_number"`
         Uuid string `json:"uuid"`
@@ -207,11 +228,15 @@ type (
         PlatForm string `json:"platform"`
         GoodsList []SaveGoods `json:"goods_list"`
     }
+
+        // 保存店铺商品内容
     SaveGoods {
         GoodsName string `json:"name"`
         GoodsUrl string `json:"url"`
         PlatFormId string `json:"id"`
     }
+
+        // 保存店铺返回体
     SaveShopResp {
         BaseResp
     }
