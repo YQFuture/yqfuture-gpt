@@ -19,6 +19,7 @@ import (
 	group:  JWT
 )
 service training {
+	@doc "获取token"
 	@handler getJWT
 	get /getJWT (BaseReq) returns (BaseResp)
 }
@@ -30,6 +31,7 @@ service training {
 	jwt:    Auth
 )
 service training {
+	@doc "根据字典类型获取字典数据列表"
 	@handler getDictInfoByType
 	post /getDictInfoByType (DictInfoByTypeReq) returns (DictInfoByTypeResp)
 }

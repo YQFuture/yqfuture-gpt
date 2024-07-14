@@ -12,7 +12,7 @@ import (
     "basefunction.api"
 )
 
-// 店铺基础信息和分页相关实体
+// 店铺
 type (
     // 判断店铺是否首次登录请求体 即从未进行过训练
     JudgeShopFirstReq {
@@ -55,57 +55,8 @@ type (
         TrainingTimes int64 `json:"trainTimes"`   // 训练次数
         UpdateTime int64 `json:"updateTime"`      // 更新时间
     }
-)
 
-// 商品基础信息和分页相关实体
-type (
-    // 分页查询商品列表请求体
-    GoodsPageListReq {
-        BasePageReq
-        ShopId string `json:"shopId"`        // 店铺id
-        Enabled int64 `json:"enabled"`       // 启用状态  0: 未定义 1: 未启用 2: 启用
-        UpdateTime int64 `json:"updateTime"` // 更新时间
-    }
-
-        // 分页查询商品列表请求返回
-    GoodsPageListResp {
-        BaseResp
-        Data *GoodsListResp `json:"data"` // 数据
-    }
-
-        // 商品分类列表返回体
-    GoodsListResp {
-        BasePageResp
-        List []*GoodsResp `json:"list"` // 列表
-    }
-
-        // 单条商品数据返回体
-    GoodsResp {
-        Id string `json:"id"`                           // 商品id
-        ShopId string `json:"shopId"`                   // 店铺id
-        GoodsName string `json:"goodsName"`             // 商品名称
-        GoodsUrl string `json:"goodsUrl"`               // 商品url
-        TrainingSummary string `json:"trainingSummary"` // 训练摘要
-        Enabled int64 `json:"enabled"`                  // 启用状态 0: 未定义 1: 未启用 2: 启用
-        TrainingStatus int64 `json:"trainStatus"`       // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
-        TrainingTimes int64 `json:"trainingTimes"`      // 训练次数
-        UpdateTime int64 `json:"updateTime"`            // 更新时间
-    }
-
-        // 刷新商品列表请求体
-    RefreshGoodsReq {
-        ShopId string `json:"shopId"` // 店铺id
-    }
-
-        // 启用/停用商品请求体
-    EnableGoodsReq {
-        GoodsId string `json:"goodsId"` // 商品id
-    }
-)
-
-// 店铺训练/商品训练相关
-type (
-    // 预设店铺请求体
+        // 预设店铺请求体
     PresettingShopReq {
         Uuid string `json:"uuid"`                     // 店铺uuid
         ShopName string `json:"shopName"`             // 店铺名称
@@ -159,6 +110,52 @@ type (
         FileSize int64 `json:"fileSize"`                // 文件大小
         Power int64 `json:"power"`                      // 训练算力
         Time int64 `json:"time"`                        // 训练耗时
+    }
+)
+
+// 商品基础信息和分页相关实体
+type (
+    // 分页查询商品列表请求体
+    GoodsPageListReq {
+        BasePageReq
+        ShopId string `json:"shopId"`        // 店铺id
+        Enabled int64 `json:"enabled"`       // 启用状态  0: 未定义 1: 未启用 2: 启用
+        UpdateTime int64 `json:"updateTime"` // 更新时间
+    }
+
+        // 分页查询商品列表请求返回
+    GoodsPageListResp {
+        BaseResp
+        Data *GoodsListResp `json:"data"` // 数据
+    }
+
+        // 商品分类列表返回体
+    GoodsListResp {
+        BasePageResp
+        List []*GoodsResp `json:"list"` // 列表
+    }
+
+        // 单条商品数据返回体
+    GoodsResp {
+        Id string `json:"id"`                           // 商品id
+        ShopId string `json:"shopId"`                   // 店铺id
+        GoodsName string `json:"goodsName"`             // 商品名称
+        GoodsUrl string `json:"goodsUrl"`               // 商品url
+        TrainingSummary string `json:"trainingSummary"` // 训练摘要
+        Enabled int64 `json:"enabled"`                  // 启用状态 0: 未定义 1: 未启用 2: 启用
+        TrainingStatus int64 `json:"trainStatus"`       // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
+        TrainingTimes int64 `json:"trainingTimes"`      // 训练次数
+        UpdateTime int64 `json:"updateTime"`            // 更新时间
+    }
+
+        // 刷新商品列表请求体
+    RefreshGoodsReq {
+        ShopId string `json:"shopId"` // 店铺id
+    }
+
+        // 启用/停用商品请求体
+    EnableGoodsReq {
+        GoodsId string `json:"goodsId"` // 商品id
     }
 
         // 预设商品请求体
@@ -217,7 +214,7 @@ type (
     }
 )
 
-// 三方接口
+// 三方
 type (
     // 保存店铺请求体
     SaveShopReq {
