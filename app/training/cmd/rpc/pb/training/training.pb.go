@@ -312,7 +312,7 @@ func (x *JudgeShopFirstReq) GetUuid() string {
 	return ""
 }
 
-// 判断店铺是否首次登录返回体
+// 判断店铺是否首次登录响应体
 type JudgeShopFirstResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -456,7 +456,7 @@ func (x *ShopPageListReq) GetUpdateTime() int64 {
 	return 0
 }
 
-// 店铺分页列表返回体
+// 店铺分页列表响应体
 type ShopPageListResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -528,7 +528,7 @@ func (x *ShopPageListResp) GetList() []*ShopResp {
 	return nil
 }
 
-// 单条店铺数据返回体
+// 单条店铺数据响应体
 type ShopResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -712,7 +712,7 @@ func (x *PreSettingShopReq) GetCookies() string {
 	return ""
 }
 
-// 预训练店铺返回体
+// 预训练店铺响应体
 type PreSettingShopResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -816,7 +816,7 @@ func (x *CancelPreSettingShopReq) GetUuid() string {
 	return ""
 }
 
-// 取消店铺预设返回体
+// 取消店铺预设响应体
 type CancelPreSettingShopResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -920,7 +920,7 @@ func (x *TrainingShopReq) GetUserId() int64 {
 	return 0
 }
 
-// 训练店铺返回体
+// 训练店铺响应体
 type TrainingShopResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1024,7 +1024,7 @@ func (x *GetShopTrainingProgressReq) GetUserId() int64 {
 	return 0
 }
 
-// 获取店铺训练进度返回体
+// 获取店铺训练进度响应体
 type GetShopTrainingProgressResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1200,7 +1200,7 @@ func (x *GoodsPageListReq) GetUpdateTime() int64 {
 	return 0
 }
 
-// 商品分页列表返回体
+// 商品分页列表响应体
 type GoodsPageListResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1272,7 +1272,7 @@ func (x *GoodsPageListResp) GetList() []*GoodsResp {
 	return nil
 }
 
-// 单条商品数据返回体
+// 单条商品数据响应体
 type GoodsResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1432,7 +1432,7 @@ func (x *RefreshGoodsReq) GetShopId() string {
 	return ""
 }
 
-// 刷新商品返回体
+// 刷新商品响应体
 type RefreshGoodsResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1528,7 +1528,7 @@ func (x *EnableGoodsReq) GetGoodsId() int64 {
 	return 0
 }
 
-// 启用/停用商品返回体
+// 启用/停用商品响应体
 type EnableGoodsResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1648,7 +1648,7 @@ func (x *PreSettingGoodsReq) GetCookies() string {
 	return ""
 }
 
-// 预设商品返回体
+// 预设商品响应体
 type PreSettingGoodsResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1752,7 +1752,7 @@ func (x *CancelPreSettingGoodsReq) GetUserId() int64 {
 	return 0
 }
 
-// 取消商品预设返回体
+// 取消商品预设响应体
 type CancelPreSettingGoodsResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1856,7 +1856,7 @@ func (x *TrainingGoodsReq) GetUserId() int64 {
 	return 0
 }
 
-// 训练商品返回体
+// 训练商品响应体
 type TrainingGoodsResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1960,7 +1960,7 @@ func (x *GetGoodsTrainingProgressReq) GetUserId() int64 {
 	return 0
 }
 
-// 获取商品训练进度返回体
+// 获取商品训练进度响应体
 type GetGoodsTrainingProgressResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -2048,6 +2048,7 @@ func (x *GetGoodsTrainingProgressResp) GetTime() int64 {
 	return 0
 }
 
+// 获取商品训练结果请求体
 type GetGoodsTrainingResultReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -2095,6 +2096,7 @@ func (x *GetGoodsTrainingResultReq) GetGoodsId() int64 {
 	return 0
 }
 
+// 获取商品训练结果响应体
 type GetGoodsTrainingResultResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -2142,6 +2144,7 @@ func (x *GetGoodsTrainingResultResp) GetResult() string {
 	return ""
 }
 
+// 保存店铺请求体
 type SaveShopReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -2229,6 +2232,7 @@ func (x *SaveShopReq) GetList() []*SaveGoods {
 	return nil
 }
 
+// 保存店铺商品内容
 type SaveGoods struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -2292,6 +2296,7 @@ func (x *SaveGoods) GetGoodsUrl() string {
 	return ""
 }
 
+// 保存店铺响应体
 type SaveShopResp struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

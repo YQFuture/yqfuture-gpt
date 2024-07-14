@@ -19,7 +19,7 @@ type (
         Uuid string `json:"uuid"` // 店铺uuid
     }
 
-        // 判断店铺是否首次登录返回体
+        // 判断店铺是否首次登录响应体
     JudgeShopFirstResp {
         BaseResp
         Data int64 `json:"data"` // 是否首次 0: 是 1: 否
@@ -39,13 +39,13 @@ type (
         Data *ShopListResp `json:"data"` // 数据
     }
 
-        // 店铺分页列表返回体
+        // 店铺分页列表响应体
     ShopListResp {
         BasePageResp
         List []*ShopResp `json:"list"` // 列表
     }
 
-        // 单条店铺数据返回体
+        // 单条店铺数据响应体
     ShopResp {
         Id string `json:"id"`                     // 店铺id
         Uuid string `json:"uuid"`                 // 唯一标识
@@ -65,7 +65,7 @@ type (
         Cookies string `json:"cookies"`               // 店铺用户cookie
     }
 
-        // 预设店铺返回体
+        // 预设店铺响应体
     PresettingShopResp {
         BaseResp
     }
@@ -75,7 +75,7 @@ type (
         Uuid string `json:"uuid"` // 店铺uuid
     }
 
-        // 取消店铺预设参数返回体
+        // 取消店铺预设参数响应体
     CancelPreSettingShopResp {
         BaseResp
     }
@@ -85,7 +85,7 @@ type (
         Uuid string `json:"uuid"` // 唯一标识
     }
 
-        // 训练店铺返回体
+        // 训练店铺响应体
     TrainingShopResp {
         BaseResp
         Data int64 `json:"data"`
@@ -96,7 +96,7 @@ type (
         Uuid string `json:"uuid"` // 唯一标识
     }
 
-        // 获取店铺训练进度返回体
+        // 获取店铺训练进度响应体
     GetShopTrainingProgressResp {
         BaseResp
         Data *ShopTrainingProgress `json:"data"` // 训练进度
@@ -129,13 +129,13 @@ type (
         Data *GoodsListResp `json:"data"` // 数据
     }
 
-        // 商品分类列表返回体
+        // 商品分类列表响应体
     GoodsListResp {
         BasePageResp
         List []*GoodsResp `json:"list"` // 列表
     }
 
-        // 单条商品数据返回体
+        // 单条商品数据响应体
     GoodsResp {
         Id string `json:"id"`                           // 商品id
         ShopId string `json:"shopId"`                   // 店铺id
@@ -175,7 +175,7 @@ type (
         GoodsId string `json:"goodsId"` // 商品id
     }
 
-        // 训练商品返回体
+        // 训练商品响应体
     TrainingGoodsResp {
         BaseResp
         Data int64 `json:"data"` // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
@@ -186,7 +186,7 @@ type (
         GoodsId string `json:"goodsId"` // 商品id
     }
 
-        // 获取商品训练进度返回体
+        // 获取商品训练进度响应体
     GetGoodsTrainingProgressResp {
         BaseResp
         Data *GoodsTrainingProgress `json:"data"` // 训练进度
@@ -207,7 +207,7 @@ type (
         GoodsId string `json:"goodsId"` // 商品id
     }
 
-        // 获取商品训练结果返回体
+        // 获取商品训练结果响应体
     GetGoodsTrainingResultResp {
         BaseResp
         Data interface{} `json:"data"` // 训练结果
@@ -232,7 +232,7 @@ type (
         PlatFormId string `json:"id"`
     }
 
-        // 保存店铺返回体
+        // 保存店铺响应体
     SaveShopResp {
         BaseResp
     }

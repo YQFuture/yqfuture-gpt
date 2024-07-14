@@ -16,6 +16,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 获取token
 				Method:  http.MethodGet,
 				Path:    "/getJWT",
 				Handler: JWT.GetJWTHandler(serverCtx),
@@ -27,6 +28,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 根据字典类型获取字典数据列表
 				Method:  http.MethodPost,
 				Path:    "/getDictInfoByType",
 				Handler: basicFunction.GetDictInfoByTypeHandler(serverCtx),
