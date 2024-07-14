@@ -39,12 +39,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				// 添加商品
-				Method:  http.MethodPost,
-				Path:    "/addGoods",
-				Handler: shopTraining.AddGoodsHandler(serverCtx),
-			},
-			{
 				// 取消预设商品
 				Method:  http.MethodPost,
 				Path:    "/cancelPreSettingGoods",
@@ -109,6 +103,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/preSettingShop",
 				Handler: shopTraining.PreSettingShopHandler(serverCtx),
+			},
+			{
+				// 刷新商品
+				Method:  http.MethodPost,
+				Path:    "/refreshGoods",
+				Handler: shopTraining.RefreshGoodsHandler(serverCtx),
 			},
 			{
 				// 保存爬取的店铺基本数据

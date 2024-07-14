@@ -11,7 +11,7 @@ import (
 
 func EnableGoodsHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.BaseGoodsReq
+		var req types.EnableGoodsReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return

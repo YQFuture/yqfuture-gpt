@@ -67,19 +67,19 @@ service training {
 
 	@doc "查询商品列表"
 	@handler getGoodsPageList
-	post /getGoodsPageList (GoodsPageListReq) returns (BaseResp)
+	post /getGoodsPageList (GoodsPageListReq) returns (GoodsPageListResp)
 
-	@doc "添加商品"
-	@handler addGoods
-	post /addGoods (AddGoodsReq) returns (BaseResp)
+	@doc "刷新商品"
+	@handler refreshGoods
+	post /refreshGoods (RefreshGoodsReq) returns (BaseResp)
 
 	@doc "启用商品"
 	@handler enableGoods
-	post /enableGoods (BaseGoodsReq) returns (BaseResp)
+	post /enableGoods (EnableGoodsReq) returns (BaseResp)
 
 	@doc "停用商品"
 	@handler unEnableGoods
-	post /unEnableGoods (BaseGoodsReq) returns (BaseResp)
+	post /unEnableGoods (EnableGoodsReq) returns (BaseResp)
 
 	@doc "预设商品"
 	@handler preSettingGoods

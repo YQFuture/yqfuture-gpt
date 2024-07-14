@@ -27,7 +27,7 @@ func NewTrainingGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Tra
 	}
 }
 
-func (l *TrainingGoodsLogic) TrainingGoods(req *types.BaseGoodsReq) (resp *types.BaseResp, err error) {
+func (l *TrainingGoodsLogic) TrainingGoods(req *types.TrainingGoodsReq) (resp *types.TrainingGoodsResp, err error) {
 	id := l.ctx.Value("id")
 	userId, err := id.(json.Number).Int64()
 	if err != nil {
@@ -47,8 +47,10 @@ func (l *TrainingGoodsLogic) TrainingGoods(req *types.BaseGoodsReq) (resp *types
 		l.Logger.Error("训练商品失败", err)
 		return nil, err
 	}
-	return &types.BaseResp{
-		Code: consts.Success,
-		Msg:  "训练商品成功",
+	return &types.TrainingGoodsResp{
+		BaseResp: types.BaseResp{
+			Code: consts.Success,
+			Msg:  "开始训练商品成功",
+		},
 	}, nil
 }

@@ -26,7 +26,7 @@ func NewEnableGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Enabl
 	}
 }
 
-func (l *EnableGoodsLogic) EnableGoods(req *types.BaseGoodsReq) (resp *types.BaseResp, err error) {
+func (l *EnableGoodsLogic) EnableGoods(req *types.EnableGoodsReq) (resp *types.BaseResp, err error) {
 	goodsIdInt, err := strconv.ParseInt(req.GoodsId, 10, 64)
 	if err != nil {
 		l.Logger.Error("转换商品id失败", err)

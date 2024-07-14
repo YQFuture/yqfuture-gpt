@@ -9,17 +9,17 @@ import (
 	"yufuture-gpt/app/training/cmd/api/internal/types"
 )
 
-// 添加商品
-func AddGoodsHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 刷新商品
+func RefreshGoodsHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.AddGoodsReq
+		var req types.RefreshGoodsReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := shopTraining.NewAddGoodsLogic(r.Context(), svcCtx)
-		resp, err := l.AddGoods(&req)
+		l := shopTraining.NewRefreshGoodsLogic(r.Context(), svcCtx)
+		resp, err := l.RefreshGoods(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
