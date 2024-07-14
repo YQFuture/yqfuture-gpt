@@ -22,6 +22,8 @@ type (
 	DictInfo                     = training.DictInfo
 	DictInfoByTypeReq            = training.DictInfoByTypeReq
 	DictInfoByTypeResp           = training.DictInfoByTypeResp
+	EnableGoodsReq               = training.EnableGoodsReq
+	EnableGoodsResp              = training.EnableGoodsResp
 	GetGoodsTrainingProgressReq  = training.GetGoodsTrainingProgressReq
 	GetGoodsTrainingProgressResp = training.GetGoodsTrainingProgressResp
 	GetGoodsTrainingResultReq    = training.GetGoodsTrainingResultReq
@@ -31,8 +33,6 @@ type (
 	GoodsPageListReq             = training.GoodsPageListReq
 	GoodsPageListResp            = training.GoodsPageListResp
 	GoodsResp                    = training.GoodsResp
-	GoodsTrainingReq             = training.GoodsTrainingReq
-	GoodsTrainingResp            = training.GoodsTrainingResp
 	JudgeShopFirstReq            = training.JudgeShopFirstReq
 	JudgeShopFirstResp           = training.JudgeShopFirstResp
 	KnowledgeBaseTrainingReq     = training.KnowledgeBaseTrainingReq
@@ -41,6 +41,8 @@ type (
 	PreSettingGoodsResp          = training.PreSettingGoodsResp
 	PreSettingShopReq            = training.PreSettingShopReq
 	PreSettingShopResp           = training.PreSettingShopResp
+	RefreshGoodsReq              = training.RefreshGoodsReq
+	RefreshGoodsResp             = training.RefreshGoodsResp
 	SaveGoods                    = training.SaveGoods
 	SaveShopReq                  = training.SaveShopReq
 	SaveShopResp                 = training.SaveShopResp
@@ -67,8 +69,12 @@ type (
 		GetShopTrainingProgress(ctx context.Context, in *GetShopTrainingProgressReq, opts ...grpc.CallOption) (*GetShopTrainingProgressResp, error)
 		// 查询商品列表
 		GetGoodsPageList(ctx context.Context, in *GoodsPageListReq, opts ...grpc.CallOption) (*GoodsPageListResp, error)
-		// 获取商品训练结果
-		GetGoodsTrainingResult(ctx context.Context, in *GetGoodsTrainingResultReq, opts ...grpc.CallOption) (*GetGoodsTrainingResultResp, error)
+		// 添加商品
+		AddGoods(ctx context.Context, in *AddGoodsReq, opts ...grpc.CallOption) (*AddGoodsResp, error)
+		// 启用商品
+		EnableGoods(ctx context.Context, in *EnableGoodsReq, opts ...grpc.CallOption) (*EnableGoodsResp, error)
+		// 禁用商品
+		UnEnableGoods(ctx context.Context, in *EnableGoodsReq, opts ...grpc.CallOption) (*EnableGoodsResp, error)
 		// 预设商品
 		PreSettingGoods(ctx context.Context, in *PreSettingGoodsReq, opts ...grpc.CallOption) (*PreSettingGoodsResp, error)
 		// 取消预设商品
@@ -77,12 +83,8 @@ type (
 		TrainingGoods(ctx context.Context, in *TrainingGoodsReq, opts ...grpc.CallOption) (*TrainingGoodsResp, error)
 		// 获取商品训练进度
 		GetGoodsTrainingProgress(ctx context.Context, in *GetGoodsTrainingProgressReq, opts ...grpc.CallOption) (*GetGoodsTrainingProgressResp, error)
-		// 添加商品
-		AddGoods(ctx context.Context, in *AddGoodsReq, opts ...grpc.CallOption) (*AddGoodsResp, error)
-		// 启用商品
-		EnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error)
-		// 禁用商品
-		UnEnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error)
+		// 获取商品训练结果
+		GetGoodsTrainingResult(ctx context.Context, in *GetGoodsTrainingResultReq, opts ...grpc.CallOption) (*GetGoodsTrainingResultResp, error)
 		// 保存爬取的店铺基本数据
 		SaveShop(ctx context.Context, in *SaveShopReq, opts ...grpc.CallOption) (*SaveShopResp, error)
 	}
@@ -140,10 +142,22 @@ func (m *defaultShopTraining) GetGoodsPageList(ctx context.Context, in *GoodsPag
 	return client.GetGoodsPageList(ctx, in, opts...)
 }
 
-// 获取商品训练结果
-func (m *defaultShopTraining) GetGoodsTrainingResult(ctx context.Context, in *GetGoodsTrainingResultReq, opts ...grpc.CallOption) (*GetGoodsTrainingResultResp, error) {
+// 添加商品
+func (m *defaultShopTraining) AddGoods(ctx context.Context, in *AddGoodsReq, opts ...grpc.CallOption) (*AddGoodsResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
-	return client.GetGoodsTrainingResult(ctx, in, opts...)
+	return client.AddGoods(ctx, in, opts...)
+}
+
+// 启用商品
+func (m *defaultShopTraining) EnableGoods(ctx context.Context, in *EnableGoodsReq, opts ...grpc.CallOption) (*EnableGoodsResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.EnableGoods(ctx, in, opts...)
+}
+
+// 禁用商品
+func (m *defaultShopTraining) UnEnableGoods(ctx context.Context, in *EnableGoodsReq, opts ...grpc.CallOption) (*EnableGoodsResp, error) {
+	client := training.NewShopTrainingClient(m.cli.Conn())
+	return client.UnEnableGoods(ctx, in, opts...)
 }
 
 // 预设商品
@@ -170,22 +184,10 @@ func (m *defaultShopTraining) GetGoodsTrainingProgress(ctx context.Context, in *
 	return client.GetGoodsTrainingProgress(ctx, in, opts...)
 }
 
-// 添加商品
-func (m *defaultShopTraining) AddGoods(ctx context.Context, in *AddGoodsReq, opts ...grpc.CallOption) (*AddGoodsResp, error) {
+// 获取商品训练结果
+func (m *defaultShopTraining) GetGoodsTrainingResult(ctx context.Context, in *GetGoodsTrainingResultReq, opts ...grpc.CallOption) (*GetGoodsTrainingResultResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
-	return client.AddGoods(ctx, in, opts...)
-}
-
-// 启用商品
-func (m *defaultShopTraining) EnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error) {
-	client := training.NewShopTrainingClient(m.cli.Conn())
-	return client.EnableGoods(ctx, in, opts...)
-}
-
-// 禁用商品
-func (m *defaultShopTraining) UnEnableGoods(ctx context.Context, in *GoodsTrainingReq, opts ...grpc.CallOption) (*GoodsTrainingResp, error) {
-	client := training.NewShopTrainingClient(m.cli.Conn())
-	return client.UnEnableGoods(ctx, in, opts...)
+	return client.GetGoodsTrainingResult(ctx, in, opts...)
 }
 
 // 保存爬取的店铺基本数据

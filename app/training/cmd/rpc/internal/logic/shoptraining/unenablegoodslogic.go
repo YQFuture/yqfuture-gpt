@@ -24,11 +24,11 @@ func NewUnEnableGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UnE
 }
 
 // 禁用商品
-func (l *UnEnableGoodsLogic) UnEnableGoods(in *training.GoodsTrainingReq) (*training.GoodsTrainingResp, error) {
+func (l *UnEnableGoodsLogic) UnEnableGoods(in *training.EnableGoodsReq) (*training.EnableGoodsResp, error) {
 	err := l.svcCtx.TsGoodsModel.UnEnableGoods(l.ctx, in)
 	if err != nil {
 		l.Logger.Error("禁用商品失败", err)
 		return nil, err
 	}
-	return &training.GoodsTrainingResp{}, nil
+	return &training.EnableGoodsResp{}, nil
 }

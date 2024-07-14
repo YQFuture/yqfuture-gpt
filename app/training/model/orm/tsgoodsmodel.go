@@ -19,8 +19,8 @@ type (
 		withSession(session sqlx.Session) TsGoodsModel
 		GetGoodsPageList(ctx context.Context, in *training.GoodsPageListReq) (*[]*TsGoods, error)
 		GetGoodsPageTotal(ctx context.Context, in *training.GoodsPageListReq) (int, error)
-		EnableGoods(ctx context.Context, in *training.GoodsTrainingReq) error
-		UnEnableGoods(ctx context.Context, in *training.GoodsTrainingReq) error
+		EnableGoods(ctx context.Context, in *training.EnableGoodsReq) error
+		UnEnableGoods(ctx context.Context, in *training.EnableGoodsReq) error
 		FindEnabledListByShopId(ctx context.Context, in int64) (*[]*TsGoods, error)
 		FindListByShopId(ctx context.Context, in int64) (*[]*TsGoods, error)
 		UpdateGoodsJsonUrlByPlatformId(ctx context.Context, sku string, url string) error
@@ -159,7 +159,7 @@ func (m *customTsGoodsModel) GetGoodsPageList(ctx context.Context, in *training.
 	}
 }
 
-func (m *customTsGoodsModel) EnableGoods(ctx context.Context, in *training.GoodsTrainingReq) error {
+func (m *customTsGoodsModel) EnableGoods(ctx context.Context, in *training.EnableGoodsReq) error {
 	_, err := m.conn.ExecCtx(ctx, "UPDATE ts_goods SET enabled = 2 WHERE id = ?", in.GoodsId)
 	if err != nil {
 		return err
@@ -167,7 +167,7 @@ func (m *customTsGoodsModel) EnableGoods(ctx context.Context, in *training.Goods
 	return nil
 }
 
-func (m *customTsGoodsModel) UnEnableGoods(ctx context.Context, in *training.GoodsTrainingReq) error {
+func (m *customTsGoodsModel) UnEnableGoods(ctx context.Context, in *training.EnableGoodsReq) error {
 	_, err := m.conn.ExecCtx(ctx, "UPDATE ts_goods SET enabled = 1 WHERE id = ?", in.GoodsId)
 	if err != nil {
 		return err

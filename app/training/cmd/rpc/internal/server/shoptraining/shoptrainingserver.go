@@ -64,10 +64,22 @@ func (s *ShopTrainingServer) GetGoodsPageList(ctx context.Context, in *training.
 	return l.GetGoodsPageList(in)
 }
 
-// 获取商品训练结果
-func (s *ShopTrainingServer) GetGoodsTrainingResult(ctx context.Context, in *training.GetGoodsTrainingResultReq) (*training.GetGoodsTrainingResultResp, error) {
-	l := shoptraininglogic.NewGetGoodsTrainingResultLogic(ctx, s.svcCtx)
-	return l.GetGoodsTrainingResult(in)
+// 添加商品
+func (s *ShopTrainingServer) AddGoods(ctx context.Context, in *training.AddGoodsReq) (*training.AddGoodsResp, error) {
+	l := shoptraininglogic.NewAddGoodsLogic(ctx, s.svcCtx)
+	return l.AddGoods(in)
+}
+
+// 启用商品
+func (s *ShopTrainingServer) EnableGoods(ctx context.Context, in *training.EnableGoodsReq) (*training.EnableGoodsResp, error) {
+	l := shoptraininglogic.NewEnableGoodsLogic(ctx, s.svcCtx)
+	return l.EnableGoods(in)
+}
+
+// 禁用商品
+func (s *ShopTrainingServer) UnEnableGoods(ctx context.Context, in *training.EnableGoodsReq) (*training.EnableGoodsResp, error) {
+	l := shoptraininglogic.NewUnEnableGoodsLogic(ctx, s.svcCtx)
+	return l.UnEnableGoods(in)
 }
 
 // 预设商品
@@ -94,22 +106,10 @@ func (s *ShopTrainingServer) GetGoodsTrainingProgress(ctx context.Context, in *t
 	return l.GetGoodsTrainingProgress(in)
 }
 
-// 添加商品
-func (s *ShopTrainingServer) AddGoods(ctx context.Context, in *training.AddGoodsReq) (*training.AddGoodsResp, error) {
-	l := shoptraininglogic.NewAddGoodsLogic(ctx, s.svcCtx)
-	return l.AddGoods(in)
-}
-
-// 启用商品
-func (s *ShopTrainingServer) EnableGoods(ctx context.Context, in *training.GoodsTrainingReq) (*training.GoodsTrainingResp, error) {
-	l := shoptraininglogic.NewEnableGoodsLogic(ctx, s.svcCtx)
-	return l.EnableGoods(in)
-}
-
-// 禁用商品
-func (s *ShopTrainingServer) UnEnableGoods(ctx context.Context, in *training.GoodsTrainingReq) (*training.GoodsTrainingResp, error) {
-	l := shoptraininglogic.NewUnEnableGoodsLogic(ctx, s.svcCtx)
-	return l.UnEnableGoods(in)
+// 获取商品训练结果
+func (s *ShopTrainingServer) GetGoodsTrainingResult(ctx context.Context, in *training.GetGoodsTrainingResultReq) (*training.GetGoodsTrainingResultResp, error) {
+	l := shoptraininglogic.NewGetGoodsTrainingResultLogic(ctx, s.svcCtx)
+	return l.GetGoodsTrainingResult(in)
 }
 
 // 保存爬取的店铺基本数据

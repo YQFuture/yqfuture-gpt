@@ -22,6 +22,8 @@ type (
 	DictInfo                     = training.DictInfo
 	DictInfoByTypeReq            = training.DictInfoByTypeReq
 	DictInfoByTypeResp           = training.DictInfoByTypeResp
+	EnableGoodsReq               = training.EnableGoodsReq
+	EnableGoodsResp              = training.EnableGoodsResp
 	GetGoodsTrainingProgressReq  = training.GetGoodsTrainingProgressReq
 	GetGoodsTrainingProgressResp = training.GetGoodsTrainingProgressResp
 	GetGoodsTrainingResultReq    = training.GetGoodsTrainingResultReq
@@ -31,8 +33,6 @@ type (
 	GoodsPageListReq             = training.GoodsPageListReq
 	GoodsPageListResp            = training.GoodsPageListResp
 	GoodsResp                    = training.GoodsResp
-	GoodsTrainingReq             = training.GoodsTrainingReq
-	GoodsTrainingResp            = training.GoodsTrainingResp
 	JudgeShopFirstReq            = training.JudgeShopFirstReq
 	JudgeShopFirstResp           = training.JudgeShopFirstResp
 	KnowledgeBaseTrainingReq     = training.KnowledgeBaseTrainingReq
@@ -41,6 +41,8 @@ type (
 	PreSettingGoodsResp          = training.PreSettingGoodsResp
 	PreSettingShopReq            = training.PreSettingShopReq
 	PreSettingShopResp           = training.PreSettingShopResp
+	RefreshGoodsReq              = training.RefreshGoodsReq
+	RefreshGoodsResp             = training.RefreshGoodsResp
 	SaveGoods                    = training.SaveGoods
 	SaveShopReq                  = training.SaveShopReq
 	SaveShopResp                 = training.SaveShopResp

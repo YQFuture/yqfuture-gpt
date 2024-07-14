@@ -39,7 +39,6 @@ message JudgeShopFirstReq {
 message JudgeShopFirstResp {
   int64 first = 1;
 }
-
 // 分页查询店铺列表请求体
 message ShopPageListReq {
   int64  pageNum = 1;
@@ -67,7 +66,7 @@ message ShopResp {
   int64  trainingTimes = 6;
   int64  updateTime = 7;
 }
-
+// 预训练店铺请求体
 message PreSettingShopReq {
   int64 userId = 1;
   string uuid = 2;
@@ -76,17 +75,43 @@ message PreSettingShopReq {
   string authorization = 5;
   string cookies = 6;
 }
+// 预训练店铺返回体
 message PreSettingShopResp {
   string result = 1;
 }
+// 取消店铺预设请求体
 message CancelPreSettingShopReq {
   int64 userId = 1;
   string uuid = 2;
 }
+// 取消店铺预设返回体
 message CancelPreSettingShopResp {
   string result = 1;
 }
-
+// 训练店铺请求体
+message TrainingShopReq {
+  string uuid = 1;
+  int64 userId = 2;
+}
+// 训练店铺返回体
+message TrainingShopResp {
+  string result = 1;
+}
+// 获取店铺训练进度请求体
+message GetShopTrainingProgressReq {
+  string uuid = 1;
+  int64 userId = 2;
+}
+// 获取店铺训练进度返回体
+message GetShopTrainingProgressResp {
+  int64 training_status = 1; // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
+  int64 goods_num = 2;       // 商品数量
+  int64 token = 3;           // 训练token
+  int64 file_size = 4;       // 文件大小
+  int64 power = 5;           // 训练算力
+  int64 time = 6;            // 训练耗时
+}
+// 分页查询商品列表请求体
 message GoodsPageListReq {
   int64  shopId = 1;
   int64  pageNum = 2;
@@ -95,6 +120,14 @@ message GoodsPageListReq {
   int64  enabled = 5;
   int64  updateTime = 6;
 }
+// 商品分页列表返回体
+message GoodsPageListResp {
+  int64 pageNum = 1;
+  int64 pageSize = 2;
+  int64 total = 3;
+  repeated GoodsResp list = 4;
+}
+// 单条商品数据返回体
 message GoodsResp {
   int64  id = 1;
   int64  shopId = 2;
@@ -106,64 +139,58 @@ message GoodsResp {
   int64  trainingTimes = 8;
   int64  updateTime = 9;
 }
-message GoodsPageListResp {
-  int64 pageNum = 1;
-  int64 pageSize = 2;
-  int64 total = 3;
-  repeated GoodsResp list = 4;
+// 刷新商品请求体
+message RefreshGoodsReq {
+  string shopId = 1;
 }
-message GoodsTrainingReq {
+// 刷新商品返回体
+message RefreshGoodsResp {
+  string result = 1;
+}
+// 启用/停用商品请求体
+message EnableGoodsReq {
   int64 goodsId = 1;
 }
-message GoodsTrainingResp {
+// 启用/停用商品返回体
+message EnableGoodsResp {
   string result = 1;
 }
-message TrainingShopReq {
-  string uuid = 1;
-  int64 userId = 2;
-}
-message TrainingShopResp {
-  string result = 1;
-}
-message GetShopTrainingProgressReq {
-  string uuid = 1;
-  int64 userId = 2;
-}
-message GetShopTrainingProgressResp {
-  int64 training_status = 1; // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
-  int64 goods_num = 2;       // 商品数量
-  int64 token = 3;           // 训练token
-  int64 file_size = 4;       // 文件大小
-  int64 power = 5;           // 训练算力
-  int64 time = 6;            // 训练耗时
-}
+// 预设商品请求体
 message PreSettingGoodsReq {
   int64 goodsId = 1;
   int64 userId = 2;
   string authorization = 5;
   string cookies = 6;
 }
+// 预设商品返回体
 message PreSettingGoodsResp {
   string result = 1;
 }
+// 取消商品预设请求体
 message CancelPreSettingGoodsReq {
   int64 goodsId = 1;
   int64 userId = 2;
 }
+// 取消商品预设返回体
 message CancelPreSettingGoodsResp {
   string result = 1;
 }
+// 训练商品请求体
 message TrainingGoodsReq {
   int64 goodsId = 1;
   int64 userId = 2;
 }
+// 训练商品返回体
 message TrainingGoodsResp {
   string result = 1;
 }
+
+// 获取商品训练进度请求体
 message GetGoodsTrainingProgressReq {
   int64 goodsId = 1;
   int64 userId = 2;
 }
+// 获取商品训练进度返回体
 message GetGoodsTrainingProgressResp {
   int64 training_status = 1; // 训练状态 0: 初始 1: 预设中 2: 预设完成 11: 训练中 12: 训练完成
   int64 goods_num = 2;       // 商品数量
@@ -205,12 +232,10 @@ message SaveShopResp {
 service ShopTraining {
   // 判断店铺是否首次登录 即从未进行过训练
   rpc judgeShopFirst(JudgeShopFirstReq) returns (JudgeShopFirstResp);
-
   // 预设店铺
   rpc preSettingShop(PreSettingShopReq) returns (PreSettingShopResp);
   // 取消店铺预设
   rpc cancelPreSettingShop(CancelPreSettingShopReq) returns (CancelPreSettingShopResp);
-
   // 查询店铺列表
   rpc getShopPageList(ShopPageListReq) returns (ShopPageListResp);
   // 训练店铺
@@ -221,8 +246,12 @@ service ShopTraining {
 
   // 查询商品列表
   rpc getGoodsPageList(GoodsPageListReq) returns (GoodsPageListResp);
-  // 获取商品训练结果
-  rpc getGoodsTrainingResult(GetGoodsTrainingResultReq) returns (GetGoodsTrainingResultResp);
+  // 添加商品
+  rpc addGoods(AddGoodsReq) returns (AddGoodsResp);
+  // 启用商品
+  rpc enableGoods(EnableGoodsReq) returns (EnableGoodsResp);
+  // 禁用商品
+  rpc unEnableGoods(EnableGoodsReq) returns (EnableGoodsResp);
   // 预设商品
   rpc preSettingGoods(PreSettingGoodsReq) returns (PreSettingGoodsResp);
   // 取消预设商品
@@ -231,12 +260,9 @@ service ShopTraining {
   rpc trainingGoods(TrainingGoodsReq) returns (TrainingGoodsResp);
   // 获取商品训练进度
   rpc getGoodsTrainingProgress(GetGoodsTrainingProgressReq) returns (GetGoodsTrainingProgressResp);
-  // 添加商品
-  rpc addGoods(AddGoodsReq) returns (AddGoodsResp);
-  // 启用商品
-  rpc enableGoods(GoodsTrainingReq) returns (GoodsTrainingResp);
-  // 禁用商品
-  rpc unEnableGoods(GoodsTrainingReq) returns (GoodsTrainingResp);
+  // 获取商品训练结果
+  rpc getGoodsTrainingResult(GetGoodsTrainingResultReq) returns (GetGoodsTrainingResultResp);
+
   // 保存爬取的店铺基本数据
   rpc saveShop(SaveShopReq) returns (SaveShopResp);
 }

@@ -24,11 +24,11 @@ func NewEnableGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Enabl
 }
 
 // 启用商品
-func (l *EnableGoodsLogic) EnableGoods(in *training.GoodsTrainingReq) (*training.GoodsTrainingResp, error) {
+func (l *EnableGoodsLogic) EnableGoods(in *training.EnableGoodsReq) (*training.EnableGoodsResp, error) {
 	err := l.svcCtx.TsGoodsModel.EnableGoods(l.ctx, in)
 	if err != nil {
 		l.Logger.Error("启用商品失败", err)
 		return nil, err
 	}
-	return &training.GoodsTrainingResp{}, nil
+	return &training.EnableGoodsResp{}, nil
 }
