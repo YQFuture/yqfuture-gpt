@@ -120,9 +120,14 @@ type (
         BaseResp
     }
 
-        // 取消店铺预设参数
-    CancelPreSettingReq {
-        Uuid string `json:"uuid"` // 唯一标识
+        // 取消店铺预设请求体
+    CancelPreSettingShopReq {
+        Uuid string `json:"uuid"` // 店铺uuid
+    }
+
+        // 取消店铺预设参数返回体
+    CancelPreSettingShopResp {
+        BaseResp
     }
 
     TrainingShopReq {

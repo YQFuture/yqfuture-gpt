@@ -9,17 +9,17 @@ import (
 	"yufuture-gpt/app/training/cmd/api/internal/types"
 )
 
-// 取消预设
-func CancelPreSettingHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 取消店铺预设
+func CancelPreSettingShopHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.CancelPreSettingReq
+		var req types.CancelPreSettingShopReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := shopTraining.NewCancelPreSettingLogic(r.Context(), svcCtx)
-		resp, err := l.CancelPreSetting(&req)
+		l := shopTraining.NewCancelPreSettingShopLogic(r.Context(), svcCtx)
+		resp, err := l.CancelPreSettingShop(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

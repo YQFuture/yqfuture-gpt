@@ -35,9 +35,9 @@ func (s *ShopTrainingServer) PreSettingShop(ctx context.Context, in *training.Pr
 }
 
 // 取消店铺预设
-func (s *ShopTrainingServer) CancelPreSetting(ctx context.Context, in *training.CancelPreSettingReq) (*training.PreSettingShopResp, error) {
-	l := shoptraininglogic.NewCancelPreSettingLogic(ctx, s.svcCtx)
-	return l.CancelPreSetting(in)
+func (s *ShopTrainingServer) CancelPreSettingShop(ctx context.Context, in *training.CancelPreSettingShopReq) (*training.CancelPreSettingShopResp, error) {
+	l := shoptraininglogic.NewCancelPreSettingShopLogic(ctx, s.svcCtx)
+	return l.CancelPreSettingShop(in)
 }
 
 // 查询店铺列表

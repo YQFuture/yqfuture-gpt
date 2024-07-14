@@ -54,8 +54,8 @@ service training {
 	post /preSettingShop (PresettingShopReq) returns (PresettingShopResp)
 
 	@doc "取消店铺预设"
-	@handler cancelPreSetting
-	post /cancelPreSetting (CancelPreSettingReq) returns (BaseResp)
+	@handler cancelPreSettingShop
+	post /cancelPreSettingShop (CancelPreSettingShopReq) returns (CancelPreSettingShopResp)
 
 	@doc "训练店铺"
 	@handler trainingShop

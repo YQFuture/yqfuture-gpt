@@ -12,22 +12,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CancelPreSettingLogic struct {
+type CancelPreSettingShopLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewCancelPreSettingLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CancelPreSettingLogic {
-	return &CancelPreSettingLogic{
+func NewCancelPreSettingShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CancelPreSettingShopLogic {
+	return &CancelPreSettingShopLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-// 取消预设
-func (l *CancelPreSettingLogic) CancelPreSetting(in *training.CancelPreSettingReq) (*training.PreSettingShopResp, error) {
+// CancelPreSettingShop 取消店铺预设
+func (l *CancelPreSettingShopLogic) CancelPreSettingShop(in *training.CancelPreSettingShopReq) (*training.CancelPreSettingShopResp, error) {
 	// 根据uuid和userid从mysql中查找出店铺
 	tsShop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in.UserId, in.Uuid)
 	if err != nil {
@@ -60,8 +60,7 @@ func (l *CancelPreSettingLogic) CancelPreSetting(in *training.CancelPreSettingRe
 			return nil, err
 		}
 	}
-
-	return &training.PreSettingShopResp{}, nil
+	return &training.CancelPreSettingShopResp{}, nil
 }
 
 func CancelShopPreSetting(ctx context.Context, svcCtx *svc.ServiceContext, tsShop *orm.TsShop, userId int64) error {

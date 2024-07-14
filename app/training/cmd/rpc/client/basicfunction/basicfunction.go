@@ -17,7 +17,8 @@ type (
 	AddGoodsResp                 = training.AddGoodsResp
 	CancelPreSettingGoodsReq     = training.CancelPreSettingGoodsReq
 	CancelPreSettingGoodsResp    = training.CancelPreSettingGoodsResp
-	CancelPreSettingReq          = training.CancelPreSettingReq
+	CancelPreSettingShopReq      = training.CancelPreSettingShopReq
+	CancelPreSettingShopResp     = training.CancelPreSettingShopResp
 	DictInfo                     = training.DictInfo
 	DictInfoByTypeReq            = training.DictInfoByTypeReq
 	DictInfoByTypeResp           = training.DictInfoByTypeResp

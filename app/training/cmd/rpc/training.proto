@@ -79,9 +79,12 @@ message PreSettingShopReq {
 message PreSettingShopResp {
   string result = 1;
 }
-message CancelPreSettingReq {
+message CancelPreSettingShopReq {
   int64 userId = 1;
   string uuid = 2;
+}
+message CancelPreSettingShopResp {
+  string result = 1;
 }
 
 message GoodsPageListReq {
@@ -206,7 +209,7 @@ service ShopTraining {
   // 预设店铺
   rpc preSettingShop(PreSettingShopReq) returns (PreSettingShopResp);
   // 取消店铺预设
-  rpc cancelPreSetting(CancelPreSettingReq) returns (PreSettingShopResp);
+  rpc cancelPreSettingShop(CancelPreSettingShopReq) returns (CancelPreSettingShopResp);
 
   // 查询店铺列表
   rpc getShopPageList(ShopPageListReq) returns (ShopPageListResp);

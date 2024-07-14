@@ -45,16 +45,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: shopTraining.AddGoodsHandler(serverCtx),
 			},
 			{
-				// 取消店铺预设
-				Method:  http.MethodPost,
-				Path:    "/cancelPreSetting",
-				Handler: shopTraining.CancelPreSettingHandler(serverCtx),
-			},
-			{
 				// 取消预设商品
 				Method:  http.MethodPost,
 				Path:    "/cancelPreSettingGoods",
 				Handler: shopTraining.CancelPreSettingGoodsHandler(serverCtx),
+			},
+			{
+				// 取消店铺预设
+				Method:  http.MethodPost,
+				Path:    "/cancelPreSettingShop",
+				Handler: shopTraining.CancelPreSettingShopHandler(serverCtx),
 			},
 			{
 				// 启用商品

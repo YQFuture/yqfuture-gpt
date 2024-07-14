@@ -34,8 +34,12 @@ type CancelPreSettingGoodsReq struct {
 	GoodsId string `json:"goodsId"` // 商品id
 }
 
-type CancelPreSettingReq struct {
-	Uuid string `json:"uuid"` // 唯一标识
+type CancelPreSettingShopReq struct {
+	Uuid string `json:"uuid"` // 店铺uuid
+}
+
+type CancelPreSettingShopResp struct {
+	BaseResp
 }
 
 type DictInfo struct {

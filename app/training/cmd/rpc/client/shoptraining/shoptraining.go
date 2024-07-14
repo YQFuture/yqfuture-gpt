@@ -17,7 +17,8 @@ type (
 	AddGoodsResp                 = training.AddGoodsResp
 	CancelPreSettingGoodsReq     = training.CancelPreSettingGoodsReq
 	CancelPreSettingGoodsResp    = training.CancelPreSettingGoodsResp
-	CancelPreSettingReq          = training.CancelPreSettingReq
+	CancelPreSettingShopReq      = training.CancelPreSettingShopReq
+	CancelPreSettingShopResp     = training.CancelPreSettingShopResp
 	DictInfo                     = training.DictInfo
 	DictInfoByTypeReq            = training.DictInfoByTypeReq
 	DictInfoByTypeResp           = training.DictInfoByTypeResp
@@ -57,7 +58,7 @@ type (
 		// 预设店铺
 		PreSettingShop(ctx context.Context, in *PreSettingShopReq, opts ...grpc.CallOption) (*PreSettingShopResp, error)
 		// 取消店铺预设
-		CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*PreSettingShopResp, error)
+		CancelPreSettingShop(ctx context.Context, in *CancelPreSettingShopReq, opts ...grpc.CallOption) (*CancelPreSettingShopResp, error)
 		// 查询店铺列表
 		GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error)
 		// 训练店铺
@@ -110,9 +111,9 @@ func (m *defaultShopTraining) PreSettingShop(ctx context.Context, in *PreSetting
 }
 
 // 取消店铺预设
-func (m *defaultShopTraining) CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*PreSettingShopResp, error) {
+func (m *defaultShopTraining) CancelPreSettingShop(ctx context.Context, in *CancelPreSettingShopReq, opts ...grpc.CallOption) (*CancelPreSettingShopResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
-	return client.CancelPreSetting(ctx, in, opts...)
+	return client.CancelPreSettingShop(ctx, in, opts...)
 }
 
 // 查询店铺列表

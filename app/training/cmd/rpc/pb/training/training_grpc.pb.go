@@ -203,7 +203,7 @@ var KnowledgeBaseTraining_ServiceDesc = grpc.ServiceDesc{
 const (
 	ShopTraining_JudgeShopFirst_FullMethodName           = "/training.ShopTraining/judgeShopFirst"
 	ShopTraining_PreSettingShop_FullMethodName           = "/training.ShopTraining/preSettingShop"
-	ShopTraining_CancelPreSetting_FullMethodName         = "/training.ShopTraining/cancelPreSetting"
+	ShopTraining_CancelPreSettingShop_FullMethodName     = "/training.ShopTraining/cancelPreSettingShop"
 	ShopTraining_GetShopPageList_FullMethodName          = "/training.ShopTraining/getShopPageList"
 	ShopTraining_TrainingShop_FullMethodName             = "/training.ShopTraining/trainingShop"
 	ShopTraining_GetShopTrainingProgress_FullMethodName  = "/training.ShopTraining/getShopTrainingProgress"
@@ -228,7 +228,7 @@ type ShopTrainingClient interface {
 	// 预设店铺
 	PreSettingShop(ctx context.Context, in *PreSettingShopReq, opts ...grpc.CallOption) (*PreSettingShopResp, error)
 	// 取消店铺预设
-	CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*PreSettingShopResp, error)
+	CancelPreSettingShop(ctx context.Context, in *CancelPreSettingShopReq, opts ...grpc.CallOption) (*CancelPreSettingShopResp, error)
 	// 查询店铺列表
 	GetShopPageList(ctx context.Context, in *ShopPageListReq, opts ...grpc.CallOption) (*ShopPageListResp, error)
 	// 训练店铺
@@ -285,10 +285,10 @@ func (c *shopTrainingClient) PreSettingShop(ctx context.Context, in *PreSettingS
 	return out, nil
 }
 
-func (c *shopTrainingClient) CancelPreSetting(ctx context.Context, in *CancelPreSettingReq, opts ...grpc.CallOption) (*PreSettingShopResp, error) {
+func (c *shopTrainingClient) CancelPreSettingShop(ctx context.Context, in *CancelPreSettingShopReq, opts ...grpc.CallOption) (*CancelPreSettingShopResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(PreSettingShopResp)
-	err := c.cc.Invoke(ctx, ShopTraining_CancelPreSetting_FullMethodName, in, out, cOpts...)
+	out := new(CancelPreSettingShopResp)
+	err := c.cc.Invoke(ctx, ShopTraining_CancelPreSettingShop_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -434,7 +434,7 @@ type ShopTrainingServer interface {
 	// 预设店铺
 	PreSettingShop(context.Context, *PreSettingShopReq) (*PreSettingShopResp, error)
 	// 取消店铺预设
-	CancelPreSetting(context.Context, *CancelPreSettingReq) (*PreSettingShopResp, error)
+	CancelPreSettingShop(context.Context, *CancelPreSettingShopReq) (*CancelPreSettingShopResp, error)
 	// 查询店铺列表
 	GetShopPageList(context.Context, *ShopPageListReq) (*ShopPageListResp, error)
 	// 训练店铺
@@ -474,8 +474,8 @@ func (UnimplementedShopTrainingServer) JudgeShopFirst(context.Context, *JudgeSho
 func (UnimplementedShopTrainingServer) PreSettingShop(context.Context, *PreSettingShopReq) (*PreSettingShopResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PreSettingShop not implemented")
 }
-func (UnimplementedShopTrainingServer) CancelPreSetting(context.Context, *CancelPreSettingReq) (*PreSettingShopResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CancelPreSetting not implemented")
+func (UnimplementedShopTrainingServer) CancelPreSettingShop(context.Context, *CancelPreSettingShopReq) (*CancelPreSettingShopResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CancelPreSettingShop not implemented")
 }
 func (UnimplementedShopTrainingServer) GetShopPageList(context.Context, *ShopPageListReq) (*ShopPageListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetShopPageList not implemented")
@@ -565,20 +565,20 @@ func _ShopTraining_PreSettingShop_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ShopTraining_CancelPreSetting_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CancelPreSettingReq)
+func _ShopTraining_CancelPreSettingShop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelPreSettingShopReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ShopTrainingServer).CancelPreSetting(ctx, in)
+		return srv.(ShopTrainingServer).CancelPreSettingShop(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ShopTraining_CancelPreSetting_FullMethodName,
+		FullMethod: ShopTraining_CancelPreSettingShop_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ShopTrainingServer).CancelPreSetting(ctx, req.(*CancelPreSettingReq))
+		return srv.(ShopTrainingServer).CancelPreSettingShop(ctx, req.(*CancelPreSettingShopReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -833,8 +833,8 @@ var ShopTraining_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ShopTraining_PreSettingShop_Handler,
 		},
 		{
-			MethodName: "cancelPreSetting",
-			Handler:    _ShopTraining_CancelPreSetting_Handler,
+			MethodName: "cancelPreSettingShop",
+			Handler:    _ShopTraining_CancelPreSettingShop_Handler,
 		},
 		{
 			MethodName: "getShopPageList",
