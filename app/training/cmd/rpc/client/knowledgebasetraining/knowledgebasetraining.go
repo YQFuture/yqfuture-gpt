@@ -13,8 +13,6 @@ import (
 )
 
 type (
-	AddGoodsReq                  = training.AddGoodsReq
-	AddGoodsResp                 = training.AddGoodsResp
 	CancelPreSettingGoodsReq     = training.CancelPreSettingGoodsReq
 	CancelPreSettingGoodsResp    = training.CancelPreSettingGoodsResp
 	CancelPreSettingShopReq      = training.CancelPreSettingShopReq

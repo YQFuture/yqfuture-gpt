@@ -199,20 +199,16 @@ message GetGoodsTrainingProgressResp {
   int64 power = 5;           // 训练算力
   int64 time = 6;            // 训练耗时
 }
-message AddGoodsReq {
-  int64 shopId = 1;
-  repeated string list = 2; // 商品url列表
-  int64 userId = 3;
-}
-message AddGoodsResp {
-  string result = 1;
-}
+// 获取商品训练结果请求体
 message GetGoodsTrainingResultReq {
   int64 goodsId = 1;
 }
+// 获取商品训练结果返回体
 message GetGoodsTrainingResultResp {
   string result = 1;
 }
+
+// 保存店铺请求体
 message SaveShopReq {
   int64 userId = 1;
   string serialNumber = 2;
@@ -221,11 +217,13 @@ message SaveShopReq {
   int64 platformType = 5;
   repeated SaveGoods list = 6;
 }
+// 保存店铺商品内容
 message SaveGoods {
   string platformId = 1;
   string goodsName = 2;
   string goodsUrl = 3;
 }
+// 保存店铺返回体
 message SaveShopResp {
   string result = 1;
 }
@@ -246,8 +244,8 @@ service ShopTraining {
 
   // 查询商品列表
   rpc getGoodsPageList(GoodsPageListReq) returns (GoodsPageListResp);
-  // 添加商品
-  rpc addGoods(AddGoodsReq) returns (AddGoodsResp);
+  // 刷新商品
+  rpc refreshGoods(RefreshGoodsReq) returns (RefreshGoodsResp);
   // 启用商品
   rpc enableGoods(EnableGoodsReq) returns (EnableGoodsResp);
   // 禁用商品

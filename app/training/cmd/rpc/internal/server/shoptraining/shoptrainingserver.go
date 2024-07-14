@@ -64,10 +64,10 @@ func (s *ShopTrainingServer) GetGoodsPageList(ctx context.Context, in *training.
 	return l.GetGoodsPageList(in)
 }
 
-// 添加商品
-func (s *ShopTrainingServer) AddGoods(ctx context.Context, in *training.AddGoodsReq) (*training.AddGoodsResp, error) {
-	l := shoptraininglogic.NewAddGoodsLogic(ctx, s.svcCtx)
-	return l.AddGoods(in)
+// 刷新商品
+func (s *ShopTrainingServer) RefreshGoods(ctx context.Context, in *training.RefreshGoodsReq) (*training.RefreshGoodsResp, error) {
+	l := shoptraininglogic.NewRefreshGoodsLogic(ctx, s.svcCtx)
+	return l.RefreshGoods(in)
 }
 
 // 启用商品

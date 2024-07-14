@@ -13,8 +13,6 @@ import (
 )
 
 type (
-	AddGoodsReq                  = training.AddGoodsReq
-	AddGoodsResp                 = training.AddGoodsResp
 	CancelPreSettingGoodsReq     = training.CancelPreSettingGoodsReq
 	CancelPreSettingGoodsResp    = training.CancelPreSettingGoodsResp
 	CancelPreSettingShopReq      = training.CancelPreSettingShopReq
@@ -69,8 +67,8 @@ type (
 		GetShopTrainingProgress(ctx context.Context, in *GetShopTrainingProgressReq, opts ...grpc.CallOption) (*GetShopTrainingProgressResp, error)
 		// 查询商品列表
 		GetGoodsPageList(ctx context.Context, in *GoodsPageListReq, opts ...grpc.CallOption) (*GoodsPageListResp, error)
-		// 添加商品
-		AddGoods(ctx context.Context, in *AddGoodsReq, opts ...grpc.CallOption) (*AddGoodsResp, error)
+		// 刷新商品
+		RefreshGoods(ctx context.Context, in *RefreshGoodsReq, opts ...grpc.CallOption) (*RefreshGoodsResp, error)
 		// 启用商品
 		EnableGoods(ctx context.Context, in *EnableGoodsReq, opts ...grpc.CallOption) (*EnableGoodsResp, error)
 		// 禁用商品
@@ -142,10 +140,10 @@ func (m *defaultShopTraining) GetGoodsPageList(ctx context.Context, in *GoodsPag
 	return client.GetGoodsPageList(ctx, in, opts...)
 }
 
-// 添加商品
-func (m *defaultShopTraining) AddGoods(ctx context.Context, in *AddGoodsReq, opts ...grpc.CallOption) (*AddGoodsResp, error) {
+// 刷新商品
+func (m *defaultShopTraining) RefreshGoods(ctx context.Context, in *RefreshGoodsReq, opts ...grpc.CallOption) (*RefreshGoodsResp, error) {
 	client := training.NewShopTrainingClient(m.cli.Conn())
-	return client.AddGoods(ctx, in, opts...)
+	return client.RefreshGoods(ctx, in, opts...)
 }
 
 // 启用商品
