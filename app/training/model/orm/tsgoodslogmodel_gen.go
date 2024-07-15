@@ -35,11 +35,12 @@ type (
 	}
 
 	TsGoodsLog struct {
-		Id             int64     `db:"id"`              // 商品ID
+		Id             int64     `db:"id"`              // 商品训练ID
 		ShopLogId      int64     `db:"shop_log_id"`     // 店铺训练历史ID
 		GoodsId        int64     `db:"goods_id"`        // 商品ID
 		TrainingResult int64     `db:"training_result"` // 训练结果 0: 未知 1: 成功 2: 失败
 		Token          int64     `db:"token"`           // 消耗的token
+		Power          int64     `db:"power"`           // 消耗的算力
 		StartTime      time.Time `db:"start_time"`      // 开始时间
 		EndTime        time.Time `db:"end_time"`        // 结束时间
 		CreateTime     time.Time `db:"create_time"`     // 创建时间
@@ -77,14 +78,14 @@ func (m *defaultTsGoodsLogModel) FindOne(ctx context.Context, id int64) (*TsGood
 }
 
 func (m *defaultTsGoodsLogModel) Insert(ctx context.Context, data *TsGoodsLog) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsGoodsLogRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.ShopLogId, data.GoodsId, data.TrainingResult, data.Token, data.StartTime, data.EndTime, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsGoodsLogRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.ShopLogId, data.GoodsId, data.TrainingResult, data.Token, data.Power, data.StartTime, data.EndTime, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 
 func (m *defaultTsGoodsLogModel) Update(ctx context.Context, data *TsGoodsLog) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, tsGoodsLogRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.ShopLogId, data.GoodsId, data.TrainingResult, data.Token, data.StartTime, data.EndTime, data.CreateBy, data.UpdateBy, data.Id)
+	_, err := m.conn.ExecCtx(ctx, query, data.ShopLogId, data.GoodsId, data.TrainingResult, data.Token, data.Power, data.StartTime, data.EndTime, data.CreateBy, data.UpdateBy, data.Id)
 	return err
 }
 

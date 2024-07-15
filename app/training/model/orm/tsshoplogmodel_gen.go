@@ -35,10 +35,11 @@ type (
 	}
 
 	TsShopLog struct {
-		Id             int64     `db:"id"`              // ID
+		Id             int64     `db:"id"`              // 店铺训练ID
 		ShopId         int64     `db:"shop_id"`         // 店铺ID
 		TrainingResult int64     `db:"training_result"` // 训练结果 0: 未知 1: 成功 2: 失败 3: 部分成功
 		Token          int64     `db:"token"`           // 消耗的token
+		Power          int64     `db:"power"`           // 消耗的算力
 		StartTime      time.Time `db:"start_time"`      // 开始时间
 		EndTime        time.Time `db:"end_time"`        // 结束时间
 		CreateTime     time.Time `db:"create_time"`     // 创建时间
@@ -76,14 +77,14 @@ func (m *defaultTsShopLogModel) FindOne(ctx context.Context, id int64) (*TsShopL
 }
 
 func (m *defaultTsShopLogModel) Insert(ctx context.Context, data *TsShopLog) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsShopLogRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.ShopId, data.TrainingResult, data.Token, data.StartTime, data.EndTime, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, tsShopLogRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.ShopId, data.TrainingResult, data.Token, data.Power, data.StartTime, data.EndTime, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 
 func (m *defaultTsShopLogModel) Update(ctx context.Context, data *TsShopLog) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, tsShopLogRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.ShopId, data.TrainingResult, data.Token, data.StartTime, data.EndTime, data.CreateBy, data.UpdateBy, data.Id)
+	_, err := m.conn.ExecCtx(ctx, query, data.ShopId, data.TrainingResult, data.Token, data.Power, data.StartTime, data.EndTime, data.CreateBy, data.UpdateBy, data.Id)
 	return err
 }
 
