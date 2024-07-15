@@ -5,6 +5,7 @@ import (
 	"github.com/tidwall/gjson"
 	"time"
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
+	"yufuture-gpt/app/training/cmd/rpc/internal/thirdparty"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
 	"yufuture-gpt/app/training/model/orm"
 	"yufuture-gpt/common/utils"
@@ -58,7 +59,7 @@ func (l *TrainingGoodsLogic) TrainingGoods(in *training.TrainingGoodsReq) (*trai
 
 	// 发起店铺训练批处理 获取返回的batchId
 	var createBatchTaskResp string
-	batchId, err := CreateBatchTask(l.Logger, l.svcCtx, goodsDocumentList, &createBatchTaskResp)
+	batchId, err := thirdparty.CreateBatchTask(l.Logger, l.svcCtx, goodsDocumentList, &createBatchTaskResp)
 	if err != nil {
 		l.Logger.Error("发送创建店铺训练批处理请求失败", err)
 		return nil, err
@@ -66,7 +67,7 @@ func (l *TrainingGoodsLogic) TrainingGoods(in *training.TrainingGoodsReq) (*trai
 	// 等待2分钟
 	time.Sleep(time.Minute * 2)
 	// 轮询等待批处理完成 获取返回的fileId
-	fileId, err := GetBatchTaskStatus(l.Logger, l.svcCtx, batchId)
+	fileId, err := thirdparty.GetBatchTaskStatus(l.Logger, l.svcCtx, batchId)
 	if err != nil {
 		return nil, err
 	}

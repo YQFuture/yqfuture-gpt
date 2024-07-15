@@ -3,6 +3,7 @@ package shoptraininglogic
 import (
 	"context"
 	"time"
+	"yufuture-gpt/app/training/cmd/rpc/internal/thirdparty"
 	"yufuture-gpt/app/training/model/common"
 	yqmongo "yufuture-gpt/app/training/model/mongo"
 	"yufuture-gpt/app/training/model/orm"
@@ -53,7 +54,7 @@ func (l *PreSettingGoodsLogic) PreSettingGoods(in *training.PreSettingGoodsReq) 
 	var presettingGoods []*orm.TsGoods
 	presettingGoods = append(presettingGoods, tsGoods)
 	// 请求获取商品JSON
-	err = ApplyGoodsJson(l.svcCtx, presettingGoods)
+	err = thirdparty.ApplyGoodsJson(l.svcCtx, presettingGoods)
 	if err != nil {
 		l.Logger.Info("发送获取商品JSON请求失败", err)
 		return nil, err
@@ -61,11 +62,11 @@ func (l *PreSettingGoodsLogic) PreSettingGoods(in *training.PreSettingGoodsReq) 
 	// 等待2分钟
 	time.Sleep(time.Minute * 2)
 	// 每6分钟调用一次接口 连续10次失败则结束
-	FetchAndSaveGoodsJson(l.Logger, l.ctx, l.svcCtx, presettingGoods)
+	thirdparty.FetchAndSaveGoodsJson(l.Logger, l.ctx, l.svcCtx, presettingGoods)
 	// 最终保存到ES的结果文档
 	var goodsDocumentList []*common.PddGoodsDocument
 	// 获取并解析商品JSON到结果文档列表
-	GetAndParseGoodsJson(l.Logger, tsShop, goodsDocumentList, presettingGoods)
+	thirdparty.GetAndParseGoodsJson(l.Logger, tsShop, goodsDocumentList, presettingGoods)
 
 	// 构建获取训练时长的请求图片列表
 	var goodPicList []string

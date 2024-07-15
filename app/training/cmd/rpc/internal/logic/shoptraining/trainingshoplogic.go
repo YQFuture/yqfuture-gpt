@@ -4,11 +4,10 @@ import (
 	"context"
 	"github.com/tidwall/gjson"
 	"github.com/zeromicro/go-zero/core/logx"
-	"strconv"
 	"time"
 	"yufuture-gpt/app/training/cmd/rpc/internal/svc"
+	"yufuture-gpt/app/training/cmd/rpc/internal/thirdparty"
 	"yufuture-gpt/app/training/cmd/rpc/pb/training"
-	"yufuture-gpt/app/training/model/common"
 	"yufuture-gpt/app/training/model/orm"
 	"yufuture-gpt/common/consts"
 	"yufuture-gpt/common/utils"
@@ -109,7 +108,7 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 
 	// 发起店铺训练批处理 获取返回的batchId
 	var createBatchTaskResp string
-	batchId, err := CreateBatchTask(l.Logger, l.svcCtx, goodsDocumentList, &createBatchTaskResp)
+	batchId, err := thirdparty.CreateBatchTask(l.Logger, l.svcCtx, goodsDocumentList, &createBatchTaskResp)
 	if err != nil {
 		l.Logger.Error("发送创建店铺训练批处理请求失败", err)
 		return nil, err
@@ -117,7 +116,7 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 	// 等待2分钟
 	time.Sleep(time.Minute * 2)
 	// 轮询等待批处理完成 获取返回的fileId
-	fileId, err := GetBatchTaskStatus(l.Logger, l.svcCtx, batchId)
+	fileId, err := thirdparty.GetBatchTaskStatus(l.Logger, l.svcCtx, batchId)
 	if err != nil {
 		l.Logger.Error("获取批处理状态失败", err)
 		return nil, err
@@ -170,45 +169,6 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 	return &training.TrainingShopResp{}, nil
 }
 
-func CreateBatchTask(log logx.Logger, svcCtx *svc.ServiceContext, goodsDocumentList []*common.PddGoodsDocument, createBatchTaskResp *string) (string, error) {
-	var batchImages []*ImageInfo
-	for _, goodsDocument := range goodsDocumentList {
-		batchImages = append(batchImages, &ImageInfo{
-			ID:   goodsDocument.PlatformGoodsId,
-			URLs: goodsDocument.PictureUrlList,
-		})
-	}
-	err := utils.HTTPPostAndParseJSON(svcCtx.Config.TrainingGoodsConf.CreateBatchTaskUrl, CreateBatchTaskReq{
-		SystemPrompt: "what do you see ？ reply in Chinese",
-		BatchImages:  batchImages,
-	}, createBatchTaskResp)
-	if err != nil {
-		log.Error("发送创建店铺训练批处理请求失败", err)
-		return "", err
-	}
-	batchId := gjson.Get(*createBatchTaskResp, "data.response.batch_info.id")
-	return batchId.String(), nil
-}
-
-func GetBatchTaskStatus(log logx.Logger, svcCtx *svc.ServiceContext, batchId string) (string, error) {
-	var fileId string
-	for {
-		var batchTaskStatusResp string
-		err := utils.HTTPGetAndParseJSON(svcCtx.Config.TrainingGoodsConf.QueryBatchTaskStatusUrl+"?batch_id="+batchId, &batchTaskStatusResp)
-		if err != nil {
-			log.Error("发送获取批处理状态请求失败", err)
-			return "nil", err
-		}
-		status := gjson.Get(batchTaskStatusResp, "data.status")
-		if status.String() == "completed" {
-			fileId = gjson.Get(batchTaskStatusResp, "data.output_file_id").String()
-			break
-		}
-		time.Sleep(time.Minute * 2)
-	}
-	return fileId, nil
-}
-
 func UpdateShopTraining(ctx context.Context, svcCtx *svc.ServiceContext, tsShop *orm.TsShop, userId int64) error {
 	tsShop.TrainingStatus = consts.Training
 	tsShop.TrainingTimes += 1
@@ -254,60 +214,4 @@ func UpdateGoodsTrainingComplete(ctx context.Context, svcCtx *svc.ServiceContext
 		return err
 	}
 	return nil
-}
-
-// ParsePddGoods 解析拼多多商品JSON
-func ParsePddGoods(goodsJson string, tsShop *orm.TsShop, tsGoods *orm.TsGoods) *common.PddGoodsDocument {
-	// 店铺id
-	mallId := gjson.Get(goodsJson, "mall_entrance.mall_data.mall_id")
-	// 商品sku标签列表
-	var skuSpecsMap map[string]string
-	// 商品中的图片列表
-	var pictureUrlList []string
-	for _, sku := range gjson.Get(goodsJson, "sku").Array() {
-		pictureUrlList = append(pictureUrlList, sku.Get("thumb_url").String())
-		for _, skuSpec := range sku.Get("specs").Array() {
-			skuSpecsMap[skuSpec.Get("spec_key").String()] = skuSpec.Get("spec_value").String()
-		}
-	}
-	for _, gallery := range gjson.Get(goodsJson, "goods.gallery").Array() {
-		pictureUrlList = append(pictureUrlList, gallery.Get("url").String())
-	}
-	// 商品服务承诺列表
-	var ServicePromiseMap map[string]string
-	for _, servicePromise := range gjson.Get(goodsJson, "service_promise").Array() {
-		ServicePromiseMap[servicePromise.Get("type").String()] = servicePromise.Get("desc").String()
-	}
-	// 团购价格和基础价格
-	groupPrice, _ := strconv.ParseFloat(gjson.Get(goodsJson, "price.min_group_price").String(), 64)
-	normalPrice, _ := strconv.ParseFloat(gjson.Get(goodsJson, "price.max_normal_price").String(), 64)
-	// 卖点
-	sellPointTagList := gjson.Get(goodsJson, "ui.carousel_section.sell_point_tag_list").Array()
-	// 商品提示
-	promptExplain := gjson.Get(goodsJson, "goods.prompt_explain").String()
-	goodsDocument := &common.PddGoodsDocument{
-		ShopId:  tsShop.Id,
-		GoodsId: tsGoods.Id,
-		Uuid:    tsShop.Uuid,
-		UserId:  tsShop.UserId,
-
-		PlatformMallId:  mallId.String(),
-		PlatformGoodsId: tsGoods.PlatformId,
-		GoodsUrl:        tsGoods.GoodsUrl,
-		GoodsJson:       goodsJson,
-		GoodsName:       tsGoods.GoodsName,
-
-		SkuSpecs:                 skuSpecsMap,
-		GroupPrice:               groupPrice,
-		NormalPrice:              normalPrice,
-		ServicePromise:           ServicePromiseMap,
-		SellPointTagList:         sellPointTagList,
-		PromptExplain:            promptExplain,
-		DetailGalleryDescription: "",
-
-		PictureUrlList: pictureUrlList,
-		Token:          0,
-		CreatedAt:      time.Now(),
-	}
-	return goodsDocument
 }
