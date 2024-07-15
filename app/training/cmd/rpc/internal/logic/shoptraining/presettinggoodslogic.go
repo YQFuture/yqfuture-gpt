@@ -83,7 +83,7 @@ func (l *PreSettingGoodsLogic) PreSettingGoods(in *training.PreSettingGoodsReq) 
 	}
 
 	// 设计结构化文档 预设结果保存到mongo 正式训练时直接从mongo中取
-	shoppresettinggoodstitles := &yqmongo.Shoppresettinggoodstitles{
+	dbpresettinggoodstitles := &yqmongo.Dbpresettinggoodstitles{
 		GoodsId:    tsGoods.Id,
 		PlatformId: goodsDocumentList[0].PlatformMallId,
 		UserID:     in.UserId,
@@ -94,7 +94,7 @@ func (l *PreSettingGoodsLogic) PreSettingGoods(in *training.PreSettingGoodsReq) 
 		//PreSettingTime:
 		GoodsDocumentList: goodsDocumentList,
 	}
-	err = l.svcCtx.ShoppresettinggoodstitlesModel.Insert(l.ctx, shoppresettinggoodstitles)
+	err = l.svcCtx.DbpresettinggoodstitlesModel.Insert(l.ctx, dbpresettinggoodstitles)
 	// 更新商品状态为预设完成
 	err = UpdateGoodsPreSettingComplete(l.ctx, l.svcCtx, tsGoods, in.UserId)
 	if err != nil {

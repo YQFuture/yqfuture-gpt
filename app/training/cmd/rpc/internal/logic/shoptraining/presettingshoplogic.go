@@ -52,10 +52,10 @@ func (l *PreSettingShopLogic) PreSettingShop(in *training.PreSettingShopReq) (*t
 	// 等待两分钟
 	time.Sleep(time.Minute * 2)
 	// 轮询等待爬取商品ID落库完成 通过serialNumber在mongo中查找
-	var saveShop *yqmongo.Shoptrainingshoptitles
+	var saveShop *yqmongo.Dbsavegoodscrawlertitles
 	i := 0
 	for i < 10 {
-		saveShop, err = l.svcCtx.ShoptrainingshoptitlesModel.FindOneBySerialNumber(l.ctx, serialNumber)
+		saveShop, err = l.svcCtx.DbsavegoodscrawlertitlesModel.FindOneBySerialNumber(l.ctx, serialNumber)
 		if err != nil {
 			l.Logger.Error("根据serialNumber在mongo中查找店铺失败", err)
 		} else if saveShop != nil {
@@ -146,7 +146,7 @@ func (l *PreSettingShopLogic) PreSettingShop(in *training.PreSettingShopReq) (*t
 	}
 
 	// 设计结构化文档 预设结果保存到mongo 正式训练时直接从mongo中取
-	shoppresettingshoptitles := &yqmongo.Shoppresettingshoptitles{
+	dbpresettingshoptitlesModel := &yqmongo.Dbpresettingshoptitles{
 		ShopId:     tsShop.Id,
 		PlatformId: goodsDocumentList[0].PlatformMallId,
 		UUID:       in.Uuid,
@@ -158,7 +158,7 @@ func (l *PreSettingShopLogic) PreSettingShop(in *training.PreSettingShopReq) (*t
 		//PreSettingTime:
 		GoodsDocumentList: goodsDocumentList,
 	}
-	err = l.svcCtx.ShoppresettingshoptitlesModel.Insert(l.ctx, shoppresettingshoptitles)
+	err = l.svcCtx.DbpresettingshoptitlesModel.Insert(l.ctx, dbpresettingshoptitlesModel)
 	if err != nil {
 		l.Logger.Error("保存训练到mongo失败", err)
 		return nil, err

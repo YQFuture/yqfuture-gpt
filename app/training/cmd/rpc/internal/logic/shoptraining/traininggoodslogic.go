@@ -30,13 +30,13 @@ func NewTrainingGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Tra
 // TrainingGoods 训练商品
 func (l *TrainingGoodsLogic) TrainingGoods(in *training.TrainingGoodsReq) (*training.TrainingGoodsResp, error) {
 	// 根据shopId从mongo中找到最新的一条预设商品数据
-	shoppresettinggoodstitles, err := l.svcCtx.ShoppresettinggoodstitlesModel.FindNewOneByGoodsId(l.ctx, in.GoodsId)
-	if shoppresettinggoodstitles == nil || len(shoppresettinggoodstitles.GoodsDocumentList) == 0 {
+	dbpresettinggoodstitles, err := l.svcCtx.DbpresettinggoodstitlesModel.FindNewOneByGoodsId(l.ctx, in.GoodsId)
+	if dbpresettinggoodstitles == nil || len(dbpresettinggoodstitles.GoodsDocumentList) == 0 {
 		l.Logger.Error("mongo中没有可用的预设数据", err)
 		return nil, err
 	}
 	// 预设保存的商品文档列表
-	var goodsDocumentList = shoppresettinggoodstitles.GoodsDocumentList
+	var goodsDocumentList = dbpresettinggoodstitles.GoodsDocumentList
 	// 从mysql中查询出商品
 	tsGoods, err := l.svcCtx.TsGoodsModel.FindOne(l.ctx, in.GoodsId)
 	if err != nil {

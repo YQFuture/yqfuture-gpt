@@ -88,16 +88,16 @@ func (l *SaveShopLogic) SaveShop(in *training.SaveShopReq) (*training.SaveShopRe
 	}
 
 	// 不论新老店铺都统一根据本次信息保存一条新记录到mongo
-	var saveGoodsList []*yqmongo.ShopTrainingGoodsList
+	var saveGoodsList []*yqmongo.GoodsIdList
 	for _, tsGoods := range mongoGoodsList {
-		saveGoodsList = append(saveGoodsList, &yqmongo.ShopTrainingGoodsList{
+		saveGoodsList = append(saveGoodsList, &yqmongo.GoodsIdList{
 			GoodsId:    tsGoods.Id,
 			PlatformId: tsGoods.PlatformId,
 			Url:        tsGoods.GoodsUrl,
 		})
 	}
-	shoptrainingshoptitles := buildShoptrainingshoptitles(tsShop, in, saveGoodsList)
-	err = l.svcCtx.ShoptrainingshoptitlesModel.Insert(l.ctx, shoptrainingshoptitles)
+	dbsavegoodscrawlertitles := buildDbsavegoodscrawlertitles(tsShop, in, saveGoodsList)
+	err = l.svcCtx.DbsavegoodscrawlertitlesModel.Insert(l.ctx, dbsavegoodscrawlertitles)
 	if err != nil {
 		l.Logger.Error("保存店铺到mongo失败", err)
 		return nil, err
@@ -144,8 +144,8 @@ func buildTsGoods(l *SaveShopLogic, in *training.SaveShopReq, tsShop *orm.TsShop
 	}
 }
 
-func buildShoptrainingshoptitles(tsShop *orm.TsShop, in *training.SaveShopReq, saveGoodsList []*yqmongo.ShopTrainingGoodsList) *yqmongo.Shoptrainingshoptitles {
-	return &yqmongo.Shoptrainingshoptitles{
+func buildDbsavegoodscrawlertitles(tsShop *orm.TsShop, in *training.SaveShopReq, saveGoodsList []*yqmongo.GoodsIdList) *yqmongo.Dbsavegoodscrawlertitles {
+	return &yqmongo.Dbsavegoodscrawlertitles{
 		ID:       primitive.NewObjectID(),
 		CreateAt: time.Now(),
 		UpdateAt: time.Now(),

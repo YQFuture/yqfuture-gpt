@@ -40,8 +40,8 @@ func NewTrainingShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Trai
 // TrainingShop 训练店铺
 func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*training.TrainingShopResp, error) {
 	// 根据uuid和userId从mongo中找到最新的一条预设店铺数据
-	shoppresettingshoptitles, err := l.svcCtx.ShoppresettingshoptitlesModel.FindNewOneByUuidAndUserId(l.ctx, in.Uuid, in.UserId)
-	if shoppresettingshoptitles == nil || len(shoppresettingshoptitles.GoodsDocumentList) == 0 {
+	dbpresettingshoptitles, err := l.svcCtx.DbpresettingshoptitlesModel.FindNewOneByUuidAndUserId(l.ctx, in.Uuid, in.UserId)
+	if dbpresettingshoptitles == nil || len(dbpresettingshoptitles.GoodsDocumentList) == 0 {
 		l.Logger.Error("mongo中没有可用的预设数据", err)
 		return nil, err
 	}
@@ -50,7 +50,7 @@ func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*trainin
 		return nil, err
 	}
 	// 预设保存的商品文档列表
-	var goodsDocumentList = shoppresettingshoptitles.GoodsDocumentList
+	var goodsDocumentList = dbpresettingshoptitles.GoodsDocumentList
 	// 根据uuid和userid从mysql中查找出店铺
 	tsShop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in.UserId, in.Uuid)
 	if err != nil {

@@ -37,13 +37,13 @@ func (l *GetShopTrainingProgressLogic) GetShopTrainingProgress(in *training.GetS
 	// 根据训练状态从不同数据源中找出数据
 	// 预设完成 则从mongo中获取预设结果
 	if tsShop.TrainingStatus == consts.PresettingComplete {
-		shoppresettingshoptitles, err := l.svcCtx.ShoppresettingshoptitlesModel.FindNewOneByUuidAndUserId(l.ctx, in.Uuid, in.UserId)
+		dbpresettingshoptitles, err := l.svcCtx.DbpresettingshoptitlesModel.FindNewOneByUuidAndUserId(l.ctx, in.Uuid, in.UserId)
 		if err != nil {
 			l.Logger.Error("从mongo中获取预设结果失败", err)
 		}
-		shopTrainingProgressResp.Token = shoppresettingshoptitles.PreSettingToken
-		shopTrainingProgressResp.Power = shoppresettingshoptitles.PresettingPower
-		shopTrainingProgressResp.FileSize = shoppresettingshoptitles.PresettingFileSize
+		shopTrainingProgressResp.Token = dbpresettingshoptitles.PreSettingToken
+		shopTrainingProgressResp.Power = dbpresettingshoptitles.PresettingPower
+		shopTrainingProgressResp.FileSize = dbpresettingshoptitles.PresettingFileSize
 	}
 	// TODO 训练完成 则从es中获取训练结果
 	if tsShop.TrainingStatus == consts.TrainingComplete {

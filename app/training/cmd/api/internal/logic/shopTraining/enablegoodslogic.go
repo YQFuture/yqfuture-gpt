@@ -32,7 +32,7 @@ func (l *EnableGoodsLogic) EnableGoods(req *types.EnableGoodsReq) (resp *types.B
 		l.Logger.Error("转换商品id失败", err)
 		return nil, err
 	}
-	_, err = l.svcCtx.ShopTrainingClient.EnableGoods(l.ctx, &training.GoodsTrainingReq{
+	_, err = l.svcCtx.ShopTrainingClient.EnableGoods(l.ctx, &training.EnableGoodsReq{
 		GoodsId: goodsIdInt,
 	})
 	if err != nil {

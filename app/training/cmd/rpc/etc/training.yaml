@@ -21,9 +21,9 @@ DB:
 Mongo:
   Url: mongodb://mongo_kKtPGm:mongo_tmPizQ@192.168.3.118:27017
   Database: kefugpt
-  Shoptrainingshoptitles: shoptrainingshoptitles
-  Shoppresettingshoptitles: shoppresettingshoptitles
-  Shoppresettinggoodstitles: shoppresettinggoodstitles
+  Dbsavegoodscrawlertitles: dbsavegoodscrawlertitles
+  Dbpresettingshoptitles: dbpresettingshoptitles
+  Dbpresettinggoodstitles: dbpresettinggoodstitles
 
 KqPusherConf:
   Brokers:

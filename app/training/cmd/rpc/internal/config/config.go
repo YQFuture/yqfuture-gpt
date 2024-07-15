@@ -15,11 +15,11 @@ type Config struct {
 	}
 	// mongo
 	Mongo struct {
-		Url                       string
-		Database                  string
-		Shoptrainingshoptitles    string
-		Shoppresettingshoptitles  string
-		Shoppresettinggoodstitles string
+		Url                      string
+		Database                 string
+		Dbsavegoodscrawlertitles string
+		Dbpresettingshoptitles   string
+		Dbpresettinggoodstitles  string
 	}
 	// kafka生产者
 	KqPusherConf struct {
