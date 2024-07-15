@@ -30,7 +30,7 @@ func NewPreSettingGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *P
 	}
 }
 
-// 预设商品
+// PreSettingGoods 预设商品
 func (l *PreSettingGoodsLogic) PreSettingGoods(in *training.PreSettingGoodsReq) (*training.PreSettingGoodsResp, error) {
 	tsGoods, err := l.svcCtx.TsGoodsModel.FindOne(l.ctx, in.GoodsId)
 	if err != nil {

@@ -27,7 +27,7 @@ func NewTrainingGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Tra
 	}
 }
 
-// 训练商品
+// TrainingGoods 训练商品
 func (l *TrainingGoodsLogic) TrainingGoods(in *training.TrainingGoodsReq) (*training.TrainingGoodsResp, error) {
 	// 根据shopId从mongo中找到最新的一条预设商品数据
 	shoppresettinggoodstitles, err := l.svcCtx.ShoppresettinggoodstitlesModel.FindNewOneByGoodsId(l.ctx, in.GoodsId)

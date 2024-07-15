@@ -40,7 +40,7 @@ func NewPreSettingShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Pr
 	}
 }
 
-// 预设店铺
+// PreSettingShop 预设店铺
 func (l *PreSettingShopLogic) PreSettingShop(in *training.PreSettingShopReq) (*training.PreSettingShopResp, error) {
 	// 构建请求体 发送爬取商品ID请求
 	serialNumber := l.svcCtx.SnowFlakeNode.Generate().String()

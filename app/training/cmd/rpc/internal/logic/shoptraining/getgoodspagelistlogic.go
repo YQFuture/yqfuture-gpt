@@ -23,7 +23,7 @@ func NewGetGoodsPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-// 查询商品列表
+// GetGoodsPageList 查询商品列表
 func (l *GetGoodsPageListLogic) GetGoodsPageList(in *training.GoodsPageListReq) (*training.GoodsPageListResp, error) {
 	total, err := l.svcCtx.TsGoodsModel.GetGoodsPageTotal(l.ctx, in)
 	if err != nil {

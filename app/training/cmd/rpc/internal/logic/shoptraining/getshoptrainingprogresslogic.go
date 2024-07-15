@@ -23,7 +23,7 @@ func NewGetShopTrainingProgressLogic(ctx context.Context, svcCtx *svc.ServiceCon
 	}
 }
 
-// 获取店铺训练进度
+// GetShopTrainingProgress 获取店铺训练进度
 func (l *GetShopTrainingProgressLogic) GetShopTrainingProgress(in *training.GetShopTrainingProgressReq) (*training.GetShopTrainingProgressResp, error) {
 	//根据uuid和userid查找出店铺
 	tsShop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in.UserId, in.Uuid)

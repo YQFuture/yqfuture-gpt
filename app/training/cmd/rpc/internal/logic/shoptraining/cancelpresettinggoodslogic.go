@@ -24,7 +24,7 @@ func NewCancelPreSettingGoodsLogic(ctx context.Context, svcCtx *svc.ServiceConte
 	}
 }
 
-// 取消预设商品
+// CancelPreSettingGoods 取消预设商品
 func (l *CancelPreSettingGoodsLogic) CancelPreSettingGoods(in *training.CancelPreSettingGoodsReq) (*training.CancelPreSettingGoodsResp, error) {
 	tsGoods, err := l.svcCtx.TsGoodsModel.FindOne(l.ctx, in.GoodsId)
 	if err != nil {

@@ -37,7 +37,7 @@ func NewTrainingShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Trai
 	}
 }
 
-// 训练店铺
+// TrainingShop 训练店铺
 func (l *TrainingShopLogic) TrainingShop(in *training.TrainingShopReq) (*training.TrainingShopResp, error) {
 	// 根据uuid和userId从mongo中找到最新的一条预设店铺数据
 	shoppresettingshoptitles, err := l.svcCtx.ShoppresettingshoptitlesModel.FindNewOneByUuidAndUserId(l.ctx, in.Uuid, in.UserId)

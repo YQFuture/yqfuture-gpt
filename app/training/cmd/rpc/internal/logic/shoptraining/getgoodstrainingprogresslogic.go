@@ -23,7 +23,7 @@ func NewGetGoodsTrainingProgressLogic(ctx context.Context, svcCtx *svc.ServiceCo
 	}
 }
 
-// 获取商品训练进度
+// GetGoodsTrainingProgress 获取商品训练进度
 func (l *GetGoodsTrainingProgressLogic) GetGoodsTrainingProgress(in *training.GetGoodsTrainingProgressReq) (*training.GetGoodsTrainingProgressResp, error) {
 	tsGoods, err := l.svcCtx.TsGoodsModel.FindOne(l.ctx, in.GoodsId)
 	if err != nil {

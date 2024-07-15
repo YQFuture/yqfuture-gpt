@@ -26,7 +26,7 @@ func NewSaveShopLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SaveShop
 	}
 }
 
-// 保存爬取的店铺基本数据
+// SaveShop 保存爬取的店铺基本数据
 func (l *SaveShopLogic) SaveShop(in *training.SaveShopReq) (*training.SaveShopResp, error) {
 	// 根据userid和uuid查找出店铺 新老店铺执行不同流程的操作
 	tsShop, err := l.svcCtx.TsShopModel.FindOneByUuidAndUserId(l.ctx, in.UserId, in.Uuid)
