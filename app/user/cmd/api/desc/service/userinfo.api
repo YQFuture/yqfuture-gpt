@@ -25,4 +25,10 @@ type (
         CaptchaId string `json:"captchaId"`   // 验证码ID
         CaptchaImg string `json:"captchaImg"` // 验证码图片
     }
+
+    // 获取手机验证码请求体
+    VerificationCodeReq {
+        Phone string `json:"phone"`
+    }
+
 )

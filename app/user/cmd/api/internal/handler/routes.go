@@ -14,10 +14,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				// 获取图形验证码
+				// 获取图像验证码
 				Method:  http.MethodGet,
 				Path:    "/getCaptcha",
 				Handler: login.GetCaptchaHandler(serverCtx),
+			},
+			{
+				// 获取手机短信验证码
+				Method:  http.MethodPost,
+				Path:    "/getVerificationCode",
+				Handler: login.GetVerificationCodeHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/login"),

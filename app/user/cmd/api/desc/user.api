@@ -22,5 +22,9 @@ service user {
 	@doc "获取图像验证码"
 	@handler getCaptcha
 	get /getCaptcha (BaseReq) returns (CaptchaResp)
+
+	@doc "获取手机短信验证码"
+	@handler getVerificationCode
+	post /getVerificationCode (VerificationCodeReq) returns (BaseResp)
 }
 

@@ -45,3 +45,7 @@ type DictInfoByTypeResp struct {
 	BaseResp
 	Data []*DictInfo `json:"data"` // 字典列表
 }
+
+type VerificationCodeReq struct {
+	Phone string `json:"phone"`
+}
