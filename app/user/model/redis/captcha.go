@@ -9,7 +9,7 @@ const ImgCaptchaPrefix = "captcha:img:"
 
 // SetImgCaptcha 保存图像验证码答案到Redis
 func SetImgCaptcha(ctx context.Context, redis *redis.Redis, id, answer string) error {
-	err := redis.SetexCtx(ctx, ImgCaptchaPrefix+id, answer, 65)
+	err := redis.SetexCtx(ctx, ImgCaptchaPrefix+id, answer, 125)
 	if err != nil {
 		return err
 	}

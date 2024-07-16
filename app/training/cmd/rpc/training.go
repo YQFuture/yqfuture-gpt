@@ -42,7 +42,10 @@ func main() {
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 
 	// 将服务注册到consul
-	_ = consul.RegisterService(c.ListenOn, c.Consul)
+	err := consul.RegisterService(c.ListenOn, c.Consul)
+	if err != nil {
+		panic(err)
+	}
 
 	// 创建服务组
 	serviceGroup := service.NewServiceGroup()

@@ -3,12 +3,21 @@ package config
 import (
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/rest"
+	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type Config struct {
 	rest.RestConf
+	UserClientConf zrpc.RpcClientConf
+	// JWT
+	Auth struct {
+		AccessSecret string
+		AccessExpire int64
+	}
+	// Redis
 	RedisConf redis.RedisConf
-	SmsConf   struct {
+	// 阿里云短信服务
+	SmsConf struct {
 		AccessKeyId     string
 		AccessKeySecret string
 		Domain          string

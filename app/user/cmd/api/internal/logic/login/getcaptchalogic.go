@@ -45,6 +45,7 @@ func (l *GetCaptchaLogic) GetCaptcha(req *types.BaseReq) (resp *types.CaptchaRes
 		}, nil
 	}
 
+	// 保存验证码答案到Redis
 	CaptchaId := uuid.New().String()
 	err = redis.SetImgCaptcha(l.ctx, l.svcCtx.Redis, CaptchaId, answer)
 	if err != nil {

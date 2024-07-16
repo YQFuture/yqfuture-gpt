@@ -25,6 +25,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/getVerificationCode",
 				Handler: login.GetVerificationCodeHandler(serverCtx),
 			},
+			{
+				// 注册
+				Method:  http.MethodPost,
+				Path:    "/register",
+				Handler: login.RegisterHandler(serverCtx),
+			},
 		},
 		rest.WithPrefix("/login"),
 	)

@@ -46,6 +46,22 @@ type DictInfoByTypeResp struct {
 	Data []*DictInfo `json:"data"` // 字典列表
 }
 
+type RegisterReq struct {
+	Phone            string `json:"phone"`            // 手机号码
+	VerificationCode string `json:"verificationCode"` // 手机验证码
+	CaptchaId        string `json:"captchaId"`        // 验证码ID
+	Answer           string `json:"answer"`           // 验证码答案
+}
+
+type RegisterResp struct {
+	BaseResp
+	Data UserInfo `json:"data"` // 用户信息
+}
+
+type UserInfo struct {
+	Token string `json:"token"` // JWT Token
+}
+
 type VerificationCodeReq struct {
-	Phone string `json:"phone"`
+	Phone string `json:"phone"` // 手机号码
 }

@@ -26,5 +26,9 @@ service user {
 	@doc "获取手机短信验证码"
 	@handler getVerificationCode
 	post /getVerificationCode (VerificationCodeReq) returns (BaseResp)
+
+	@doc "注册"
+	@handler register
+	post /register (RegisterReq) returns (RegisterResp)
 }
 
