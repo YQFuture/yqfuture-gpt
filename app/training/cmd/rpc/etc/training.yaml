@@ -47,7 +47,7 @@ Elasticsearch:
   Password: Elastic_HMYzHB
 
 #雪花算法节点ID 每个服务节点的值不能一样
-SnowFlakeNode: 1
+SnowFlakeNode: 2
 
 TrainingGoodsConf:
   #商品训练队列消费者的延迟时间，默认10秒

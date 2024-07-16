@@ -48,6 +48,9 @@ type (
     // 登录/注册成功后返回的用户信息
     UserInfo {
         Token string `json:"token"` // JWT Token
+        Phone string `json:"phone"` // 手机号码
+        NickName string `json:"nickname"` // 昵称
+        HeadImg string `json:"headImg"` // 头像
     }
 
 )

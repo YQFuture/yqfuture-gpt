@@ -5,6 +5,7 @@ ListenOn: 0.0.0.0:7054
 #  - 127.0.0.1:2379
 #  Key: training.rpc
 
+# Consul
 Consul:
   Host: 192.168.3.118:8500
   #Token: 'f0512db6-76d6-f25e-f344-a98cc3484d42' # consul ACL token (optional)
@@ -14,3 +15,10 @@ Consul:
   Tag:
     - tag
     - rpc
+
+# MySQL
+DB:
+  DataSource: root:mysql_QspKnh@tcp(192.168.3.118:3306)/qyfuture_gpt?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+
+# 雪花算法节点ID 每个服务节点的值不能一样
+SnowFlakeNode: 1

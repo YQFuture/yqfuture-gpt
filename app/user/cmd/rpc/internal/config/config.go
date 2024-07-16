@@ -7,5 +7,12 @@ import (
 
 type Config struct {
 	zrpc.RpcServerConf
+	// Consul
 	Consul consul.Conf
+	// MySQL
+	DB struct {
+		DataSource string
+	}
+	// 雪花算法节点ID
+	SnowFlakeNode int64
 }

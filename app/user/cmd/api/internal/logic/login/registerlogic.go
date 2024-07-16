@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/golang-jwt/jwt/v4"
 	"time"
+	"yufuture-gpt/app/user/cmd/rpc/pb/user"
 	"yufuture-gpt/app/user/model/redis"
 	"yufuture-gpt/common/consts"
 
@@ -56,7 +57,7 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 		return &types.RegisterResp{
 			BaseResp: types.BaseResp{
 				Code: consts.Fail,
-				Msg:  "注册失败",
+				Msg:  "注册失败 请重试",
 			},
 		}, nil
 	}
@@ -69,13 +70,30 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 		}, nil
 	}
 
-	// TODO 发送注册RPC调用
-
-	// TODO 判断用户是否已注册
+	// 调用RPC接口完成注册
+	registerResp, err := l.svcCtx.LoginClient.Register(l.ctx, &user.RegisterReq{
+		Phone: req.Phone,
+	})
+	if err != nil {
+		return &types.RegisterResp{
+			BaseResp: types.BaseResp{
+				Code: consts.IncorrectVerificationCode,
+				Msg:  "注册失败 请重试",
+			},
+		}, nil
+	}
+	if registerResp.Code == consts.PhoneIsRegistered {
+		return &types.RegisterResp{
+			BaseResp: types.BaseResp{
+				Code: consts.IncorrectVerificationCode,
+				Msg:  "手机号已注册 请直接登录",
+			},
+		}, nil
+	}
 
 	// 生成 Token
 	payload := map[string]interface{}{
-		"id":      1811692312716120064,
+		"id":      registerResp.Result.Id,
 		"ex_time": time.Now().AddDate(0, 0, 7),
 	}
 	token, err := GetJwtToken(l.svcCtx.Config.Auth.AccessSecret, l.svcCtx.Config.Auth.AccessExpire, payload)
@@ -88,13 +106,18 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 			},
 		}, nil
 	}
+
+	// 返回用户信息
 	return &types.RegisterResp{
 		BaseResp: types.BaseResp{
 			Code: consts.Success,
 			Msg:  "注册成功",
 		},
 		Data: types.UserInfo{
-			Token: token,
+			Token:    token,
+			Phone:    registerResp.Result.Phone,
+			NickName: registerResp.Result.NickName,
+			HeadImg:  registerResp.Result.HeadImg,
 		},
 	}, nil
 }

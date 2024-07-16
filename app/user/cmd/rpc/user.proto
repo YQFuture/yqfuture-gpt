@@ -10,11 +10,15 @@ message RegisterReq {
 }
 // 注册返回体
 message RegisterResp {
-  string code = 1;
+  int64 code = 1;
   UserInfo result = 2;
 }
 // 登录/注册成功后返回的用户信息
 message UserInfo {
+  int64 id = 1;
+  string phone = 2;
+  string nickName = 3;
+  string headImg = 4;
 }
 // 登录注册相关服务
 service Login {
