@@ -1,0 +1,26 @@
+syntax = "v1"
+
+info (
+	title:   "用户服务"
+	desc:    "用户服务"
+	author:  "zouxiaodong"
+	email:   "13575232531@163.com"
+	version: "v1"
+)
+
+import (
+	"service/userinfo.api"
+	"service/basefunction.api"
+)
+
+// 登录注册相关接口
+@server (
+	prefix: login
+	group:  login
+)
+service user {
+	@doc "获取图像验证码"
+	@handler getCaptcha
+	get /getCaptcha (BaseReq) returns (CaptchaResp)
+}
+

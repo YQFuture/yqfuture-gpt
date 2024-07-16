@@ -1,0 +1,28 @@
+syntax = "v1"
+
+info(
+    title: "用户信息服务"
+    desc: "用户信息服务"
+    author: "zouxiaodong"
+    email: "13575232531@163.com"
+    version: "v1"
+)
+
+import (
+    "basefunction.api"
+)
+
+// 登录注册服务
+type (
+    // 获取图形验证码返回体
+    CaptchaResp {
+        BaseResp
+        Data CaptchaData `json:"data"` // 图形验证码信息
+    }
+
+        // 图形验证码信息
+    CaptchaData {
+        CaptchaId string `json:"captchaId"`   // 验证码ID
+        CaptchaImg string `json:"captchaImg"` // 验证码图片
+    }
+)
