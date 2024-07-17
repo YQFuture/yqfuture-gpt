@@ -30,7 +30,7 @@ func NewGetCaptchaLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetCap
 
 func (l *GetCaptchaLogic) GetCaptcha(req *types.BaseReq) (resp *types.CaptchaResp, err error) {
 	// 配置验证码参数
-	driver := base64Captcha.NewDriverDigit(80, 240, 4, 0.7, 80)
+	driver := base64Captcha.NewDriverDigit(80, 204, 4, 0.7, 80)
 	// 生成验证码 配置最小的存储容量和失效时间 避免内存占用
 	captcha := base64Captcha.NewCaptcha(driver, base64Captcha.NewMemoryStore(1, 1))
 	// 生成验证码
