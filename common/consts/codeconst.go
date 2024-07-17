@@ -7,5 +7,6 @@ const (
 	IncorrectCaptcha          = 40002 // 图像验证码错误
 	IncorrectVerificationCode = 40003 // 手机验证码错误
 	AutomaticLoginFailure     = 40004 // 自动登录失败
-	PhoneIsRegistered         = 40005
+	PhoneIsRegistered         = 40005 // 手机号已注册
+	PhoneIsNotRegistered      = 40006 // 手机号未注册
 )

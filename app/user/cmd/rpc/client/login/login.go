@@ -13,6 +13,8 @@ import (
 )
 
 type (
+	LoginReq     = user.LoginReq
+	LoginResp    = user.LoginResp
 	RegisterReq  = user.RegisterReq
 	RegisterResp = user.RegisterResp
 	UserInfo     = user.UserInfo
@@ -20,6 +22,7 @@ type (
 	Login interface {
 		// 注册
 		Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
+		Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 	}
 
 	defaultLogin struct {
@@ -37,4 +40,9 @@ func NewLogin(cli zrpc.Client) Login {
 func (m *defaultLogin) Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error) {
 	client := user.NewLoginClient(m.cli.Conn())
 	return client.Register(ctx, in, opts...)
+}
+
+func (m *defaultLogin) Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
+	client := user.NewLoginClient(m.cli.Conn())
+	return client.Login(ctx, in, opts...)
 }

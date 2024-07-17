@@ -20,8 +20,19 @@ message UserInfo {
   string nickName = 3;
   string headImg = 4;
 }
+// 登录请求体
+message LoginReq {
+  string phone = 1;
+}
+// 登录返回体
+message LoginResp {
+  int64 code = 1;
+  UserInfo result = 2;
+}
 // 登录注册相关服务
 service Login {
   // 注册
   rpc register(RegisterReq) returns (RegisterResp);
+  // 登录
+  rpc login(LoginReq) returns (LoginResp);
 }

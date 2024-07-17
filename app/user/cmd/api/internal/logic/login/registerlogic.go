@@ -77,7 +77,7 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 	if err != nil {
 		return &types.RegisterResp{
 			BaseResp: types.BaseResp{
-				Code: consts.IncorrectVerificationCode,
+				Code: consts.Fail,
 				Msg:  "注册失败 请重试",
 			},
 		}, nil
@@ -85,7 +85,7 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 	if registerResp.Code == consts.PhoneIsRegistered {
 		return &types.RegisterResp{
 			BaseResp: types.BaseResp{
-				Code: consts.IncorrectVerificationCode,
+				Code: consts.PhoneIsRegistered,
 				Msg:  "手机号已注册 请直接登录",
 			},
 		}, nil

@@ -27,3 +27,8 @@ func (s *LoginServer) Register(ctx context.Context, in *user.RegisterReq) (*user
 	l := loginlogic.NewRegisterLogic(ctx, s.svcCtx)
 	return l.Register(in)
 }
+
+func (s *LoginServer) Login(ctx context.Context, in *user.LoginReq) (*user.LoginResp, error) {
+	l := loginlogic.NewLoginLogic(ctx, s.svcCtx)
+	return l.Login(in)
+}
