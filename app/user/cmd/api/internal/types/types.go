@@ -46,6 +46,16 @@ type DictInfoByTypeResp struct {
 	Data []*DictInfo `json:"data"` // 字典列表
 }
 
+type LoginQrCodeData struct {
+	TicketQrCodeUrl string `json:"ticketQrCodeUrl"`
+	Ticket          string `json:"ticket"`
+}
+
+type LoginQrCodeResp struct {
+	BaseResp
+	Data LoginQrCodeData `json:"data"`
+}
+
 type LoginReq struct {
 	Phone            string `json:"phone"`            // 手机号码
 	VerificationCode string `json:"verificationCode"` // 手机验证码

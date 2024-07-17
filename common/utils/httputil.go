@@ -15,20 +15,25 @@ func HTTPPostAndParseJSON(url string, requestData interface{}, responseData inte
 	// 将请求数据转换为JSON格式
 	requestBody, err := json.Marshal(requestData)
 	if err != nil {
-		return fmt.Errorf("解析JSON失败, err: %v", err)
+		return fmt.Errorf("解析请求JSON失败, err: %v", err)
 	}
 
 	// 发起HTTP POST请求
-	resp, err := http.Post(url, "application/json", bytes.NewBuffer(requestBody))
+	resp, err := http.Post(url, "application/json", bytes.NewReader(requestBody))
 	if err != nil {
 		return fmt.Errorf("发送POST请求失败, err: %v", err)
 	}
 	defer func() {
 		err := resp.Body.Close()
 		if err != nil {
-			return
+			logx.Errorf("关闭响应体失败: %v", err)
 		}
 	}()
+
+	// 检查响应状态码
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("发送GET请求失败: %s", resp.Status)
+	}
 
 	// 读取响应体
 	body, err := io.ReadAll(resp.Body)
@@ -39,7 +44,7 @@ func HTTPPostAndParseJSON(url string, requestData interface{}, responseData inte
 	// 解析JSON响应数据
 	err = json.Unmarshal(body, responseData)
 	if err != nil {
-		return fmt.Errorf("解析JSON失败, err :%v", err)
+		return fmt.Errorf("解析返回JSON失败, err :%v", err)
 	}
 
 	logx.Infof("发送 HTTP POST 响应体: %v", responseData)
@@ -57,24 +62,25 @@ func HTTPGetAndParseJSON(url string, responseData interface{}) error {
 	defer func() {
 		err := resp.Body.Close()
 		if err != nil {
-			return
+			logx.Errorf("关闭响应体失败: %v", err)
 		}
 	}()
 
 	// 检查响应状态码
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("HTTP GET request failed with status: %s", resp.Status)
+		return fmt.Errorf("发送GET请求失败: %s", resp.Status)
 	}
 
-	// 读取并解析 JSON 响应数据
+	// 读取响应体
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return fmt.Errorf("读取响应体失败, err: %v", err)
 	}
 
+	// 解析JSON响应数据
 	err = json.Unmarshal(body, responseData)
 	if err != nil {
-		return fmt.Errorf("解析JSON失败, err: %v", err)
+		return fmt.Errorf("解析返回JSON失败, err: %v", err)
 	}
 
 	logx.Infof("发送 HTTP GET 响应体: %v", responseData)

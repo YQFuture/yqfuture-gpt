@@ -1,0 +1,447 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "用户服务",
+    "description": "用户服务",
+    "version": "v1"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/login/getCaptcha": {
+      "get": {
+        "summary": "获取图像验证码",
+        "operationId": "getCaptcha",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CaptchaResp"
+            }
+          }
+        },
+        "tags": [
+          "login"
+        ]
+      }
+    },
+    "/login/getVerificationCode": {
+      "post": {
+        "summary": "获取手机短信验证码",
+        "operationId": "getVerificationCode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 获取手机验证码请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VerificationCodeReq"
+            }
+          }
+        ],
+        "tags": [
+          "login"
+        ]
+      }
+    },
+    "/login/login": {
+      "post": {
+        "summary": "登录",
+        "operationId": "login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LoginResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginReq"
+            }
+          }
+        ],
+        "tags": [
+          "login"
+        ]
+      }
+    },
+    "/login/register": {
+      "post": {
+        "summary": "注册",
+        "operationId": "register",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/RegisterResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 注册请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegisterReq"
+            }
+          }
+        ],
+        "tags": [
+          "login"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "BasePageReq": {
+      "type": "object",
+      "properties": {
+        "pageNum": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页码"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页条数"
+        },
+        "query": {
+          "type": "string",
+          "description": " 查询条件"
+        }
+      },
+      "title": "BasePageReq",
+      "required": [
+        "pageNum",
+        "pageSize",
+        "query"
+      ]
+    },
+    "BasePageResp": {
+      "type": "object",
+      "properties": {
+        "pageNum": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页码"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页条数"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 总条数"
+        }
+      },
+      "title": "BasePageResp",
+      "required": [
+        "pageNum",
+        "pageSize",
+        "total"
+      ]
+    },
+    "BaseReq": {
+      "type": "object",
+      "title": "BaseReq"
+    },
+    "BaseResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "BaseResp",
+      "required": [
+        "code",
+        "msg"
+      ]
+    },
+    "CaptchaData": {
+      "type": "object",
+      "properties": {
+        "captchaId": {
+          "type": "string",
+          "description": " 验证码ID"
+        },
+        "captchaImg": {
+          "type": "string",
+          "description": " 验证码图片"
+        }
+      },
+      "title": "CaptchaData",
+      "required": [
+        "captchaId",
+        "captchaImg"
+      ]
+    },
+    "CaptchaResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "$ref": "#/definitions/CaptchaData",
+          "description": " 图形验证码信息"
+        }
+      },
+      "title": "CaptchaResp",
+      "required": [
+        "data"
+      ]
+    },
+    "DictInfo": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": " 名称"
+        },
+        "value": {
+          "type": "string",
+          "description": " 值"
+        },
+        "orderNum": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 排序"
+        }
+      },
+      "title": "DictInfo",
+      "required": [
+        "name",
+        "value",
+        "orderNum"
+      ]
+    },
+    "DictInfoByTypeReq": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": " 类型key"
+        }
+      },
+      "title": "DictInfoByTypeReq",
+      "required": [
+        "key"
+      ]
+    },
+    "DictInfoByTypeResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DictInfo"
+          },
+          "description": " 字典列表"
+        }
+      },
+      "title": "DictInfoByTypeResp",
+      "required": [
+        "data"
+      ]
+    },
+    "LoginReq": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string",
+          "description": " 手机号码"
+        },
+        "verificationCode": {
+          "type": "string",
+          "description": " 手机验证码"
+        },
+        "captchaId": {
+          "type": "string",
+          "description": " 验证码ID"
+        },
+        "answer": {
+          "type": "string",
+          "description": " 验证码答案"
+        }
+      },
+      "title": "LoginReq",
+      "required": [
+        "phone",
+        "verificationCode",
+        "captchaId",
+        "answer"
+      ]
+    },
+    "LoginResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "$ref": "#/definitions/UserInfo",
+          "description": " 用户信息"
+        }
+      },
+      "title": "LoginResp",
+      "required": [
+        "data"
+      ]
+    },
+    "RegisterReq": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string",
+          "description": " 手机号码"
+        },
+        "verificationCode": {
+          "type": "string",
+          "description": " 手机验证码"
+        },
+        "captchaId": {
+          "type": "string",
+          "description": " 验证码ID"
+        },
+        "answer": {
+          "type": "string",
+          "description": " 验证码答案"
+        }
+      },
+      "title": "RegisterReq",
+      "required": [
+        "phone",
+        "verificationCode",
+        "captchaId",
+        "answer"
+      ]
+    },
+    "RegisterResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "$ref": "#/definitions/UserInfo",
+          "description": " 用户信息"
+        }
+      },
+      "title": "RegisterResp",
+      "required": [
+        "data"
+      ]
+    },
+    "UserInfo": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": " JWT Token"
+        },
+        "phone": {
+          "type": "string",
+          "description": " 手机号码"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 昵称"
+        },
+        "headImg": {
+          "type": "string",
+          "description": " 头像"
+        }
+      },
+      "title": "UserInfo",
+      "required": [
+        "token",
+        "phone",
+        "nickname",
+        "headImg"
+      ]
+    },
+    "VerificationCodeReq": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string",
+          "description": " 手机号码"
+        }
+      },
+      "title": "VerificationCodeReq",
+      "required": [
+        "phone"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

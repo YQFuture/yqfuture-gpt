@@ -20,6 +20,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: login.GetCaptchaHandler(serverCtx),
 			},
 			{
+				// 获取微信登录二维码
+				Method:  http.MethodGet,
+				Path:    "/getLoginQrCode",
+				Handler: login.GetLoginQrCodeHandler(serverCtx),
+			},
+			{
 				// 获取手机短信验证码
 				Method:  http.MethodPost,
 				Path:    "/getVerificationCode",

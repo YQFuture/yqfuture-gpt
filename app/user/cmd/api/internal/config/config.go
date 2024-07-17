@@ -24,4 +24,12 @@ type Config struct {
 		SignName        string
 		TemplateCode    string
 	}
+	// 微信公众号
+	WechatConf struct {
+		AppId          string
+		Secret         string
+		AccessTokenUrl string
+		TicketUrl      string
+		QrCodeUrl      string
+	}
 }

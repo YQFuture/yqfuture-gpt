@@ -65,4 +65,13 @@ type (
         Data UserInfo `json:"data"` // 用户信息
     }
 
+    LoginQrCodeResp {
+        BaseResp
+        Data LoginQrCodeData `json:"data"`
+    }
+
+    LoginQrCodeData {
+        TicketQrCodeUrl string `json:"ticketQrCodeUrl"`
+        Ticket string `json:"ticket"`
+    }
 )

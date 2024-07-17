@@ -19,6 +19,10 @@ import (
 	group:  login
 )
 service user {
+	@doc "获取微信登录二维码"
+	@handler getLoginQrCode
+	get /getLoginQrCode (BaseReq) returns (LoginQrCodeResp)
+
 	@doc "获取图像验证码"
 	@handler getCaptcha
 	get /getCaptcha (BaseReq) returns (CaptchaResp)
