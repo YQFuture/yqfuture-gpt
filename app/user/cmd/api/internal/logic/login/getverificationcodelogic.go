@@ -8,13 +8,13 @@ import (
 	"regexp"
 	"time"
 	"yufuture-gpt/app/user/cmd/api/internal/svc"
+	"yufuture-gpt/app/user/cmd/api/internal/thirdparty"
 	"yufuture-gpt/app/user/cmd/api/internal/types"
 	"yufuture-gpt/app/user/model/redis"
 	"yufuture-gpt/common/consts"
 
 	openapi "github.com/alibabacloud-go/darabonba-openapi/v2/client"
 	dysmsapi20170525 "github.com/alibabacloud-go/dysmsapi-20170525/v4/client"
-	util "github.com/alibabacloud-go/tea-utils/v2/service"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -72,24 +72,17 @@ func (l *GetVerificationCodeLogic) GetVerificationCode(req *types.VerificationCo
 	randomNumber := rng.Intn(1000000)
 	verificationCode := fmt.Sprintf("%06d", randomNumber)
 
-	// 构建发送模板 发送短信
-	client, err := CreateClient(l.svcCtx.Config.SmsConf.AccessKeyId, l.svcCtx.Config.SmsConf.AccessKeySecret, l.svcCtx.Config.SmsConf.Domain)
+	// 发送短信
+	err = thirdparty.SendVerificationCode(l.Logger,
+		l.svcCtx.Config.SmsConf.AccessKeyId,
+		l.svcCtx.Config.SmsConf.AccessKeySecret,
+		l.svcCtx.Config.SmsConf.Domain,
+		req.Phone,
+		l.svcCtx.Config.SmsConf.SignName,
+		l.svcCtx.Config.SmsConf.TemplateCode,
+		verificationCode)
 	if err != nil {
-		l.Logger.Error("创建发送短信客户端失败", err)
-		return &types.BaseResp{
-			Code: consts.Fail,
-			Msg:  "发送失败",
-		}, nil
-	}
-	sendSmsRequest := &dysmsapi20170525.SendSmsRequest{
-		PhoneNumbers:  tea.String(req.Phone),
-		SignName:      tea.String(l.svcCtx.Config.SmsConf.SignName),
-		TemplateCode:  tea.String(l.svcCtx.Config.SmsConf.TemplateCode),
-		TemplateParam: tea.String("{code:" + verificationCode + "}"),
-	}
-	_, err = client.SendSmsWithOptions(sendSmsRequest, &util.RuntimeOptions{})
-	if err != nil {
-		l.Logger.Error("发送短信失败", err)
+		l.Logger.Error("发送手机短信失败: ", err)
 		return &types.BaseResp{
 			Code: consts.Fail,
 			Msg:  "发送失败",
