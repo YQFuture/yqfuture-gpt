@@ -45,7 +45,7 @@ service user {
 }
 
 @server (
-	prefix: wechat
+	prefix: user
 	group:  user
 	jwt:    Auth
 )
