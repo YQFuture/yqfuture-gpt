@@ -194,3 +194,136 @@ var Login_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "user.proto",
 }
+
+const (
+	User_GetCurrentUserData_FullMethodName = "/user.User/getCurrentUserData"
+	User_BindPhone_FullMethodName          = "/user.User/bindPhone"
+)
+
+// UserClient is the client API for User service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type UserClient interface {
+	// 获取当前登录用户数据
+	GetCurrentUserData(ctx context.Context, in *CurrentUserDataReq, opts ...grpc.CallOption) (*CurrentUserDataResp, error)
+	// 绑定手机号
+	BindPhone(ctx context.Context, in *BindPhoneReq, opts ...grpc.CallOption) (*BindPhoneResp, error)
+}
+
+type userClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewUserClient(cc grpc.ClientConnInterface) UserClient {
+	return &userClient{cc}
+}
+
+func (c *userClient) GetCurrentUserData(ctx context.Context, in *CurrentUserDataReq, opts ...grpc.CallOption) (*CurrentUserDataResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CurrentUserDataResp)
+	err := c.cc.Invoke(ctx, User_GetCurrentUserData_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) BindPhone(ctx context.Context, in *BindPhoneReq, opts ...grpc.CallOption) (*BindPhoneResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BindPhoneResp)
+	err := c.cc.Invoke(ctx, User_BindPhone_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// UserServer is the server API for User service.
+// All implementations must embed UnimplementedUserServer
+// for forward compatibility
+type UserServer interface {
+	// 获取当前登录用户数据
+	GetCurrentUserData(context.Context, *CurrentUserDataReq) (*CurrentUserDataResp, error)
+	// 绑定手机号
+	BindPhone(context.Context, *BindPhoneReq) (*BindPhoneResp, error)
+	mustEmbedUnimplementedUserServer()
+}
+
+// UnimplementedUserServer must be embedded to have forward compatible implementations.
+type UnimplementedUserServer struct {
+}
+
+func (UnimplementedUserServer) GetCurrentUserData(context.Context, *CurrentUserDataReq) (*CurrentUserDataResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCurrentUserData not implemented")
+}
+func (UnimplementedUserServer) BindPhone(context.Context, *BindPhoneReq) (*BindPhoneResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BindPhone not implemented")
+}
+func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
+
+// UnsafeUserServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to UserServer will
+// result in compilation errors.
+type UnsafeUserServer interface {
+	mustEmbedUnimplementedUserServer()
+}
+
+func RegisterUserServer(s grpc.ServiceRegistrar, srv UserServer) {
+	s.RegisterService(&User_ServiceDesc, srv)
+}
+
+func _User_GetCurrentUserData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CurrentUserDataReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetCurrentUserData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetCurrentUserData_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetCurrentUserData(ctx, req.(*CurrentUserDataReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_BindPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BindPhoneReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).BindPhone(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_BindPhone_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).BindPhone(ctx, req.(*BindPhoneReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// User_ServiceDesc is the grpc.ServiceDesc for User service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var User_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "user.User",
+	HandlerType: (*UserServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "getCurrentUserData",
+			Handler:    _User_GetCurrentUserData_Handler,
+		},
+		{
+			MethodName: "bindPhone",
+			Handler:    _User_BindPhone_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "user.proto",
+}

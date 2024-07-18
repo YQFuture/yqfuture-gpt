@@ -21,6 +21,11 @@ type BaseResp struct {
 	Msg  string `json:"msg"`  // 信息
 }
 
+type BindPhoneReq struct {
+	Phone            string `json:"phone"`            // 手机号码
+	VerificationCode string `json:"verificationCode"` // 手机验证码
+}
+
 type CaptchaData struct {
 	CaptchaId  string `json:"captchaId"`  // 验证码ID
 	CaptchaImg string `json:"captchaImg"` // 验证码图片
@@ -29,6 +34,14 @@ type CaptchaData struct {
 type CaptchaResp struct {
 	BaseResp
 	Data CaptchaData `json:"data"` // 图形验证码信息
+}
+
+type CurrentUserData struct {
+}
+
+type CurrentUserDataResp struct {
+	BaseResp
+	Data CurrentUserData `json:"data"` // 当前登录用户数据
 }
 
 type DictInfo struct {

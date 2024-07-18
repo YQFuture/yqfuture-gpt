@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	login "yufuture-gpt/app/user/cmd/api/internal/handler/login"
+	user "yufuture-gpt/app/user/cmd/api/internal/handler/user"
 	"yufuture-gpt/app/user/cmd/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -68,6 +69,25 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: login.WechatCallBackPostHandler(serverCtx),
 			},
 		},
+		rest.WithPrefix("/wechat"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 绑定手机号码
+				Method:  http.MethodPost,
+				Path:    "/bindPhone",
+				Handler: user.BindPhoneHandler(serverCtx),
+			},
+			{
+				// 获取当前登录用户数据
+				Method:  http.MethodPost,
+				Path:    "/getCurrentUserData",
+				Handler: user.GetCurrentUserDataHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/wechat"),
 	)
 }

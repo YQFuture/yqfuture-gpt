@@ -7,6 +7,7 @@ import (
 
 	"yufuture-gpt/app/user/cmd/rpc/internal/config"
 	loginServer "yufuture-gpt/app/user/cmd/rpc/internal/server/login"
+	userServer "yufuture-gpt/app/user/cmd/rpc/internal/server/user"
 	"yufuture-gpt/app/user/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/user/cmd/rpc/pb/user"
 
@@ -28,6 +29,7 @@ func main() {
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
 		user.RegisterLoginServer(grpcServer, loginServer.NewLoginServer(ctx))
+		user.RegisterUserServer(grpcServer, userServer.NewUserServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)

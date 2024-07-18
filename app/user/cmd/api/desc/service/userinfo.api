@@ -90,6 +90,26 @@ type (
     }
 )
 
+type (
+    // 获取当前登录用户数据返回体
+    CurrentUserDataResp {
+        BaseResp
+        Data CurrentUserData `json:"data"` // 当前登录用户数据
+    }
+
+        // 当前登录用户数据
+    CurrentUserData {
+
+    }
+
+        // 绑定手机号请求体
+    BindPhoneReq {
+        Phone string `json:"phone"`                      // 手机号码
+        VerificationCode string `json:"verificationCode"`// 手机验证码
+    }
+)
+
+
 // 微信回调接口
 type (
     // 微信回调请求体

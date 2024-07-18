@@ -47,3 +47,31 @@ service Login {
   // 获取微信用户信息
   rpc getWechatUserInfo(WechatUserInfoReq) returns (WechatUserInfoResp);
 }
+
+// 获取当前登录用户数据请求体
+message CurrentUserDataReq {
+  int64 userId = 1;
+}
+// 获取当前登录用户数据返回体
+message CurrentUserDataResp {
+  int64 code = 1;
+  CurrentUserData result = 2;
+}
+// 当前登录用户数据
+message CurrentUserData {
+}
+// 绑定手机号请求体
+message BindPhoneReq {
+  int64 userId = 1;
+  string phone = 2;
+}
+// 绑定手机号返回体
+message BindPhoneResp {
+  int64 code = 1;
+}
+service User {
+  // 获取当前登录用户数据
+  rpc getCurrentUserData(CurrentUserDataReq) returns (CurrentUserDataResp);
+  // 绑定手机号
+  rpc bindPhone(BindPhoneReq) returns (BindPhoneResp);
+}

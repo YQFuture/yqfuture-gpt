@@ -11,6 +11,7 @@ type ServiceContext struct {
 	Config      config.Config
 	Redis       *redis.Redis
 	LoginClient user.LoginClient
+	UserClient  user.UserClient
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -19,5 +20,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Config:      c,
 		Redis:       redis.MustNewRedis(c.RedisConf),
 		LoginClient: user.NewLoginClient(conn),
+		UserClient:  user.NewUserClient(conn),
 	}
 }

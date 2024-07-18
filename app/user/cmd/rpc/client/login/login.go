@@ -13,13 +13,18 @@ import (
 )
 
 type (
-	LoginReq           = user.LoginReq
-	LoginResp          = user.LoginResp
-	RegisterReq        = user.RegisterReq
-	RegisterResp       = user.RegisterResp
-	UserInfo           = user.UserInfo
-	WechatUserInfoReq  = user.WechatUserInfoReq
-	WechatUserInfoResp = user.WechatUserInfoResp
+	BindPhoneReq        = user.BindPhoneReq
+	BindPhoneResp       = user.BindPhoneResp
+	CurrentUserData     = user.CurrentUserData
+	CurrentUserDataReq  = user.CurrentUserDataReq
+	CurrentUserDataResp = user.CurrentUserDataResp
+	LoginReq            = user.LoginReq
+	LoginResp           = user.LoginResp
+	RegisterReq         = user.RegisterReq
+	RegisterResp        = user.RegisterResp
+	UserInfo            = user.UserInfo
+	WechatUserInfoReq   = user.WechatUserInfoReq
+	WechatUserInfoResp  = user.WechatUserInfoResp
 
 	Login interface {
 		// 注册
