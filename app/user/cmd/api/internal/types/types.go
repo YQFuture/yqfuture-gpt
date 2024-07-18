@@ -70,10 +70,11 @@ type LoginQrCodeResp struct {
 }
 
 type LoginReq struct {
-	Phone            string `json:"phone"`            // 手机号码
-	VerificationCode string `json:"verificationCode"` // 手机验证码
-	CaptchaId        string `json:"captchaId"`        // 验证码ID
-	Answer           string `json:"answer"`           // 验证码答案
+	Phone               string `json:"phone"`               // 手机号码
+	VerificationCode    string `json:"verificationCode"`    // 手机验证码
+	CaptchaId           string `json:"captchaId"`           // 验证码ID
+	Answer              string `json:"answer"`              // 验证码答案
+	ThirtyDaysFreeLogin bool   `json:"thirtyDaysFreeLogin"` // 是否30天免登录
 }
 
 type LoginResp struct {
@@ -82,7 +83,8 @@ type LoginResp struct {
 }
 
 type QrCodeLoginStatusReq struct {
-	Ticket string `json:"ticket"` // 二维码票据
+	Ticket              string `json:"ticket"`              // 二维码票据
+	ThirtyDaysFreeLogin bool   `json:"thirtyDaysFreeLogin"` // 是否30天免登录
 }
 
 type QrCodeLoginStatusResp struct {

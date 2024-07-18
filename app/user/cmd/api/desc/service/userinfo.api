@@ -54,10 +54,11 @@ type (
     }
         // 登录请求体
     LoginReq {
-        Phone string `json:"phone"`                      // 手机号码
-        VerificationCode string `json:"verificationCode"`// 手机验证码
-        CaptchaId string `json:"captchaId"`              // 验证码ID
-        Answer string `json:"answer"`                    // 验证码答案
+        Phone string `json:"phone"`                           // 手机号码
+        VerificationCode string `json:"verificationCode"`     // 手机验证码
+        CaptchaId string `json:"captchaId"`                   // 验证码ID
+        Answer string `json:"answer"`                         // 验证码答案
+        ThirtyDaysFreeLogin bool `json:"thirtyDaysFreeLogin"` // 是否30天免登录
     }
 
         // 登录返回体
@@ -80,7 +81,8 @@ type (
 
         // 微信扫码登录状态请求体
     QrCodeLoginStatusReq {
-        Ticket string `json:"ticket"`                   // 二维码票据
+        Ticket string `json:"ticket"`                         // 二维码票据
+        ThirtyDaysFreeLogin bool `json:"thirtyDaysFreeLogin"` // 是否30天免登录
     }
 
         // 微信扫码登录状态返回体

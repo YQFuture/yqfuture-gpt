@@ -249,82 +249,6 @@
           }
         ]
       }
-    },
-    "/wechat/wechatCallBack": {
-      "get": {
-        "summary": "微信回调绑定接口",
-        "operationId": "wechatCallBackGet",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/string"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "signature",
-            "description": " 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。",
-            "in": "query",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "timestamp",
-            "description": " 时间戳",
-            "in": "query",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "nonce",
-            "description": " 随机数",
-            "in": "query",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "echostr",
-            "description": " 随机字符串",
-            "in": "query",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "login"
-        ],
-        "consumes": [
-          "multipart/form-data"
-        ]
-      },
-      "post": {
-        "summary": "微信回调",
-        "operationId": "wechatCallBackPost",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/BaseResp"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "description": " 微信回调请求体",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/WechatCallBackPostReq"
-            }
-          }
-        ],
-        "tags": [
-          "login"
-        ]
-      }
     }
   },
   "definitions": {
@@ -606,6 +530,11 @@
         "answer": {
           "type": "string",
           "description": " 验证码答案"
+        },
+        "thirtyDaysFreeLogin": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": " 是否30天免登录"
         }
       },
       "title": "LoginReq",
@@ -613,7 +542,8 @@
         "phone",
         "verificationCode",
         "captchaId",
-        "answer"
+        "answer",
+        "thirtyDaysFreeLogin"
       ]
     },
     "LoginResp": {
@@ -644,11 +574,17 @@
         "ticket": {
           "type": "string",
           "description": " 二维码票据"
+        },
+        "thirtyDaysFreeLogin": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": " 是否30天免登录"
         }
       },
       "title": "QrCodeLoginStatusReq",
       "required": [
-        "ticket"
+        "ticket",
+        "thirtyDaysFreeLogin"
       ]
     },
     "QrCodeLoginStatusResp": {

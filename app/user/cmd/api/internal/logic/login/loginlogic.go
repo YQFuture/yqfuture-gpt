@@ -91,11 +91,15 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 	}
 
 	// 生成 Token
+	accessExpire := l.svcCtx.Config.Auth.AccessExpire
+	if req.ThirtyDaysFreeLogin {
+		accessExpire = 2592000
+	}
 	payload := map[string]interface{}{
 		"id":      loginResp.Result.Id,
 		"ex_time": time.Now().AddDate(0, 0, 7),
 	}
-	token, err := GetJwtToken(l.svcCtx.Config.Auth.AccessSecret, l.svcCtx.Config.Auth.AccessExpire, payload)
+	token, err := GetJwtToken(l.svcCtx.Config.Auth.AccessSecret, accessExpire, payload)
 	if err != nil {
 		l.Logger.Error("生成token失败", err)
 		return &types.LoginResp{

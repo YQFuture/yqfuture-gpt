@@ -63,11 +63,15 @@ func (l *GetQrCodeLoginStatusLogic) GetQrCodeLoginStatus(req *types.QrCodeLoginS
 	}
 
 	// 生成 Token
+	accessExpire := l.svcCtx.Config.Auth.AccessExpire
+	if req.ThirtyDaysFreeLogin {
+		accessExpire = 2592000
+	}
 	payload := map[string]interface{}{
 		"id":      infoResp.Result.Id,
 		"ex_time": time.Now().AddDate(0, 0, 7),
 	}
-	token, err := GetJwtToken(l.svcCtx.Config.Auth.AccessSecret, l.svcCtx.Config.Auth.AccessExpire, payload)
+	token, err := GetJwtToken(l.svcCtx.Config.Auth.AccessSecret, accessExpire, payload)
 	if err != nil {
 		l.Logger.Error("生成token失败", err)
 		return &types.QrCodeLoginStatusResp{
