@@ -16,7 +16,6 @@ func WechatCallBackGetHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
-
 		l := login.NewWechatCallBackGetLogic(r.Context(), svcCtx)
 		resp, err := l.WechatCallBackGet(&req)
 		if err != nil {

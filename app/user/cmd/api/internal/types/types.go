@@ -99,11 +99,20 @@ type WechatCallBackGetReq struct {
 }
 
 type WechatCallBackPostReq struct {
+	Signature    string `json:"signature"`    // 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
+	Timestamp    string `json:"timestamp"`    // 时间戳
+	Nonce        string `json:"nonce"`        // 随机数
 	ToUserName   string `json:"ToUserName"`   // 开发者微信号
 	FromUserName string `json:"FromUserName"` // 发送方帐号（一个OpenID）
 	CreateTime   int64  `json:"CreateTime"`   // 消息创建时间 （整型）
 	MsgType      string `json:"MsgType"`      // 消息类型，event
 	Event        string `json:"Event"`        // 事件类型 subscribe 或 SCAN
-	EventKey     int32  `json:"EventKey"`     // 事件KEY值
+	EventKey     string `json:"EventKey"`     // 事件KEY值
 	Ticket       string `json:"Ticket"`       // 二维码的ticket，可用来换取二维码图片
+}
+
+type WechatCallBackPostSignReq struct {
+	Signature string `form:"signature"` // 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
+	Timestamp string `form:"timestamp"` // 时间戳
+	Nonce     string `form:"nonce"`     // 随机数
 }

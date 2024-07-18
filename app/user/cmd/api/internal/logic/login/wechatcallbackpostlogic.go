@@ -2,6 +2,8 @@ package login
 
 import (
 	"context"
+	"errors"
+	"fmt"
 
 	"yufuture-gpt/app/user/cmd/api/internal/svc"
 	"yufuture-gpt/app/user/cmd/api/internal/types"
@@ -25,7 +27,14 @@ func NewWechatCallBackPostLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 func (l *WechatCallBackPostLogic) WechatCallBackPost(req *types.WechatCallBackPostReq) (resp *types.BaseResp, err error) {
-	// todo: add your logic here and delete this line
+	if !CheckSignature(l.svcCtx.Config.WechatConf.Token, req.Signature, req.Timestamp, req.Nonce) {
+		return nil, errors.New("签名错误")
+	}
 
+	fmt.Println("-------------------------------------------")
+	fmt.Println(req.Event)
+	fmt.Println(req.Ticket)
+	fmt.Println(req.FromUserName)
+	fmt.Println("-------------------------------------------")
 	return
 }
