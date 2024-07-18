@@ -47,13 +47,13 @@ type DictInfoByTypeResp struct {
 }
 
 type LoginQrCodeData struct {
-	TicketQrCodeUrl string `json:"ticketQrCodeUrl"`
-	Ticket          string `json:"ticket"`
+	TicketQrCodeUrl string `json:"ticketQrCodeUrl"` // 二维码图片链接
+	Ticket          string `json:"ticket"`          // 二维码票据
 }
 
 type LoginQrCodeResp struct {
 	BaseResp
-	Data LoginQrCodeData `json:"data"`
+	Data LoginQrCodeData `json:"data"` // 登录二维码内容
 }
 
 type LoginReq struct {
@@ -89,4 +89,21 @@ type UserInfo struct {
 
 type VerificationCodeReq struct {
 	Phone string `json:"phone"` // 手机号码
+}
+
+type WechatCallBackGetReq struct {
+	Signature string `form:"signature"` // 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
+	Timestamp string `form:"timestamp"` // 时间戳
+	Nonce     string `form:"nonce"`     // 随机数
+	Echostr   string `form:"echostr"`   // 随机字符串
+}
+
+type WechatCallBackPostReq struct {
+	ToUserName   string `json:"ToUserName"`   // 开发者微信号
+	FromUserName string `json:"FromUserName"` // 发送方帐号（一个OpenID）
+	CreateTime   int64  `json:"CreateTime"`   // 消息创建时间 （整型）
+	MsgType      string `json:"MsgType"`      // 消息类型，event
+	Event        string `json:"Event"`        // 事件类型 subscribe 或 SCAN
+	EventKey     int32  `json:"EventKey"`     // 事件KEY值
+	Ticket       string `json:"Ticket"`       // 二维码的ticket，可用来换取二维码图片
 }

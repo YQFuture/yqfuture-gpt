@@ -26,52 +26,77 @@ type (
         CaptchaImg string `json:"captchaImg"` // 验证码图片
     }
 
-    // 获取手机验证码请求体
+        // 获取手机验证码请求体
     VerificationCodeReq {
         Phone string `json:"phone"` // 手机号码
     }
 
-    // 注册请求体
+        // 注册请求体
     RegisterReq {
-        Phone string `json:"phone"` // 手机号码
+        Phone string `json:"phone"`                      // 手机号码
         VerificationCode string `json:"verificationCode"`// 手机验证码
-        CaptchaId string `json:"captchaId"` // 验证码ID
-        Answer string `json:"answer"` // 验证码答案
+        CaptchaId string `json:"captchaId"`              // 验证码ID
+        Answer string `json:"answer"`                    // 验证码答案
     }
 
-    // 注册返回体
+        // 注册返回体
     RegisterResp {
         BaseResp
         Data UserInfo `json:"data"` // 用户信息
     }
 
-    // 登录/注册成功后返回的用户信息
+        // 登录/注册成功后返回的用户信息
     UserInfo {
-        Token string `json:"token"` // JWT Token
-        Phone string `json:"phone"` // 手机号码
+        Token string `json:"token"`       // JWT Token
+        Phone string `json:"phone"`       // 手机号码
         NickName string `json:"nickname"` // 昵称
-        HeadImg string `json:"headImg"` // 头像
+        HeadImg string `json:"headImg"`   // 头像
     }
-
+        // 登录请求体
     LoginReq {
-        Phone string `json:"phone"` // 手机号码
+        Phone string `json:"phone"`                      // 手机号码
         VerificationCode string `json:"verificationCode"`// 手机验证码
-        CaptchaId string `json:"captchaId"` // 验证码ID
-        Answer string `json:"answer"` // 验证码答案
+        CaptchaId string `json:"captchaId"`              // 验证码ID
+        Answer string `json:"answer"`                    // 验证码答案
     }
 
+        // 登录返回体
     LoginResp {
         BaseResp
         Data UserInfo `json:"data"` // 用户信息
     }
 
+        // 获取登录二维码返回体
     LoginQrCodeResp {
         BaseResp
-        Data LoginQrCodeData `json:"data"`
+        Data LoginQrCodeData `json:"data"` // 登录二维码内容
     }
 
+        // 登录二维码内容
     LoginQrCodeData {
-        TicketQrCodeUrl string `json:"ticketQrCodeUrl"`
-        Ticket string `json:"ticket"`
+        TicketQrCodeUrl string `json:"ticketQrCodeUrl"` // 二维码图片链接
+        Ticket string `json:"ticket"`                   // 二维码票据
+    }
+)
+
+// 微信回调接口
+type (
+    // 微信回调请求体
+    WechatCallBackGetReq {
+        Signature string `form:"signature"`  // 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
+        Timestamp string `form:"timestamp"`   // 时间戳
+        Nonce string `form:"nonce"`          // 随机数
+        Echostr string `form:"echostr"`      // 随机字符串
+    }
+
+        // 微信回调请求体
+    WechatCallBackPostReq {
+        ToUserName string `json:"ToUserName"`     // 开发者微信号
+        FromUserName string `json:"FromUserName"` // 发送方帐号（一个OpenID）
+        CreateTime int64 `json:"CreateTime"`      // 消息创建时间 （整型）
+        MsgType string `json:"MsgType"`           // 消息类型，event
+        Event string `json:"Event"`               // 事件类型 subscribe 或 SCAN
+        EventKey int32 `json:"EventKey"`          // 事件KEY值
+        Ticket string `json:"Ticket"`             // 二维码的ticket，可用来换取二维码图片
     }
 )

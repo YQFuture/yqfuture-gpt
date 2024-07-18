@@ -31,5 +31,6 @@ type Config struct {
 		AccessTokenUrl string
 		TicketUrl      string
 		QrCodeUrl      string
+		Token          string
 	}
 }

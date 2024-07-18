@@ -40,3 +40,17 @@ service user {
 	post /login (LoginReq) returns (LoginResp)
 }
 
+@server (
+	prefix: wechat
+	group:  login
+)
+service user {
+	@doc "微信回调"
+	@handler wechatCallBackGet
+	get /wechatCallBack (WechatCallBackGetReq) returns (string)
+
+	@doc "微信回调"
+	@handler wechatCallBackPost
+	post /wechatCallBack (WechatCallBackPostReq) returns (BaseResp)
+}
+
