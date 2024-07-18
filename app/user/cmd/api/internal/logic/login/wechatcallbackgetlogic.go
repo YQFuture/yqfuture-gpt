@@ -30,11 +30,10 @@ func NewWechatCallBackGetLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 
 func (l *WechatCallBackGetLogic) WechatCallBackGet(req *types.WechatCallBackGetReq) (resp string, err error) {
 	// 验证消息来源
-	if CheckSignature(l.svcCtx.Config.WechatConf.Token, req.Signature, req.Timestamp, req.Nonce) {
-		return req.Echostr, nil
-	} else {
+	if !CheckSignature(l.svcCtx.Config.WechatConf.Token, req.Signature, req.Timestamp, req.Nonce) {
 		return "参数错误", nil
 	}
+	return req.Echostr, nil
 }
 
 func CheckSignature(token, signature, timestamp, nonce string) bool {
