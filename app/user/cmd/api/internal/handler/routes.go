@@ -26,6 +26,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: login.GetLoginQrCodeHandler(serverCtx),
 			},
 			{
+				// 获取微信扫码登录状态
+				Method:  http.MethodGet,
+				Path:    "/getQrCodeLoginStatus",
+				Handler: login.GetQrCodeLoginStatusHandler(serverCtx),
+			},
+			{
 				// 获取手机短信验证码
 				Method:  http.MethodPost,
 				Path:    "/getVerificationCode",

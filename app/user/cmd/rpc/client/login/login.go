@@ -13,16 +13,21 @@ import (
 )
 
 type (
-	LoginReq     = user.LoginReq
-	LoginResp    = user.LoginResp
-	RegisterReq  = user.RegisterReq
-	RegisterResp = user.RegisterResp
-	UserInfo     = user.UserInfo
+	LoginReq           = user.LoginReq
+	LoginResp          = user.LoginResp
+	RegisterReq        = user.RegisterReq
+	RegisterResp       = user.RegisterResp
+	UserInfo           = user.UserInfo
+	WechatUserInfoReq  = user.WechatUserInfoReq
+	WechatUserInfoResp = user.WechatUserInfoResp
 
 	Login interface {
 		// 注册
 		Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
+		// 登录
 		Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
+		// 获取微信用户信息
+		GetWechatUserInfo(ctx context.Context, in *WechatUserInfoReq, opts ...grpc.CallOption) (*WechatUserInfoResp, error)
 	}
 
 	defaultLogin struct {
@@ -42,7 +47,14 @@ func (m *defaultLogin) Register(ctx context.Context, in *RegisterReq, opts ...gr
 	return client.Register(ctx, in, opts...)
 }
 
+// 登录
 func (m *defaultLogin) Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
 	client := user.NewLoginClient(m.cli.Conn())
 	return client.Login(ctx, in, opts...)
+}
+
+// 获取微信用户信息
+func (m *defaultLogin) GetWechatUserInfo(ctx context.Context, in *WechatUserInfoReq, opts ...grpc.CallOption) (*WechatUserInfoResp, error) {
+	client := user.NewLoginClient(m.cli.Conn())
+	return client.GetWechatUserInfo(ctx, in, opts...)
 }

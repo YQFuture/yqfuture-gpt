@@ -16,6 +16,7 @@ type (
 		bsUserModel
 		withSession(session sqlx.Session) BsUserModel
 		FindOneByPhone(ctx context.Context, phone string) (*BsUser, error)
+		FindOneByOpenId(ctx context.Context, openid string) (*BsUser, error)
 	}
 
 	customBsUserModel struct {
@@ -39,6 +40,21 @@ func (m *customBsUserModel) FindOneByPhone(ctx context.Context, phone string) (*
 	query := fmt.Sprintf("select %s from %s where `phone` = ? limit 1", bsUserRows, m.table)
 	var resp BsUser
 	err := m.conn.QueryRowCtx(ctx, &resp, query, phone)
+	switch {
+	case err == nil:
+		return &resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return nil, nil
+	default:
+		return nil, err
+	}
+}
+
+// FindOneByOpenId 根据OpenId查询用户
+func (m *customBsUserModel) FindOneByOpenId(ctx context.Context, openid string) (*BsUser, error) {
+	query := fmt.Sprintf("select %s from %s where `openid` = ? limit 1", bsUserRows, m.table)
+	var resp BsUser
+	err := m.conn.QueryRowCtx(ctx, &resp, query, openid)
 	switch {
 	case err == nil:
 		return &resp, nil

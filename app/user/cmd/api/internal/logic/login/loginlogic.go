@@ -69,22 +69,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 		}, nil
 	}
 
-	// 生成 Token
-	payload := map[string]interface{}{
-		"id":      1,
-		"ex_time": time.Now().AddDate(0, 0, 7),
-	}
-	token, err := GetJwtToken(l.svcCtx.Config.Auth.AccessSecret, l.svcCtx.Config.Auth.AccessExpire, payload)
-	if err != nil {
-		l.Logger.Error("生成token失败", err)
-		return &types.LoginResp{
-			BaseResp: types.BaseResp{
-				Code: consts.Fail,
-				Msg:  "登录失败 请重试",
-			},
-		}, nil
-	}
-
+	// 调用RPC接口完成登录
 	loginResp, err := l.svcCtx.LoginClient.Login(l.ctx, &user.LoginReq{
 		Phone: req.Phone,
 	})
@@ -101,6 +86,22 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 			BaseResp: types.BaseResp{
 				Code: consts.PhoneIsNotRegistered,
 				Msg:  "手机号未注册 请先进行注册",
+			},
+		}, nil
+	}
+
+	// 生成 Token
+	payload := map[string]interface{}{
+		"id":      loginResp.Result.Id,
+		"ex_time": time.Now().AddDate(0, 0, 7),
+	}
+	token, err := GetJwtToken(l.svcCtx.Config.Auth.AccessSecret, l.svcCtx.Config.Auth.AccessExpire, payload)
+	if err != nil {
+		l.Logger.Error("生成token失败", err)
+		return &types.LoginResp{
+			BaseResp: types.BaseResp{
+				Code: consts.Fail,
+				Msg:  "登录失败 请重试",
 			},
 		}, nil
 	}

@@ -29,10 +29,21 @@ message LoginResp {
   int64 code = 1;
   UserInfo result = 2;
 }
+// 获取微信用户信息请求体
+message WechatUserInfoReq {
+  string openid = 1;
+}
+// 获取微信用户信息返回体
+message WechatUserInfoResp {
+  int64 code = 1;
+  UserInfo result = 2;
+}
 // 登录注册相关服务
 service Login {
   // 注册
   rpc register(RegisterReq) returns (RegisterResp);
   // 登录
   rpc login(LoginReq) returns (LoginResp);
+  // 获取微信用户信息
+  rpc getWechatUserInfo(WechatUserInfoReq) returns (WechatUserInfoResp);
 }

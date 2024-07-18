@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	Login_Register_FullMethodName = "/user.Login/register"
-	Login_Login_FullMethodName    = "/user.Login/login"
+	Login_Register_FullMethodName          = "/user.Login/register"
+	Login_Login_FullMethodName             = "/user.Login/login"
+	Login_GetWechatUserInfo_FullMethodName = "/user.Login/getWechatUserInfo"
 )
 
 // LoginClient is the client API for Login service.
@@ -31,7 +32,10 @@ const (
 type LoginClient interface {
 	// 注册
 	Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
+	// 登录
 	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
+	// 获取微信用户信息
+	GetWechatUserInfo(ctx context.Context, in *WechatUserInfoReq, opts ...grpc.CallOption) (*WechatUserInfoResp, error)
 }
 
 type loginClient struct {
@@ -62,6 +66,16 @@ func (c *loginClient) Login(ctx context.Context, in *LoginReq, opts ...grpc.Call
 	return out, nil
 }
 
+func (c *loginClient) GetWechatUserInfo(ctx context.Context, in *WechatUserInfoReq, opts ...grpc.CallOption) (*WechatUserInfoResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(WechatUserInfoResp)
+	err := c.cc.Invoke(ctx, Login_GetWechatUserInfo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LoginServer is the server API for Login service.
 // All implementations must embed UnimplementedLoginServer
 // for forward compatibility
@@ -70,7 +84,10 @@ func (c *loginClient) Login(ctx context.Context, in *LoginReq, opts ...grpc.Call
 type LoginServer interface {
 	// 注册
 	Register(context.Context, *RegisterReq) (*RegisterResp, error)
+	// 登录
 	Login(context.Context, *LoginReq) (*LoginResp, error)
+	// 获取微信用户信息
+	GetWechatUserInfo(context.Context, *WechatUserInfoReq) (*WechatUserInfoResp, error)
 	mustEmbedUnimplementedLoginServer()
 }
 
@@ -83,6 +100,9 @@ func (UnimplementedLoginServer) Register(context.Context, *RegisterReq) (*Regist
 }
 func (UnimplementedLoginServer) Login(context.Context, *LoginReq) (*LoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (UnimplementedLoginServer) GetWechatUserInfo(context.Context, *WechatUserInfoReq) (*WechatUserInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetWechatUserInfo not implemented")
 }
 func (UnimplementedLoginServer) mustEmbedUnimplementedLoginServer() {}
 
@@ -133,6 +153,24 @@ func _Login_Login_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Login_GetWechatUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WechatUserInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoginServer).GetWechatUserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Login_GetWechatUserInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoginServer).GetWechatUserInfo(ctx, req.(*WechatUserInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Login_ServiceDesc is the grpc.ServiceDesc for Login service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -147,6 +185,10 @@ var Login_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "login",
 			Handler:    _Login_Login_Handler,
+		},
+		{
+			MethodName: "getWechatUserInfo",
+			Handler:    _Login_GetWechatUserInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

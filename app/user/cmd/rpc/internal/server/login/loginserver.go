@@ -28,7 +28,14 @@ func (s *LoginServer) Register(ctx context.Context, in *user.RegisterReq) (*user
 	return l.Register(in)
 }
 
+// 登录
 func (s *LoginServer) Login(ctx context.Context, in *user.LoginReq) (*user.LoginResp, error) {
 	l := loginlogic.NewLoginLogic(ctx, s.svcCtx)
 	return l.Login(in)
+}
+
+// 获取微信用户信息
+func (s *LoginServer) GetWechatUserInfo(ctx context.Context, in *user.WechatUserInfoReq) (*user.WechatUserInfoResp, error) {
+	l := loginlogic.NewGetWechatUserInfoLogic(ctx, s.svcCtx)
+	return l.GetWechatUserInfo(in)
 }

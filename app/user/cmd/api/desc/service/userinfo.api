@@ -77,6 +77,17 @@ type (
         TicketQrCodeUrl string `json:"ticketQrCodeUrl"` // 二维码图片链接
         Ticket string `json:"ticket"`                   // 二维码票据
     }
+
+        // 微信扫码登录状态请求体
+    QrCodeLoginStatusReq {
+        Ticket string `json:"ticket"`                   // 二维码票据
+    }
+
+        // 微信扫码登录状态返回体
+    QrCodeLoginStatusResp {
+        BaseResp
+        Data UserInfo `json:"data"` // 用户信息
+    }
 )
 
 // 微信回调接口

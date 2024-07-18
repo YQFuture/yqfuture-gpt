@@ -68,6 +68,15 @@ type LoginResp struct {
 	Data UserInfo `json:"data"` // 用户信息
 }
 
+type QrCodeLoginStatusReq struct {
+	Ticket string `json:"ticket"` // 二维码票据
+}
+
+type QrCodeLoginStatusResp struct {
+	BaseResp
+	Data UserInfo `json:"data"` // 用户信息
+}
+
 type RegisterReq struct {
 	Phone            string `json:"phone"`            // 手机号码
 	VerificationCode string `json:"verificationCode"` // 手机验证码

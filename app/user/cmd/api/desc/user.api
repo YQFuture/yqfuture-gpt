@@ -23,6 +23,10 @@ service user {
 	@handler getLoginQrCode
 	get /getLoginQrCode (BaseReq) returns (LoginQrCodeResp)
 
+	@doc "获取微信扫码登录状态"
+	@handler getQrCodeLoginStatus
+	get /getQrCodeLoginStatus (QrCodeLoginStatusReq) returns (QrCodeLoginStatusResp)
+
 	@doc "获取图像验证码"
 	@handler getCaptcha
 	get /getCaptcha (BaseReq) returns (CaptchaResp)
