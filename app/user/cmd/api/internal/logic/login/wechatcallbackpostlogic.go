@@ -3,10 +3,9 @@ package login
 import (
 	"context"
 	"errors"
-	"fmt"
-
 	"yufuture-gpt/app/user/cmd/api/internal/svc"
 	"yufuture-gpt/app/user/cmd/api/internal/types"
+	"yufuture-gpt/app/user/model/redis"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -30,11 +29,13 @@ func (l *WechatCallBackPostLogic) WechatCallBackPost(req *types.WechatCallBackPo
 	if !CheckSignature(l.svcCtx.Config.WechatConf.Token, req.Signature, req.Timestamp, req.Nonce) {
 		return nil, errors.New("签名错误")
 	}
-
-	fmt.Println("-------------------------------------------")
-	fmt.Println(req.Event)
-	fmt.Println(req.Ticket)
-	fmt.Println(req.FromUserName)
-	fmt.Println("-------------------------------------------")
+	if req.Event == "subscribe" || req.Event == "SCAN" {
+		if req.Ticket != "" && req.FromUserName != "" {
+			err = redis.SetTicketAndOpenId(l.ctx, l.svcCtx.Redis, req.Ticket, req.FromUserName)
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
 	return
 }
