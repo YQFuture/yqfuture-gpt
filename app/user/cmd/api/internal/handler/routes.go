@@ -16,19 +16,19 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				// 获取图像验证码
-				Method:  http.MethodGet,
+				Method:  http.MethodPost,
 				Path:    "/getCaptcha",
 				Handler: login.GetCaptchaHandler(serverCtx),
 			},
 			{
 				// 获取微信登录二维码
-				Method:  http.MethodGet,
+				Method:  http.MethodPost,
 				Path:    "/getLoginQrCode",
 				Handler: login.GetLoginQrCodeHandler(serverCtx),
 			},
 			{
 				// 获取微信扫码登录状态
-				Method:  http.MethodGet,
+				Method:  http.MethodPost,
 				Path:    "/getQrCodeLoginStatus",
 				Handler: login.GetQrCodeLoginStatusHandler(serverCtx),
 			},
@@ -57,7 +57,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				// 微信回调
+				// 微信回调绑定接口
 				Method:  http.MethodGet,
 				Path:    "/wechatCallBack",
 				Handler: login.WechatCallBackGetHandler(serverCtx),

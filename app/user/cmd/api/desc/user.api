@@ -21,15 +21,15 @@ import (
 service user {
 	@doc "获取微信登录二维码"
 	@handler getLoginQrCode
-	get /getLoginQrCode (BaseReq) returns (LoginQrCodeResp)
+	post /getLoginQrCode (BaseReq) returns (LoginQrCodeResp)
 
 	@doc "获取微信扫码登录状态"
 	@handler getQrCodeLoginStatus
-	get /getQrCodeLoginStatus (QrCodeLoginStatusReq) returns (QrCodeLoginStatusResp)
+	post /getQrCodeLoginStatus (QrCodeLoginStatusReq) returns (QrCodeLoginStatusResp)
 
 	@doc "获取图像验证码"
 	@handler getCaptcha
-	get /getCaptcha (BaseReq) returns (CaptchaResp)
+	post /getCaptcha (BaseReq) returns (CaptchaResp)
 
 	@doc "获取手机短信验证码"
 	@handler getVerificationCode
@@ -64,7 +64,7 @@ service user {
 	group:  login
 )
 service user {
-	@doc "微信回调"
+	@doc "微信回调绑定接口"
 	@handler wechatCallBackGet
 	get /wechatCallBack (WechatCallBackGetReq) returns (string)
 

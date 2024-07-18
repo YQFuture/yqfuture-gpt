@@ -17,7 +17,7 @@
   ],
   "paths": {
     "/login/getCaptcha": {
-      "get": {
+      "post": {
         "summary": "获取图像验证码",
         "operationId": "getCaptcha",
         "responses": {
@@ -28,6 +28,73 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 基础请求",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BaseReq"
+            }
+          }
+        ],
+        "tags": [
+          "login"
+        ]
+      }
+    },
+    "/login/getLoginQrCode": {
+      "post": {
+        "summary": "获取微信登录二维码",
+        "operationId": "getLoginQrCode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LoginQrCodeResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 基础请求",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BaseReq"
+            }
+          }
+        ],
+        "tags": [
+          "login"
+        ]
+      }
+    },
+    "/login/getQrCodeLoginStatus": {
+      "post": {
+        "summary": "获取微信扫码登录状态",
+        "operationId": "getQrCodeLoginStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/QrCodeLoginStatusResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 微信扫码登录状态请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QrCodeLoginStatusReq"
+            }
+          }
+        ],
         "tags": [
           "login"
         ]
@@ -76,6 +143,7 @@
         "parameters": [
           {
             "name": "body",
+            "description": " 登录请求体",
             "in": "body",
             "required": true,
             "schema": {
@@ -113,6 +181,72 @@
         ],
         "tags": [
           "login"
+        ]
+      }
+    },
+    "/wechat/bindPhone": {
+      "post": {
+        "summary": "绑定手机号码",
+        "operationId": "bindPhone",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 绑定手机号请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BindPhoneReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/wechat/getCurrentUserData": {
+      "post": {
+        "summary": "获取当前登录用户数据",
+        "operationId": "getCurrentUserData",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CurrentUserDataResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 基础请求",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BaseReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
         ]
       }
     }
@@ -192,6 +326,24 @@
         "msg"
       ]
     },
+    "BindPhoneReq": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string",
+          "description": " 手机号码"
+        },
+        "verificationCode": {
+          "type": "string",
+          "description": " 手机验证码"
+        }
+      },
+      "title": "BindPhoneReq",
+      "required": [
+        "phone",
+        "verificationCode"
+      ]
+    },
     "CaptchaData": {
       "type": "object",
       "properties": {
@@ -228,6 +380,32 @@
         }
       },
       "title": "CaptchaResp",
+      "required": [
+        "data"
+      ]
+    },
+    "CurrentUserData": {
+      "type": "object",
+      "title": "CurrentUserData"
+    },
+    "CurrentUserDataResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "$ref": "#/definitions/CurrentUserData",
+          "description": " 当前登录用户数据"
+        }
+      },
+      "title": "CurrentUserDataResp",
       "required": [
         "data"
       ]
@@ -294,6 +472,46 @@
         "data"
       ]
     },
+    "LoginQrCodeData": {
+      "type": "object",
+      "properties": {
+        "ticketQrCodeUrl": {
+          "type": "string",
+          "description": " 二维码图片链接"
+        },
+        "ticket": {
+          "type": "string",
+          "description": " 二维码票据"
+        }
+      },
+      "title": "LoginQrCodeData",
+      "required": [
+        "ticketQrCodeUrl",
+        "ticket"
+      ]
+    },
+    "LoginQrCodeResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "$ref": "#/definitions/LoginQrCodeData",
+          "description": " 登录二维码内容"
+        }
+      },
+      "title": "LoginQrCodeResp",
+      "required": [
+        "data"
+      ]
+    },
     "LoginReq": {
       "type": "object",
       "properties": {
@@ -340,6 +558,41 @@
         }
       },
       "title": "LoginResp",
+      "required": [
+        "data"
+      ]
+    },
+    "QrCodeLoginStatusReq": {
+      "type": "object",
+      "properties": {
+        "ticket": {
+          "type": "string",
+          "description": " 二维码票据"
+        }
+      },
+      "title": "QrCodeLoginStatusReq",
+      "required": [
+        "ticket"
+      ]
+    },
+    "QrCodeLoginStatusResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "$ref": "#/definitions/UserInfo",
+          "description": " 用户信息"
+        }
+      },
+      "title": "QrCodeLoginStatusResp",
       "required": [
         "data"
       ]
@@ -433,6 +686,116 @@
       "title": "VerificationCodeReq",
       "required": [
         "phone"
+      ]
+    },
+    "WechatCallBackGetReq": {
+      "type": "object",
+      "properties": {
+        "signature": {
+          "type": "string",
+          "description": " 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": " 时间戳"
+        },
+        "nonce": {
+          "type": "string",
+          "description": " 随机数"
+        },
+        "echostr": {
+          "type": "string",
+          "description": " 随机字符串"
+        }
+      },
+      "title": "WechatCallBackGetReq",
+      "required": [
+        "signature",
+        "timestamp",
+        "nonce",
+        "echostr"
+      ]
+    },
+    "WechatCallBackPostReq": {
+      "type": "object",
+      "properties": {
+        "signature": {
+          "type": "string",
+          "description": " 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": " 时间戳"
+        },
+        "nonce": {
+          "type": "string",
+          "description": " 随机数"
+        },
+        "ToUserName": {
+          "type": "string",
+          "description": " 开发者微信号"
+        },
+        "FromUserName": {
+          "type": "string",
+          "description": " 发送方帐号（一个OpenID）"
+        },
+        "CreateTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 消息创建时间 （整型）"
+        },
+        "MsgType": {
+          "type": "string",
+          "description": " 消息类型，event"
+        },
+        "Event": {
+          "type": "string",
+          "description": " 事件类型 subscribe 或 SCAN"
+        },
+        "EventKey": {
+          "type": "string",
+          "description": " 事件KEY值"
+        },
+        "Ticket": {
+          "type": "string",
+          "description": " 二维码的ticket，可用来换取二维码图片"
+        }
+      },
+      "title": "WechatCallBackPostReq",
+      "required": [
+        "signature",
+        "timestamp",
+        "nonce",
+        "ToUserName",
+        "FromUserName",
+        "CreateTime",
+        "MsgType",
+        "Event",
+        "EventKey",
+        "Ticket"
+      ]
+    },
+    "WechatCallBackPostSignReq": {
+      "type": "object",
+      "properties": {
+        "signature": {
+          "type": "string",
+          "description": " 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": " 时间戳"
+        },
+        "nonce": {
+          "type": "string",
+          "description": " 随机数"
+        }
+      },
+      "title": "WechatCallBackPostSignReq",
+      "required": [
+        "signature",
+        "timestamp",
+        "nonce"
       ]
     }
   },
