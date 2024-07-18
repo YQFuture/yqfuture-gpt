@@ -39,7 +39,7 @@ type Param struct {
 func getTicket(url, accessToken string) (string, error) {
 	url = url + "?access_token=" + accessToken
 	requestData := Param{
-		ExpireSeconds: 604800,
+		ExpireSeconds: 120,
 		ActionName:    "QR_SCENE",
 		ActionInfo: ActionInfo{
 			Scene: Scene{
