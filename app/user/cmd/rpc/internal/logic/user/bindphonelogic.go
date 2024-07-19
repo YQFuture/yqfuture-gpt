@@ -72,8 +72,8 @@ func (l *BindPhoneLogic) BindPhone(in *user.BindPhoneReq) (*user.BindPhoneResp, 
 		}, nil
 	}
 
-	// 如果手机号已注册 将该微信绑定到手机用户 并返回手机用户ID
-	err = l.svcCtx.BsUserModel.BindPhone(l.ctx, in.Phone, bsUser.Id)
+	// 如果手机号已注册 将该微信OpenId绑定到手机用户 并返回手机用户ID
+	err = l.svcCtx.BsUserModel.BindOpenId(l.ctx, in.Openid, bsUser.Id)
 	if err != nil {
 		return nil, err
 	}
