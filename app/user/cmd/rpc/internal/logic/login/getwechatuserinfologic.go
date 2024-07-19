@@ -27,7 +27,7 @@ func NewGetWechatUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 // GetWechatUserInfo 获取微信用户信息
 func (l *GetWechatUserInfoLogic) GetWechatUserInfo(in *user.WechatUserInfoReq) (*user.WechatUserInfoResp, error) {
 	// 从用户表查找用户 并判断用户是否存在
-	bsUser, err := l.svcCtx.BsUserModel.FindOneByPhone(l.ctx, in.Openid)
+	bsUser, err := l.svcCtx.BsUserModel.FindOneByOpenId(l.ctx, in.Openid)
 	if err != nil {
 		return nil, err
 	}

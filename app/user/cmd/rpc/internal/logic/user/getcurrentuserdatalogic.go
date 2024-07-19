@@ -35,7 +35,7 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(in *user.CurrentUserDataReq
 	// 判断是否未绑定手机号
 	if errors.Is(err, orm.ErrNotFound) || bsUser.Phone.Valid == false || bsUser.Phone.String == "" {
 		return &user.CurrentUserDataResp{
-			Code: consts.PhoneTsNotBound,
+			Code: consts.PhoneIsNotBound,
 		}, nil
 	}
 	return &user.CurrentUserDataResp{}, nil

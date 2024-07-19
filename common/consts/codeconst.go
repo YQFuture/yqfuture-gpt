@@ -9,5 +9,5 @@ const (
 	AutomaticLoginFailure     = 40004 // 自动登录失败
 	PhoneIsRegistered         = 40005 // 手机号已注册
 	PhoneIsNotRegistered      = 40006 // 手机号未注册
-	PhoneTsNotBound           = 40007 // 手机号未绑定
+	PhoneIsNotBound           = 40007 // 手机号未绑定
 )

@@ -54,10 +54,10 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(req *types.BaseReq) (resp *
 		}, nil
 	}
 	// 判断是否绑定手机号
-	if currentUserDataResp.Code == consts.PhoneTsNotBound {
+	if currentUserDataResp.Code == consts.PhoneIsNotBound {
 		return &types.CurrentUserDataResp{
 			BaseResp: types.BaseResp{
-				Code: consts.PhoneTsNotBound,
+				Code: consts.PhoneIsNotBound,
 				Msg:  "手机号未绑定",
 			},
 		}, nil
