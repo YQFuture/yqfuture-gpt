@@ -42,7 +42,7 @@ func (l *GetQrCodeLoginStatusLogic) GetQrCodeLoginStatus(req *types.QrCodeLoginS
 		}, nil
 	}
 	if openId == "" {
-		l.Logger.Error("从Redis中未获取OpenID", err)
+		l.Logger.Error("从Redis中未获取到OpenID", err)
 		return &types.QrCodeLoginStatusResp{
 			BaseResp: types.BaseResp{
 				Code: consts.Fail,

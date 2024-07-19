@@ -2,6 +2,8 @@ package user
 
 import (
 	"context"
+	"encoding/json"
+	"strconv"
 	"time"
 	"yufuture-gpt/app/user/cmd/api/internal/logic/login"
 	"yufuture-gpt/app/user/cmd/rpc/pb/user"
@@ -31,8 +33,8 @@ func NewBindPhoneLogic(ctx context.Context, svcCtx *svc.ServiceContext) *BindPho
 
 func (l *BindPhoneLogic) BindPhone(req *types.BindPhoneReq) (resp *types.BindPhoneResp, err error) {
 	id := l.ctx.Value("id")
-	userIdString, ok := id.(string)
-	if !ok {
+	userId, err := id.(json.Number).Int64()
+	if err != nil {
 		l.Logger.Error("获取用户id失败", err)
 		return &types.BindPhoneResp{
 			BaseResp: types.BaseResp{
@@ -41,6 +43,7 @@ func (l *BindPhoneLogic) BindPhone(req *types.BindPhoneReq) (resp *types.BindPho
 			},
 		}, nil
 	}
+	userIdString := strconv.FormatInt(userId, 10)
 	// 根据微信临时用户ID获取对应的OpenID
 	openId, err := redis.GetOpenIdByTempUserId(l.ctx, l.svcCtx.Redis, userIdString)
 	if err != nil {
