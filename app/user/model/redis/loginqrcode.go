@@ -5,8 +5,27 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/redis"
 )
 
+const WechatAccessTokenKey = "login:wechat:access_token"
 const LoginQrCodePrefix = "login:qrcode:ticket:"
 const TempUserIdPrefix = "login:temp:userid:"
+
+// SetAccessToken 保存微信的AccessToken到Redis
+func SetAccessToken(ctx context.Context, redis *redis.Redis, accessToken string) error {
+	err := redis.SetexCtx(ctx, WechatAccessTokenKey, accessToken, 7000)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// GetAccessToken 从Redis中获取微信的AccessToken
+func GetAccessToken(ctx context.Context, redis *redis.Redis) (string, error) {
+	accessToken, err := redis.GetCtx(ctx, WechatAccessTokenKey)
+	if err != nil {
+		return "", err
+	}
+	return accessToken, nil
+}
 
 // SetTicketAndOpenId 保存登录二维码票据和对应的OpenID到Redis
 func SetTicketAndOpenId(ctx context.Context, redis *redis.Redis, ticket, openid string) error {

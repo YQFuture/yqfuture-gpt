@@ -1,15 +1,27 @@
 package thirdparty
 
 import (
+	"context"
 	"errors"
 	"github.com/tidwall/gjson"
+	"github.com/zeromicro/go-zero/core/stores/redis"
+	yqredis "yufuture-gpt/app/user/model/redis"
 	"yufuture-gpt/common/utils"
 )
 
-func getAccessToken(url, appid, secret string) (string, error) {
+func getAccessToken(ctx context.Context, redis *redis.Redis, url, appid, secret string) (string, error) {
+	// 先尝试从Redis中获取微信的AccessToken
+	token, err := yqredis.GetAccessToken(ctx, redis)
+	if err != nil {
+		return "", err
+	}
+	if token != "" {
+		return token, nil
+	}
+
 	url = url + "?grant_type=client_credential" + "&appid=" + appid + "&secret=" + secret
 	var responseData interface{}
-	err := utils.HTTPGetAndParseJSON(url, &responseData)
+	err = utils.HTTPGetAndParseJSON(url, &responseData)
 	if err != nil {
 		return "", err
 	}
@@ -20,6 +32,12 @@ func getAccessToken(url, appid, secret string) (string, error) {
 	accessToken := gjson.Get(responseDataString, "access_token").String()
 	if accessToken == "" {
 		return "", errors.New("获取access_token失败: " + responseDataString)
+	}
+
+	// 保存微信的AccessToken到Redis
+	err = yqredis.SetAccessToken(ctx, redis, accessToken)
+	if err != nil {
+		return "", err
 	}
 	return accessToken, nil
 }
@@ -64,9 +82,9 @@ func getTicket(url, accessToken string) (string, error) {
 }
 
 // GetWechatLoginQrCode 获取微信登录二维码
-func GetWechatLoginQrCode(accessTokenUrl, appid, secret, ticketUrl, qrCodeUrl string) (ticketQrCodeUrl string, ticket string, err error) {
+func GetWechatLoginQrCode(ctx context.Context, redis *redis.Redis, accessTokenUrl, appid, secret, ticketUrl, qrCodeUrl string) (ticketQrCodeUrl string, ticket string, err error) {
 	// 获取access_token
-	token, err := getAccessToken(accessTokenUrl, appid, secret)
+	token, err := getAccessToken(ctx, redis, accessTokenUrl, appid, secret)
 	if err != nil {
 		return "", "", err
 	}

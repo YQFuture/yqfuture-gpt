@@ -26,7 +26,8 @@ func NewGetLoginQrCodeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetLoginQrCodeLogic) GetLoginQrCode(req *types.BaseReq) (resp *types.LoginQrCodeResp, err error) {
-	ticketQrCodeUrl, ticket, err := thirdparty.GetWechatLoginQrCode(l.svcCtx.Config.WechatConf.AccessTokenUrl,
+	ticketQrCodeUrl, ticket, err := thirdparty.GetWechatLoginQrCode(l.ctx, l.svcCtx.Redis,
+		l.svcCtx.Config.WechatConf.AccessTokenUrl,
 		l.svcCtx.Config.WechatConf.AppId,
 		l.svcCtx.Config.WechatConf.Secret,
 		l.svcCtx.Config.WechatConf.TicketUrl,
