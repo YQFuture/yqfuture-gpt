@@ -62,12 +62,13 @@ message CurrentUserData {
 }
 // 绑定手机号请求体
 message BindPhoneReq {
-  int64 userId = 1;
+  string openid = 1;
   string phone = 2;
 }
 // 绑定手机号返回体
 message BindPhoneResp {
   int64 code = 1;
+  int64 userId = 2;
 }
 service User {
   // 获取当前登录用户数据

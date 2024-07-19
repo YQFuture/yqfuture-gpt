@@ -192,7 +192,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/BaseResp"
+              "$ref": "#/definitions/BindPhoneResp"
             }
           }
         },
@@ -336,12 +336,40 @@
         "verificationCode": {
           "type": "string",
           "description": " 手机验证码"
+        },
+        "thirtyDaysFreeLogin": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": " 是否30天免登录"
         }
       },
       "title": "BindPhoneReq",
       "required": [
         "phone",
-        "verificationCode"
+        "verificationCode",
+        "thirtyDaysFreeLogin"
+      ]
+    },
+    "BindPhoneResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "$ref": "#/definitions/UserInfo",
+          "description": " 用户信息"
+        }
+      },
+      "title": "BindPhoneResp",
+      "required": [
+        "data"
       ]
     },
     "CaptchaData": {

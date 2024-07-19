@@ -56,7 +56,7 @@ service user {
 
 	@doc "绑定手机号码"
 	@handler bindPhone
-	post /bindPhone (BindPhoneReq) returns (BaseResp)
+	post /bindPhone (BindPhoneReq) returns (BindPhoneResp)
 }
 
 @server (

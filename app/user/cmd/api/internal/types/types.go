@@ -22,8 +22,14 @@ type BaseResp struct {
 }
 
 type BindPhoneReq struct {
-	Phone            string `json:"phone"`            // 手机号码
-	VerificationCode string `json:"verificationCode"` // 手机验证码
+	Phone               string `json:"phone"`               // 手机号码
+	VerificationCode    string `json:"verificationCode"`    // 手机验证码
+	ThirtyDaysFreeLogin bool   `json:"thirtyDaysFreeLogin"` // 是否30天免登录
+}
+
+type BindPhoneResp struct {
+	BaseResp
+	Data UserInfo `json:"data"` // 用户信息
 }
 
 type CaptchaData struct {

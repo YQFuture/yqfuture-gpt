@@ -2,6 +2,7 @@ package login
 
 import (
 	"context"
+	"strconv"
 	"time"
 	"yufuture-gpt/app/user/cmd/rpc/pb/user"
 	"yufuture-gpt/app/user/model/redis"
@@ -29,7 +30,8 @@ func NewGetQrCodeLoginStatusLogic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 func (l *GetQrCodeLoginStatusLogic) GetQrCodeLoginStatus(req *types.QrCodeLoginStatusReq) (resp *types.QrCodeLoginStatusResp, err error) {
-	openId, err := redis.GetOpenId(l.ctx, l.svcCtx.Redis, req.Ticket)
+	// 从Redis中获取票据对应的OpenID
+	openId, err := redis.GetOpenIdByTicket(l.ctx, l.svcCtx.Redis, req.Ticket)
 	if err != nil {
 		l.Logger.Error("从Redis中获取OpenID失败", err)
 		return &types.QrCodeLoginStatusResp{
@@ -62,10 +64,27 @@ func (l *GetQrCodeLoginStatusLogic) GetQrCodeLoginStatus(req *types.QrCodeLoginS
 		}, nil
 	}
 
+	// 对于未绑定手机号的用户 保存微信临时用户ID和对应的OpenID到Redis
+	if infoResp.Result.Phone == "" {
+		err := redis.SetTempUserIdAndOpenId(l.ctx, l.svcCtx.Redis, strconv.FormatInt(infoResp.Result.Id, 10), openId)
+		if err != nil {
+			return &types.QrCodeLoginStatusResp{
+				BaseResp: types.BaseResp{
+					Code: consts.Fail,
+					Msg:  "登录失败",
+				},
+			}, nil
+		}
+	}
+
 	// 生成 Token
 	accessExpire := l.svcCtx.Config.Auth.AccessExpire
 	if req.ThirtyDaysFreeLogin {
 		accessExpire = 2592000
+	}
+	if infoResp.Result.Phone == "" {
+		// 对于未绑定手机号的微信用户 Token只给予半小时的有效期
+		accessExpire = 1800
 	}
 	payload := map[string]interface{}{
 		"id":      infoResp.Result.Id,

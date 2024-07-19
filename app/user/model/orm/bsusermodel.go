@@ -17,6 +17,7 @@ type (
 		withSession(session sqlx.Session) BsUserModel
 		FindOneByPhone(ctx context.Context, phone string) (*BsUser, error)
 		FindOneByOpenId(ctx context.Context, openid string) (*BsUser, error)
+		BindPhone(ctx context.Context, phone string, userId int64) error
 	}
 
 	customBsUserModel struct {
@@ -63,4 +64,10 @@ func (m *customBsUserModel) FindOneByOpenId(ctx context.Context, openid string) 
 	default:
 		return nil, err
 	}
+}
+
+func (m *customBsUserModel) BindPhone(ctx context.Context, phone string, userId int64) error {
+	query := fmt.Sprintf("uptate %s set `phone` = ? where `id` = ?", m.table)
+	_, err := m.conn.ExecCtx(ctx, query, phone, userId)
+	return err
 }
