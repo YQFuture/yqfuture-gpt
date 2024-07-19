@@ -38,5 +38,13 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(in *user.CurrentUserDataReq
 			Code: consts.PhoneIsNotBound,
 		}, nil
 	}
-	return &user.CurrentUserDataResp{}, nil
+	return &user.CurrentUserDataResp{
+		Code: consts.Success,
+		Result: &user.CurrentUserData{
+			Id:       bsUser.Id,
+			HeadImg:  bsUser.HeadImg.String,
+			NickName: bsUser.NickName.String,
+			Phone:    bsUser.Phone.String,
+		},
+	}, nil
 }

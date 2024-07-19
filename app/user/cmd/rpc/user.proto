@@ -59,6 +59,10 @@ message CurrentUserDataResp {
 }
 // 当前登录用户数据
 message CurrentUserData {
+  int64 id = 1;
+  string phone = 2;
+  string nickName = 3;
+  string headImg = 4;
 }
 // 绑定手机号请求体
 message BindPhoneReq {

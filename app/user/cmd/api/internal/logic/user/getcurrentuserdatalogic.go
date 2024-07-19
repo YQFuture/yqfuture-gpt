@@ -3,6 +3,8 @@ package user
 import (
 	"context"
 	"encoding/json"
+	"time"
+	"yufuture-gpt/app/user/cmd/api/internal/logic/login"
 	"yufuture-gpt/app/user/cmd/rpc/pb/user"
 	"yufuture-gpt/common/consts"
 
@@ -63,11 +65,33 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(req *types.BaseReq) (resp *
 		}, nil
 	}
 
+	// 生成 Token
+	accessExpire := l.svcCtx.Config.Auth.AccessExpire
+	payload := map[string]interface{}{
+		"id":      currentUserDataResp.Result.Id,
+		"ex_time": time.Now().AddDate(0, 0, 7),
+	}
+	token, err := login.GetJwtToken(l.svcCtx.Config.Auth.AccessSecret, accessExpire, payload)
+	if err != nil {
+		l.Logger.Error("生成token失败", err)
+		return &types.CurrentUserDataResp{
+			BaseResp: types.BaseResp{
+				Code: consts.Fail,
+				Msg:  "获取失败 请重试",
+			},
+		}, nil
+	}
+
 	return &types.CurrentUserDataResp{
 		BaseResp: types.BaseResp{
 			Code: consts.Success,
 			Msg:  "获取成功",
 		},
-		Data: types.CurrentUserData{},
+		Data: types.CurrentUserData{
+			Token:    token,
+			Phone:    currentUserDataResp.Result.Phone,
+			NickName: currentUserDataResp.Result.NickName,
+			HeadImg:  currentUserDataResp.Result.HeadImg,
+		},
 	}, nil
 }

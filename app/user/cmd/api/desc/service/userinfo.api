@@ -101,13 +101,16 @@ type (
 
         // 当前登录用户数据
     CurrentUserData {
-
+        Token string `json:"token"`       // JWT Token
+        Phone string `json:"phone"`       // 手机号码
+        NickName string `json:"nickname"` // 昵称
+        HeadImg string `json:"headImg"`   // 头像
     }
 
         // 绑定手机号请求体
     BindPhoneReq {
-        Phone string `json:"phone"`                      // 手机号码
-        VerificationCode string `json:"verificationCode"`// 手机验证码
+        Phone string `json:"phone"`                           // 手机号码
+        VerificationCode string `json:"verificationCode"`     // 手机验证码
         ThirtyDaysFreeLogin bool `json:"thirtyDaysFreeLogin"` // 是否30天免登录
     }
 
