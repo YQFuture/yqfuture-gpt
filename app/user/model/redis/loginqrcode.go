@@ -35,7 +35,7 @@ func SetTempUserIdAndOpenId(ctx context.Context, redis *redis.Redis, userId, ope
 	return nil
 }
 
-// GetOpenIdByTempUserId 从Redis中获取临时用户ID对应的OpenID
+// GetOpenIdByTempUserId 从Redis中获取微信临时用户ID对应的OpenID
 func GetOpenIdByTempUserId(ctx context.Context, redis *redis.Redis, userId string) (string, error) {
 	openid, err := redis.GetCtx(ctx, TempUserIdPrefix+userId)
 	if err != nil {
@@ -44,7 +44,7 @@ func GetOpenIdByTempUserId(ctx context.Context, redis *redis.Redis, userId strin
 	return openid, nil
 }
 
-// DelOpenIdByTempUserId 从Redis中删除临时用户ID对应的OpenID
+// DelOpenIdByTempUserId 从Redis中删除微信临时用户ID对应的OpenID
 func DelOpenIdByTempUserId(ctx context.Context, redis *redis.Redis, userId string) error {
 	_, err := redis.DelCtx(ctx, TempUserIdPrefix+userId)
 	if err != nil {

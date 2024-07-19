@@ -58,7 +58,7 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(req *types.BaseReq) (resp *
 		return &types.CurrentUserDataResp{
 			BaseResp: types.BaseResp{
 				Code: consts.PhoneTsNotBound,
-				Msg:  "获取失败",
+				Msg:  "手机号未绑定",
 			},
 		}, nil
 	}
