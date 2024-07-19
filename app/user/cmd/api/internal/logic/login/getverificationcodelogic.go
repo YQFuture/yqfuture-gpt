@@ -68,9 +68,18 @@ func (l *GetVerificationCodeLogic) GetVerificationCode(req *types.VerificationCo
 	}
 
 	// 生成六位短信验证码
+	// 确保生成的随机数是可预见的
 	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
-	randomNumber := rng.Intn(1000000)
-	verificationCode := fmt.Sprintf("%06d", randomNumber)
+	// 生成第一位数字 确保不是0
+	firstDigit := rng.Intn(9) + 1
+	// 生成剩余的五位数字
+	var remainingDigits string
+	for i := 0; i < 5; i++ {
+		digit := rng.Intn(10)
+		remainingDigits += fmt.Sprintf("%d", digit)
+	}
+	// 拼接第一位和剩余五位数字
+	verificationCode := fmt.Sprintf("%d%s", firstDigit, remainingDigits)
 
 	// 发送短信
 	err = thirdparty.SendVerificationCode(l.Logger,
