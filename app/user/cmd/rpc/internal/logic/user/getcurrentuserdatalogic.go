@@ -2,6 +2,8 @@ package userlogic
 
 import (
 	"context"
+	"errors"
+	"yufuture-gpt/app/user/model/orm"
 	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/user/cmd/rpc/internal/svc"
@@ -27,15 +29,14 @@ func NewGetCurrentUserDataLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 // GetCurrentUserData 获取当前登录用户数据
 func (l *GetCurrentUserDataLogic) GetCurrentUserData(in *user.CurrentUserDataReq) (*user.CurrentUserDataResp, error) {
 	bsUser, err := l.svcCtx.BsUserModel.FindOne(l.ctx, in.UserId)
-	if err != nil {
+	if err != nil && !errors.Is(err, orm.ErrNotFound) {
 		return nil, err
 	}
 	// 判断是否未绑定手机号
-	if bsUser.Phone.Valid == false || bsUser.Phone.String == "" {
+	if errors.Is(err, orm.ErrNotFound) || bsUser.Phone.Valid == false || bsUser.Phone.String == "" {
 		return &user.CurrentUserDataResp{
 			Code: consts.PhoneTsNotBound,
 		}, nil
 	}
-
 	return &user.CurrentUserDataResp{}, nil
 }
