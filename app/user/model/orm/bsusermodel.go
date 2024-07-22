@@ -2,6 +2,7 @@ package orm
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"fmt"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -19,6 +20,8 @@ type (
 		FindOneByOpenId(ctx context.Context, openid string) (*BsUser, error)
 		BindPhone(ctx context.Context, phone string, userId int64) error
 		BindOpenId(ctx context.Context, openid string, userId int64) error
+		TransactCtx(ctx context.Context, fn func(context context.Context, session sqlx.Session) error) error
+		SessionInsert(ctx context.Context, data *BsUser, session sqlx.Session) (sql.Result, error)
 	}
 
 	customBsUserModel struct {
@@ -77,4 +80,16 @@ func (m *customBsUserModel) BindOpenId(ctx context.Context, openid string, userI
 	query := fmt.Sprintf("update %s set `openid` = ? where `id` = ?", m.table)
 	_, err := m.conn.ExecCtx(ctx, query, openid, userId)
 	return err
+}
+
+func (m *customBsUserModel) TransactCtx(ctx context.Context, fn func(ctx context.Context, session sqlx.Session) error) error {
+	return m.conn.TransactCtx(ctx, func(ctx context.Context, session sqlx.Session) error {
+		return fn(ctx, session)
+	})
+}
+
+func (m *defaultBsUserModel) SessionInsert(ctx context.Context, data *BsUser, session sqlx.Session) (sql.Result, error) {
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, bsUserRowsExpectAutoSet)
+	ret, err := session.ExecCtx(ctx, query, data.Id, data.NowOrgId, data.UserName, data.NickName, data.HeadImg, data.Phone, data.Password, data.Openid, data.Unionid, data.CreateBy, data.UpdateBy)
+	return ret, err
 }

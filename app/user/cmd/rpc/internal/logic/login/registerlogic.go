@@ -3,6 +3,7 @@ package loginlogic
 import (
 	"context"
 	"database/sql"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"time"
 	"yufuture-gpt/app/user/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/user/cmd/rpc/pb/user"
@@ -39,11 +40,13 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 		}, nil
 	}
 
-	// 构建新用户并保存
+	// 构建新用户
 	now := time.Now()
-	id := l.svcCtx.SnowFlakeNode.Generate().Int64()
+	userId := l.svcCtx.SnowFlakeNode.Generate().Int64()
+	orgId := l.svcCtx.SnowFlakeNode.Generate().Int64()
 	newBsUser := &orm.BsUser{
-		Id: id,
+		Id:       userId,
+		NowOrgId: orgId,
 		Phone: sql.NullString{
 			String: in.Phone,
 			Valid:  true,
@@ -62,10 +65,46 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 		},
 		CreateTime: now,
 		UpdateTime: now,
-		CreateBy:   id,
-		UpdateBy:   id,
+		CreateBy:   userId,
+		UpdateBy:   userId,
 	}
-	_, err = l.svcCtx.BsUserModel.Insert(l.ctx, newBsUser)
+	// 构建用户对应的组织
+	bsOrganization := &orm.BsOrganization{
+		Id:      orgId,
+		OwnerId: userId,
+		OrgName: sql.NullString{
+			String: in.Phone + "的组织",
+			Valid:  true,
+		},
+		BundleType: 0,
+		CreateTime: now,
+		UpdateTime: now,
+		CreateBy:   userId,
+		UpdateBy:   userId,
+	}
+	// 构建用户组织中间表
+	bsUserOrg := &orm.BsUserOrg{
+		UserId: userId,
+		OrgId:  orgId,
+	}
+
+	// 在同一个事务中保存三张表的数据
+	err = l.svcCtx.BsUserModel.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
+		_, err = l.svcCtx.BsUserModel.SessionInsert(l.ctx, newBsUser, session)
+		if err != nil {
+			return err
+		}
+		_, err := l.svcCtx.BsOrganizationModel.SessionInsert(l.ctx, bsOrganization, session)
+		if err != nil {
+			return err
+		}
+		_, err = l.svcCtx.BsUserOrgModel.SessionInsert(l.ctx, bsUserOrg, session)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+
 	if err != nil {
 		return nil, err
 	}
