@@ -39,7 +39,8 @@ func (l *BindPhoneLogic) BindPhone(in *user.BindPhoneReq) (*user.BindPhoneResp, 
 		userId := l.svcCtx.SnowFlakeNode.Generate().Int64()
 		orgId := l.svcCtx.SnowFlakeNode.Generate().Int64()
 		newBsUser := &orm.BsUser{
-			Id: userId,
+			Id:       userId,
+			NowOrgId: orgId,
 			Phone: sql.NullString{
 				String: in.Phone,
 				Valid:  true,
