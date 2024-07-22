@@ -100,6 +100,28 @@ message ChangeOrgReq {
 message ChangeOrgResp {
   int64 code = 1;
 }
+message UpdateOrgNameReq {
+  int64 userId = 1;
+  int64 orgId = 2;
+  string orgName = 3;
+}
+message UpdateOrgNameResp {
+  int64 code = 1;
+}
+message UpdateHeadImgReq {
+  int64 userId = 1;
+  string headImg = 2;
+}
+message UpdateHeadImgResp {
+  int64 code = 1;
+}
+message UpdateNickNameReq {
+  int64 userId = 1;
+  string nickName = 2;
+}
+message UpdateNickNameResp {
+  int64 code = 1;
+}
 service User {
   // 获取当前登录用户数据
   rpc getCurrentUserData(CurrentUserDataReq) returns (CurrentUserDataResp);
@@ -109,4 +131,10 @@ service User {
   rpc getOrgList(OrgListReq) returns (OrgListResp);
   // 切换组织
   rpc changeOrg(ChangeOrgReq) returns (ChangeOrgResp);
+  // 更新组织名称
+  rpc updateOrgName(UpdateOrgNameReq) returns (UpdateOrgNameResp);
+  // 更新头像
+  rpc updateHeadImg(UpdateHeadImgReq) returns (UpdateHeadImgResp);
+  // 更新昵称
+  rpc updateNickName(UpdateNickNameReq) returns (UpdateNickNameResp);
 }

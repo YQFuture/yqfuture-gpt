@@ -139,8 +139,23 @@ type (
     ChangeOrgReq {
         OrgId string `json:"orgId"` // 组织ID
     }
-)
 
+        // 更新组织名称请求体
+    UpdateOrgNameReq {
+        OrgId string `json:"orgId"`     // 组织ID
+        OrgName string `json:"orgName"` // 新组织名称
+    }
+
+        // 更新头像请求体
+    UpdateHeadImgReq {
+        HeadImg string `json:"headImg"` // 新头像URL
+    }
+
+        // 更新昵称请求体
+    UpdateNickNameReq {
+        NickName string `json:"nickName"` // 新昵称
+    }
+)
 
 // 微信回调接口
 type (

@@ -27,6 +27,12 @@ type (
 	OrgListResp         = user.OrgListResp
 	RegisterReq         = user.RegisterReq
 	RegisterResp        = user.RegisterResp
+	UpdateHeadImgReq    = user.UpdateHeadImgReq
+	UpdateHeadImgResp   = user.UpdateHeadImgResp
+	UpdateNickNameReq   = user.UpdateNickNameReq
+	UpdateNickNameResp  = user.UpdateNickNameResp
+	UpdateOrgNameReq    = user.UpdateOrgNameReq
+	UpdateOrgNameResp   = user.UpdateOrgNameResp
 	UserInfo            = user.UserInfo
 	WechatUserInfoReq   = user.WechatUserInfoReq
 	WechatUserInfoResp  = user.WechatUserInfoResp
@@ -40,6 +46,12 @@ type (
 		GetOrgList(ctx context.Context, in *OrgListReq, opts ...grpc.CallOption) (*OrgListResp, error)
 		// 切换组织
 		ChangeOrg(ctx context.Context, in *ChangeOrgReq, opts ...grpc.CallOption) (*ChangeOrgResp, error)
+		// 更新组织名称
+		UpdateOrgName(ctx context.Context, in *UpdateOrgNameReq, opts ...grpc.CallOption) (*UpdateOrgNameResp, error)
+		// 更新头像
+		UpdateHeadImg(ctx context.Context, in *UpdateHeadImgReq, opts ...grpc.CallOption) (*UpdateHeadImgResp, error)
+		// 更新昵称
+		UpdateNickName(ctx context.Context, in *UpdateNickNameReq, opts ...grpc.CallOption) (*UpdateNickNameResp, error)
 	}
 
 	defaultUser struct {
@@ -75,4 +87,22 @@ func (m *defaultUser) GetOrgList(ctx context.Context, in *OrgListReq, opts ...gr
 func (m *defaultUser) ChangeOrg(ctx context.Context, in *ChangeOrgReq, opts ...grpc.CallOption) (*ChangeOrgResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.ChangeOrg(ctx, in, opts...)
+}
+
+// 更新组织名称
+func (m *defaultUser) UpdateOrgName(ctx context.Context, in *UpdateOrgNameReq, opts ...grpc.CallOption) (*UpdateOrgNameResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.UpdateOrgName(ctx, in, opts...)
+}
+
+// 更新头像
+func (m *defaultUser) UpdateHeadImg(ctx context.Context, in *UpdateHeadImgReq, opts ...grpc.CallOption) (*UpdateHeadImgResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.UpdateHeadImg(ctx, in, opts...)
+}
+
+// 更新昵称
+func (m *defaultUser) UpdateNickName(ctx context.Context, in *UpdateNickNameReq, opts ...grpc.CallOption) (*UpdateNickNameResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.UpdateNickName(ctx, in, opts...)
 }

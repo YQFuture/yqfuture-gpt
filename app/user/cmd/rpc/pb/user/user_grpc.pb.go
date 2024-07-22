@@ -200,6 +200,9 @@ const (
 	User_BindPhone_FullMethodName          = "/user.User/bindPhone"
 	User_GetOrgList_FullMethodName         = "/user.User/getOrgList"
 	User_ChangeOrg_FullMethodName          = "/user.User/changeOrg"
+	User_UpdateOrgName_FullMethodName      = "/user.User/updateOrgName"
+	User_UpdateHeadImg_FullMethodName      = "/user.User/updateHeadImg"
+	User_UpdateNickName_FullMethodName     = "/user.User/updateNickName"
 )
 
 // UserClient is the client API for User service.
@@ -214,6 +217,12 @@ type UserClient interface {
 	GetOrgList(ctx context.Context, in *OrgListReq, opts ...grpc.CallOption) (*OrgListResp, error)
 	// 切换组织
 	ChangeOrg(ctx context.Context, in *ChangeOrgReq, opts ...grpc.CallOption) (*ChangeOrgResp, error)
+	// 更新组织名称
+	UpdateOrgName(ctx context.Context, in *UpdateOrgNameReq, opts ...grpc.CallOption) (*UpdateOrgNameResp, error)
+	// 更新头像
+	UpdateHeadImg(ctx context.Context, in *UpdateHeadImgReq, opts ...grpc.CallOption) (*UpdateHeadImgResp, error)
+	// 更新昵称
+	UpdateNickName(ctx context.Context, in *UpdateNickNameReq, opts ...grpc.CallOption) (*UpdateNickNameResp, error)
 }
 
 type userClient struct {
@@ -264,6 +273,36 @@ func (c *userClient) ChangeOrg(ctx context.Context, in *ChangeOrgReq, opts ...gr
 	return out, nil
 }
 
+func (c *userClient) UpdateOrgName(ctx context.Context, in *UpdateOrgNameReq, opts ...grpc.CallOption) (*UpdateOrgNameResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateOrgNameResp)
+	err := c.cc.Invoke(ctx, User_UpdateOrgName_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) UpdateHeadImg(ctx context.Context, in *UpdateHeadImgReq, opts ...grpc.CallOption) (*UpdateHeadImgResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateHeadImgResp)
+	err := c.cc.Invoke(ctx, User_UpdateHeadImg_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) UpdateNickName(ctx context.Context, in *UpdateNickNameReq, opts ...grpc.CallOption) (*UpdateNickNameResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateNickNameResp)
+	err := c.cc.Invoke(ctx, User_UpdateNickName_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
@@ -276,6 +315,12 @@ type UserServer interface {
 	GetOrgList(context.Context, *OrgListReq) (*OrgListResp, error)
 	// 切换组织
 	ChangeOrg(context.Context, *ChangeOrgReq) (*ChangeOrgResp, error)
+	// 更新组织名称
+	UpdateOrgName(context.Context, *UpdateOrgNameReq) (*UpdateOrgNameResp, error)
+	// 更新头像
+	UpdateHeadImg(context.Context, *UpdateHeadImgReq) (*UpdateHeadImgResp, error)
+	// 更新昵称
+	UpdateNickName(context.Context, *UpdateNickNameReq) (*UpdateNickNameResp, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -294,6 +339,15 @@ func (UnimplementedUserServer) GetOrgList(context.Context, *OrgListReq) (*OrgLis
 }
 func (UnimplementedUserServer) ChangeOrg(context.Context, *ChangeOrgReq) (*ChangeOrgResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangeOrg not implemented")
+}
+func (UnimplementedUserServer) UpdateOrgName(context.Context, *UpdateOrgNameReq) (*UpdateOrgNameResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateOrgName not implemented")
+}
+func (UnimplementedUserServer) UpdateHeadImg(context.Context, *UpdateHeadImgReq) (*UpdateHeadImgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateHeadImg not implemented")
+}
+func (UnimplementedUserServer) UpdateNickName(context.Context, *UpdateNickNameReq) (*UpdateNickNameResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateNickName not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -380,6 +434,60 @@ func _User_ChangeOrg_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_UpdateOrgName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateOrgNameReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UpdateOrgName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UpdateOrgName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UpdateOrgName(ctx, req.(*UpdateOrgNameReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_UpdateHeadImg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateHeadImgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UpdateHeadImg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UpdateHeadImg_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UpdateHeadImg(ctx, req.(*UpdateHeadImgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_UpdateNickName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateNickNameReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).UpdateNickName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_UpdateNickName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).UpdateNickName(ctx, req.(*UpdateNickNameReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -402,6 +510,18 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "changeOrg",
 			Handler:    _User_ChangeOrg_Handler,
+		},
+		{
+			MethodName: "updateOrgName",
+			Handler:    _User_UpdateOrgName_Handler,
+		},
+		{
+			MethodName: "updateHeadImg",
+			Handler:    _User_UpdateHeadImg_Handler,
+		},
+		{
+			MethodName: "updateNickName",
+			Handler:    _User_UpdateNickName_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -98,6 +98,24 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/getOrgList",
 				Handler: user.GetOrgListHandler(serverCtx),
 			},
+			{
+				// 更新头像
+				Method:  http.MethodPost,
+				Path:    "/updateHeadImg",
+				Handler: user.UpdateHeadImgHandler(serverCtx),
+			},
+			{
+				// 更新昵称
+				Method:  http.MethodPost,
+				Path:    "/updateNickName",
+				Handler: user.UpdateNickNameHandler(serverCtx),
+			},
+			{
+				// 更新组织名称
+				Method:  http.MethodPost,
+				Path:    "/updateOrgName",
+				Handler: user.UpdateOrgNameHandler(serverCtx),
+			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/user"),

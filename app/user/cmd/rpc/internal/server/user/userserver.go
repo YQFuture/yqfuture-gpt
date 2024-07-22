@@ -45,3 +45,21 @@ func (s *UserServer) ChangeOrg(ctx context.Context, in *user.ChangeOrgReq) (*use
 	l := userlogic.NewChangeOrgLogic(ctx, s.svcCtx)
 	return l.ChangeOrg(in)
 }
+
+// 更新组织名称
+func (s *UserServer) UpdateOrgName(ctx context.Context, in *user.UpdateOrgNameReq) (*user.UpdateOrgNameResp, error) {
+	l := userlogic.NewUpdateOrgNameLogic(ctx, s.svcCtx)
+	return l.UpdateOrgName(in)
+}
+
+// 更新头像
+func (s *UserServer) UpdateHeadImg(ctx context.Context, in *user.UpdateHeadImgReq) (*user.UpdateHeadImgResp, error) {
+	l := userlogic.NewUpdateHeadImgLogic(ctx, s.svcCtx)
+	return l.UpdateHeadImg(in)
+}
+
+// 更新昵称
+func (s *UserServer) UpdateNickName(ctx context.Context, in *user.UpdateNickNameReq) (*user.UpdateNickNameResp, error) {
+	l := userlogic.NewUpdateNickNameLogic(ctx, s.svcCtx)
+	return l.UpdateNickName(in)
+}

@@ -131,6 +131,19 @@ type RegisterResp struct {
 	Data UserInfo `json:"data"` // 用户信息
 }
 
+type UpdateHeadImgReq struct {
+	HeadImg string `json:"headImg"` // 新头像URL
+}
+
+type UpdateNickNameReq struct {
+	NickName string `json:"nickName"` // 新昵称
+}
+
+type UpdateOrgNameReq struct {
+	OrgId   string `json:"orgId"`   // 组织ID
+	OrgName string `json:"orgName"` // 新组织名称
+}
+
 type UserInfo struct {
 	Token    string `json:"token"`    // JWT Token
 	Phone    string `json:"phone"`    // 手机号码

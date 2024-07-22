@@ -19,6 +19,7 @@ type (
 		SessionInsert(ctx context.Context, data *BsOrganization, session sqlx.Session) (sql.Result, error)
 		FindListByUserId(ctx context.Context, userId int64) (*[]*BsOrganization, error)
 		FindOneByIdAndUserId(ctx context.Context, id, userId int64) (*BsOrganization, error)
+		UpdateOrgName(ctx context.Context, orgName string, orgId int64) error
 	}
 
 	customBsOrganizationModel struct {
@@ -57,10 +58,10 @@ func (m *defaultBsOrganizationModel) FindListByUserId(ctx context.Context, userI
 	}
 }
 
-func (m *defaultBsOrganizationModel) FindOneByIdAndUserId(ctx context.Context, id, userId int64) (*BsOrganization, error) {
+func (m *defaultBsOrganizationModel) FindOneByIdAndUserId(ctx context.Context, orgId, userId int64) (*BsOrganization, error) {
 	query := fmt.Sprintf("SELECT o.* FROM bs_organization o INNER JOIN ( SELECT org_id FROM bs_user_org WHERE user_id = ? ) uo ON o.id = uo.org_id WHERE o.id = ?")
 	var resp BsOrganization
-	err := m.conn.QueryRowCtx(ctx, &resp, query, userId, id)
+	err := m.conn.QueryRowCtx(ctx, &resp, query, userId, orgId)
 	switch {
 	case err == nil:
 		return &resp, nil
@@ -69,4 +70,10 @@ func (m *defaultBsOrganizationModel) FindOneByIdAndUserId(ctx context.Context, i
 	default:
 		return nil, err
 	}
+}
+
+func (m *defaultBsOrganizationModel) UpdateOrgName(ctx context.Context, orgName string, orgId int64) error {
+	query := fmt.Sprintf("update %s set org_name = ? where `id` = ?", m.table)
+	_, err := m.conn.ExecCtx(ctx, query, orgName, orgId)
+	return err
 }

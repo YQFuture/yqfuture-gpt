@@ -23,6 +23,8 @@ type (
 		TransactCtx(ctx context.Context, fn func(context context.Context, session sqlx.Session) error) error
 		SessionInsert(ctx context.Context, data *BsUser, session sqlx.Session) (sql.Result, error)
 		ChangeOrg(ctx context.Context, orgId, userId int64) error
+		UpdateHeadImg(ctx context.Context, headImg string, userId int64) error
+		UpdateNickName(ctx context.Context, nickName string, userId int64) error
 	}
 
 	customBsUserModel struct {
@@ -98,5 +100,17 @@ func (m *defaultBsUserModel) SessionInsert(ctx context.Context, data *BsUser, se
 func (m *customBsUserModel) ChangeOrg(ctx context.Context, orgId, userId int64) error {
 	query := fmt.Sprintf("update %s set `now_org_id` = ? where `id` = ?", m.table)
 	_, err := m.conn.ExecCtx(ctx, query, orgId, userId)
+	return err
+}
+
+func (m *customBsUserModel) UpdateHeadImg(ctx context.Context, headImg string, userId int64) error {
+	query := fmt.Sprintf("update %s set `head_img` = ? where `id` = ?", m.table)
+	_, err := m.conn.ExecCtx(ctx, query, headImg, userId)
+	return err
+}
+
+func (m *customBsUserModel) UpdateNickName(ctx context.Context, nickName string, userId int64) error {
+	query := fmt.Sprintf("update %s set `nick_name` = ? where `id` = ?", m.table)
+	_, err := m.conn.ExecCtx(ctx, query, nickName, userId)
 	return err
 }

@@ -27,6 +27,12 @@ type (
 	OrgListResp         = user.OrgListResp
 	RegisterReq         = user.RegisterReq
 	RegisterResp        = user.RegisterResp
+	UpdateHeadImgReq    = user.UpdateHeadImgReq
+	UpdateHeadImgResp   = user.UpdateHeadImgResp
+	UpdateNickNameReq   = user.UpdateNickNameReq
+	UpdateNickNameResp  = user.UpdateNickNameResp
+	UpdateOrgNameReq    = user.UpdateOrgNameReq
+	UpdateOrgNameResp   = user.UpdateOrgNameResp
 	UserInfo            = user.UserInfo
 	WechatUserInfoReq   = user.WechatUserInfoReq
 	WechatUserInfoResp  = user.WechatUserInfoResp

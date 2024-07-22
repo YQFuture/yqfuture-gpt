@@ -65,6 +65,18 @@ service user {
 	@doc "切换组织"
 	@handler changeOrg
 	post /changeOrg (ChangeOrgReq) returns (BaseResp)
+
+	@doc "更新组织名称"
+	@handler updateOrgName
+	post /updateOrgName (UpdateOrgNameReq) returns (BaseResp)
+
+	@doc "更新头像"
+	@handler updateHeadImg
+	post /updateHeadImg (UpdateHeadImgReq) returns (BaseResp)
+
+	@doc "更新昵称"
+	@handler updateNickName
+	post /updateNickName (UpdateNickNameReq) returns (BaseResp)
 }
 
 @server (
