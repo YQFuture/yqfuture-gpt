@@ -42,6 +42,10 @@ type CaptchaResp struct {
 	Data CaptchaData `json:"data"` // 图形验证码信息
 }
 
+type ChangeOrgReq struct {
+	OrgId string `json:"orgId"` // 组织ID
+}
+
 type CurrentUserData struct {
 	Token    string  `json:"token"`    // JWT Token
 	Phone    string  `json:"phone"`    // 手机号码
@@ -97,9 +101,7 @@ type OrgInfo struct {
 	OrgId      string `json:"orgId"`      // 组织ID
 	OrgName    string `json:"orgName"`    // 组织名称
 	BundleType int64  `json:"bundleType"` // 套餐类型 0: 免费版 1: 基础版 2: AI个人版 3: AI协作版
-}
-
-type OrgListReq struct {
+	IsAdmin    bool   `json:"isAdmin"`    // 是否是管理员
 }
 
 type OrgListResp struct {

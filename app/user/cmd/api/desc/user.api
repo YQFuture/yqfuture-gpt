@@ -57,6 +57,14 @@ service user {
 	@doc "绑定手机号码"
 	@handler bindPhone
 	post /bindPhone (BindPhoneReq) returns (BindPhoneResp)
+
+	@doc "获取用户组织列表"
+	@handler getOrgList
+	post /getOrgList (BaseReq) returns (OrgListResp)
+
+	@doc "切换组织"
+	@handler changeOrg
+	post /changeOrg (ChangeOrgReq) returns (BaseResp)
 }
 
 @server (

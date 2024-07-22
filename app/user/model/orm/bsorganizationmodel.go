@@ -3,6 +3,7 @@ package orm
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
@@ -16,6 +17,8 @@ type (
 		bsOrganizationModel
 		withSession(session sqlx.Session) BsOrganizationModel
 		SessionInsert(ctx context.Context, data *BsOrganization, session sqlx.Session) (sql.Result, error)
+		FindListByUserId(ctx context.Context, userId int64) (*[]*BsOrganization, error)
+		FindOneByIdAndUserId(ctx context.Context, id, userId int64) (*BsOrganization, error)
 	}
 
 	customBsOrganizationModel struct {
@@ -38,4 +41,32 @@ func (m *defaultBsOrganizationModel) SessionInsert(ctx context.Context, data *Bs
 	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?)", m.table, bsOrganizationRowsExpectAutoSet)
 	ret, err := session.ExecCtx(ctx, query, data.Id, data.OwnerId, data.OrgName, data.BundleType, data.CreateBy, data.UpdateBy)
 	return ret, err
+}
+
+func (m *defaultBsOrganizationModel) FindListByUserId(ctx context.Context, userId int64) (*[]*BsOrganization, error) {
+	query := fmt.Sprintf("SELECT o.* FROM bs_organization o INNER JOIN bs_user_org uo ON uo.org_id = o.id WHERE uo.user_id = ?")
+	var resp []*BsOrganization
+	err := m.conn.QueryRowsCtx(ctx, &resp, query, userId)
+	switch {
+	case err == nil:
+		return &resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+
+func (m *defaultBsOrganizationModel) FindOneByIdAndUserId(ctx context.Context, id, userId int64) (*BsOrganization, error) {
+	query := fmt.Sprintf("SELECT o.* FROM bs_organization o INNER JOIN ( SELECT org_id FROM bs_user_org WHERE user_id = ? ) uo ON o.id = uo.org_id WHERE o.id = ?")
+	var resp BsOrganization
+	err := m.conn.QueryRowCtx(ctx, &resp, query, userId, id)
+	switch {
+	case err == nil:
+		return &resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return nil, nil
+	default:
+		return nil, err
+	}
 }

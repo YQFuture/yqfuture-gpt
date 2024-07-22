@@ -198,6 +198,8 @@ var Login_ServiceDesc = grpc.ServiceDesc{
 const (
 	User_GetCurrentUserData_FullMethodName = "/user.User/getCurrentUserData"
 	User_BindPhone_FullMethodName          = "/user.User/bindPhone"
+	User_GetOrgList_FullMethodName         = "/user.User/getOrgList"
+	User_ChangeOrg_FullMethodName          = "/user.User/changeOrg"
 )
 
 // UserClient is the client API for User service.
@@ -208,6 +210,10 @@ type UserClient interface {
 	GetCurrentUserData(ctx context.Context, in *CurrentUserDataReq, opts ...grpc.CallOption) (*CurrentUserDataResp, error)
 	// 绑定手机号
 	BindPhone(ctx context.Context, in *BindPhoneReq, opts ...grpc.CallOption) (*BindPhoneResp, error)
+	// 获取用户组织列表
+	GetOrgList(ctx context.Context, in *OrgListReq, opts ...grpc.CallOption) (*OrgListResp, error)
+	// 切换组织
+	ChangeOrg(ctx context.Context, in *ChangeOrgReq, opts ...grpc.CallOption) (*ChangeOrgResp, error)
 }
 
 type userClient struct {
@@ -238,6 +244,26 @@ func (c *userClient) BindPhone(ctx context.Context, in *BindPhoneReq, opts ...gr
 	return out, nil
 }
 
+func (c *userClient) GetOrgList(ctx context.Context, in *OrgListReq, opts ...grpc.CallOption) (*OrgListResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OrgListResp)
+	err := c.cc.Invoke(ctx, User_GetOrgList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) ChangeOrg(ctx context.Context, in *ChangeOrgReq, opts ...grpc.CallOption) (*ChangeOrgResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ChangeOrgResp)
+	err := c.cc.Invoke(ctx, User_ChangeOrg_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
@@ -246,6 +272,10 @@ type UserServer interface {
 	GetCurrentUserData(context.Context, *CurrentUserDataReq) (*CurrentUserDataResp, error)
 	// 绑定手机号
 	BindPhone(context.Context, *BindPhoneReq) (*BindPhoneResp, error)
+	// 获取用户组织列表
+	GetOrgList(context.Context, *OrgListReq) (*OrgListResp, error)
+	// 切换组织
+	ChangeOrg(context.Context, *ChangeOrgReq) (*ChangeOrgResp, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -258,6 +288,12 @@ func (UnimplementedUserServer) GetCurrentUserData(context.Context, *CurrentUserD
 }
 func (UnimplementedUserServer) BindPhone(context.Context, *BindPhoneReq) (*BindPhoneResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BindPhone not implemented")
+}
+func (UnimplementedUserServer) GetOrgList(context.Context, *OrgListReq) (*OrgListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrgList not implemented")
+}
+func (UnimplementedUserServer) ChangeOrg(context.Context, *ChangeOrgReq) (*ChangeOrgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeOrg not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -308,6 +344,42 @@ func _User_BindPhone_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_GetOrgList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrgListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetOrgList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetOrgList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetOrgList(ctx, req.(*OrgListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_ChangeOrg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangeOrgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ChangeOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ChangeOrg_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ChangeOrg(ctx, req.(*ChangeOrgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -322,6 +394,14 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "bindPhone",
 			Handler:    _User_BindPhone_Handler,
+		},
+		{
+			MethodName: "getOrgList",
+			Handler:    _User_GetOrgList_Handler,
+		},
+		{
+			MethodName: "changeOrg",
+			Handler:    _User_ChangeOrg_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -121,11 +121,6 @@ type (
         Data UserInfo `json:"data"` // 用户信息
     }
 
-        // 获取用户所有组织列表请求体
-    OrgListReq {
-
-    }
-
         // 用户组织列表返回体
     OrgListResp {
         BaseResp
@@ -134,9 +129,15 @@ type (
 
         // 组织信息
     OrgInfo {
-        OrgId string `json:"orgId"`          // 组织ID
-        OrgName string `json:"orgName"`      // 组织名称
-        BundleType int64 `json:"bundleType"` // 套餐类型 0: 免费版 1: 基础版 2: AI个人版 3: AI协作版
+        OrgId string `json:"orgId"`           // 组织ID
+        OrgName string `json:"orgName"`       // 组织名称
+        BundleType int64 `json:"bundleType"`  // 套餐类型 0: 免费版 1: 基础版 2: AI个人版 3: AI协作版
+        IsAdmin bool `json:"isAdmin"`         // 是否是管理员
+    }
+
+        // 切换组织请求体
+    ChangeOrgReq {
+        OrgId string `json:"orgId"` // 组织ID
     }
 )
 

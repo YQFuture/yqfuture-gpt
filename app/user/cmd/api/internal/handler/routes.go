@@ -81,10 +81,22 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: user.BindPhoneHandler(serverCtx),
 			},
 			{
+				// 切换组织
+				Method:  http.MethodPost,
+				Path:    "/changeOrg",
+				Handler: user.ChangeOrgHandler(serverCtx),
+			},
+			{
 				// 获取当前登录用户数据
 				Method:  http.MethodPost,
 				Path:    "/getCurrentUserData",
 				Handler: user.GetCurrentUserDataHandler(serverCtx),
+			},
+			{
+				// 获取用户组织列表
+				Method:  http.MethodPost,
+				Path:    "/getOrgList",
+				Handler: user.GetOrgListHandler(serverCtx),
 			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),

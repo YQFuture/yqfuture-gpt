@@ -22,6 +22,7 @@ type (
 		BindOpenId(ctx context.Context, openid string, userId int64) error
 		TransactCtx(ctx context.Context, fn func(context context.Context, session sqlx.Session) error) error
 		SessionInsert(ctx context.Context, data *BsUser, session sqlx.Session) (sql.Result, error)
+		ChangeOrg(ctx context.Context, orgId, userId int64) error
 	}
 
 	customBsUserModel struct {
@@ -92,4 +93,10 @@ func (m *defaultBsUserModel) SessionInsert(ctx context.Context, data *BsUser, se
 	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, bsUserRowsExpectAutoSet)
 	ret, err := session.ExecCtx(ctx, query, data.Id, data.NowOrgId, data.UserName, data.NickName, data.HeadImg, data.Phone, data.Password, data.Openid, data.Unionid, data.CreateBy, data.UpdateBy)
 	return ret, err
+}
+
+func (m *customBsUserModel) ChangeOrg(ctx context.Context, orgId, userId int64) error {
+	query := fmt.Sprintf("update %s set `now_org_id` = ? where `id` = ?", m.table)
+	_, err := m.conn.ExecCtx(ctx, query, orgId, userId)
+	return err
 }

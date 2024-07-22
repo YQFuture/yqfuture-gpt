@@ -33,3 +33,15 @@ func (s *UserServer) BindPhone(ctx context.Context, in *user.BindPhoneReq) (*use
 	l := userlogic.NewBindPhoneLogic(ctx, s.svcCtx)
 	return l.BindPhone(in)
 }
+
+// 获取用户组织列表
+func (s *UserServer) GetOrgList(ctx context.Context, in *user.OrgListReq) (*user.OrgListResp, error) {
+	l := userlogic.NewGetOrgListLogic(ctx, s.svcCtx)
+	return l.GetOrgList(in)
+}
+
+// 切换组织
+func (s *UserServer) ChangeOrg(ctx context.Context, in *user.ChangeOrgReq) (*user.ChangeOrgResp, error) {
+	l := userlogic.NewChangeOrgLogic(ctx, s.svcCtx)
+	return l.ChangeOrg(in)
+}

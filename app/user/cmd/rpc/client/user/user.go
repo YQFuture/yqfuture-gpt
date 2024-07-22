@@ -15,12 +15,15 @@ import (
 type (
 	BindPhoneReq        = user.BindPhoneReq
 	BindPhoneResp       = user.BindPhoneResp
+	ChangeOrgReq        = user.ChangeOrgReq
+	ChangeOrgResp       = user.ChangeOrgResp
 	CurrentUserData     = user.CurrentUserData
 	CurrentUserDataReq  = user.CurrentUserDataReq
 	CurrentUserDataResp = user.CurrentUserDataResp
 	LoginReq            = user.LoginReq
 	LoginResp           = user.LoginResp
 	OrgInfo             = user.OrgInfo
+	OrgListReq          = user.OrgListReq
 	OrgListResp         = user.OrgListResp
 	RegisterReq         = user.RegisterReq
 	RegisterResp        = user.RegisterResp
@@ -33,6 +36,10 @@ type (
 		GetCurrentUserData(ctx context.Context, in *CurrentUserDataReq, opts ...grpc.CallOption) (*CurrentUserDataResp, error)
 		// 绑定手机号
 		BindPhone(ctx context.Context, in *BindPhoneReq, opts ...grpc.CallOption) (*BindPhoneResp, error)
+		// 获取用户组织列表
+		GetOrgList(ctx context.Context, in *OrgListReq, opts ...grpc.CallOption) (*OrgListResp, error)
+		// 切换组织
+		ChangeOrg(ctx context.Context, in *ChangeOrgReq, opts ...grpc.CallOption) (*ChangeOrgResp, error)
 	}
 
 	defaultUser struct {
@@ -56,4 +63,16 @@ func (m *defaultUser) GetCurrentUserData(ctx context.Context, in *CurrentUserDat
 func (m *defaultUser) BindPhone(ctx context.Context, in *BindPhoneReq, opts ...grpc.CallOption) (*BindPhoneResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.BindPhone(ctx, in, opts...)
+}
+
+// 获取用户组织列表
+func (m *defaultUser) GetOrgList(ctx context.Context, in *OrgListReq, opts ...grpc.CallOption) (*OrgListResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.GetOrgList(ctx, in, opts...)
+}
+
+// 切换组织
+func (m *defaultUser) ChangeOrg(ctx context.Context, in *ChangeOrgReq, opts ...grpc.CallOption) (*ChangeOrgResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.ChangeOrg(ctx, in, opts...)
 }

@@ -75,18 +75,38 @@ message BindPhoneResp {
   int64 code = 1;
   int64 userId = 2;
 }
+// 用户组织列表请求体
+message OrgListReq {
+  int64 userId = 1;
+}
+// 用户组织列表返回体
 message OrgListResp {
   int64 code = 1;
   repeated OrgInfo result = 2;
 }
+// 用户组织信息
 message OrgInfo {
   int64 orgId = 1;
   string orgName = 2;
   int64 bundleType = 3;
+  bool isAdmin = 4;
+}
+// 切换组织请求体
+message ChangeOrgReq {
+  int64 userId = 1;
+  int64 orgId = 2;
+}
+// 切换组织返回体
+message ChangeOrgResp {
+  int64 code = 1;
 }
 service User {
   // 获取当前登录用户数据
   rpc getCurrentUserData(CurrentUserDataReq) returns (CurrentUserDataResp);
   // 绑定手机号
   rpc bindPhone(BindPhoneReq) returns (BindPhoneResp);
+  // 获取用户组织列表
+  rpc getOrgList(OrgListReq) returns (OrgListResp);
+  // 切换组织
+  rpc changeOrg(ChangeOrgReq) returns (ChangeOrgResp);
 }

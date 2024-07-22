@@ -53,6 +53,7 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(in *user.CurrentUserDataReq
 				OrgId:      organization.Id,
 				OrgName:    organization.OrgName.String,
 				BundleType: organization.BundleType,
+				IsAdmin:    organization.OwnerId == bsUser.Id,
 			},
 		},
 	}, nil

@@ -97,6 +97,7 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(req *types.BaseReq) (resp *
 				OrgId:      strconv.FormatInt(currentUserDataResp.Result.NowOrg.OrgId, 10),
 				OrgName:    currentUserDataResp.Result.NowOrg.OrgName,
 				BundleType: currentUserDataResp.Result.NowOrg.BundleType,
+				IsAdmin:    currentUserDataResp.Result.NowOrg.IsAdmin,
 			},
 		},
 	}, nil

@@ -15,12 +15,15 @@ import (
 type (
 	BindPhoneReq        = user.BindPhoneReq
 	BindPhoneResp       = user.BindPhoneResp
+	ChangeOrgReq        = user.ChangeOrgReq
+	ChangeOrgResp       = user.ChangeOrgResp
 	CurrentUserData     = user.CurrentUserData
 	CurrentUserDataReq  = user.CurrentUserDataReq
 	CurrentUserDataResp = user.CurrentUserDataResp
 	LoginReq            = user.LoginReq
 	LoginResp           = user.LoginResp
 	OrgInfo             = user.OrgInfo
+	OrgListReq          = user.OrgListReq
 	OrgListResp         = user.OrgListResp
 	RegisterReq         = user.RegisterReq
 	RegisterResp        = user.RegisterResp

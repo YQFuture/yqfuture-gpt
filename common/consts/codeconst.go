@@ -10,4 +10,5 @@ const (
 	PhoneIsRegistered         = 40005 // 手机号已注册
 	PhoneIsNotRegistered      = 40006 // 手机号未注册
 	PhoneIsNotBound           = 40007 // 手机号未绑定
+	UserNotInOrg              = 40008 // 用户不在组织中
 )
