@@ -20,6 +20,8 @@ type (
 	CurrentUserDataResp = user.CurrentUserDataResp
 	LoginReq            = user.LoginReq
 	LoginResp           = user.LoginResp
+	OrgInfo             = user.OrgInfo
+	OrgListResp         = user.OrgListResp
 	RegisterReq         = user.RegisterReq
 	RegisterResp        = user.RegisterResp
 	UserInfo            = user.UserInfo

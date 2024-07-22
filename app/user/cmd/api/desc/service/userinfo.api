@@ -105,6 +105,7 @@ type (
         Phone string `json:"phone"`       // 手机号码
         NickName string `json:"nickname"` // 昵称
         HeadImg string `json:"headImg"`   // 头像
+        NowOrg OrgInfo `json:"nowOrg"`    // 当前组织信息
     }
 
         // 绑定手机号请求体
@@ -118,6 +119,24 @@ type (
     BindPhoneResp {
         BaseResp
         Data UserInfo `json:"data"` // 用户信息
+    }
+
+        // 获取用户所有组织列表请求体
+    OrgListReq {
+
+    }
+
+        // 用户组织列表返回体
+    OrgListResp {
+        BaseResp
+        Data []OrgInfo `json:"data"` // 组织列表
+    }
+
+        // 组织信息
+    OrgInfo {
+        OrgId string `json:"orgId"`          // 组织ID
+        OrgName string `json:"orgName"`      // 组织名称
+        BundleType int64 `json:"bundleType"` // 套餐类型 0: 免费版 1: 基础版 2: AI个人版 3: AI协作版
     }
 )
 

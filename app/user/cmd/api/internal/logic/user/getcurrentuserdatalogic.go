@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 	"encoding/json"
+	"strconv"
 	"time"
 	"yufuture-gpt/app/user/cmd/api/internal/logic/login"
 	"yufuture-gpt/app/user/cmd/rpc/pb/user"
@@ -92,6 +93,11 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(req *types.BaseReq) (resp *
 			Phone:    currentUserDataResp.Result.Phone,
 			NickName: currentUserDataResp.Result.NickName,
 			HeadImg:  currentUserDataResp.Result.HeadImg,
+			NowOrg: types.OrgInfo{
+				OrgId:      strconv.FormatInt(currentUserDataResp.Result.NowOrg.OrgId, 10),
+				OrgName:    currentUserDataResp.Result.NowOrg.OrgName,
+				BundleType: currentUserDataResp.Result.NowOrg.BundleType,
+			},
 		},
 	}, nil
 }

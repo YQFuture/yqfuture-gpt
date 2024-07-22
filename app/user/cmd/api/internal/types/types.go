@@ -43,10 +43,11 @@ type CaptchaResp struct {
 }
 
 type CurrentUserData struct {
-	Token    string `json:"token"`    // JWT Token
-	Phone    string `json:"phone"`    // 手机号码
-	NickName string `json:"nickname"` // 昵称
-	HeadImg  string `json:"headImg"`  // 头像
+	Token    string  `json:"token"`    // JWT Token
+	Phone    string  `json:"phone"`    // 手机号码
+	NickName string  `json:"nickname"` // 昵称
+	HeadImg  string  `json:"headImg"`  // 头像
+	NowOrg   OrgInfo `json:"nowOrg"`   // 当前组织信息
 }
 
 type CurrentUserDataResp struct {
@@ -90,6 +91,20 @@ type LoginReq struct {
 type LoginResp struct {
 	BaseResp
 	Data UserInfo `json:"data"` // 用户信息
+}
+
+type OrgInfo struct {
+	OrgId      string `json:"orgId"`      // 组织ID
+	OrgName    string `json:"orgName"`    // 组织名称
+	BundleType int64  `json:"bundleType"` // 套餐类型 0: 免费版 1: 基础版 2: AI个人版 3: AI协作版
+}
+
+type OrgListReq struct {
+}
+
+type OrgListResp struct {
+	BaseResp
+	Data []OrgInfo `json:"data"` // 组织列表
 }
 
 type QrCodeLoginStatusReq struct {

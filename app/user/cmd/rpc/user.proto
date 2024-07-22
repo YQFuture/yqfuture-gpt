@@ -63,6 +63,7 @@ message CurrentUserData {
   string phone = 2;
   string nickName = 3;
   string headImg = 4;
+  OrgInfo nowOrg = 5;
 }
 // 绑定手机号请求体
 message BindPhoneReq {
@@ -73,6 +74,15 @@ message BindPhoneReq {
 message BindPhoneResp {
   int64 code = 1;
   int64 userId = 2;
+}
+message OrgListResp {
+  int64 code = 1;
+  repeated OrgInfo result = 2;
+}
+message OrgInfo {
+  int64 orgId = 1;
+  string orgName = 2;
+  int64 bundleType = 3;
 }
 service User {
   // 获取当前登录用户数据

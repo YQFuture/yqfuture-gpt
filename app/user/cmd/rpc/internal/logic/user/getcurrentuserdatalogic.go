@@ -38,6 +38,10 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(in *user.CurrentUserDataReq
 			Code: consts.PhoneIsNotBound,
 		}, nil
 	}
+	organization, err := l.svcCtx.BsOrganizationModel.FindOne(l.ctx, bsUser.NowOrgId)
+	if err != nil {
+		return nil, err
+	}
 	return &user.CurrentUserDataResp{
 		Code: consts.Success,
 		Result: &user.CurrentUserData{
@@ -45,6 +49,11 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(in *user.CurrentUserDataReq
 			HeadImg:  bsUser.HeadImg.String,
 			NickName: bsUser.NickName.String,
 			Phone:    bsUser.Phone.String,
+			NowOrg: &user.OrgInfo{
+				OrgId:      organization.Id,
+				OrgName:    organization.OrgName.String,
+				BundleType: organization.BundleType,
+			},
 		},
 	}, nil
 }
