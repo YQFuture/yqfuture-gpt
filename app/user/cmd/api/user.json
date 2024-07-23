@@ -217,6 +217,39 @@
         ]
       }
     },
+    "/user/changeOrg": {
+      "post": {
+        "summary": "切换组织",
+        "operationId": "changeOrg",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 切换组织请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChangeOrgReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/user/getCurrentUserData": {
       "post": {
         "summary": "获取当前登录用户数据",
@@ -237,6 +270,138 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/BaseReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/user/getOrgList": {
+      "post": {
+        "summary": "获取用户组织列表",
+        "operationId": "getOrgList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/OrgListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 基础请求",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BaseReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/user/updateHeadImg": {
+      "post": {
+        "summary": "更新头像",
+        "operationId": "updateHeadImg",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 更新头像请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateHeadImgReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/user/updateNickName": {
+      "post": {
+        "summary": "更新昵称",
+        "operationId": "updateNickName",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 更新昵称请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateNickNameReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/user/updateOrgName": {
+      "post": {
+        "summary": "更新组织名称",
+        "operationId": "updateOrgName",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 更新组织名称请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateOrgNameReq"
             }
           }
         ],
@@ -412,9 +577,51 @@
         "data"
       ]
     },
+    "ChangeOrgReq": {
+      "type": "object",
+      "properties": {
+        "orgId": {
+          "type": "string",
+          "description": " 组织ID"
+        }
+      },
+      "title": "ChangeOrgReq",
+      "required": [
+        "orgId"
+      ]
+    },
     "CurrentUserData": {
       "type": "object",
-      "title": "CurrentUserData"
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": " JWT Token"
+        },
+        "phone": {
+          "type": "string",
+          "description": " 手机号码"
+        },
+        "nickname": {
+          "type": "string",
+          "description": " 昵称"
+        },
+        "headImg": {
+          "type": "string",
+          "description": " 头像"
+        },
+        "nowOrg": {
+          "$ref": "#/definitions/OrgInfo",
+          "description": " 当前组织信息"
+        }
+      },
+      "title": "CurrentUserData",
+      "required": [
+        "token",
+        "phone",
+        "nickname",
+        "headImg",
+        "nowOrg"
+      ]
     },
     "CurrentUserDataResp": {
       "type": "object",
@@ -596,6 +803,61 @@
         "data"
       ]
     },
+    "OrgInfo": {
+      "type": "object",
+      "properties": {
+        "orgId": {
+          "type": "string",
+          "description": " 组织ID"
+        },
+        "orgName": {
+          "type": "string",
+          "description": " 组织名称"
+        },
+        "bundleType": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 套餐类型 0: 免费版 1: 基础版 2: AI个人版 3: AI协作版"
+        },
+        "isAdmin": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": " 是否是管理员"
+        }
+      },
+      "title": "OrgInfo",
+      "required": [
+        "orgId",
+        "orgName",
+        "bundleType",
+        "isAdmin"
+      ]
+    },
+    "OrgListResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrgInfo"
+          },
+          "description": " 组织列表"
+        }
+      },
+      "title": "OrgListResp",
+      "required": [
+        "data"
+      ]
+    },
     "QrCodeLoginStatusReq": {
       "type": "object",
       "properties": {
@@ -685,6 +947,50 @@
       "title": "RegisterResp",
       "required": [
         "data"
+      ]
+    },
+    "UpdateHeadImgReq": {
+      "type": "object",
+      "properties": {
+        "headImg": {
+          "type": "string",
+          "description": " 新头像URL"
+        }
+      },
+      "title": "UpdateHeadImgReq",
+      "required": [
+        "headImg"
+      ]
+    },
+    "UpdateNickNameReq": {
+      "type": "object",
+      "properties": {
+        "nickName": {
+          "type": "string",
+          "description": " 新昵称"
+        }
+      },
+      "title": "UpdateNickNameReq",
+      "required": [
+        "nickName"
+      ]
+    },
+    "UpdateOrgNameReq": {
+      "type": "object",
+      "properties": {
+        "orgId": {
+          "type": "string",
+          "description": " 组织ID"
+        },
+        "orgName": {
+          "type": "string",
+          "description": " 新组织名称"
+        }
+      },
+      "title": "UpdateOrgNameReq",
+      "required": [
+        "orgId",
+        "orgName"
       ]
     },
     "UserInfo": {

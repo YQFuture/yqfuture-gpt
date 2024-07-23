@@ -18,7 +18,7 @@ Consul:
 
 # MySQL
 DB:
-  DataSource: root:mysql_QspKnh@tcp(192.168.3.118:3306)/qyfuture_gpt?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+  DataSource: root:mysql_QspKnh@tcp(192.168.3.118:3306)/yqfuture_gpt?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
 
 # 雪花算法节点ID 每个服务节点的值不能一样
 SnowFlakeNode: 1
