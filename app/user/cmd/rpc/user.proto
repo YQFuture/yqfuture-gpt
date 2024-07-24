@@ -140,6 +140,13 @@ message MessageInfo {
   int64 ignoreFlag = 5;
   int64 createTime = 6;
 }
+message IgnoreMessageReq {
+  int64 userId = 1;
+  int64 messageId = 2;
+}
+message IgnoreMessageResp {
+  int64 code = 1;
+}
 service User {
   // 获取当前登录用户数据
   rpc getCurrentUserData(CurrentUserDataReq) returns (CurrentUserDataResp);
@@ -157,4 +164,6 @@ service User {
   rpc updateNickName(UpdateNickNameReq) returns (UpdateNickNameResp);
   // 获取消息列表
   rpc getMessageList(MessageListReq) returns (MessageListResp);
+  // 忽略消息
+  rpc ignoreMessage(IgnoreMessageReq) returns (IgnoreMessageResp);
 }

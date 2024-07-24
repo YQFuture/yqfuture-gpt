@@ -20,6 +20,8 @@ type (
 	CurrentUserData     = user.CurrentUserData
 	CurrentUserDataReq  = user.CurrentUserDataReq
 	CurrentUserDataResp = user.CurrentUserDataResp
+	IgnoreMessageReq    = user.IgnoreMessageReq
+	IgnoreMessageResp   = user.IgnoreMessageResp
 	LoginReq            = user.LoginReq
 	LoginResp           = user.LoginResp
 	MessageInfo         = user.MessageInfo

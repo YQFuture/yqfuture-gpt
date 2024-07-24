@@ -20,6 +20,8 @@ type (
 	CurrentUserData     = user.CurrentUserData
 	CurrentUserDataReq  = user.CurrentUserDataReq
 	CurrentUserDataResp = user.CurrentUserDataResp
+	IgnoreMessageReq    = user.IgnoreMessageReq
+	IgnoreMessageResp   = user.IgnoreMessageResp
 	LoginReq            = user.LoginReq
 	LoginResp           = user.LoginResp
 	MessageInfo         = user.MessageInfo
@@ -57,6 +59,8 @@ type (
 		UpdateNickName(ctx context.Context, in *UpdateNickNameReq, opts ...grpc.CallOption) (*UpdateNickNameResp, error)
 		// 获取消息列表
 		GetMessageList(ctx context.Context, in *MessageListReq, opts ...grpc.CallOption) (*MessageListResp, error)
+		// 忽略消息
+		IgnoreMessage(ctx context.Context, in *IgnoreMessageReq, opts ...grpc.CallOption) (*IgnoreMessageResp, error)
 	}
 
 	defaultUser struct {
@@ -116,4 +120,10 @@ func (m *defaultUser) UpdateNickName(ctx context.Context, in *UpdateNickNameReq,
 func (m *defaultUser) GetMessageList(ctx context.Context, in *MessageListReq, opts ...grpc.CallOption) (*MessageListResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.GetMessageList(ctx, in, opts...)
+}
+
+// 忽略消息
+func (m *defaultUser) IgnoreMessage(ctx context.Context, in *IgnoreMessageReq, opts ...grpc.CallOption) (*IgnoreMessageResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.IgnoreMessage(ctx, in, opts...)
 }

@@ -75,6 +75,10 @@ type DictInfoByTypeResp struct {
 	Data []*DictInfo `json:"data"` // 字典列表
 }
 
+type IgnoreMessageReq struct {
+	MessageId string `json:"messageId"` // 消息ID
+}
+
 type LoginQrCodeData struct {
 	TicketQrCodeUrl string `json:"ticketQrCodeUrl"` // 二维码图片链接
 	Ticket          string `json:"ticket"`          // 二维码票据

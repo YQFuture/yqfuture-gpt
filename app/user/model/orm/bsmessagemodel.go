@@ -19,6 +19,7 @@ type (
 		SyncNotice(ctx context.Context, userId int64) error
 		FindUnreadCount(ctx context.Context, userId, nowOrgId int64) (int64, error)
 		FindMessageList(ctx context.Context, userId, nowOrgId, messageId, timeVector int64) (*[]*BsMessageInfo, error)
+		IgnoreMessage(ctx context.Context, messageId int64) error
 	}
 
 	customBsMessageModel struct {
@@ -89,4 +90,10 @@ func (m *defaultBsMessageModel) FindMessageList(ctx context.Context, userId, now
 	default:
 		return nil, err
 	}
+}
+
+func (m *defaultBsMessageModel) IgnoreMessage(ctx context.Context, messageId int64) error {
+	query := fmt.Sprintf("update %s set ignore_flag = 1 where `id` = ?", m.table)
+	_, err := m.conn.ExecCtx(ctx, query, messageId)
+	return err
 }

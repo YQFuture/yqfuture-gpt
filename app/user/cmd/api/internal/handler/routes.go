@@ -105,6 +105,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: user.GetOrgListHandler(serverCtx),
 			},
 			{
+				// 忽略消息
+				Method:  http.MethodPost,
+				Path:    "/ignoreMessage",
+				Handler: user.IgnoreMessageHandler(serverCtx),
+			},
+			{
 				// 更新头像
 				Method:  http.MethodPost,
 				Path:    "/updateHeadImg",

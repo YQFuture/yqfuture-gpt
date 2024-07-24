@@ -283,6 +283,39 @@
         ]
       }
     },
+    "/user/getMessageList": {
+      "post": {
+        "summary": "获取消息列表",
+        "operationId": "getMessageList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/MessageListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 获取消息列表请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MessageListReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/user/getOrgList": {
       "post": {
         "summary": "获取用户组织列表",
@@ -303,6 +336,39 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/BaseReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/user/ignoreMessage": {
+      "post": {
+        "summary": "忽略消息",
+        "operationId": "ignoreMessage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/BaseResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 忽略消息请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IgnoreMessageReq"
             }
           }
         ],
@@ -612,6 +678,11 @@
         "nowOrg": {
           "$ref": "#/definitions/OrgInfo",
           "description": " 当前组织信息"
+        },
+        "unreadMsgCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 未读消息数量"
         }
       },
       "title": "CurrentUserData",
@@ -620,7 +691,8 @@
         "phone",
         "nickname",
         "headImg",
-        "nowOrg"
+        "nowOrg",
+        "unreadMsgCount"
       ]
     },
     "CurrentUserDataResp": {
@@ -705,6 +777,19 @@
       "title": "DictInfoByTypeResp",
       "required": [
         "data"
+      ]
+    },
+    "IgnoreMessageReq": {
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "type": "string",
+          "description": " 消息ID"
+        }
+      },
+      "title": "IgnoreMessageReq",
+      "required": [
+        "messageId"
       ]
     },
     "LoginQrCodeData": {
@@ -799,6 +884,92 @@
         }
       },
       "title": "LoginResp",
+      "required": [
+        "data"
+      ]
+    },
+    "MessageInfo": {
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "type": "string",
+          "description": " 消息ID"
+        },
+        "messageContentType": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 消息内容类型 0: 文字 1: 图文 2: 图片 3: 邀请加入组织 4: 申请加入组织 5: 平台掉线 6: 算力不足 7: 转接失败"
+        },
+        "messageContent": {
+          "type": "string",
+          "description": " 消息内容"
+        },
+        "dealFlag": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 处理标记 0: 未处理 1: 已处理"
+        },
+        "ignoreFlag": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 忽略标记 0: 未忽略 1: 已忽略"
+        },
+        "createTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        }
+      },
+      "title": "MessageInfo",
+      "required": [
+        "messageId",
+        "messageContentType",
+        "messageContent",
+        "dealFlag",
+        "ignoreFlag",
+        "createTime"
+      ]
+    },
+    "MessageListReq": {
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "type": "string",
+          "description": " 消息ID"
+        },
+        "timeVector": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 时间向量 0: 新消息 1: 旧消息"
+        }
+      },
+      "title": "MessageListReq",
+      "required": [
+        "messageId",
+        "timeVector"
+      ]
+    },
+    "MessageListResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageInfo"
+          },
+          "description": " 消息列表"
+        }
+      },
+      "title": "MessageListResp",
       "required": [
         "data"
       ]

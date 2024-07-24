@@ -69,3 +69,9 @@ func (s *UserServer) GetMessageList(ctx context.Context, in *user.MessageListReq
 	l := userlogic.NewGetMessageListLogic(ctx, s.svcCtx)
 	return l.GetMessageList(in)
 }
+
+// 忽略消息
+func (s *UserServer) IgnoreMessage(ctx context.Context, in *user.IgnoreMessageReq) (*user.IgnoreMessageResp, error) {
+	l := userlogic.NewIgnoreMessageLogic(ctx, s.svcCtx)
+	return l.IgnoreMessage(in)
+}

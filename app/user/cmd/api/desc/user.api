@@ -81,6 +81,10 @@ service user {
 	@doc "获取消息列表"
 	@handler getMessageList
 	post /getMessageList (MessageListReq) returns (MessageListResp)
+
+	@doc "忽略消息"
+	@handler ignoreMessage
+	post /ignoreMessage (IgnoreMessageReq) returns (BaseResp)
 }
 
 @server (

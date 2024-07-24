@@ -204,6 +204,7 @@ const (
 	User_UpdateHeadImg_FullMethodName      = "/user.User/updateHeadImg"
 	User_UpdateNickName_FullMethodName     = "/user.User/updateNickName"
 	User_GetMessageList_FullMethodName     = "/user.User/getMessageList"
+	User_IgnoreMessage_FullMethodName      = "/user.User/ignoreMessage"
 )
 
 // UserClient is the client API for User service.
@@ -226,6 +227,8 @@ type UserClient interface {
 	UpdateNickName(ctx context.Context, in *UpdateNickNameReq, opts ...grpc.CallOption) (*UpdateNickNameResp, error)
 	// 获取消息列表
 	GetMessageList(ctx context.Context, in *MessageListReq, opts ...grpc.CallOption) (*MessageListResp, error)
+	// 忽略消息
+	IgnoreMessage(ctx context.Context, in *IgnoreMessageReq, opts ...grpc.CallOption) (*IgnoreMessageResp, error)
 }
 
 type userClient struct {
@@ -316,6 +319,16 @@ func (c *userClient) GetMessageList(ctx context.Context, in *MessageListReq, opt
 	return out, nil
 }
 
+func (c *userClient) IgnoreMessage(ctx context.Context, in *IgnoreMessageReq, opts ...grpc.CallOption) (*IgnoreMessageResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(IgnoreMessageResp)
+	err := c.cc.Invoke(ctx, User_IgnoreMessage_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
@@ -336,6 +349,8 @@ type UserServer interface {
 	UpdateNickName(context.Context, *UpdateNickNameReq) (*UpdateNickNameResp, error)
 	// 获取消息列表
 	GetMessageList(context.Context, *MessageListReq) (*MessageListResp, error)
+	// 忽略消息
+	IgnoreMessage(context.Context, *IgnoreMessageReq) (*IgnoreMessageResp, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -366,6 +381,9 @@ func (UnimplementedUserServer) UpdateNickName(context.Context, *UpdateNickNameRe
 }
 func (UnimplementedUserServer) GetMessageList(context.Context, *MessageListReq) (*MessageListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMessageList not implemented")
+}
+func (UnimplementedUserServer) IgnoreMessage(context.Context, *IgnoreMessageReq) (*IgnoreMessageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IgnoreMessage not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -524,6 +542,24 @@ func _User_GetMessageList_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_IgnoreMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IgnoreMessageReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).IgnoreMessage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_IgnoreMessage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).IgnoreMessage(ctx, req.(*IgnoreMessageReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -562,6 +598,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "getMessageList",
 			Handler:    _User_GetMessageList_Handler,
+		},
+		{
+			MethodName: "ignoreMessage",
+			Handler:    _User_IgnoreMessage_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
