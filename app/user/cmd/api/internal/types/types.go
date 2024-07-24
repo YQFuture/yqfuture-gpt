@@ -47,11 +47,12 @@ type ChangeOrgReq struct {
 }
 
 type CurrentUserData struct {
-	Token    string  `json:"token"`    // JWT Token
-	Phone    string  `json:"phone"`    // 手机号码
-	NickName string  `json:"nickname"` // 昵称
-	HeadImg  string  `json:"headImg"`  // 头像
-	NowOrg   OrgInfo `json:"nowOrg"`   // 当前组织信息
+	Token          string  `json:"token"`          // JWT Token
+	Phone          string  `json:"phone"`          // 手机号码
+	NickName       string  `json:"nickname"`       // 昵称
+	HeadImg        string  `json:"headImg"`        // 头像
+	NowOrg         OrgInfo `json:"nowOrg"`         // 当前组织信息
+	UnreadMsgCount int64   `json:"unreadMsgCount"` // 未读消息数量
 }
 
 type CurrentUserDataResp struct {

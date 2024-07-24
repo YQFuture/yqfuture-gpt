@@ -99,6 +99,7 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(req *types.BaseReq) (resp *
 				BundleType: currentUserDataResp.Result.NowOrg.BundleType,
 				IsAdmin:    currentUserDataResp.Result.NowOrg.IsAdmin,
 			},
+			UnreadMsgCount: currentUserDataResp.Result.UnreadMsgCount,
 		},
 	}, nil
 }
