@@ -37,6 +37,12 @@ func (l *GetMessageListLogic) GetMessageList(in *user.MessageListReq) (*user.Mes
 		return nil, err
 	}
 
+	// 将所有未读消息状态置为已读
+	err = l.svcCtx.BsMessageModel.SetMessageRead(l.ctx, in.UserId, bsUser.NowOrgId)
+	if err != nil {
+		l.Logger.Error("将所有未读消息状态置为已读", err)
+	}
+
 	var messageInfoList []*user.MessageInfo
 	for _, message := range *messageList {
 		messageInfoList = append(messageInfoList, &user.MessageInfo{

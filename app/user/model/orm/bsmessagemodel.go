@@ -19,6 +19,7 @@ type (
 		SyncNotice(ctx context.Context, userId int64) error
 		FindUnreadCount(ctx context.Context, userId, nowOrgId int64) (int64, error)
 		FindMessageList(ctx context.Context, userId, nowOrgId, messageId, timeVector int64) (*[]*BsMessageInfo, error)
+		SetMessageRead(ctx context.Context, userId, nowOrgId int64) error
 		IgnoreMessage(ctx context.Context, messageId int64) error
 	}
 
@@ -90,6 +91,12 @@ func (m *defaultBsMessageModel) FindMessageList(ctx context.Context, userId, now
 	default:
 		return nil, err
 	}
+}
+
+func (m *defaultBsMessageModel) SetMessageRead(ctx context.Context, userId, nowOrgId int64) error {
+	query := fmt.Sprintf("update %s set read_flag = 1 where user_id = ? and (org_id = ? OR org_id = 0) and `read_flag` = 0", m.table)
+	_, err := m.conn.ExecCtx(ctx, query, userId, nowOrgId)
+	return err
 }
 
 func (m *defaultBsMessageModel) IgnoreMessage(ctx context.Context, messageId int64) error {
