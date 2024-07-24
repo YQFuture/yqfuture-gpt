@@ -71,14 +71,14 @@ func (m *defaultBsMessageModel) FindMessageList(ctx context.Context, userId, now
 	var err error
 	if messageId != 0 {
 		if timeVector == 0 {
-			query := fmt.Sprintf("SELECT m.id, c.message_content_type, c.message_content, m.read_flag, m.ignore_flag, c.create_time FROM bs_message m LEFT JOIN bs_message_content c ON m.content_id = c.id WHERE m.id > ? AND m.user_id = ? AND (m.org_id = ? OR m.org_id = 0) ORDER BY m.id DESC LIMIT 5")
+			query := fmt.Sprintf("SELECT m.id, c.message_content_type, c.message_content, m.deal_flag, m.ignore_flag, c.create_time FROM bs_message m LEFT JOIN bs_message_content c ON m.content_id = c.id WHERE m.id > ? AND m.user_id = ? AND (m.org_id = ? OR m.org_id = 0) ORDER BY m.id DESC LIMIT 5")
 			err = m.conn.QueryRowsCtx(ctx, &resp, query, messageId, userId, nowOrgId)
 		} else {
-			query := fmt.Sprintf("SELECT m.id, c.message_content_type, c.message_content, m.read_flag, m.ignore_flag, c.create_time FROM bs_message m LEFT JOIN bs_message_content c ON m.content_id = c.id WHERE m.id < ? AND m.user_id = ? AND (m.org_id = ? OR m.org_id = 0) ORDER BY m.id DESC LIMIT 5")
+			query := fmt.Sprintf("SELECT m.id, c.message_content_type, c.message_content, m.deal_flag, m.ignore_flag, c.create_time FROM bs_message m LEFT JOIN bs_message_content c ON m.content_id = c.id WHERE m.id < ? AND m.user_id = ? AND (m.org_id = ? OR m.org_id = 0) ORDER BY m.id DESC LIMIT 5")
 			err = m.conn.QueryRowsCtx(ctx, &resp, query, messageId, userId, nowOrgId)
 		}
 	} else {
-		query := fmt.Sprintf("SELECT m.id, c.message_content_type, c.message_content, m.read_flag, m.ignore_flag, c.create_time FROM bs_message m LEFT JOIN bs_message_content c ON m.content_id = c.id WHERE m.user_id = ? AND (m.org_id = ? OR m.org_id = 0) ORDER BY m.id DESC LIMIT 5")
+		query := fmt.Sprintf("SELECT m.id, c.message_content_type, c.message_content, m.deal_flag, m.ignore_flag, c.create_time FROM bs_message m LEFT JOIN bs_message_content c ON m.content_id = c.id WHERE m.user_id = ? AND (m.org_id = ? OR m.org_id = 0) ORDER BY m.id DESC LIMIT 5")
 		err = m.conn.QueryRowsCtx(ctx, &resp, query, userId, nowOrgId)
 	}
 	switch {
