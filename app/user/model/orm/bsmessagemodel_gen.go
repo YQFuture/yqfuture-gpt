@@ -35,17 +35,18 @@ type (
 	}
 
 	BsMessage struct {
-		Id          int64         `db:"id"`           // 消息ID
-		UserId      int64         `db:"user_id"`      // 用户ID
-		OrgId       sql.NullInt64 `db:"org_id"`       // 组织ID
-		MessageType int64         `db:"message_type"` // 消息类型 0: 个人消息 1: 全员公告
-		ContentId   int64         `db:"content_id"`   // 消息内容ID
-		ReadFlag    int64         `db:"read_flag"`    // 已读标记 0: 未读 1: 已读
-		IgnoreFlag  int64         `db:"ignore_flag"`  // 忽略标记 0: 未忽略 1: 已忽略
-		CreateTime  time.Time     `db:"create_time"`  // 创建时间
-		UpdateTime  time.Time     `db:"update_time"`  // 修改时间
-		CreateBy    int64         `db:"create_by"`    // 创建人
-		UpdateBy    int64         `db:"update_by"`    // 修改人
+		Id          int64     `db:"id"`           // 消息ID
+		UserId      int64     `db:"user_id"`      // 用户ID
+		OrgId       int64     `db:"org_id"`       // 组织ID
+		MessageType int64     `db:"message_type"` // 消息类型 0: 个人消息 1: 全员公告
+		ContentId   int64     `db:"content_id"`   // 消息内容ID
+		ReadFlag    int64     `db:"read_flag"`    // 已读标记 0: 未读 1: 已读
+		DealFlag    int64     `db:"deal_flag"`    // 处理标记 0: 未处理 1: 已处理
+		IgnoreFlag  int64     `db:"ignore_flag"`  // 忽略标记 0: 未忽略 1: 已忽略
+		CreateTime  time.Time `db:"create_time"`  // 创建时间
+		UpdateTime  time.Time `db:"update_time"`  // 修改时间
+		CreateBy    int64     `db:"create_by"`    // 创建人
+		UpdateBy    int64     `db:"update_by"`    // 修改人
 	}
 )
 
@@ -77,14 +78,14 @@ func (m *defaultBsMessageModel) FindOne(ctx context.Context, id int64) (*BsMessa
 }
 
 func (m *defaultBsMessageModel) Insert(ctx context.Context, data *BsMessage) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?)", m.table, bsMessageRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.UserId, data.OrgId, data.MessageType, data.ContentId, data.ReadFlag, data.IgnoreFlag, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, bsMessageRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.UserId, data.OrgId, data.MessageType, data.ContentId, data.ReadFlag, data.DealFlag, data.IgnoreFlag, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 
 func (m *defaultBsMessageModel) Update(ctx context.Context, data *BsMessage) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, bsMessageRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.UserId, data.OrgId, data.MessageType, data.ContentId, data.ReadFlag, data.IgnoreFlag, data.CreateBy, data.UpdateBy, data.Id)
+	_, err := m.conn.ExecCtx(ctx, query, data.UserId, data.OrgId, data.MessageType, data.ContentId, data.ReadFlag, data.DealFlag, data.IgnoreFlag, data.CreateBy, data.UpdateBy, data.Id)
 	return err
 }
 

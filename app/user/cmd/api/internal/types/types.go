@@ -98,6 +98,25 @@ type LoginResp struct {
 	Data UserInfo `json:"data"` // 用户信息
 }
 
+type MessageInfo struct {
+	MessageId          string `json:"messageId"`          // 消息ID
+	MessageContentType int64  `json:"messageContentType"` // 消息内容类型 0: 文字 1: 图文 2: 图片 3: 邀请加入组织 4: 申请加入组织 5: 平台掉线 6: 算力不足 7: 转接失败
+	MessageContent     string `json:"messageContent"`     // 消息内容
+	DealFlag           int64  `json:"dealFlag"`           // 处理标记 0: 未处理 1: 已处理
+	IgnoreFlag         int64  `json:"ignoreFlag"`         // 忽略标记 0: 未忽略 1: 已忽略
+	CreateTime         int64  `json:"createTime"`         // 创建时间
+}
+
+type MessageListReq struct {
+	MessageId  string `json:"messageId"`  // 消息ID
+	TimeVector int64  `json:"timeVector"` // 时间向量 0: 新消息 1: 旧消息
+}
+
+type MessageListResp struct {
+	BaseResp
+	Data []MessageInfo `json:"data"` // 消息列表
+}
+
 type OrgInfo struct {
 	OrgId      string `json:"orgId"`      // 组织ID
 	OrgName    string `json:"orgName"`    // 组织名称

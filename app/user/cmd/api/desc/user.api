@@ -77,6 +77,10 @@ service user {
 	@doc "更新昵称"
 	@handler updateNickName
 	post /updateNickName (UpdateNickNameReq) returns (BaseResp)
+
+	@doc "获取消息列表"
+	@handler getMessageList
+	post /getMessageList (MessageListReq) returns (MessageListResp)
 }
 
 @server (

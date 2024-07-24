@@ -31,7 +31,7 @@ func (l *JudgeShopFirstLogic) JudgeShopFirst(req *types.JudgeShopFirstReq) (resp
 	id := l.ctx.Value("id")
 	userId, err := id.(json.Number).Int64()
 	if err != nil {
-		l.Logger.Error("获取用户id失败", err)
+		l.Logger.Error("获取用户ID失败", err)
 		return nil, err
 	}
 	result, err := l.svcCtx.ShopTrainingClient.JudgeShopFirst(l.ctx, &training.JudgeShopFirstReq{

@@ -93,6 +93,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: user.GetCurrentUserDataHandler(serverCtx),
 			},
 			{
+				// 获取消息列表
+				Method:  http.MethodPost,
+				Path:    "/getMessageList",
+				Handler: user.GetMessageListHandler(serverCtx),
+			},
+			{
 				// 获取用户组织列表
 				Method:  http.MethodPost,
 				Path:    "/getOrgList",

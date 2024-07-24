@@ -29,7 +29,7 @@ func NewGetGoodsPageListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 func (l *GetGoodsPageListLogic) GetGoodsPageList(req *types.GoodsPageListReq) (resp *types.GoodsPageListResp, err error) {
 	shopIdInt, err := strconv.ParseInt(req.ShopId, 10, 64)
 	if err != nil {
-		l.Logger.Error("转换店铺id失败", err)
+		l.Logger.Error("转换店铺ID失败", err)
 		return nil, err
 	}
 	result, err := l.svcCtx.ShopTrainingClient.GetGoodsPageList(l.ctx, &training.GoodsPageListReq{

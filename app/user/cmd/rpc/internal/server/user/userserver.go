@@ -63,3 +63,9 @@ func (s *UserServer) UpdateNickName(ctx context.Context, in *user.UpdateNickName
 	l := userlogic.NewUpdateNickNameLogic(ctx, s.svcCtx)
 	return l.UpdateNickName(in)
 }
+
+// 获取消息列表
+func (s *UserServer) GetMessageList(ctx context.Context, in *user.MessageListReq) (*user.MessageListResp, error) {
+	l := userlogic.NewGetMessageListLogic(ctx, s.svcCtx)
+	return l.GetMessageList(in)
+}

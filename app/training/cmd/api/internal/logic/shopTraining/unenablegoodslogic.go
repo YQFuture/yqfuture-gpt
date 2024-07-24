@@ -29,7 +29,7 @@ func NewUnEnableGoodsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UnE
 func (l *UnEnableGoodsLogic) UnEnableGoods(req *types.EnableGoodsReq) (resp *types.BaseResp, err error) {
 	goodsIdInt, err := strconv.ParseInt(req.GoodsId, 10, 64)
 	if err != nil {
-		l.Logger.Error("转换商品id失败", err)
+		l.Logger.Error("转换商品ID失败", err)
 		return nil, err
 	}
 	_, err = l.svcCtx.ShopTrainingClient.UnEnableGoods(l.ctx, &training.EnableGoodsReq{

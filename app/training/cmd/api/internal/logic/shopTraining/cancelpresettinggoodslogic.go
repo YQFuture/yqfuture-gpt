@@ -32,12 +32,12 @@ func (l *CancelPreSettingGoodsLogic) CancelPreSettingGoods(req *types.CancelPreS
 	id := l.ctx.Value("id")
 	userId, err := id.(json.Number).Int64()
 	if err != nil {
-		l.Logger.Error("获取用户id失败", err)
+		l.Logger.Error("获取用户ID失败", err)
 		return nil, err
 	}
 	goodsIdInt, err := strconv.ParseInt(req.GoodsId, 10, 64)
 	if err != nil {
-		l.Logger.Error("转换商品id失败", err)
+		l.Logger.Error("转换商品ID失败", err)
 		return nil, err
 	}
 	_, err = l.svcCtx.ShopTrainingClient.CancelPreSettingGoods(l.ctx, &training.CancelPreSettingGoodsReq{

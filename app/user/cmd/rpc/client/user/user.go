@@ -22,6 +22,9 @@ type (
 	CurrentUserDataResp = user.CurrentUserDataResp
 	LoginReq            = user.LoginReq
 	LoginResp           = user.LoginResp
+	MessageInfo         = user.MessageInfo
+	MessageListReq      = user.MessageListReq
+	MessageListResp     = user.MessageListResp
 	OrgInfo             = user.OrgInfo
 	OrgListReq          = user.OrgListReq
 	OrgListResp         = user.OrgListResp
@@ -52,6 +55,8 @@ type (
 		UpdateHeadImg(ctx context.Context, in *UpdateHeadImgReq, opts ...grpc.CallOption) (*UpdateHeadImgResp, error)
 		// 更新昵称
 		UpdateNickName(ctx context.Context, in *UpdateNickNameReq, opts ...grpc.CallOption) (*UpdateNickNameResp, error)
+		// 获取消息列表
+		GetMessageList(ctx context.Context, in *MessageListReq, opts ...grpc.CallOption) (*MessageListResp, error)
 	}
 
 	defaultUser struct {
@@ -105,4 +110,10 @@ func (m *defaultUser) UpdateHeadImg(ctx context.Context, in *UpdateHeadImgReq, o
 func (m *defaultUser) UpdateNickName(ctx context.Context, in *UpdateNickNameReq, opts ...grpc.CallOption) (*UpdateNickNameResp, error) {
 	client := user.NewUserClient(m.cli.Conn())
 	return client.UpdateNickName(ctx, in, opts...)
+}
+
+// 获取消息列表
+func (m *defaultUser) GetMessageList(ctx context.Context, in *MessageListReq, opts ...grpc.CallOption) (*MessageListResp, error) {
+	client := user.NewUserClient(m.cli.Conn())
+	return client.GetMessageList(ctx, in, opts...)
 }

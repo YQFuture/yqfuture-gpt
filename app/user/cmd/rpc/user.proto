@@ -123,6 +123,23 @@ message UpdateNickNameReq {
 message UpdateNickNameResp {
   int64 code = 1;
 }
+message MessageListReq {
+  int64 userId = 1;
+  int64 messageId = 2;
+  int64 timeVector = 3;
+}
+message MessageListResp {
+  int64 code = 1;
+  repeated MessageInfo result = 2;
+}
+message MessageInfo {
+  int64 messageId = 1;
+  int64 messageContentType = 2;
+  string messageContent = 3;
+  int64 dealFlag = 4;
+  int64 ignoreFlag = 5;
+  int64 createTime = 6;
+}
 service User {
   // 获取当前登录用户数据
   rpc getCurrentUserData(CurrentUserDataReq) returns (CurrentUserDataResp);
@@ -138,4 +155,6 @@ service User {
   rpc updateHeadImg(UpdateHeadImgReq) returns (UpdateHeadImgResp);
   // 更新昵称
   rpc updateNickName(UpdateNickNameReq) returns (UpdateNickNameResp);
+  // 获取消息列表
+  rpc getMessageList(MessageListReq) returns (MessageListResp);
 }

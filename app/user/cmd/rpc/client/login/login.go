@@ -22,6 +22,9 @@ type (
 	CurrentUserDataResp = user.CurrentUserDataResp
 	LoginReq            = user.LoginReq
 	LoginResp           = user.LoginResp
+	MessageInfo         = user.MessageInfo
+	MessageListReq      = user.MessageListReq
+	MessageListResp     = user.MessageListResp
 	OrgInfo             = user.OrgInfo
 	OrgListReq          = user.OrgListReq
 	OrgListResp         = user.OrgListResp
