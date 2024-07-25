@@ -56,8 +56,10 @@ func (l *FileDownloadLogic) FileDownload(req *types.FileDownloadReq, w http.Resp
 		}
 	}(reader)
 
-	// 设置HTTP响应头
-	w.Header().Set("Content-Disposition", "attachment; filename=\""+fileName+"\"")
+	// 设置HTTP响应头 获取头像时不触发下载
+	if path != "head_img" {
+		w.Header().Set("Content-Disposition", "attachment; filename=\""+fileName+"\"")
+	}
 	// 将文件数据写入HTTP响应
 	_, err = io.Copy(w, reader)
 	if err != nil {
