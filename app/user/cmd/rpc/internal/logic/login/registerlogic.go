@@ -60,7 +60,7 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 			Valid:  true,
 		},
 		HeadImg: sql.NullString{
-			String: "https://yqfuture.com/_nuxt/favicon.28e9763f.png",
+			String: "2e61e107-b98d-47a2-92c5-aec081f03978_head_img_default.jpg",
 			Valid:  true,
 		},
 		CreateTime: now,
