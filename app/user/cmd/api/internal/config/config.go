@@ -24,6 +24,13 @@ type Config struct {
 		SignName        string
 		TemplateCode    string
 	}
+	// 阿里云OSS服务
+	OssConf struct {
+		Endpoint        string
+		AccessKeyId     string
+		AccessKeySecret string
+		BucketName      string
+	}
 	// 微信公众号
 	WechatConf struct {
 		AppId          string

@@ -250,6 +250,59 @@
         ]
       }
     },
+    "/user/fileDownload": {
+      "post": {
+        "summary": "下载文件",
+        "operationId": "fileDownload",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 文件下载请求",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FileDownloadReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/user/fileUpload": {
+      "post": {
+        "summary": "上传文件",
+        "operationId": "fileUpload",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FileUploadResp"
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/user/getCurrentUserData": {
       "post": {
         "summary": "获取当前登录用户数据",
@@ -775,6 +828,41 @@
         }
       },
       "title": "DictInfoByTypeResp",
+      "required": [
+        "data"
+      ]
+    },
+    "FileDownloadReq": {
+      "type": "object",
+      "properties": {
+        "objectKey": {
+          "type": "string",
+          "description": " 文件对象Key"
+        }
+      },
+      "title": "FileDownloadReq",
+      "required": [
+        "objectKey"
+      ]
+    },
+    "FileUploadResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "string",
+          "description": " 文件对象Key"
+        }
+      },
+      "title": "FileUploadResp",
       "required": [
         "data"
       ]

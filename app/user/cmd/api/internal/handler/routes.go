@@ -87,6 +87,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: user.ChangeOrgHandler(serverCtx),
 			},
 			{
+				// 下载文件
+				Method:  http.MethodPost,
+				Path:    "/fileDownload",
+				Handler: user.FileDownloadHandler(serverCtx),
+			},
+			{
+				// 上传文件
+				Method:  http.MethodPost,
+				Path:    "/fileUpload",
+				Handler: user.FileUploadHandler(serverCtx),
+			},
+			{
 				// 获取当前登录用户数据
 				Method:  http.MethodPost,
 				Path:    "/getCurrentUserData",

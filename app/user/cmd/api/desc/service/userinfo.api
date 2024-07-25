@@ -93,7 +93,18 @@ type (
 )
 
 type (
-    // 获取当前登录用户数据返回体
+    // 文件上传响应
+    FileUploadResp {
+        BaseResp
+        Data string `json:"data"` // 文件对象Key
+    }
+
+        // 文件下载请求
+    FileDownloadReq {
+        ObjectKey string `json:"objectKey"` // 文件对象Key
+    }
+
+        // 获取当前登录用户数据返回体
     CurrentUserDataResp {
         BaseResp
         Data CurrentUserData `json:"data"` // 当前登录用户数据

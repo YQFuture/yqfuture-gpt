@@ -75,6 +75,15 @@ type DictInfoByTypeResp struct {
 	Data []*DictInfo `json:"data"` // 字典列表
 }
 
+type FileDownloadReq struct {
+	ObjectKey string `json:"objectKey"` // 文件对象Key
+}
+
+type FileUploadResp struct {
+	BaseResp
+	Data string `json:"data"` // 文件对象Key
+}
+
 type IgnoreMessageReq struct {
 	MessageId string `json:"messageId"` // 消息ID
 }

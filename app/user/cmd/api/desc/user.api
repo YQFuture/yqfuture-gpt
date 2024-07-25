@@ -50,6 +50,14 @@ service user {
 	jwt:    Auth
 )
 service user {
+	@doc "上传文件"
+	@handler fileUpload
+	post /fileUpload returns (FileUploadResp)
+
+	@doc "下载文件"
+	@handler fileDownload
+	post /fileDownload (FileDownloadReq)
+
 	@doc "获取当前登录用户数据"
 	@handler getCurrentUserData
 	post /getCurrentUserData (BaseReq) returns (CurrentUserDataResp)
