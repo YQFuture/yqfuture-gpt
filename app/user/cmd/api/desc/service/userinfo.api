@@ -92,6 +92,7 @@ type (
     }
 )
 
+// 用户服务
 type (
     // 文件上传响应
     FileUploadResp {
