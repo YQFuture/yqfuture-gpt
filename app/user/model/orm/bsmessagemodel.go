@@ -49,8 +49,8 @@ func (m *customBsMessageModel) withSession(session sqlx.Session) BsMessageModel 
 }
 
 func (m *defaultBsMessageModel) SyncNotice(ctx context.Context, userId int64) error {
-	query := fmt.Sprintf("INSERT INTO bs_message ( user_id, org_id, message_type, content_id, read_flag, deal_flag, ignore_flag, create_time, update_time, create_by, update_by ) SELECT ? AS user_id, 0 AS org_id, message_type, id AS content_id, 0 AS read_flag, 0 AS deal_flag, 0 AS ignore_flag, NOW() AS create_time, NOW() AS update_time, create_by, update_by FROM   bs_message_content WHERE id > ( SELECT COALESCE ( MAX( content_id ), 0 ) FROM bs_message )")
-	_, err := m.conn.ExecCtx(ctx, query, userId)
+	query := fmt.Sprintf("INSERT INTO bs_message ( user_id, org_id, message_type, content_id, read_flag, deal_flag, ignore_flag, create_time, update_time, create_by, update_by ) SELECT ? AS user_id, 0 AS org_id, message_type, id AS content_id, 0 AS read_flag, 0 AS deal_flag, 0 AS ignore_flag, NOW() AS create_time, NOW() AS update_time, create_by, update_by FROM   bs_message_content WHERE   message_type = 1   AND id > (   SELECT COALESCE     ( MAX( content_id ), 0 )   FROM     bs_message   WHERE   message_type = 1 AND `user_id` = ?)")
+	_, err := m.conn.ExecCtx(ctx, query, userId, userId)
 	return err
 }
 
