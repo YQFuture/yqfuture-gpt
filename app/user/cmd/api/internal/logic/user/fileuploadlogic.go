@@ -63,7 +63,8 @@ func (l *FileUploadLogic) FileUpload(r *http.Request) (resp *types.FileUploadRes
 	}
 
 	fileUuid := uuid.New().String()
-	objectKey := path + "/" + fileUuid + "_" + fileHeader.Filename
+	fileName := fileUuid + "_" + fileHeader.Filename
+	objectKey := path + "/" + fileName
 
 	err = bucket.PutObject(objectKey, file)
 	if err != nil {
@@ -81,6 +82,6 @@ func (l *FileUploadLogic) FileUpload(r *http.Request) (resp *types.FileUploadRes
 			Code: consts.Success,
 			Msg:  "上传成功",
 		},
-		Data: objectKey,
+		Data: fileName,
 	}, nil
 }

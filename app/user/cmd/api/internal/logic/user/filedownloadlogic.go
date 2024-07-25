@@ -28,7 +28,9 @@ func NewFileDownloadLogic(ctx context.Context, svcCtx *svc.ServiceContext) *File
 }
 
 func (l *FileDownloadLogic) FileDownload(req *types.FileDownloadReq, w http.ResponseWriter) error {
-	ObjectKey := req.ObjectKey
+	path := req.Path
+	fileName := req.FileName
+
 	bucketName := l.svcCtx.Config.OssConf.BucketName
 
 	client, err := oss.New(l.svcCtx.Config.OssConf.Endpoint, l.svcCtx.Config.OssConf.AccessKeyId, l.svcCtx.Config.OssConf.AccessKeySecret)
@@ -41,7 +43,8 @@ func (l *FileDownloadLogic) FileDownload(req *types.FileDownloadReq, w http.Resp
 	}
 
 	// 下载文件
-	reader, err := bucket.GetObject(ObjectKey)
+	objectKey := path + "/" + fileName
+	reader, err := bucket.GetObject(objectKey)
 	if err != nil {
 		l.Logger.Error("从阿里云OSS下载文件失败", err)
 		return err
@@ -54,7 +57,7 @@ func (l *FileDownloadLogic) FileDownload(req *types.FileDownloadReq, w http.Resp
 	}(reader)
 
 	// 设置HTTP响应头
-	w.Header().Set("Content-Disposition", "attachment; filename=\""+ObjectKey+"\"")
+	w.Header().Set("Content-Disposition", "attachment; filename=\""+fileName+"\"")
 	// 将文件数据写入HTTP响应
 	_, err = io.Copy(w, reader)
 	if err != nil {

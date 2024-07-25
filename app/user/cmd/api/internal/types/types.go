@@ -76,7 +76,8 @@ type DictInfoByTypeResp struct {
 }
 
 type FileDownloadReq struct {
-	ObjectKey string `json:"objectKey"` // 文件对象Key
+	Path     string `path:"path"`      // 文件路径
+	FileName string `path:"objectKey"` // 文件名称
 }
 
 type FileUploadResp struct {

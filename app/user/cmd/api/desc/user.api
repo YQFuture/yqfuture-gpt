@@ -56,7 +56,7 @@ service user {
 
 	@doc "文件下载"
 	@handler fileDownload
-	post /fileDownload (FileDownloadReq)
+	get /fileDownload/:path/:objectKey (FileDownloadReq)
 
 	@doc "获取当前登录用户数据"
 	@handler getCurrentUserData
@@ -95,17 +95,4 @@ service user {
 	post /ignoreMessage (IgnoreMessageReq) returns (BaseResp)
 }
 
-@server (
-	prefix: wechat
-	group:  login
-)
-service user {
-	@doc "微信回调绑定接口"
-	@handler wechatCallBackGet
-	get /wechatCallBack (WechatCallBackGetReq) returns (string)
-
-	@doc "微信回调"
-	@handler wechatCallBackPost
-	post /wechatCallBack (WechatCallBackPostReq) returns (BaseResp)
-}
 

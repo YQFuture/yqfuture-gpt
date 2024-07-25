@@ -87,13 +87,13 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: user.ChangeOrgHandler(serverCtx),
 			},
 			{
-				// 下载文件
-				Method:  http.MethodPost,
-				Path:    "/fileDownload",
+				// 文件下载
+				Method:  http.MethodGet,
+				Path:    "/fileDownload/:path/:objectKey",
 				Handler: user.FileDownloadHandler(serverCtx),
 			},
 			{
-				// 上传文件
+				// 文件上传
 				Method:  http.MethodPost,
 				Path:    "/fileUpload",
 				Handler: user.FileUploadHandler(serverCtx),

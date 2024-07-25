@@ -250,9 +250,9 @@
         ]
       }
     },
-    "/user/fileDownload": {
-      "post": {
-        "summary": "下载文件",
+    "/user/fileDownload/{path}/{objectKey}": {
+      "get": {
+        "summary": "文件下载",
         "operationId": "fileDownload",
         "responses": {
           "200": {
@@ -262,13 +262,16 @@
         },
         "parameters": [
           {
-            "name": "body",
-            "description": " 文件下载请求",
-            "in": "body",
+            "name": "path",
+            "in": "path",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/FileDownloadReq"
-            }
+            "type": "string"
+          },
+          {
+            "name": "objectKey",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "tags": [
@@ -283,7 +286,7 @@
     },
     "/user/fileUpload": {
       "post": {
-        "summary": "上传文件",
+        "summary": "文件上传",
         "operationId": "fileUpload",
         "responses": {
           "200": {
@@ -834,16 +837,7 @@
     },
     "FileDownloadReq": {
       "type": "object",
-      "properties": {
-        "objectKey": {
-          "type": "string",
-          "description": " 文件对象Key"
-        }
-      },
-      "title": "FileDownloadReq",
-      "required": [
-        "objectKey"
-      ]
+      "title": "FileDownloadReq"
     },
     "FileUploadResp": {
       "type": "object",
