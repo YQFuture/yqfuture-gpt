@@ -3,6 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/zeromicro/go-zero/rest/httpx"
+	"net/http"
+	"yufuture-gpt/app/user/cmd/api/internal/types"
+	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/user/cmd/api/internal/config"
 	"yufuture-gpt/app/user/cmd/api/internal/handler"
@@ -21,7 +25,7 @@ func main() {
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 
-	server := rest.MustNewServer(c.RestConf)
+	server := rest.MustNewServer(c.RestConf, rest.WithUnauthorizedCallback(authFail))
 	defer server.Stop()
 
 	ctx := svc.NewServiceContext(c)
@@ -29,4 +33,12 @@ func main() {
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()
+}
+
+func authFail(w http.ResponseWriter, r *http.Request, err error) {
+	baseResp := &types.BaseResp{
+		Code: consts.Unauthorized,
+		Msg:  "登录失效",
+	}
+	httpx.OkJsonCtx(r.Context(), w, baseResp)
 }

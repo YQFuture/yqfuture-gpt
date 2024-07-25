@@ -1,9 +1,9 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
+	"github.com/zeromicro/go-zero/rest/httpx"
 	"net/http"
 	"yufuture-gpt/app/training/cmd/api/internal/types"
 	"yufuture-gpt/common/consts"
@@ -37,15 +37,9 @@ func main() {
 
 // authFail JWT认证失败自定义处理返回
 func authFail(w http.ResponseWriter, r *http.Request, err error) {
-	marshal, err := json.Marshal(&types.BaseResp{
+	baseResp := &types.BaseResp{
 		Code: consts.Unauthorized,
-		Msg:  "权限不足",
-	})
-	if err != nil {
-		return
+		Msg:  "登录失效",
 	}
-	_, err = w.Write(marshal)
-	if err != nil {
-		return
-	}
+	httpx.OkJsonCtx(r.Context(), w, baseResp)
 }
