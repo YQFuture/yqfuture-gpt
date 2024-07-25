@@ -5,6 +5,7 @@ import (
 	"errors"
 	"yufuture-gpt/app/user/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/user/cmd/rpc/pb/user"
+	"yufuture-gpt/common/consts"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -32,6 +33,17 @@ func (l *UpdateOrgNameLogic) UpdateOrgName(in *user.UpdateOrgNameReq) (*user.Upd
 	}
 	if org.OwnerId != in.UserId {
 		return nil, errors.New("只允许管理员修改组织名称")
+	}
+
+	// 判断组织名称是否重复
+	orgByName, err := l.svcCtx.BsOrganizationModel.FindOneByName(l.ctx, in.OrgName)
+	if err != nil {
+		return nil, err
+	}
+	if orgByName != nil && orgByName.Id != in.OrgId {
+		return &user.UpdateOrgNameResp{
+			Code: consts.OrgNameIsExist,
+		}, nil
 	}
 
 	// 更新组织名称

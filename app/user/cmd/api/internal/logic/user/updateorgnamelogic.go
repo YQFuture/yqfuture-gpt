@@ -49,7 +49,7 @@ func (l *UpdateOrgNameLogic) UpdateOrgName(req *types.UpdateOrgNameReq) (resp *t
 	}
 
 	// 调用RPC接口 更新组织名称
-	_, err = l.svcCtx.UserClient.UpdateOrgName(l.ctx, &user.UpdateOrgNameReq{
+	updateOrgNameResp, err := l.svcCtx.UserClient.UpdateOrgName(l.ctx, &user.UpdateOrgNameReq{
 		UserId:  userId,
 		OrgId:   orgId,
 		OrgName: req.OrgName,
@@ -59,6 +59,12 @@ func (l *UpdateOrgNameLogic) UpdateOrgName(req *types.UpdateOrgNameReq) (resp *t
 		return &types.BaseResp{
 			Code: consts.Fail,
 			Msg:  "更新失败",
+		}, nil
+	}
+	if updateOrgNameResp.Code == consts.OrgNameIsExist {
+		return &types.BaseResp{
+			Code: consts.OrgNameIsExist,
+			Msg:  "组织名称已存在",
 		}, nil
 	}
 
