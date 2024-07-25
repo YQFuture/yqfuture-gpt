@@ -50,11 +50,11 @@ service user {
 	jwt:    Auth
 )
 service user {
-	@doc "上传文件"
+	@doc "文件上传"
 	@handler fileUpload
 	post /fileUpload returns (FileUploadResp)
 
-	@doc "下载文件"
+	@doc "文件下载"
 	@handler fileDownload
 	post /fileDownload (FileDownloadReq)
 

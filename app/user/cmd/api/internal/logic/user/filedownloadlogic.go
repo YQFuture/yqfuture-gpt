@@ -18,7 +18,7 @@ type FileDownloadLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// NewFileDownloadLogic 下载文件
+// NewFileDownloadLogic 文件下载
 func NewFileDownloadLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileDownloadLogic {
 	return &FileDownloadLogic{
 		Logger: logx.WithContext(ctx),

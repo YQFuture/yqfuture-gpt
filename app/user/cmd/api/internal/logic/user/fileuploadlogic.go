@@ -18,7 +18,7 @@ type FileUploadLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// NewFileUploadLogic 上传文件
+// NewFileUploadLogic 文件上传
 func NewFileUploadLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileUploadLogic {
 	return &FileUploadLogic{
 		Logger: logx.WithContext(ctx),
