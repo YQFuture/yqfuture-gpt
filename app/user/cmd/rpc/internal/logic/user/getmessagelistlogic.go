@@ -28,12 +28,14 @@ func (l *GetMessageListLogic) GetMessageList(in *user.MessageListReq) (*user.Mes
 	// 获取用户信息
 	bsUser, err := l.svcCtx.BsUserModel.FindOne(l.ctx, in.UserId)
 	if err != nil {
+		l.Logger.Error("获取用户失败", err)
 		return nil, err
 	}
 
 	// 获取消息列表
 	messageList, err := l.svcCtx.BsMessageModel.FindMessageList(l.ctx, in.UserId, bsUser.NowOrgId, in.MessageId, in.TimeVector)
 	if err != nil {
+		l.Logger.Error("获取消息列表失败", err)
 		return nil, err
 	}
 

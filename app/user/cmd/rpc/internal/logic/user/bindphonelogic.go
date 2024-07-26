@@ -31,6 +31,7 @@ func NewBindPhoneLogic(ctx context.Context, svcCtx *svc.ServiceContext) *BindPho
 func (l *BindPhoneLogic) BindPhone(in *user.BindPhoneReq) (*user.BindPhoneResp, error) {
 	bsUser, err := l.svcCtx.BsUserModel.FindOneByPhone(l.ctx, in.Phone)
 	if err != nil {
+		l.Logger.Error("根据手机号获取用户失败", err)
 		return nil, err
 	}
 	// 如果手机号未注册 创建新用户 并返回当前用户ID

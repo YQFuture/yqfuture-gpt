@@ -32,6 +32,7 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 	// 判断手机号是否注册
 	bsUser, err := l.svcCtx.BsUserModel.FindOneByPhone(l.ctx, in.Phone)
 	if err != nil {
+		l.Logger.Error("根据手机号获取用户失败", err)
 		return nil, err
 	}
 	if bsUser != nil {

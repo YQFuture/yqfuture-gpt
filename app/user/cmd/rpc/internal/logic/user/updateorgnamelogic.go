@@ -29,6 +29,7 @@ func (l *UpdateOrgNameLogic) UpdateOrgName(in *user.UpdateOrgNameReq) (*user.Upd
 	// 只允许管理员修改组织名称
 	org, err := l.svcCtx.BsOrganizationModel.FindOne(l.ctx, in.OrgId)
 	if err != nil {
+		l.Logger.Error("获取用户失败", err)
 		return nil, err
 	}
 	if org.OwnerId != in.UserId {
@@ -38,6 +39,7 @@ func (l *UpdateOrgNameLogic) UpdateOrgName(in *user.UpdateOrgNameReq) (*user.Upd
 	// 判断组织名称是否重复
 	orgByName, err := l.svcCtx.BsOrganizationModel.FindOneByName(l.ctx, in.OrgName)
 	if err != nil {
+		l.Logger.Error("根据组织名称获取组织失败", err)
 		return nil, err
 	}
 	if orgByName != nil && orgByName.Id != in.OrgId {

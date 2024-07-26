@@ -29,6 +29,7 @@ func (l *GetWechatUserInfoLogic) GetWechatUserInfo(in *user.WechatUserInfoReq) (
 	// 从用户表查找用户 并判断用户是否存在
 	bsUser, err := l.svcCtx.BsUserModel.FindOneByOpenId(l.ctx, in.Openid)
 	if err != nil {
+		l.Logger.Error("根据OpenId获取用户失败", err)
 		return nil, err
 	}
 	// 已注册的用户直接返回

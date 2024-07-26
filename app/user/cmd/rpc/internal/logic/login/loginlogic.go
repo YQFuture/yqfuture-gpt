@@ -29,6 +29,7 @@ func (l *LoginLogic) Login(in *user.LoginReq) (*user.LoginResp, error) {
 	// 从用户表查找用户 并判断用户是否存在
 	bsUser, err := l.svcCtx.BsUserModel.FindOneByPhone(l.ctx, in.Phone)
 	if err != nil {
+		l.Logger.Error("根据手机号获取用户失败", err)
 		return nil, err
 	}
 	if bsUser == nil {

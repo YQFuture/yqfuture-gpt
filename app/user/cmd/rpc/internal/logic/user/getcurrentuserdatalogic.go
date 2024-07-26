@@ -30,6 +30,7 @@ func NewGetCurrentUserDataLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 func (l *GetCurrentUserDataLogic) GetCurrentUserData(in *user.CurrentUserDataReq) (*user.CurrentUserDataResp, error) {
 	bsUser, err := l.svcCtx.BsUserModel.FindOne(l.ctx, in.UserId)
 	if err != nil && !errors.Is(err, orm.ErrNotFound) {
+		l.Logger.Error("获取用户失败", err)
 		return nil, err
 	}
 	// 判断是否未绑定手机号
