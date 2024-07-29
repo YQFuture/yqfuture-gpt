@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/zeromicro/zero-contrib/zrpc/registry/consul"
+	orgServer "yufuture-gpt/app/user/cmd/rpc/internal/server/org"
 
 	"yufuture-gpt/app/user/cmd/rpc/internal/config"
 	loginServer "yufuture-gpt/app/user/cmd/rpc/internal/server/login"
@@ -30,6 +31,7 @@ func main() {
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
 		user.RegisterLoginServer(grpcServer, loginServer.NewLoginServer(ctx))
 		user.RegisterUserServer(grpcServer, userServer.NewUserServer(ctx))
+		user.RegisterOrgServer(grpcServer, orgServer.NewOrgServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)

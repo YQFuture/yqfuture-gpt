@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 	"yufuture-gpt/app/user/cmd/api/internal/logic/login"
-	"yufuture-gpt/app/user/cmd/rpc/pb/user"
+	"yufuture-gpt/app/user/cmd/rpc/client/user"
 	"yufuture-gpt/app/user/model/redis"
 	"yufuture-gpt/common/consts"
 

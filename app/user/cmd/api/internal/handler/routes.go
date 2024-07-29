@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	login "yufuture-gpt/app/user/cmd/api/internal/handler/login"
+	org "yufuture-gpt/app/user/cmd/api/internal/handler/org"
 	user "yufuture-gpt/app/user/cmd/api/internal/handler/user"
 	"yufuture-gpt/app/user/cmd/api/internal/svc"
 
@@ -52,6 +53,43 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithPrefix("/login"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 微信回调绑定接口
+				Method:  http.MethodGet,
+				Path:    "/wechatCallBack",
+				Handler: login.WechatCallBackGetHandler(serverCtx),
+			},
+			{
+				// 微信回调
+				Method:  http.MethodPost,
+				Path:    "/wechatCallBack",
+				Handler: login.WechatCallBackPostHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/wechat"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 查找团队
+				Method:  http.MethodPost,
+				Path:    "/searchOrg",
+				Handler: org.SearchOrgHandler(serverCtx),
+			},
+			{
+				// 查找用户
+				Method:  http.MethodPost,
+				Path:    "/searchUser",
+				Handler: org.SearchUserHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/org"),
 	)
 
 	server.AddRoutes(

@@ -9,8 +9,9 @@ info (
 )
 
 import (
-	"service/userinfo.api"
 	"service/basefunction.api"
+	"service/userinfo.api"
+	"service/orginfo.api"
 )
 
 // 登录注册相关接口
@@ -44,6 +45,7 @@ service user {
 	post /login (LoginReq) returns (LoginResp)
 }
 
+// 用户相关接口
 @server (
 	prefix: user
 	group:  user
@@ -99,6 +101,22 @@ service user {
 	post /logOut (LogOutReq) returns (LogOutResp)
 }
 
+// 组织团队相关接口
+@server (
+	prefix: org
+	group:  org
+	jwt:    Auth
+)
+service user {
+	@doc "查找团队"
+	@handler searchOrg
+	post /searchOrg (SearchOrgReq) returns (SearchOrgResp)
+
+	@doc "查找用户"
+	@handler searchUser
+	post /searchUser (SearchUserReq) returns (SearchUserResp)
+}
+
 @server (
 	prefix: wechat
 	group:  login
@@ -112,3 +130,4 @@ service user {
 	@handler wechatCallBackPost
 	post /wechatCallBack (WechatCallBackPostReq) returns (BaseResp)
 }
+

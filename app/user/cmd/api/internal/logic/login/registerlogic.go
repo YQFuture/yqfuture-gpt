@@ -5,7 +5,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"strconv"
 	"time"
-	"yufuture-gpt/app/user/cmd/rpc/pb/user"
+	"yufuture-gpt/app/user/cmd/rpc/client/login"
 	"yufuture-gpt/app/user/model/redis"
 	"yufuture-gpt/common/consts"
 
@@ -72,7 +72,7 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 	}
 
 	// 调用RPC接口完成注册
-	registerResp, err := l.svcCtx.LoginClient.Register(l.ctx, &user.RegisterReq{
+	registerResp, err := l.svcCtx.LoginClient.Register(l.ctx, &login.RegisterReq{
 		Phone: req.Phone,
 	})
 	if err != nil {

@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option go_package = "./user";
+
+package user;
+
+// 查找团队请求体
+message SearchOrgReq {
+  string query = 1;
+}
+// 查找团队返回体
+message SearchOrgReqResp {
+  int64 code = 1;
+  repeated SearchOrgInfo result = 2;
+}
+// 查找团队信息
+message SearchOrgInfo {
+  int64 orgId = 1;
+  string orgName = 2;
+}
+// 查找用户请求体
+message SearchUser {
+  string query = 1;
+}
+// 查找用户返回体
+message SearchUserResp {
+  int64 code = 1;
+  repeated SearchUserInfo result = 2;
+}
+// 查找用户信息
+message SearchUserInfo {
+  int64 userId = 1;
+  string phone = 2;
+}
+// 组织团队相关服务
+service Org {
+  // 查找团队
+  rpc searchOrg(SearchOrgReq) returns (SearchOrgReqResp);
+  // 查找用户
+  rpc searchUser(SearchUser) returns (SearchUserResp);
+}

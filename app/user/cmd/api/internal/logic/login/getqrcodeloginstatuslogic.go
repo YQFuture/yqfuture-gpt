@@ -4,7 +4,7 @@ import (
 	"context"
 	"strconv"
 	"time"
-	"yufuture-gpt/app/user/cmd/rpc/pb/user"
+	"yufuture-gpt/app/user/cmd/rpc/client/login"
 	"yufuture-gpt/app/user/model/redis"
 	"yufuture-gpt/common/consts"
 
@@ -52,7 +52,7 @@ func (l *GetQrCodeLoginStatusLogic) GetQrCodeLoginStatus(req *types.QrCodeLoginS
 	}
 
 	// 调用RPC接口 获取用户信息
-	infoResp, err := l.svcCtx.LoginClient.GetWechatUserInfo(l.ctx, &user.WechatUserInfoReq{
+	infoResp, err := l.svcCtx.LoginClient.GetWechatUserInfo(l.ctx, &login.WechatUserInfoReq{
 		Openid: openId,
 	})
 	if err != nil {

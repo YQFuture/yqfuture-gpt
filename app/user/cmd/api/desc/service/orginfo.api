@@ -1,0 +1,50 @@
+syntax = "v1"
+
+info(
+    title: "用户信息服务"
+    desc: "用户信息服务"
+    author: "zouxiaodong"
+    email: "13575232531@163.com"
+    version: "v1"
+)
+
+import (
+    "basefunction.api"
+)
+
+// 组织团队服务
+type (
+    // 查找团队请求体
+    SearchOrgReq {
+        Query string `json:"query"` // 查询
+    }
+
+        // 查找团队响应体
+    SearchOrgResp {
+        BaseResp
+        Data []SearchOrgInfo `json:"data"`
+    }
+
+        // 查找团队数据
+    SearchOrgInfo {
+        OrgId string `json:"orgId"`
+        OrgName string `json:"orgName"`
+    }
+
+        // 查找用户请求体
+    SearchUserReq {
+        Query string `json:"query"` // 查询
+    }
+
+        // 查找用户响应体
+    SearchUserResp {
+        BaseResp
+        Data []SearchUserInfo `json:"data"`
+    }
+
+        // 查找用户数据
+    SearchUserInfo {
+        UserId string `json:"userId"`
+        Phone string `json:"phone"`
+    }
+)

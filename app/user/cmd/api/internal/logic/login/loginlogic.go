@@ -4,7 +4,7 @@ import (
 	"context"
 	"strconv"
 	"time"
-	"yufuture-gpt/app/user/cmd/rpc/pb/user"
+	"yufuture-gpt/app/user/cmd/rpc/client/login"
 	"yufuture-gpt/app/user/model/redis"
 	"yufuture-gpt/common/consts"
 
@@ -71,7 +71,7 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 	}
 
 	// 调用RPC接口完成登录
-	loginResp, err := l.svcCtx.LoginClient.Login(l.ctx, &user.LoginReq{
+	loginResp, err := l.svcCtx.LoginClient.Login(l.ctx, &login.LoginReq{
 		Phone: req.Phone,
 	})
 	if err != nil {

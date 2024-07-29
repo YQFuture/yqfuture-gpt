@@ -172,6 +172,34 @@ type RegisterResp struct {
 	Data UserInfo `json:"data"` // 用户信息
 }
 
+type SearchOrgInfo struct {
+	OrgId   string `json:"orgId"`
+	OrgName string `json:"orgName"`
+}
+
+type SearchOrgReq struct {
+	Query string `json:"query"` // 查询
+}
+
+type SearchOrgResp struct {
+	BaseResp
+	Data []SearchOrgInfo `json:"data"`
+}
+
+type SearchUserInfo struct {
+	UserId string `json:"userId"`
+	Phone  string `json:"phone"`
+}
+
+type SearchUserReq struct {
+	Query string `json:"query"` // 查询
+}
+
+type SearchUserResp struct {
+	BaseResp
+	Data []SearchUserInfo `json:"data"`
+}
+
 type UpdateHeadImgReq struct {
 	HeadImg string `json:"headImg"` // 新头像URL
 }
