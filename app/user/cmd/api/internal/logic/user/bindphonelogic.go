@@ -117,6 +117,9 @@ func (l *BindPhoneLogic) BindPhone(req *types.BindPhoneReq) (resp *types.BindPho
 
 	// 登录成功后，将用户信息存入 Redis
 	err = redis.SetLoginUser(l.ctx, l.svcCtx.Redis, strconv.FormatInt(userId, 10), accessExpire)
+	if err != nil {
+		l.Logger.Error("将用户信息存入Redis失败", err)
+	}
 
 	return &types.BindPhoneResp{
 		BaseResp: types.BaseResp{

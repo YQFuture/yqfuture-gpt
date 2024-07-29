@@ -24,8 +24,21 @@ func NewSearchUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Search
 }
 
 // SearchUser 查找用户
-func (l *SearchUserLogic) SearchUser(in *user.SearchUser) (*user.SearchUserResp, error) {
-	// todo: add your logic here and delete this line
+func (l *SearchUserLogic) SearchUser(in *user.SearchUserReq) (*user.SearchUserResp, error) {
+	userList, err := l.svcCtx.BsUserModel.FindListByPhone(l.ctx, in.Query)
+	if err != nil {
+		l.Logger.Error("根据用手机号查找用户失败", err)
+		return nil, err
+	}
 
-	return &user.SearchUserResp{}, nil
+	var userInfoList []*user.SearchUserInfo
+	for _, userInfo := range *userList {
+		userInfoList = append(userInfoList, &user.SearchUserInfo{
+			UserId: userInfo.Id,
+			Phone:  userInfo.Phone.String,
+		})
+	}
+	return &user.SearchUserResp{
+		Result: userInfoList,
+	}, nil
 }

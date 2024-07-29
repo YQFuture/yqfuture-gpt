@@ -16,15 +16,15 @@ type (
 	SearchOrgInfo    = user.SearchOrgInfo
 	SearchOrgReq     = user.SearchOrgReq
 	SearchOrgReqResp = user.SearchOrgReqResp
-	SearchUser       = user.SearchUser
 	SearchUserInfo   = user.SearchUserInfo
+	SearchUserReq    = user.SearchUserReq
 	SearchUserResp   = user.SearchUserResp
 
 	Org interface {
 		// 查找团队
 		SearchOrg(ctx context.Context, in *SearchOrgReq, opts ...grpc.CallOption) (*SearchOrgReqResp, error)
 		// 查找用户
-		SearchUser(ctx context.Context, in *SearchUser, opts ...grpc.CallOption) (*SearchUserResp, error)
+		SearchUser(ctx context.Context, in *SearchUserReq, opts ...grpc.CallOption) (*SearchUserResp, error)
 	}
 
 	defaultOrg struct {
@@ -45,7 +45,7 @@ func (m *defaultOrg) SearchOrg(ctx context.Context, in *SearchOrgReq, opts ...gr
 }
 
 // 查找用户
-func (m *defaultOrg) SearchUser(ctx context.Context, in *SearchUser, opts ...grpc.CallOption) (*SearchUserResp, error) {
+func (m *defaultOrg) SearchUser(ctx context.Context, in *SearchUserReq, opts ...grpc.CallOption) (*SearchUserResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.SearchUser(ctx, in, opts...)
 }

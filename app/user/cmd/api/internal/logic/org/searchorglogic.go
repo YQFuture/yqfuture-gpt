@@ -2,6 +2,9 @@ package org
 
 import (
 	"context"
+	"strconv"
+	"yufuture-gpt/app/user/cmd/rpc/client/org"
+	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/user/cmd/api/internal/svc"
 	"yufuture-gpt/app/user/cmd/api/internal/types"
@@ -25,7 +28,31 @@ func NewSearchOrgLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SearchO
 }
 
 func (l *SearchOrgLogic) SearchOrg(req *types.SearchOrgReq) (resp *types.SearchOrgResp, err error) {
-	// todo: add your logic here and delete this line
+	orgResp, err := l.svcCtx.OrgClient.SearchOrg(l.ctx, &org.SearchOrgReq{
+		Query: req.Query,
+	})
+	if err != nil {
+		l.Logger.Error("查找机构失败", err)
+		return &types.SearchOrgResp{
+			BaseResp: types.BaseResp{
+				Code: consts.Fail,
+				Msg:  "查找失败",
+			},
+		}, nil
+	}
 
-	return
+	var orgInfoList []types.SearchOrgInfo
+	for _, orgInfo := range orgResp.Result {
+		orgInfoList = append(orgInfoList, types.SearchOrgInfo{
+			OrgId:   strconv.FormatInt(orgInfo.OrgId, 10),
+			OrgName: orgInfo.OrgName,
+		})
+	}
+	return &types.SearchOrgResp{
+		BaseResp: types.BaseResp{
+			Code: consts.Success,
+			Msg:  "查找成功·",
+		},
+		Data: orgInfoList,
+	}, nil
 }

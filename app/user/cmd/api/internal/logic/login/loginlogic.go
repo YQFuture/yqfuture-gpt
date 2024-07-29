@@ -114,6 +114,15 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 
 	// 登录成功后，将用户信息存入 Redis
 	err = redis.SetLoginUser(l.ctx, l.svcCtx.Redis, strconv.FormatInt(userId, 10), accessExpire)
+	if err != nil {
+		l.Logger.Error("将用户信息存入 Redis 失败", err)
+		return &types.LoginResp{
+			BaseResp: types.BaseResp{
+				Code: consts.Fail,
+				Msg:  "登录失败 请重试",
+			},
+		}, nil
+	}
 
 	return &types.LoginResp{
 		BaseResp: types.BaseResp{

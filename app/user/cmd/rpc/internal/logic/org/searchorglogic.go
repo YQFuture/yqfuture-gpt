@@ -25,7 +25,20 @@ func NewSearchOrgLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SearchO
 
 // SearchOrg 查找团队
 func (l *SearchOrgLogic) SearchOrg(in *user.SearchOrgReq) (*user.SearchOrgReqResp, error) {
-	// todo: add your logic here and delete this line
+	orgList, err := l.svcCtx.BsOrganizationModel.FindListByNameOrOwnerPhone(l.ctx, in.Query)
+	if err != nil {
+		l.Logger.Error("根据用户名或手机号查找团队失败", err)
+		return nil, err
+	}
 
-	return &user.SearchOrgReqResp{}, nil
+	var orgInfoList []*user.SearchOrgInfo
+	for _, org := range *orgList {
+		orgInfoList = append(orgInfoList, &user.SearchOrgInfo{
+			OrgId:   org.Id,
+			OrgName: org.OrgName.String,
+		})
+	}
+	return &user.SearchOrgReqResp{
+		Result: orgInfoList,
+	}, nil
 }

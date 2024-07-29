@@ -47,7 +47,13 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(req *types.BaseReq) (resp *
 	// 获取当前登录用户数据
 	loginUser, err := redis.GetLoginUser(l.ctx, l.svcCtx.Redis, strconv.FormatInt(userId, 10))
 	if err != nil {
-		return nil, err
+		l.Logger.Error("获取当前登录用户数据失败", err)
+		return &types.CurrentUserDataResp{
+			BaseResp: types.BaseResp{
+				Code: consts.Fail,
+				Msg:  "获取失败",
+			},
+		}, nil
 	}
 	if loginUser == "" {
 		return &types.CurrentUserDataResp{

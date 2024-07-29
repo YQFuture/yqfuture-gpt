@@ -19,7 +19,7 @@ message SearchOrgInfo {
   string orgName = 2;
 }
 // 查找用户请求体
-message SearchUser {
+message SearchUserReq{
   string query = 1;
 }
 // 查找用户返回体
@@ -37,5 +37,5 @@ service Org {
   // 查找团队
   rpc searchOrg(SearchOrgReq) returns (SearchOrgReqResp);
   // 查找用户
-  rpc searchUser(SearchUser) returns (SearchUserResp);
+  rpc searchUser(SearchUserReq) returns (SearchUserResp);
 }

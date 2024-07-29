@@ -112,6 +112,9 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 
 	// 登录成功后，将用户信息存入 Redis
 	err = redis.SetLoginUser(l.ctx, l.svcCtx.Redis, strconv.FormatInt(userId, 10), accessExpire)
+	if err != nil {
+		l.Logger.Error("将用户信息存入Redis失败", err)
+	}
 
 	// 返回用户信息
 	return &types.RegisterResp{

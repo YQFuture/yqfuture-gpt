@@ -32,7 +32,7 @@ type OrgClient interface {
 	// 查找团队
 	SearchOrg(ctx context.Context, in *SearchOrgReq, opts ...grpc.CallOption) (*SearchOrgReqResp, error)
 	// 查找用户
-	SearchUser(ctx context.Context, in *SearchUser, opts ...grpc.CallOption) (*SearchUserResp, error)
+	SearchUser(ctx context.Context, in *SearchUserReq, opts ...grpc.CallOption) (*SearchUserResp, error)
 }
 
 type orgClient struct {
@@ -53,7 +53,7 @@ func (c *orgClient) SearchOrg(ctx context.Context, in *SearchOrgReq, opts ...grp
 	return out, nil
 }
 
-func (c *orgClient) SearchUser(ctx context.Context, in *SearchUser, opts ...grpc.CallOption) (*SearchUserResp, error) {
+func (c *orgClient) SearchUser(ctx context.Context, in *SearchUserReq, opts ...grpc.CallOption) (*SearchUserResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SearchUserResp)
 	err := c.cc.Invoke(ctx, Org_SearchUser_FullMethodName, in, out, cOpts...)
@@ -72,7 +72,7 @@ type OrgServer interface {
 	// 查找团队
 	SearchOrg(context.Context, *SearchOrgReq) (*SearchOrgReqResp, error)
 	// 查找用户
-	SearchUser(context.Context, *SearchUser) (*SearchUserResp, error)
+	SearchUser(context.Context, *SearchUserReq) (*SearchUserResp, error)
 	mustEmbedUnimplementedOrgServer()
 }
 
@@ -83,7 +83,7 @@ type UnimplementedOrgServer struct {
 func (UnimplementedOrgServer) SearchOrg(context.Context, *SearchOrgReq) (*SearchOrgReqResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchOrg not implemented")
 }
-func (UnimplementedOrgServer) SearchUser(context.Context, *SearchUser) (*SearchUserResp, error) {
+func (UnimplementedOrgServer) SearchUser(context.Context, *SearchUserReq) (*SearchUserResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchUser not implemented")
 }
 func (UnimplementedOrgServer) mustEmbedUnimplementedOrgServer() {}
@@ -118,7 +118,7 @@ func _Org_SearchOrg_Handler(srv interface{}, ctx context.Context, dec func(inter
 }
 
 func _Org_SearchUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SearchUser)
+	in := new(SearchUserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -130,7 +130,7 @@ func _Org_SearchUser_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: Org_SearchUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrgServer).SearchUser(ctx, req.(*SearchUser))
+		return srv.(OrgServer).SearchUser(ctx, req.(*SearchUserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

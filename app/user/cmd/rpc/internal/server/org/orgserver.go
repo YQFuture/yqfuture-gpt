@@ -29,7 +29,7 @@ func (s *OrgServer) SearchOrg(ctx context.Context, in *user.SearchOrgReq) (*user
 }
 
 // 查找用户
-func (s *OrgServer) SearchUser(ctx context.Context, in *user.SearchUser) (*user.SearchUserResp, error) {
+func (s *OrgServer) SearchUser(ctx context.Context, in *user.SearchUserReq) (*user.SearchUserResp, error) {
 	l := orglogic.NewSearchUserLogic(ctx, s.svcCtx)
 	return l.SearchUser(in)
 }

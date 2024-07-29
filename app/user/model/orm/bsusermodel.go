@@ -25,6 +25,7 @@ type (
 		ChangeOrg(ctx context.Context, orgId, userId int64) error
 		UpdateHeadImg(ctx context.Context, headImg string, userId int64) error
 		UpdateNickName(ctx context.Context, nickName string, userId int64) error
+		FindListByPhone(ctx context.Context, queryString string) (*[]*BsUser, error)
 	}
 
 	customBsUserModel struct {
@@ -113,4 +114,18 @@ func (m *customBsUserModel) UpdateNickName(ctx context.Context, nickName string,
 	query := fmt.Sprintf("update %s set `nick_name` = ? where `id` = ?", m.table)
 	_, err := m.conn.ExecCtx(ctx, query, nickName, userId)
 	return err
+}
+
+func (m *customBsUserModel) FindListByPhone(ctx context.Context, queryString string) (*[]*BsUser, error) {
+	query := fmt.Sprintf("SELECT * FROM bs_user WHERE `phone` = ?")
+	var resp []*BsUser
+	err := m.conn.QueryRowsCtx(ctx, &resp, query, queryString)
+	switch {
+	case err == nil:
+		return &resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return nil, nil
+	default:
+		return nil, err
+	}
 }
