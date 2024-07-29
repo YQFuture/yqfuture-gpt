@@ -438,6 +438,39 @@
         ]
       }
     },
+    "/user/logOut": {
+      "post": {
+        "summary": "退出登录",
+        "operationId": "logOut",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LogOutResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 退出登录请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LogOutReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/user/updateHeadImg": {
       "post": {
         "summary": "更新头像",
@@ -873,6 +906,25 @@
       "required": [
         "messageId"
       ]
+    },
+    "LogOutReq": {
+      "type": "object",
+      "title": "LogOutReq"
+    },
+    "LogOutResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "LogOutResp"
     },
     "LoginQrCodeData": {
       "type": "object",

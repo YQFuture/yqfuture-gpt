@@ -99,3 +99,16 @@ service user {
 	post /logOut (LogOutReq) returns (LogOutResp)
 }
 
+@server (
+	prefix: wechat
+	group:  login
+)
+service user {
+	@doc "微信回调绑定接口"
+	@handler wechatCallBackGet
+	get /wechatCallBack (WechatCallBackGetReq) returns (string)
+
+	@doc "微信回调"
+	@handler wechatCallBackPost
+	post /wechatCallBack (WechatCallBackPostReq) returns (BaseResp)
+}
