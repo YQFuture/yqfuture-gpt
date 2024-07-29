@@ -89,6 +89,13 @@ type IgnoreMessageReq struct {
 	MessageId string `json:"messageId"` // 消息ID
 }
 
+type LogOutReq struct {
+}
+
+type LogOutResp struct {
+	BaseResp
+}
+
 type LoginQrCodeData struct {
 	TicketQrCodeUrl string `json:"ticketQrCodeUrl"` // 二维码图片链接
 	Ticket          string `json:"ticket"`          // 二维码票据

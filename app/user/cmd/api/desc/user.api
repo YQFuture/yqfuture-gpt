@@ -93,6 +93,9 @@ service user {
 	@doc "忽略消息"
 	@handler ignoreMessage
 	post /ignoreMessage (IgnoreMessageReq) returns (BaseResp)
-}
 
+	@doc "退出登录"
+	@handler logOut
+	post /logOut (LogOutReq) returns (LogOutResp)
+}
 

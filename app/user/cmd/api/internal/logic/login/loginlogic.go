@@ -2,6 +2,7 @@ package login
 
 import (
 	"context"
+	"strconv"
 	"time"
 	"yufuture-gpt/app/user/cmd/rpc/pb/user"
 	"yufuture-gpt/app/user/model/redis"
@@ -91,12 +92,13 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 	}
 
 	// 生成 Token
+	userId := loginResp.Result.Id
 	accessExpire := l.svcCtx.Config.Auth.AccessExpire
 	if req.ThirtyDaysFreeLogin {
 		accessExpire = 2592000
 	}
 	payload := map[string]interface{}{
-		"id":      loginResp.Result.Id,
+		"id":      userId,
 		"ex_time": time.Now().AddDate(0, 0, 7),
 	}
 	token, err := GetJwtToken(l.svcCtx.Config.Auth.AccessSecret, accessExpire, payload)
@@ -109,6 +111,9 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 			},
 		}, nil
 	}
+
+	// 登录成功后，将用户信息存入 Redis
+	err = redis.SetLoginUser(l.ctx, l.svcCtx.Redis, strconv.FormatInt(userId, 10), accessExpire)
 
 	return &types.LoginResp{
 		BaseResp: types.BaseResp{

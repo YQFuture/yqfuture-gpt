@@ -12,7 +12,7 @@ type Config struct {
 	// JWT
 	Auth struct {
 		AccessSecret string
-		AccessExpire int64
+		AccessExpire int
 	}
 	// Redis
 	RedisConf redis.RedisConf

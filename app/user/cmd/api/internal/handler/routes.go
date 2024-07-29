@@ -57,24 +57,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				// 微信回调绑定接口
-				Method:  http.MethodGet,
-				Path:    "/wechatCallBack",
-				Handler: login.WechatCallBackGetHandler(serverCtx),
-			},
-			{
-				// 微信回调
-				Method:  http.MethodPost,
-				Path:    "/wechatCallBack",
-				Handler: login.WechatCallBackPostHandler(serverCtx),
-			},
-		},
-		rest.WithPrefix("/wechat"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
 				// 绑定手机号码
 				Method:  http.MethodPost,
 				Path:    "/bindPhone",
@@ -121,6 +103,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/ignoreMessage",
 				Handler: user.IgnoreMessageHandler(serverCtx),
+			},
+			{
+				// 退出登录
+				Method:  http.MethodPost,
+				Path:    "/logOut",
+				Handler: user.LogOutHandler(serverCtx),
 			},
 			{
 				// 更新头像

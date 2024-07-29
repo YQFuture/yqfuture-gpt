@@ -3,6 +3,7 @@ package login
 import (
 	"context"
 	"github.com/golang-jwt/jwt/v4"
+	"strconv"
 	"time"
 	"yufuture-gpt/app/user/cmd/rpc/pb/user"
 	"yufuture-gpt/app/user/model/redis"
@@ -92,11 +93,13 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 	}
 
 	// 生成 Token
+	userId := registerResp.Result.Id
+	accessExpire := l.svcCtx.Config.Auth.AccessExpire
 	payload := map[string]interface{}{
-		"id":      registerResp.Result.Id,
+		"id":      userId,
 		"ex_time": time.Now().AddDate(0, 0, 7),
 	}
-	token, err := GetJwtToken(l.svcCtx.Config.Auth.AccessSecret, l.svcCtx.Config.Auth.AccessExpire, payload)
+	token, err := GetJwtToken(l.svcCtx.Config.Auth.AccessSecret, accessExpire, payload)
 	if err != nil {
 		l.Logger.Error("生成token失败", err)
 		return &types.RegisterResp{
@@ -106,6 +109,9 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 			},
 		}, nil
 	}
+
+	// 登录成功后，将用户信息存入 Redis
+	err = redis.SetLoginUser(l.ctx, l.svcCtx.Redis, strconv.FormatInt(userId, 10), accessExpire)
 
 	// 返回用户信息
 	return &types.RegisterResp{
@@ -123,10 +129,10 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 }
 
 // GetJwtToken 生成JWT
-func GetJwtToken(secretKey string, expire int64, payload map[string]interface{}) (string, error) {
+func GetJwtToken(secretKey string, expire int, payload map[string]interface{}) (string, error) {
 	iat := time.Now().Unix()
 	claims := make(jwt.MapClaims)
-	claims["exp"] = iat + expire
+	claims["exp"] = iat + int64(expire)
 	claims["iat"] = iat
 	for k, v := range payload {
 		claims[k] = v

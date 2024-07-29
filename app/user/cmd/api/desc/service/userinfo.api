@@ -102,7 +102,7 @@ type (
 
         // 文件下载请求
     FileDownloadReq {
-        Path string `path:"path"` // 文件路径
+        Path string `path:"path"`          // 文件路径
         FileName string `path:"objectKey"` // 文件名称
     }
 
@@ -195,6 +195,15 @@ type (
         // 忽略消息请求体
     IgnoreMessageReq {
         MessageId string `json:"messageId"` // 消息ID
+    }
+
+        // 退出登录请求体
+    LogOutReq{
+    }
+
+        // 退出登录返回体
+    LogOutResp {
+        BaseResp
     }
 )
 

@@ -7,6 +7,7 @@ import (
 	"time"
 	"yufuture-gpt/app/user/cmd/api/internal/logic/login"
 	"yufuture-gpt/app/user/cmd/rpc/pb/user"
+	"yufuture-gpt/app/user/model/redis"
 	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/user/cmd/api/internal/svc"
@@ -39,6 +40,20 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(req *types.BaseReq) (resp *
 			BaseResp: types.BaseResp{
 				Code: consts.Fail,
 				Msg:  "获取失败",
+			},
+		}, nil
+	}
+
+	// 获取当前登录用户数据
+	loginUser, err := redis.GetLoginUser(l.ctx, l.svcCtx.Redis, strconv.FormatInt(userId, 10))
+	if err != nil {
+		return nil, err
+	}
+	if loginUser == "" {
+		return &types.CurrentUserDataResp{
+			BaseResp: types.BaseResp{
+				Code: consts.Unauthorized,
+				Msg:  "登录失效",
 			},
 		}, nil
 	}

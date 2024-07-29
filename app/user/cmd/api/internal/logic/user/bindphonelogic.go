@@ -95,12 +95,13 @@ func (l *BindPhoneLogic) BindPhone(req *types.BindPhoneReq) (resp *types.BindPho
 	}
 
 	// 生成新Token
+	userId = bindPhoneResp.UserId
 	accessExpire := l.svcCtx.Config.Auth.AccessExpire
 	if req.ThirtyDaysFreeLogin {
 		accessExpire = 2592000
 	}
 	payload := map[string]interface{}{
-		"id":      bindPhoneResp.UserId,
+		"id":      userId,
 		"ex_time": time.Now().AddDate(0, 0, 7),
 	}
 	token, err := login.GetJwtToken(l.svcCtx.Config.Auth.AccessSecret, accessExpire, payload)
@@ -113,6 +114,9 @@ func (l *BindPhoneLogic) BindPhone(req *types.BindPhoneReq) (resp *types.BindPho
 			},
 		}, nil
 	}
+
+	// 登录成功后，将用户信息存入 Redis
+	err = redis.SetLoginUser(l.ctx, l.svcCtx.Redis, strconv.FormatInt(userId, 10), accessExpire)
 
 	return &types.BindPhoneResp{
 		BaseResp: types.BaseResp{
