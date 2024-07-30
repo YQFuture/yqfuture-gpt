@@ -92,7 +92,7 @@ func (m *customBsUserModel) TransactCtx(ctx context.Context, fn func(ctx context
 	})
 }
 
-func (m *defaultBsUserModel) SessionInsert(ctx context.Context, data *BsUser, session sqlx.Session) (sql.Result, error) {
+func (m *customBsUserModel) SessionInsert(ctx context.Context, data *BsUser, session sqlx.Session) (sql.Result, error) {
 	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, bsUserRowsExpectAutoSet)
 	ret, err := session.ExecCtx(ctx, query, data.Id, data.NowOrgId, data.UserName, data.NickName, data.HeadImg, data.Phone, data.Password, data.Openid, data.Unionid, data.CreateBy, data.UpdateBy)
 	return ret, err

@@ -3,6 +3,7 @@ package orm
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
@@ -16,6 +17,7 @@ type (
 		bsUserOrgModel
 		withSession(session sqlx.Session) BsUserOrgModel
 		SessionInsert(ctx context.Context, data *BsUserOrg, session sqlx.Session) (sql.Result, error)
+		FindUserOrgCount(ctx context.Context, userId int64) (int64, error)
 	}
 
 	customBsUserOrgModel struct {
@@ -34,8 +36,22 @@ func (m *customBsUserOrgModel) withSession(session sqlx.Session) BsUserOrgModel 
 	return NewBsUserOrgModel(sqlx.NewSqlConnFromSession(session))
 }
 
-func (m *defaultBsUserOrgModel) SessionInsert(ctx context.Context, data *BsUserOrg, session sqlx.Session) (sql.Result, error) {
+func (m *customBsUserOrgModel) SessionInsert(ctx context.Context, data *BsUserOrg, session sqlx.Session) (sql.Result, error) {
 	query := fmt.Sprintf("insert into %s (%s) values (?, ?)", m.table, bsUserOrgRowsExpectAutoSet)
 	ret, err := m.conn.ExecCtx(ctx, query, data.UserId, data.OrgId)
 	return ret, err
+}
+
+func (m *customBsUserOrgModel) FindUserOrgCount(ctx context.Context, userId int64) (int64, error) {
+	query := fmt.Sprintf("select count(1) from %s where `user_id` = ?", m.table)
+	var resp int64
+	err := m.conn.QueryRowCtx(ctx, &resp, query, userId)
+	switch {
+	case err == nil:
+		return resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return 0, nil
+	default:
+		return 0, err
+	}
 }

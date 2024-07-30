@@ -47,4 +47,24 @@ type (
         UserId string `json:"userId"`
         Phone string `json:"phone"`
     }
+
+        // 用户申请加入团队请求体
+    ApplyJoinOrgReq {
+        OrgId string `json:"orgId"` // 组织id
+    }
+
+        // 用户申请加入团队响应体
+    ApplyJoinOrgResp {
+        BaseResp
+    }
+
+        // 邀请用户加入团队请求体
+    InviteJoinOrgReq {
+        inviteUserId string `json:"inviteUserId"` // 邀请用户id
+    }
+
+        // 邀请用户加入团队响应体
+    InviteJoinOrgResp {
+        BaseResp
+    }
 )

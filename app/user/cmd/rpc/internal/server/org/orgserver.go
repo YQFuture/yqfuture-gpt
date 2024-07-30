@@ -33,3 +33,15 @@ func (s *OrgServer) SearchUser(ctx context.Context, in *user.SearchUserReq) (*us
 	l := orglogic.NewSearchUserLogic(ctx, s.svcCtx)
 	return l.SearchUser(in)
 }
+
+// 用户申请加入团队
+func (s *OrgServer) ApplyJoinOrg(ctx context.Context, in *user.ApplyJoinOrgReq) (*user.ApplyJoinOrgResp, error) {
+	l := orglogic.NewApplyJoinOrgLogic(ctx, s.svcCtx)
+	return l.ApplyJoinOrg(in)
+}
+
+// 邀请用户加入团队
+func (s *OrgServer) InviteJoinOrg(ctx context.Context, in *user.InviteJoinOrgReq) (*user.InviteJoinOrgResp, error) {
+	l := orglogic.NewInviteJoinOrgLogic(ctx, s.svcCtx)
+	return l.InviteJoinOrg(in)
+}

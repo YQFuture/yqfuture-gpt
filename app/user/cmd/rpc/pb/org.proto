@@ -32,10 +32,32 @@ message SearchUserInfo {
   int64 userId = 1;
   string phone = 2;
 }
+// 用户申请加入团队请求体
+message ApplyJoinOrgReq {
+  int64 userId = 1;
+  int64 orgId = 2;
+}
+// 用户申请加入团队返回体
+message ApplyJoinOrgResp {
+  int64 code = 1;
+}
+// 邀请用户加入团队请求体
+message InviteJoinOrgReq {
+  int64 userId = 1;
+  int64 inviteUserId = 2;
+}
+// 邀请用户加入团队返回体
+message InviteJoinOrgResp {
+  int64 code = 1;
+}
 // 组织团队相关服务
 service Org {
   // 查找团队
   rpc searchOrg(SearchOrgReq) returns (SearchOrgReqResp);
   // 查找用户
   rpc searchUser(SearchUserReq) returns (SearchUserResp);
+  // 用户申请加入团队
+  rpc applyJoinOrg(ApplyJoinOrgReq) returns (ApplyJoinOrgResp);
+  // 邀请用户加入团队
+  rpc inviteJoinOrg(InviteJoinOrgReq) returns (InviteJoinOrgResp);
 }

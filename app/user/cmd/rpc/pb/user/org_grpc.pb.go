@@ -19,8 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	Org_SearchOrg_FullMethodName  = "/user.Org/searchOrg"
-	Org_SearchUser_FullMethodName = "/user.Org/searchUser"
+	Org_SearchOrg_FullMethodName     = "/user.Org/searchOrg"
+	Org_SearchUser_FullMethodName    = "/user.Org/searchUser"
+	Org_ApplyJoinOrg_FullMethodName  = "/user.Org/applyJoinOrg"
+	Org_InviteJoinOrg_FullMethodName = "/user.Org/inviteJoinOrg"
 )
 
 // OrgClient is the client API for Org service.
@@ -33,6 +35,10 @@ type OrgClient interface {
 	SearchOrg(ctx context.Context, in *SearchOrgReq, opts ...grpc.CallOption) (*SearchOrgReqResp, error)
 	// 查找用户
 	SearchUser(ctx context.Context, in *SearchUserReq, opts ...grpc.CallOption) (*SearchUserResp, error)
+	// 用户申请加入团队
+	ApplyJoinOrg(ctx context.Context, in *ApplyJoinOrgReq, opts ...grpc.CallOption) (*ApplyJoinOrgResp, error)
+	// 邀请用户加入团队
+	InviteJoinOrg(ctx context.Context, in *InviteJoinOrgReq, opts ...grpc.CallOption) (*InviteJoinOrgResp, error)
 }
 
 type orgClient struct {
@@ -63,6 +69,26 @@ func (c *orgClient) SearchUser(ctx context.Context, in *SearchUserReq, opts ...g
 	return out, nil
 }
 
+func (c *orgClient) ApplyJoinOrg(ctx context.Context, in *ApplyJoinOrgReq, opts ...grpc.CallOption) (*ApplyJoinOrgResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ApplyJoinOrgResp)
+	err := c.cc.Invoke(ctx, Org_ApplyJoinOrg_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orgClient) InviteJoinOrg(ctx context.Context, in *InviteJoinOrgReq, opts ...grpc.CallOption) (*InviteJoinOrgResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(InviteJoinOrgResp)
+	err := c.cc.Invoke(ctx, Org_InviteJoinOrg_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrgServer is the server API for Org service.
 // All implementations must embed UnimplementedOrgServer
 // for forward compatibility
@@ -73,6 +99,10 @@ type OrgServer interface {
 	SearchOrg(context.Context, *SearchOrgReq) (*SearchOrgReqResp, error)
 	// 查找用户
 	SearchUser(context.Context, *SearchUserReq) (*SearchUserResp, error)
+	// 用户申请加入团队
+	ApplyJoinOrg(context.Context, *ApplyJoinOrgReq) (*ApplyJoinOrgResp, error)
+	// 邀请用户加入团队
+	InviteJoinOrg(context.Context, *InviteJoinOrgReq) (*InviteJoinOrgResp, error)
 	mustEmbedUnimplementedOrgServer()
 }
 
@@ -85,6 +115,12 @@ func (UnimplementedOrgServer) SearchOrg(context.Context, *SearchOrgReq) (*Search
 }
 func (UnimplementedOrgServer) SearchUser(context.Context, *SearchUserReq) (*SearchUserResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchUser not implemented")
+}
+func (UnimplementedOrgServer) ApplyJoinOrg(context.Context, *ApplyJoinOrgReq) (*ApplyJoinOrgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ApplyJoinOrg not implemented")
+}
+func (UnimplementedOrgServer) InviteJoinOrg(context.Context, *InviteJoinOrgReq) (*InviteJoinOrgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InviteJoinOrg not implemented")
 }
 func (UnimplementedOrgServer) mustEmbedUnimplementedOrgServer() {}
 
@@ -135,6 +171,42 @@ func _Org_SearchUser_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Org_ApplyJoinOrg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApplyJoinOrgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgServer).ApplyJoinOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Org_ApplyJoinOrg_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgServer).ApplyJoinOrg(ctx, req.(*ApplyJoinOrgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Org_InviteJoinOrg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InviteJoinOrgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgServer).InviteJoinOrg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Org_InviteJoinOrg_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgServer).InviteJoinOrg(ctx, req.(*InviteJoinOrgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Org_ServiceDesc is the grpc.ServiceDesc for Org service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -149,6 +221,14 @@ var Org_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "searchUser",
 			Handler:    _Org_SearchUser_Handler,
+		},
+		{
+			MethodName: "applyJoinOrg",
+			Handler:    _Org_ApplyJoinOrg_Handler,
+		},
+		{
+			MethodName: "inviteJoinOrg",
+			Handler:    _Org_InviteJoinOrg_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

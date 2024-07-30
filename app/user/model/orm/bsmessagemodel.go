@@ -2,6 +2,7 @@ package orm
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"fmt"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -21,6 +22,8 @@ type (
 		FindMessageList(ctx context.Context, userId, nowOrgId, messageId, timeVector int64) (*[]*BsMessageInfo, error)
 		SetMessageRead(ctx context.Context, userId, nowOrgId int64) error
 		IgnoreMessage(ctx context.Context, messageId int64) error
+		TransactCtx(ctx context.Context, fn func(ctx context.Context, session sqlx.Session) error) error
+		SessionInsert(ctx context.Context, data *BsMessage, session sqlx.Session) (sql.Result, error)
 	}
 
 	customBsMessageModel struct {
@@ -48,13 +51,13 @@ func (m *customBsMessageModel) withSession(session sqlx.Session) BsMessageModel 
 	return NewBsMessageModel(sqlx.NewSqlConnFromSession(session))
 }
 
-func (m *defaultBsMessageModel) SyncNotice(ctx context.Context, userId int64) error {
+func (m *customBsMessageModel) SyncNotice(ctx context.Context, userId int64) error {
 	query := fmt.Sprintf("INSERT INTO bs_message ( user_id, org_id, message_type, content_id, read_flag, deal_flag, ignore_flag, create_time, update_time, create_by, update_by ) SELECT ? AS user_id, 0 AS org_id, message_type, id AS content_id, 0 AS read_flag, 0 AS deal_flag, 0 AS ignore_flag, NOW() AS create_time, NOW() AS update_time, create_by, update_by FROM   bs_message_content WHERE   message_type = 1   AND id > (   SELECT COALESCE     ( MAX( content_id ), 0 )   FROM     bs_message   WHERE   message_type = 1 AND `user_id` = ?)")
 	_, err := m.conn.ExecCtx(ctx, query, userId, userId)
 	return err
 }
 
-func (m *defaultBsMessageModel) FindUnreadCount(ctx context.Context, userId, nowOrgId int64) (int64, error) {
+func (m *customBsMessageModel) FindUnreadCount(ctx context.Context, userId, nowOrgId int64) (int64, error) {
 	query := fmt.Sprintf("select count(1) from %s where `user_id` = ? and `read_flag` = 0 and (org_id = ? or org_id = 0)", m.table)
 	var resp int64
 	err := m.conn.QueryRowCtx(ctx, &resp, query, userId, nowOrgId)
@@ -62,13 +65,13 @@ func (m *defaultBsMessageModel) FindUnreadCount(ctx context.Context, userId, now
 	case err == nil:
 		return resp, nil
 	case errors.Is(err, sqlx.ErrNotFound):
-		return 0, ErrNotFound
+		return 0, nil
 	default:
 		return 0, err
 	}
 }
 
-func (m *defaultBsMessageModel) FindMessageList(ctx context.Context, userId, nowOrgId, messageId, timeVector int64) (*[]*BsMessageInfo, error) {
+func (m *customBsMessageModel) FindMessageList(ctx context.Context, userId, nowOrgId, messageId, timeVector int64) (*[]*BsMessageInfo, error) {
 	var resp []*BsMessageInfo
 	var err error
 	if messageId != 0 {
@@ -93,14 +96,26 @@ func (m *defaultBsMessageModel) FindMessageList(ctx context.Context, userId, now
 	}
 }
 
-func (m *defaultBsMessageModel) SetMessageRead(ctx context.Context, userId, nowOrgId int64) error {
+func (m *customBsMessageModel) SetMessageRead(ctx context.Context, userId, nowOrgId int64) error {
 	query := fmt.Sprintf("update %s set read_flag = 1 where user_id = ? and (org_id = ? OR org_id = 0) and `read_flag` = 0", m.table)
 	_, err := m.conn.ExecCtx(ctx, query, userId, nowOrgId)
 	return err
 }
 
-func (m *defaultBsMessageModel) IgnoreMessage(ctx context.Context, messageId int64) error {
+func (m *customBsMessageModel) IgnoreMessage(ctx context.Context, messageId int64) error {
 	query := fmt.Sprintf("update %s set ignore_flag = 1 where `id` = ?", m.table)
 	_, err := m.conn.ExecCtx(ctx, query, messageId)
 	return err
+}
+
+func (m *customBsMessageModel) TransactCtx(ctx context.Context, fn func(ctx context.Context, session sqlx.Session) error) error {
+	return m.conn.TransactCtx(ctx, func(ctx context.Context, session sqlx.Session) error {
+		return fn(ctx, session)
+	})
+}
+
+func (m *customBsMessageModel) SessionInsert(ctx context.Context, data *BsMessage, session sqlx.Session) (sql.Result, error) {
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, bsMessageRowsExpectAutoSet)
+	ret, err := session.ExecCtx(ctx, query, data.UserId, data.OrgId, data.MessageType, data.ContentId, data.ReadFlag, data.DealFlag, data.IgnoreFlag, data.CreateBy, data.UpdateBy)
+	return ret, err
 }

@@ -76,6 +76,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 用户申请加入团队
+				Method:  http.MethodPost,
+				Path:    "/applyJoinOrg",
+				Handler: org.ApplyJoinOrgHandler(serverCtx),
+			},
+			{
+				// 邀请用户加入团队
+				Method:  http.MethodPost,
+				Path:    "/inviteJoinOrg",
+				Handler: org.InviteJoinOrgHandler(serverCtx),
+			},
+			{
 				// 查找团队
 				Method:  http.MethodPost,
 				Path:    "/searchOrg",

@@ -10,10 +10,11 @@ import (
 type ServiceContext struct {
 	Config config.Config
 	// MySQL模型
-	BsUserModel         orm.BsUserModel
-	BsOrganizationModel orm.BsOrganizationModel
-	BsUserOrgModel      orm.BsUserOrgModel
-	BsMessageModel      orm.BsMessageModel
+	BsUserModel           orm.BsUserModel
+	BsOrganizationModel   orm.BsOrganizationModel
+	BsUserOrgModel        orm.BsUserOrgModel
+	BsMessageModel        orm.BsMessageModel
+	BsMessageContentModel orm.BsMessageContentModel
 	// 雪花算法
 	SnowFlakeNode *snowflake.Node
 }
@@ -26,11 +27,12 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		panic(err)
 	}
 	return &ServiceContext{
-		Config:              c,
-		BsUserModel:         orm.NewBsUserModel(sqlConn),
-		BsOrganizationModel: orm.NewBsOrganizationModel(sqlConn),
-		BsUserOrgModel:      orm.NewBsUserOrgModel(sqlConn),
-		BsMessageModel:      orm.NewBsMessageModel(sqlConn),
-		SnowFlakeNode:       snowflakeNode,
+		Config:                c,
+		BsUserModel:           orm.NewBsUserModel(sqlConn),
+		BsOrganizationModel:   orm.NewBsOrganizationModel(sqlConn),
+		BsUserOrgModel:        orm.NewBsUserOrgModel(sqlConn),
+		BsMessageModel:        orm.NewBsMessageModel(sqlConn),
+		BsMessageContentModel: orm.NewBsMessageContentModel(sqlConn),
+		SnowFlakeNode:         snowflakeNode,
 	}
 }

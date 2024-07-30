@@ -115,6 +115,14 @@ service user {
 	@doc "查找用户"
 	@handler searchUser
 	post /searchUser (SearchUserReq) returns (SearchUserResp)
+
+	@doc "用户申请加入团队"
+	@handler applyJoinOrg
+	post /applyJoinOrg (ApplyJoinOrgReq) returns (ApplyJoinOrgResp)
+
+	@doc "邀请用户加入团队"
+	@handler inviteJoinOrg
+	post /inviteJoinOrg (InviteJoinOrgReq) returns (InviteJoinOrgResp)
 }
 
 @server (

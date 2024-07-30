@@ -91,11 +91,11 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 
 	// 在同一个事务中保存三张表的数据
 	err = l.svcCtx.BsUserModel.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
-		_, err = l.svcCtx.BsUserModel.SessionInsert(l.ctx, newBsUser, session)
+		_, err := l.svcCtx.BsUserModel.SessionInsert(l.ctx, newBsUser, session)
 		if err != nil {
 			return err
 		}
-		_, err := l.svcCtx.BsOrganizationModel.SessionInsert(l.ctx, bsOrganization, session)
+		_, err = l.svcCtx.BsOrganizationModel.SessionInsert(l.ctx, bsOrganization, session)
 		if err != nil {
 			return err
 		}
@@ -107,6 +107,7 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 	})
 
 	if err != nil {
+		l.Logger.Error("保存用户信息失败", err)
 		return nil, err
 	}
 

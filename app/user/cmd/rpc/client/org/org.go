@@ -13,18 +13,26 @@ import (
 )
 
 type (
-	SearchOrgInfo    = user.SearchOrgInfo
-	SearchOrgReq     = user.SearchOrgReq
-	SearchOrgReqResp = user.SearchOrgReqResp
-	SearchUserInfo   = user.SearchUserInfo
-	SearchUserReq    = user.SearchUserReq
-	SearchUserResp   = user.SearchUserResp
+	ApplyJoinOrgReq   = user.ApplyJoinOrgReq
+	ApplyJoinOrgResp  = user.ApplyJoinOrgResp
+	InviteJoinOrgReq  = user.InviteJoinOrgReq
+	InviteJoinOrgResp = user.InviteJoinOrgResp
+	SearchOrgInfo     = user.SearchOrgInfo
+	SearchOrgReq      = user.SearchOrgReq
+	SearchOrgReqResp  = user.SearchOrgReqResp
+	SearchUserInfo    = user.SearchUserInfo
+	SearchUserReq     = user.SearchUserReq
+	SearchUserResp    = user.SearchUserResp
 
 	Org interface {
 		// 查找团队
 		SearchOrg(ctx context.Context, in *SearchOrgReq, opts ...grpc.CallOption) (*SearchOrgReqResp, error)
 		// 查找用户
 		SearchUser(ctx context.Context, in *SearchUserReq, opts ...grpc.CallOption) (*SearchUserResp, error)
+		// 用户申请加入团队
+		ApplyJoinOrg(ctx context.Context, in *ApplyJoinOrgReq, opts ...grpc.CallOption) (*ApplyJoinOrgResp, error)
+		// 邀请用户加入团队
+		InviteJoinOrg(ctx context.Context, in *InviteJoinOrgReq, opts ...grpc.CallOption) (*InviteJoinOrgResp, error)
 	}
 
 	defaultOrg struct {
@@ -48,4 +56,16 @@ func (m *defaultOrg) SearchOrg(ctx context.Context, in *SearchOrgReq, opts ...gr
 func (m *defaultOrg) SearchUser(ctx context.Context, in *SearchUserReq, opts ...grpc.CallOption) (*SearchUserResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.SearchUser(ctx, in, opts...)
+}
+
+// 用户申请加入团队
+func (m *defaultOrg) ApplyJoinOrg(ctx context.Context, in *ApplyJoinOrgReq, opts ...grpc.CallOption) (*ApplyJoinOrgResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.ApplyJoinOrg(ctx, in, opts...)
+}
+
+// 邀请用户加入团队
+func (m *defaultOrg) InviteJoinOrg(ctx context.Context, in *InviteJoinOrgReq, opts ...grpc.CallOption) (*InviteJoinOrgResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.InviteJoinOrg(ctx, in, opts...)
 }
