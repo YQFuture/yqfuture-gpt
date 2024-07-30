@@ -34,7 +34,7 @@ func NewInviteJoinOrgLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Inv
 	}
 }
 
-// 邀请用户加入团队
+// InviteJoinOrg 邀请用户加入团队
 func (l *InviteJoinOrgLogic) InviteJoinOrg(in *user.InviteJoinOrgReq) (*user.InviteJoinOrgResp, error) {
 	// 查找用户加入的团队数量
 	count, err := l.svcCtx.BsUserOrgModel.FindUserOrgCount(l.ctx, in.InviteUserId)
