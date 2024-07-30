@@ -45,3 +45,15 @@ func (s *OrgServer) InviteJoinOrg(ctx context.Context, in *user.InviteJoinOrgReq
 	l := orglogic.NewInviteJoinOrgLogic(ctx, s.svcCtx)
 	return l.InviteJoinOrg(in)
 }
+
+// 同意用户申请加入团队
+func (s *OrgServer) AgreeApplyJoinOrg(ctx context.Context, in *user.AgreeApplyJoinOrgReq) (*user.AgreeApplyJoinOrgResp, error) {
+	l := orglogic.NewAgreeApplyJoinOrgLogic(ctx, s.svcCtx)
+	return l.AgreeApplyJoinOrg(in)
+}
+
+// 同意用户邀请加入团队
+func (s *OrgServer) AgreeInviteJoinOrg(ctx context.Context, in *user.AgreeInviteJoinOrgReq) (*user.AgreeInviteJoinOrgResp, error) {
+	l := orglogic.NewAgreeInviteJoinOrgLogic(ctx, s.svcCtx)
+	return l.AgreeInviteJoinOrg(in)
+}

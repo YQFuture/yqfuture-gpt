@@ -60,11 +60,31 @@ type (
 
         // 邀请用户加入团队请求体
     InviteJoinOrgReq {
-        inviteUserId string `json:"inviteUserId"` // 邀请用户id
+        InviteUserId string `json:"inviteUserId"` // 邀请用户id
     }
 
         // 邀请用户加入团队响应体
     InviteJoinOrgResp {
+        BaseResp
+    }
+
+        // 同意用户申请加入团队请求体
+    AgreeApplyJoinOrgReq {
+        MessageId string `json:"messageId"` // 消息id
+    }
+
+        // 同意用户申请加入团队响应体
+    AgreeApplyJoinOrgResp {
+        BaseResp
+    }
+
+        // 用户同意邀请加入团队请求体
+    AgreeInviteJoinOrgReq {
+        MessageId string `json:"messageId"` // 消息id
+    }
+
+        // 用户同意邀请加入团队响应体
+    AgreeInviteJoinOrgResp {
         BaseResp
     }
 )

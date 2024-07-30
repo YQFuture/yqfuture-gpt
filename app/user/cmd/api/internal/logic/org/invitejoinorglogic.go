@@ -36,7 +36,7 @@ func (l *InviteJoinOrgLogic) InviteJoinOrg(req *types.InviteJoinOrgReq) (resp *t
 		return &types.InviteJoinOrgResp{
 			BaseResp: types.BaseResp{
 				Code: consts.Fail,
-				Msg:  "申请失败",
+				Msg:  "邀请失败",
 			},
 		}, nil
 	}

@@ -13,16 +13,20 @@ import (
 )
 
 type (
-	ApplyJoinOrgReq   = user.ApplyJoinOrgReq
-	ApplyJoinOrgResp  = user.ApplyJoinOrgResp
-	InviteJoinOrgReq  = user.InviteJoinOrgReq
-	InviteJoinOrgResp = user.InviteJoinOrgResp
-	SearchOrgInfo     = user.SearchOrgInfo
-	SearchOrgReq      = user.SearchOrgReq
-	SearchOrgReqResp  = user.SearchOrgReqResp
-	SearchUserInfo    = user.SearchUserInfo
-	SearchUserReq     = user.SearchUserReq
-	SearchUserResp    = user.SearchUserResp
+	AgreeApplyJoinOrgReq   = user.AgreeApplyJoinOrgReq
+	AgreeApplyJoinOrgResp  = user.AgreeApplyJoinOrgResp
+	AgreeInviteJoinOrgReq  = user.AgreeInviteJoinOrgReq
+	AgreeInviteJoinOrgResp = user.AgreeInviteJoinOrgResp
+	ApplyJoinOrgReq        = user.ApplyJoinOrgReq
+	ApplyJoinOrgResp       = user.ApplyJoinOrgResp
+	InviteJoinOrgReq       = user.InviteJoinOrgReq
+	InviteJoinOrgResp      = user.InviteJoinOrgResp
+	SearchOrgInfo          = user.SearchOrgInfo
+	SearchOrgReq           = user.SearchOrgReq
+	SearchOrgReqResp       = user.SearchOrgReqResp
+	SearchUserInfo         = user.SearchUserInfo
+	SearchUserReq          = user.SearchUserReq
+	SearchUserResp         = user.SearchUserResp
 
 	Org interface {
 		// 查找团队
@@ -33,6 +37,10 @@ type (
 		ApplyJoinOrg(ctx context.Context, in *ApplyJoinOrgReq, opts ...grpc.CallOption) (*ApplyJoinOrgResp, error)
 		// 邀请用户加入团队
 		InviteJoinOrg(ctx context.Context, in *InviteJoinOrgReq, opts ...grpc.CallOption) (*InviteJoinOrgResp, error)
+		// 同意用户申请加入团队
+		AgreeApplyJoinOrg(ctx context.Context, in *AgreeApplyJoinOrgReq, opts ...grpc.CallOption) (*AgreeApplyJoinOrgResp, error)
+		// 同意用户邀请加入团队
+		AgreeInviteJoinOrg(ctx context.Context, in *AgreeInviteJoinOrgReq, opts ...grpc.CallOption) (*AgreeInviteJoinOrgResp, error)
 	}
 
 	defaultOrg struct {
@@ -68,4 +76,16 @@ func (m *defaultOrg) ApplyJoinOrg(ctx context.Context, in *ApplyJoinOrgReq, opts
 func (m *defaultOrg) InviteJoinOrg(ctx context.Context, in *InviteJoinOrgReq, opts ...grpc.CallOption) (*InviteJoinOrgResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.InviteJoinOrg(ctx, in, opts...)
+}
+
+// 同意用户申请加入团队
+func (m *defaultOrg) AgreeApplyJoinOrg(ctx context.Context, in *AgreeApplyJoinOrgReq, opts ...grpc.CallOption) (*AgreeApplyJoinOrgResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.AgreeApplyJoinOrg(ctx, in, opts...)
+}
+
+// 同意用户邀请加入团队
+func (m *defaultOrg) AgreeInviteJoinOrg(ctx context.Context, in *AgreeInviteJoinOrgReq, opts ...grpc.CallOption) (*AgreeInviteJoinOrgResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.AgreeInviteJoinOrg(ctx, in, opts...)
 }

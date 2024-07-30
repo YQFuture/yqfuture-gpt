@@ -50,6 +50,25 @@ message InviteJoinOrgReq {
 message InviteJoinOrgResp {
   int64 code = 1;
 }
+// 同意用户申请加入团队请求体
+message AgreeApplyJoinOrgReq {
+  int64 userId = 1;
+  int64 messageId = 2;
+}
+// 同意用户申请加入团队返回体
+message AgreeApplyJoinOrgResp {
+  int64 code = 1;
+}
+// 同意用户邀请加入团队请求体
+message AgreeInviteJoinOrgReq {
+  int64 userId = 1;
+  int64 messageId = 2;
+}
+// 同意用户邀请加入团队返回体
+message AgreeInviteJoinOrgResp {
+  int64 code = 1;
+}
+
 // 组织团队相关服务
 service Org {
   // 查找团队
@@ -60,4 +79,8 @@ service Org {
   rpc applyJoinOrg(ApplyJoinOrgReq) returns (ApplyJoinOrgResp);
   // 邀请用户加入团队
   rpc inviteJoinOrg(InviteJoinOrgReq) returns (InviteJoinOrgResp);
+  // 同意用户申请加入团队
+  rpc agreeApplyJoinOrg(AgreeApplyJoinOrgReq) returns (AgreeApplyJoinOrgResp);
+  // 同意用户邀请加入团队
+  rpc agreeInviteJoinOrg(AgreeInviteJoinOrgReq) returns (AgreeInviteJoinOrgResp);
 }

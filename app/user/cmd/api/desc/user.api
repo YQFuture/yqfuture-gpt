@@ -123,6 +123,14 @@ service user {
 	@doc "邀请用户加入团队"
 	@handler inviteJoinOrg
 	post /inviteJoinOrg (InviteJoinOrgReq) returns (InviteJoinOrgResp)
+
+	@doc "同意用户申请加入团队"
+	@handler agreeApplyJoinOrg
+	post /agreeApplyJoinOrg (AgreeApplyJoinOrgReq) returns (AgreeApplyJoinOrgResp)
+
+	@doc "用户同意邀请加入团队"
+	@handler agreeInviteJoinOrg
+	post /agreeInviteJoinOrg (AgreeInviteJoinOrgReq) returns (AgreeInviteJoinOrgResp)
 }
 
 @server (
