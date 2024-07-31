@@ -68,7 +68,59 @@ message AgreeInviteJoinOrgReq {
 message AgreeInviteJoinOrgResp {
   int64 code = 1;
 }
-
+// 获取团队角色列表请求体
+message OrgRoleListReq {
+  int64 userId = 1;
+  string query = 2;
+}
+// 获取团队角色列表返回体
+message OrgRoleListResp {
+  int64 code = 1;
+  repeated OrgRole result = 2;
+}
+// 团队角色数据
+message OrgRole {
+  int64 roleId = 1;
+  string roleName = 2;
+  repeated RolePerm permList = 3;
+  repeated RoleShop shopList = 4;
+  repeated RoleUser userList = 5;
+}
+// 角色权限数据
+message RolePerm {
+  int64 permId = 1;
+  string permName = 2;
+  string permCode = 3;
+}
+// 角色店铺数据
+message RoleShop {
+  int64 shopId = 1;
+  string shopName = 2;
+  int64 PlatformType = 3;
+}
+// 角色用户数据
+message RoleUser {
+  int64 userId = 1;
+  string nickName = 2;
+  string headImg = 3;
+}
+// 获取团队权限列表请求体
+message OrgPermListReq {
+  int64 userId = 1;
+}
+// 获取团队权限列表返回体
+message OrgPermListResp {
+  int64 code = 1;
+  repeated OrgPerm result = 2;
+}
+// 团队权限数据
+message OrgPerm {
+  int64 permId = 1;
+  string permName = 2;
+  string permCode = 3;
+  int64 parentId = 4;
+}
+// 获取团队权限列表
 // 组织团队相关服务
 service Org {
   // 查找团队
@@ -83,4 +135,8 @@ service Org {
   rpc agreeApplyJoinOrg(AgreeApplyJoinOrgReq) returns (AgreeApplyJoinOrgResp);
   // 同意用户邀请加入团队
   rpc agreeInviteJoinOrg(AgreeInviteJoinOrgReq) returns (AgreeInviteJoinOrgResp);
+  // 获取团队角色列表
+  rpc getOrgRoleList(OrgRoleListReq) returns (OrgRoleListResp);
+  // 获取团队权限列表
+  rpc getOrgPermList(OrgPermListReq) returns (OrgPermListResp);
 }

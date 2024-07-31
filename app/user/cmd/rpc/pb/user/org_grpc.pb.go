@@ -25,12 +25,15 @@ const (
 	Org_InviteJoinOrg_FullMethodName      = "/user.Org/inviteJoinOrg"
 	Org_AgreeApplyJoinOrg_FullMethodName  = "/user.Org/agreeApplyJoinOrg"
 	Org_AgreeInviteJoinOrg_FullMethodName = "/user.Org/agreeInviteJoinOrg"
+	Org_GetOrgRoleList_FullMethodName     = "/user.Org/getOrgRoleList"
+	Org_GetOrgPermList_FullMethodName     = "/user.Org/getOrgPermList"
 )
 
 // OrgClient is the client API for Org service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
+// 获取团队权限列表
 // 组织团队相关服务
 type OrgClient interface {
 	// 查找团队
@@ -45,6 +48,10 @@ type OrgClient interface {
 	AgreeApplyJoinOrg(ctx context.Context, in *AgreeApplyJoinOrgReq, opts ...grpc.CallOption) (*AgreeApplyJoinOrgResp, error)
 	// 同意用户邀请加入团队
 	AgreeInviteJoinOrg(ctx context.Context, in *AgreeInviteJoinOrgReq, opts ...grpc.CallOption) (*AgreeInviteJoinOrgResp, error)
+	// 获取团队角色列表
+	GetOrgRoleList(ctx context.Context, in *OrgRoleListReq, opts ...grpc.CallOption) (*OrgRoleListResp, error)
+	// 获取团队权限列表
+	GetOrgPermList(ctx context.Context, in *OrgPermListReq, opts ...grpc.CallOption) (*OrgPermListResp, error)
 }
 
 type orgClient struct {
@@ -115,10 +122,31 @@ func (c *orgClient) AgreeInviteJoinOrg(ctx context.Context, in *AgreeInviteJoinO
 	return out, nil
 }
 
+func (c *orgClient) GetOrgRoleList(ctx context.Context, in *OrgRoleListReq, opts ...grpc.CallOption) (*OrgRoleListResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OrgRoleListResp)
+	err := c.cc.Invoke(ctx, Org_GetOrgRoleList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orgClient) GetOrgPermList(ctx context.Context, in *OrgPermListReq, opts ...grpc.CallOption) (*OrgPermListResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OrgPermListResp)
+	err := c.cc.Invoke(ctx, Org_GetOrgPermList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrgServer is the server API for Org service.
 // All implementations must embed UnimplementedOrgServer
 // for forward compatibility
 //
+// 获取团队权限列表
 // 组织团队相关服务
 type OrgServer interface {
 	// 查找团队
@@ -133,6 +161,10 @@ type OrgServer interface {
 	AgreeApplyJoinOrg(context.Context, *AgreeApplyJoinOrgReq) (*AgreeApplyJoinOrgResp, error)
 	// 同意用户邀请加入团队
 	AgreeInviteJoinOrg(context.Context, *AgreeInviteJoinOrgReq) (*AgreeInviteJoinOrgResp, error)
+	// 获取团队角色列表
+	GetOrgRoleList(context.Context, *OrgRoleListReq) (*OrgRoleListResp, error)
+	// 获取团队权限列表
+	GetOrgPermList(context.Context, *OrgPermListReq) (*OrgPermListResp, error)
 	mustEmbedUnimplementedOrgServer()
 }
 
@@ -157,6 +189,12 @@ func (UnimplementedOrgServer) AgreeApplyJoinOrg(context.Context, *AgreeApplyJoin
 }
 func (UnimplementedOrgServer) AgreeInviteJoinOrg(context.Context, *AgreeInviteJoinOrgReq) (*AgreeInviteJoinOrgResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AgreeInviteJoinOrg not implemented")
+}
+func (UnimplementedOrgServer) GetOrgRoleList(context.Context, *OrgRoleListReq) (*OrgRoleListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrgRoleList not implemented")
+}
+func (UnimplementedOrgServer) GetOrgPermList(context.Context, *OrgPermListReq) (*OrgPermListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrgPermList not implemented")
 }
 func (UnimplementedOrgServer) mustEmbedUnimplementedOrgServer() {}
 
@@ -279,6 +317,42 @@ func _Org_AgreeInviteJoinOrg_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Org_GetOrgRoleList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrgRoleListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgServer).GetOrgRoleList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Org_GetOrgRoleList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgServer).GetOrgRoleList(ctx, req.(*OrgRoleListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Org_GetOrgPermList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrgPermListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgServer).GetOrgPermList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Org_GetOrgPermList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgServer).GetOrgPermList(ctx, req.(*OrgPermListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Org_ServiceDesc is the grpc.ServiceDesc for Org service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -309,6 +383,14 @@ var Org_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "agreeInviteJoinOrg",
 			Handler:    _Org_AgreeInviteJoinOrg_Handler,
+		},
+		{
+			MethodName: "getOrgRoleList",
+			Handler:    _Org_GetOrgRoleList_Handler,
+		},
+		{
+			MethodName: "getOrgPermList",
+			Handler:    _Org_GetOrgPermList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

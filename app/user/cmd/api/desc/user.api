@@ -131,6 +131,14 @@ service user {
 	@doc "用户同意邀请加入团队"
 	@handler agreeInviteJoinOrg
 	post /agreeInviteJoinOrg (AgreeInviteJoinOrgReq) returns (AgreeInviteJoinOrgResp)
+
+	@doc "获取团队角色列表"
+	@handler getOrgRoleList
+	post /getOrgRoleList (OrgRoleListReq) returns (OrgRoleListResp)
+
+	@doc "获取团队权限树"
+	@handler getOrgPermTree
+	post /getOrgPermTree (OrgPermTreeReq) returns (OrgPermTreeResp)
 }
 
 @server (

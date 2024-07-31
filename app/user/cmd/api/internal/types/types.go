@@ -182,6 +182,39 @@ type OrgListResp struct {
 	Data []OrgInfo `json:"data"` // 组织列表
 }
 
+type OrgPerm struct {
+	PermId   string    `json:"permId"`
+	PermName string    `json:"permName"`
+	PermCode string    `json:"permCode"`
+	ParentId string    `json:"parentId"`
+	Children []OrgPerm `json:"children"`
+}
+
+type OrgPermTreeReq struct {
+}
+
+type OrgPermTreeResp struct {
+	BaseResp
+	Data []OrgPerm `json:"data"`
+}
+
+type OrgRole struct {
+	RoleId   string     `json:"roleId"`
+	RoleName string     `json:"roleName"`
+	PermList []RolePerm `json:"permList"`
+	ShopList []RoleShop `json:"shopList"`
+	UserList []RoleUser `json:"userList"`
+}
+
+type OrgRoleListReq struct {
+	Query string `json:"query"` // 查询
+}
+
+type OrgRoleListResp struct {
+	BaseResp
+	Data []OrgRole `json:"data"`
+}
+
 type QrCodeLoginStatusReq struct {
 	Ticket              string `json:"ticket"`              // 二维码票据
 	ThirtyDaysFreeLogin bool   `json:"thirtyDaysFreeLogin"` // 是否30天免登录
@@ -202,6 +235,24 @@ type RegisterReq struct {
 type RegisterResp struct {
 	BaseResp
 	Data UserInfo `json:"data"` // 用户信息
+}
+
+type RolePerm struct {
+	PermId   string `json:"permId"`
+	PermName string `json:"permName"`
+	PermCode string `json:"permCode"`
+}
+
+type RoleShop struct {
+	ShopId       string `json:"shopId"`
+	ShopName     string `json:"shopName"`
+	PlatformType int64  `json:"platformType"`
+}
+
+type RoleUser struct {
+	UserId   string `json:"userId"`
+	NickName string `json:"nickName"`
+	HeadImg  string `json:"headImg"`
 }
 
 type SearchOrgInfo struct {

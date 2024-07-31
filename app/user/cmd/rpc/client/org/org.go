@@ -21,6 +21,15 @@ type (
 	ApplyJoinOrgResp       = user.ApplyJoinOrgResp
 	InviteJoinOrgReq       = user.InviteJoinOrgReq
 	InviteJoinOrgResp      = user.InviteJoinOrgResp
+	OrgPerm                = user.OrgPerm
+	OrgPermListReq         = user.OrgPermListReq
+	OrgPermListResp        = user.OrgPermListResp
+	OrgRole                = user.OrgRole
+	OrgRoleListReq         = user.OrgRoleListReq
+	OrgRoleListResp        = user.OrgRoleListResp
+	RolePerm               = user.RolePerm
+	RoleShop               = user.RoleShop
+	RoleUser               = user.RoleUser
 	SearchOrgInfo          = user.SearchOrgInfo
 	SearchOrgReq           = user.SearchOrgReq
 	SearchOrgReqResp       = user.SearchOrgReqResp
@@ -41,6 +50,10 @@ type (
 		AgreeApplyJoinOrg(ctx context.Context, in *AgreeApplyJoinOrgReq, opts ...grpc.CallOption) (*AgreeApplyJoinOrgResp, error)
 		// 同意用户邀请加入团队
 		AgreeInviteJoinOrg(ctx context.Context, in *AgreeInviteJoinOrgReq, opts ...grpc.CallOption) (*AgreeInviteJoinOrgResp, error)
+		// 获取团队角色列表
+		GetOrgRoleList(ctx context.Context, in *OrgRoleListReq, opts ...grpc.CallOption) (*OrgRoleListResp, error)
+		// 获取团队权限列表
+		GetOrgPermList(ctx context.Context, in *OrgPermListReq, opts ...grpc.CallOption) (*OrgPermListResp, error)
 	}
 
 	defaultOrg struct {
@@ -88,4 +101,16 @@ func (m *defaultOrg) AgreeApplyJoinOrg(ctx context.Context, in *AgreeApplyJoinOr
 func (m *defaultOrg) AgreeInviteJoinOrg(ctx context.Context, in *AgreeInviteJoinOrgReq, opts ...grpc.CallOption) (*AgreeInviteJoinOrgResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.AgreeInviteJoinOrg(ctx, in, opts...)
+}
+
+// 获取团队角色列表
+func (m *defaultOrg) GetOrgRoleList(ctx context.Context, in *OrgRoleListReq, opts ...grpc.CallOption) (*OrgRoleListResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.GetOrgRoleList(ctx, in, opts...)
+}
+
+// 获取团队权限列表
+func (m *defaultOrg) GetOrgPermList(ctx context.Context, in *OrgPermListReq, opts ...grpc.CallOption) (*OrgPermListResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.GetOrgPermList(ctx, in, opts...)
 }

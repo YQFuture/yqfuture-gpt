@@ -57,3 +57,15 @@ func (s *OrgServer) AgreeInviteJoinOrg(ctx context.Context, in *user.AgreeInvite
 	l := orglogic.NewAgreeInviteJoinOrgLogic(ctx, s.svcCtx)
 	return l.AgreeInviteJoinOrg(in)
 }
+
+// 获取团队角色列表
+func (s *OrgServer) GetOrgRoleList(ctx context.Context, in *user.OrgRoleListReq) (*user.OrgRoleListResp, error) {
+	l := orglogic.NewGetOrgRoleListLogic(ctx, s.svcCtx)
+	return l.GetOrgRoleList(in)
+}
+
+// 获取团队权限列表
+func (s *OrgServer) GetOrgPermList(ctx context.Context, in *user.OrgPermListReq) (*user.OrgPermListResp, error) {
+	l := orglogic.NewGetOrgPermListLogic(ctx, s.svcCtx)
+	return l.GetOrgPermList(in)
+}

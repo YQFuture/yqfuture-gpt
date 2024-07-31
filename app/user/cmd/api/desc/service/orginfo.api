@@ -87,4 +87,64 @@ type (
     AgreeInviteJoinOrgResp {
         BaseResp
     }
+
+        // 获取团队角色列表请求体
+    OrgRoleListReq {
+        Query string `json:"query"` // 查询
+    }
+
+        // 获取当前团队角色列表响应体
+    OrgRoleListResp {
+        BaseResp
+        Data []OrgRole `json:"data"`
+    }
+
+        // 团队角色数据
+    OrgRole {
+        RoleId string `json:"roleId"`
+        RoleName string `json:"roleName"`
+        PermList []RolePerm `json:"permList"`
+        ShopList []RoleShop `json:"shopList"`
+        UserList []RoleUser `json:"userList"`
+    }
+
+        // 角色权限数据
+    RolePerm {
+        PermId string `json:"permId"`
+        PermName string `json:"permName"`
+        PermCode string `json:"permCode"`
+    }
+
+        // 角色店铺数据
+    RoleShop {
+        ShopId string `json:"shopId"`
+        ShopName string `json:"shopName"`
+        PlatformType int64 `json:"platformType"`
+    }
+
+        // 角色用户数据
+    RoleUser {
+        UserId string `json:"userId"`
+        NickName string `json:"nickName"`
+        HeadImg string `json:"headImg"`
+    }
+
+        // 获取团队权限树请求体
+    OrgPermTreeReq {
+    }
+
+        // 获取团队权限树响应体
+    OrgPermTreeResp {
+        BaseResp
+        Data []OrgPerm `json:"data"`
+    }
+
+        // 角色权限数据
+    OrgPerm {
+        PermId string `json:"permId"`
+        PermName string `json:"permName"`
+        PermCode string `json:"permCode"`
+        ParentId string `json:"parentId"`
+        Children []OrgPerm `json:"children"`
+    }
 )

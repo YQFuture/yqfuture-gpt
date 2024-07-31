@@ -94,6 +94,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: org.ApplyJoinOrgHandler(serverCtx),
 			},
 			{
+				// 获取团队权限树
+				Method:  http.MethodPost,
+				Path:    "/getOrgPermTree",
+				Handler: org.GetOrgPermTreeHandler(serverCtx),
+			},
+			{
+				// 获取团队角色列表
+				Method:  http.MethodPost,
+				Path:    "/getOrgRoleList",
+				Handler: org.GetOrgRoleListHandler(serverCtx),
+			},
+			{
 				// 邀请用户加入团队
 				Method:  http.MethodPost,
 				Path:    "/inviteJoinOrg",
