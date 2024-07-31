@@ -18,6 +18,7 @@ type (
 		withSession(session sqlx.Session) BsUserOrgModel
 		SessionInsert(ctx context.Context, data *BsUserOrg, session sqlx.Session) (sql.Result, error)
 		FindUserOrgCount(ctx context.Context, userId int64) (int64, error)
+		FindOrgUserCount(ctx context.Context, orgId int64) (int64, error)
 	}
 
 	customBsUserOrgModel struct {
@@ -46,6 +47,20 @@ func (m *customBsUserOrgModel) FindUserOrgCount(ctx context.Context, userId int6
 	query := fmt.Sprintf("select count(1) from %s where `user_id` = ?", m.table)
 	var resp int64
 	err := m.conn.QueryRowCtx(ctx, &resp, query, userId)
+	switch {
+	case err == nil:
+		return resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return 0, nil
+	default:
+		return 0, err
+	}
+}
+
+func (m *customBsUserOrgModel) FindOrgUserCount(ctx context.Context, orgId int64) (int64, error) {
+	query := fmt.Sprintf("select count(1) from %s where `org_id` = ?", m.table)
+	var resp int64
+	err := m.conn.QueryRowCtx(ctx, &resp, query, orgId)
 	switch {
 	case err == nil:
 		return resp, nil

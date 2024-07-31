@@ -37,6 +37,7 @@ type (
 		Id     int64 `db:"id"`      // ID
 		UserId int64 `db:"user_id"` // 用户ID
 		OrgId  int64 `db:"org_id"`  // 所有者ID
+		Status int64 `db:"status"`  // 状态 0: 暂停 1: 启用
 	}
 )
 
@@ -68,14 +69,14 @@ func (m *defaultBsUserOrgModel) FindOne(ctx context.Context, id int64) (*BsUserO
 }
 
 func (m *defaultBsUserOrgModel) Insert(ctx context.Context, data *BsUserOrg) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?)", m.table, bsUserOrgRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.UserId, data.OrgId)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?)", m.table, bsUserOrgRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.UserId, data.OrgId, data.Status)
 	return ret, err
 }
 
 func (m *defaultBsUserOrgModel) Update(ctx context.Context, data *BsUserOrg) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, bsUserOrgRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.UserId, data.OrgId, data.Id)
+	_, err := m.conn.ExecCtx(ctx, query, data.UserId, data.OrgId, data.Status, data.Id)
 	return err
 }
 

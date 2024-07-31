@@ -4,6 +4,7 @@ import (
 	"context"
 	"strconv"
 	"yufuture-gpt/app/user/model/orm"
+	"yufuture-gpt/app/user/model/redis"
 	"yufuture-gpt/common/consts"
 	"yufuture-gpt/common/utils"
 
@@ -49,6 +50,25 @@ func (l *AgreeApplyJoinOrgLogic) AgreeApplyJoinOrg(in *user.AgreeApplyJoinOrgReq
 		l.Logger.Error("反序列化消息内容换失败", err)
 		return nil, err
 	}
+	orgId := bsMessage.OrgId
+
+	// 使用分布式锁 保证用户加入的团队数和团队加入的用户数得到控制
+	key := applyJoinOrgMessageContent.UserId + ":" + strconv.FormatInt(orgId, 10)
+	lock, err := redis.AcquireDistributedLock(l.ctx, l.svcCtx.Redis, key, 20)
+	if err != nil {
+		l.Logger.Error("获取分布式锁失败", err)
+		return nil, err
+	}
+	if !lock {
+		l.Logger.Error("获取分布式锁失败")
+		return nil, err
+	}
+	defer func() {
+		err = redis.ReleaseDistributedLock(l.ctx, l.svcCtx.Redis, key)
+		if err != nil {
+			l.Logger.Error("释放分布式锁失败", err)
+		}
+	}()
 
 	// 判断用户加入的团队数量
 	applyUserId, err := strconv.ParseInt(applyJoinOrgMessageContent.UserId, 10, 64)
@@ -66,11 +86,28 @@ func (l *AgreeApplyJoinOrgLogic) AgreeApplyJoinOrg(in *user.AgreeApplyJoinOrgReq
 			Code: consts.OrgNumLimit,
 		}, nil
 	}
+	// 判断团队加入的用户数量
+	org, err := l.svcCtx.BsOrganizationModel.FindOne(l.ctx, orgId)
+	if err != nil {
+		l.Logger.Error("查找用户申请加入的团队信息失败: ", err)
+		return nil, err
+	}
+	// 判断团队的用户数量
+	count, err = l.svcCtx.BsUserOrgModel.FindOrgUserCount(l.ctx, orgId)
+	if err != nil {
+		l.Logger.Error("查找团队的用户数量失败: ", err)
+		return nil, err
+	}
+	if count >= org.MaxSeat {
+		return &user.AgreeApplyJoinOrgResp{
+			Code: consts.UserNumLimit,
+		}, nil
+	}
 
 	// 更新用户组织关系
 	bsUserOrg := &orm.BsUserOrg{
 		UserId: applyUserId,
-		OrgId:  bsMessage.OrgId,
+		OrgId:  orgId,
 	}
 	_, err = l.svcCtx.BsUserOrgModel.Insert(l.ctx, bsUserOrg)
 	if err != nil {

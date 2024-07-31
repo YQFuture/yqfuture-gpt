@@ -25,6 +25,7 @@ type (
 	bsOrganizationModel interface {
 		Insert(ctx context.Context, data *BsOrganization) (sql.Result, error)
 		FindOne(ctx context.Context, id int64) (*BsOrganization, error)
+		FindOneByOrgName(ctx context.Context, orgName sql.NullString) (*BsOrganization, error)
 		Update(ctx context.Context, data *BsOrganization) error
 		Delete(ctx context.Context, id int64) error
 	}
@@ -39,6 +40,7 @@ type (
 		OwnerId    int64          `db:"owner_id"`    // 所有者ID
 		OrgName    sql.NullString `db:"org_name"`    // 组织名称
 		BundleType int64          `db:"bundle_type"` // 套餐类型 0: 免费版 1: 基础版 2: AI个人版 3: AI协作版
+		MaxSeat    int64          `db:"max_seat"`    // 最大席位数量
 		CreateTime time.Time      `db:"create_time"` // 创建时间
 		UpdateTime time.Time      `db:"update_time"` // 修改时间
 		CreateBy   int64          `db:"create_by"`   // 创建人
@@ -73,15 +75,29 @@ func (m *defaultBsOrganizationModel) FindOne(ctx context.Context, id int64) (*Bs
 	}
 }
 
+func (m *defaultBsOrganizationModel) FindOneByOrgName(ctx context.Context, orgName sql.NullString) (*BsOrganization, error) {
+	var resp BsOrganization
+	query := fmt.Sprintf("select %s from %s where `org_name` = ? limit 1", bsOrganizationRows, m.table)
+	err := m.conn.QueryRowCtx(ctx, &resp, query, orgName)
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlx.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+
 func (m *defaultBsOrganizationModel) Insert(ctx context.Context, data *BsOrganization) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?)", m.table, bsOrganizationRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.OwnerId, data.OrgName, data.BundleType, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?)", m.table, bsOrganizationRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.OwnerId, data.OrgName, data.BundleType, data.MaxSeat, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 
-func (m *defaultBsOrganizationModel) Update(ctx context.Context, data *BsOrganization) error {
+func (m *defaultBsOrganizationModel) Update(ctx context.Context, newData *BsOrganization) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, bsOrganizationRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.OwnerId, data.OrgName, data.BundleType, data.CreateBy, data.UpdateBy, data.Id)
+	_, err := m.conn.ExecCtx(ctx, query, newData.OwnerId, newData.OrgName, newData.BundleType, newData.MaxSeat, newData.CreateBy, newData.UpdateBy, newData.Id)
 	return err
 }
 

@@ -74,6 +74,15 @@ func (l *InviteJoinOrgLogic) InviteJoinOrg(req *types.InviteJoinOrgReq) (resp *t
 			},
 		}, nil
 	}
+	if inviteUserJoinOrgResp.Code == consts.UserNumLimit {
+		l.Logger.Error("团队加入的用户达到上限", err)
+		return &types.InviteJoinOrgResp{
+			BaseResp: types.BaseResp{
+				Code: consts.OrgNumLimit,
+				Msg:  "团队加入的用户达到上限",
+			},
+		}, nil
+	}
 
 	return &types.InviteJoinOrgResp{
 		BaseResp: types.BaseResp{

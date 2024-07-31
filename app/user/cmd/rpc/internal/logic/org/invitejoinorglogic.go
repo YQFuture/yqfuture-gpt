@@ -36,7 +36,7 @@ func NewInviteJoinOrgLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Inv
 
 // InviteJoinOrg 邀请用户加入团队
 func (l *InviteJoinOrgLogic) InviteJoinOrg(in *user.InviteJoinOrgReq) (*user.InviteJoinOrgResp, error) {
-	// 查找用户加入的团队数量
+	// 判断用户加入的团队数量
 	count, err := l.svcCtx.BsUserOrgModel.FindUserOrgCount(l.ctx, in.InviteUserId)
 	if err != nil {
 		l.Logger.Error("查找用户加入的团队数量失败: ", err)
@@ -58,6 +58,18 @@ func (l *InviteJoinOrgLogic) InviteJoinOrg(in *user.InviteJoinOrgReq) (*user.Inv
 	if err != nil {
 		l.Logger.Error("查找用户申请加入的团队信息失败: ", err)
 		return nil, err
+	}
+
+	// 判断团队的用户数量
+	count, err = l.svcCtx.BsUserOrgModel.FindOrgUserCount(l.ctx, org.Id)
+	if err != nil {
+		l.Logger.Error("查找团队的用户数量失败: ", err)
+		return nil, err
+	}
+	if count >= org.MaxSeat {
+		return &user.InviteJoinOrgResp{
+			Code: consts.UserNumLimit,
+		}, nil
 	}
 
 	// 插入邀请用户加入团队消息

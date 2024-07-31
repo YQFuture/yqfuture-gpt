@@ -13,4 +13,5 @@ const (
 	UserNotInOrg              = 40008 // 用户不在组织中
 	OrgNameIsExist            = 40009 // 组织名称已存在
 	OrgNumLimit               = 40010 // 组织数量限制
+	UserNumLimit              = 40011 // 用户数量限制
 )

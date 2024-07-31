@@ -2,6 +2,7 @@ package svc
 
 import (
 	"github.com/bwmarrin/snowflake"
+	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 	"yufuture-gpt/app/user/cmd/rpc/internal/config"
 	"yufuture-gpt/app/user/model/orm"
@@ -9,6 +10,7 @@ import (
 
 type ServiceContext struct {
 	Config config.Config
+	Redis  *redis.Redis
 	// MySQL模型
 	BsUserModel           orm.BsUserModel
 	BsOrganizationModel   orm.BsOrganizationModel
@@ -28,6 +30,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 	return &ServiceContext{
 		Config:                c,
+		Redis:                 redis.MustNewRedis(c.RedisConf),
 		BsUserModel:           orm.NewBsUserModel(sqlConn),
 		BsOrganizationModel:   orm.NewBsOrganizationModel(sqlConn),
 		BsUserOrgModel:        orm.NewBsUserOrgModel(sqlConn),
