@@ -4,7 +4,9 @@ import (
 	"context"
 	"database/sql"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
+	loginlogic "yufuture-gpt/app/user/cmd/rpc/internal/logic/login"
 	"yufuture-gpt/app/user/model/orm"
 
 	"yufuture-gpt/app/user/cmd/rpc/internal/svc"
@@ -36,6 +38,28 @@ func (l *BindPhoneLogic) BindPhone(in *user.BindPhoneReq) (*user.BindPhoneResp, 
 	}
 	// 如果手机号未注册 创建新用户 并返回当前用户ID
 	if bsUser == nil {
+		// 先保存权限相关数据到MongoDB 失败直接返回错误
+		// 从MySQL中获取权限模板
+		bsPermTemplateList, err := l.svcCtx.BsPermTemplateModel.FindListByBundleType(l.ctx, 0)
+		if err != nil {
+			l.Logger.Error("获取权限模板失败", err)
+			return nil, err
+		}
+		// 根据权限模板构建MongoDB文档
+		dborgpermission := loginlogic.BuildDefaultMongoPermDoc(*bsPermTemplateList)
+		// 保存MongoDB文档 获取返回的ID
+		result, err := l.svcCtx.DborgpermissionModel.InsertOne(l.ctx, dborgpermission)
+		if err != nil {
+			l.Logger.Error("保存MongoDB文档失败", err)
+			return nil, err
+		}
+		oid, ok := result.InsertedID.(primitive.ObjectID)
+		if !ok {
+			l.Logger.Error("获取MongoDB文档ID失败", err)
+			return nil, err
+		}
+		mongoPermId := oid.Hex()
+
 		now := time.Now()
 		userId := l.svcCtx.SnowFlakeNode.Generate().Int64()
 		orgId := l.svcCtx.SnowFlakeNode.Generate().Int64()
@@ -75,11 +99,13 @@ func (l *BindPhoneLogic) BindPhone(in *user.BindPhoneReq) (*user.BindPhoneResp, 
 				String: in.Phone + "的组织",
 				Valid:  true,
 			},
-			BundleType: 0,
-			CreateTime: now,
-			UpdateTime: now,
-			CreateBy:   userId,
-			UpdateBy:   userId,
+			BundleType:  0,
+			MaxSeat:     1,
+			MongoPermId: mongoPermId,
+			CreateTime:  now,
+			UpdateTime:  now,
+			CreateBy:    userId,
+			UpdateBy:    userId,
 		}
 		// 构建用户组织中间表
 		bsUserOrg := &orm.BsUserOrg{

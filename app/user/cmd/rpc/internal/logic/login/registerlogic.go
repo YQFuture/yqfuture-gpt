@@ -113,6 +113,7 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 	bsUserOrg := &orm.BsUserOrg{
 		UserId: userId,
 		OrgId:  orgId,
+		Status: 1,
 	}
 
 	// 在同一个事务中保存三张表的数据
