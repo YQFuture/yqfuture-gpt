@@ -36,15 +36,16 @@ type (
 	}
 
 	BsOrganization struct {
-		Id         int64          `db:"id"`          // 组织ID
-		OwnerId    int64          `db:"owner_id"`    // 所有者ID
-		OrgName    sql.NullString `db:"org_name"`    // 组织名称
-		BundleType int64          `db:"bundle_type"` // 套餐类型 0: 免费版 1: 基础版 2: AI个人版 3: AI协作版
-		MaxSeat    int64          `db:"max_seat"`    // 最大席位数量
-		CreateTime time.Time      `db:"create_time"` // 创建时间
-		UpdateTime time.Time      `db:"update_time"` // 修改时间
-		CreateBy   int64          `db:"create_by"`   // 创建人
-		UpdateBy   int64          `db:"update_by"`   // 修改人
+		Id          int64          `db:"id"`            // 组织ID
+		OwnerId     int64          `db:"owner_id"`      // 所有者ID
+		OrgName     sql.NullString `db:"org_name"`      // 组织名称
+		BundleType  int64          `db:"bundle_type"`   // 套餐类型 0: 免费版 1: 基础版 2: AI个人版 3: AI协作版
+		MaxSeat     int64          `db:"max_seat"`      // 最大席位数量
+		MongoPermId string         `db:"mongo_perm_id"` // MongoDB中对应的权限文档ID
+		CreateTime  time.Time      `db:"create_time"`   // 创建时间
+		UpdateTime  time.Time      `db:"update_time"`   // 修改时间
+		CreateBy    int64          `db:"create_by"`     // 创建人
+		UpdateBy    int64          `db:"update_by"`     // 修改人
 	}
 )
 
@@ -90,14 +91,14 @@ func (m *defaultBsOrganizationModel) FindOneByOrgName(ctx context.Context, orgNa
 }
 
 func (m *defaultBsOrganizationModel) Insert(ctx context.Context, data *BsOrganization) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?)", m.table, bsOrganizationRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.OwnerId, data.OrgName, data.BundleType, data.MaxSeat, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?)", m.table, bsOrganizationRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.OwnerId, data.OrgName, data.BundleType, data.MaxSeat, data.MongoPermId, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 
 func (m *defaultBsOrganizationModel) Update(ctx context.Context, newData *BsOrganization) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, bsOrganizationRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, newData.OwnerId, newData.OrgName, newData.BundleType, newData.MaxSeat, newData.CreateBy, newData.UpdateBy, newData.Id)
+	_, err := m.conn.ExecCtx(ctx, query, newData.OwnerId, newData.OrgName, newData.BundleType, newData.MaxSeat, newData.MongoPermId, newData.CreateBy, newData.UpdateBy, newData.Id)
 	return err
 }
 

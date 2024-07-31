@@ -12,6 +12,12 @@ type Config struct {
 	Consul consul.Conf
 	// Redis
 	RedisConf redis.RedisConf
+	// MongoDB
+	Mongo struct {
+		Url             string
+		Database        string
+		Dborgpermission string
+	}
 	// MySQL
 	DB struct {
 		DataSource string

@@ -4,9 +4,11 @@ import (
 	"context"
 	"database/sql"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
 	"yufuture-gpt/app/user/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/user/cmd/rpc/pb/user"
+	model "yufuture-gpt/app/user/model/mongo"
 	"yufuture-gpt/app/user/model/orm"
 	"yufuture-gpt/common/consts"
 
@@ -40,6 +42,28 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 			Code: consts.PhoneIsRegistered,
 		}, nil
 	}
+
+	// 先保存权限相关数据到MongoDB 失败直接返回错误
+	// 从MySQL中获取权限模板
+	bsPermTemplateList, err := l.svcCtx.BsPermTemplateModel.FindListByBundleType(l.ctx, 0)
+	if err != nil {
+		l.Logger.Error("获取权限模板失败", err)
+		return nil, err
+	}
+	// 根据权限模板构建MongoDB文档
+	dborgpermission := BuildDefaultMongoPermDoc(*bsPermTemplateList)
+	// 保存MongoDB文档 获取返回的ID
+	result, err := l.svcCtx.DborgpermissionModel.InsertOne(l.ctx, dborgpermission)
+	if err != nil {
+		l.Logger.Error("保存MongoDB文档失败", err)
+		return nil, err
+	}
+	oid, ok := result.InsertedID.(primitive.ObjectID)
+	if !ok {
+		l.Logger.Error("获取MongoDB文档ID失败", err)
+		return nil, err
+	}
+	mongoPermId := oid.Hex()
 
 	// 构建新用户
 	now := time.Now()
@@ -77,11 +101,13 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 			String: in.Phone + "的组织",
 			Valid:  true,
 		},
-		BundleType: 0,
-		CreateTime: now,
-		UpdateTime: now,
-		CreateBy:   userId,
-		UpdateBy:   userId,
+		BundleType:  0,
+		MaxSeat:     1,
+		MongoPermId: mongoPermId,
+		CreateTime:  now,
+		UpdateTime:  now,
+		CreateBy:    userId,
+		UpdateBy:    userId,
 	}
 	// 构建用户组织中间表
 	bsUserOrg := &orm.BsUserOrg{
@@ -93,14 +119,17 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 	err = l.svcCtx.BsUserModel.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
 		_, err := l.svcCtx.BsUserModel.SessionInsert(l.ctx, newBsUser, session)
 		if err != nil {
+			l.Logger.Error("保存用户信息失败: ", err)
 			return err
 		}
 		_, err = l.svcCtx.BsOrganizationModel.SessionInsert(l.ctx, bsOrganization, session)
 		if err != nil {
+			l.Logger.Error("保存组织信息失败: ", err)
 			return err
 		}
 		_, err = l.svcCtx.BsUserOrgModel.SessionInsert(l.ctx, bsUserOrg, session)
 		if err != nil {
+			l.Logger.Error("保存用户组织中间表失败: ", err)
 			return err
 		}
 		return nil
@@ -121,4 +150,35 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 			HeadImg:  newBsUser.HeadImg.String,
 		},
 	}, nil
+}
+
+// BuildDefaultMongoPermDoc 构建默认的MongoDB组织权限文档 仅在创建新用户时调用 所以套餐类型一定为免费版
+func BuildDefaultMongoPermDoc(bsPermTemplateList []*orm.BsPermTemplate) *model.Dborgpermission {
+	var generalPermissionList []*model.Permission
+	for _, bsPermTemplate := range bsPermTemplateList {
+		// 套餐类型为免费版 只有通用类型的权限
+		if bsPermTemplate.PermType == 0 {
+			generalPermissionList = append(generalPermissionList, BuildGeneralPermission(bsPermTemplate, bsPermTemplate.Id, 0))
+		}
+	}
+	permissionGroup := map[string][]*model.Permission{
+		"general_permission": generalPermissionList,
+	}
+	return &model.Dborgpermission{
+		PermissionGroup: permissionGroup,
+		RoleList:        []*model.Role{},
+		UserList:        []*model.User{},
+	}
+}
+
+func BuildGeneralPermission(bsPermTemplate *orm.BsPermTemplate, id, resourceId int64) *model.Permission {
+	return &model.Permission{
+		Id:         id,
+		Name:       bsPermTemplate.Name,
+		ParentId:   bsPermTemplate.ParentId,
+		Perm:       bsPermTemplate.Perm,
+		Url:        bsPermTemplate.Url.String,
+		ResourceId: resourceId,
+		TemplateId: bsPermTemplate.Id,
+	}
 }

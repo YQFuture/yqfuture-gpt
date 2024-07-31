@@ -10,7 +10,7 @@ goctl model mysql datasource -url="root:mysql_QspKnh@tcp(10.0.0.118:3306)/yqfutu
 ## 通过指定mongodb集合名称来生成model代码
 goctl model mongo --type dbsavegoodscrawlertitles --dir ./model/mongo
 goctl model mongo --type dbpresettingshoptitles --dir ./model/mongo
-goctl model mongo --type dbpresettinggoodstitles --dir ./model/mongo
+goctl model mongo --type dborgpermission --dir ./model/mongo
 
 ## 生成swagger文档
 goctl api plugin -plugin goctl-swagger="swagger -filename training.json" -api desc/training.api -dir .

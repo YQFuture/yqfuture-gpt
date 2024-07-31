@@ -38,8 +38,8 @@ func (m *customBsUserOrgModel) withSession(session sqlx.Session) BsUserOrgModel 
 }
 
 func (m *customBsUserOrgModel) SessionInsert(ctx context.Context, data *BsUserOrg, session sqlx.Session) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?)", m.table, bsUserOrgRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.UserId, data.OrgId)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?)", m.table, bsUserOrgRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.UserId, data.OrgId, data.Status)
 	return ret, err
 }
 

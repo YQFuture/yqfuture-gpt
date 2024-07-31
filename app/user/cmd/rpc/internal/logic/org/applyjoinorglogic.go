@@ -74,11 +74,9 @@ func (l *ApplyJoinOrgLogic) ApplyJoinOrg(in *user.ApplyJoinOrgReq) (*user.ApplyJ
 	}
 
 	// 插入用户申请加入团队消息
-	messageId := l.svcCtx.SnowFlakeNode.Generate().Int64()
 	messageContentId := l.svcCtx.SnowFlakeNode.Generate().Int64()
 	now := time.Now()
 	bsMessage := &orm.BsMessage{
-		Id: messageId,
 		// 这里的UserId是消息接收者 也就是用户申请加入的团队管理员ID
 		UserId: org.OwnerId,
 		// 只有管理员在当前团队 才能看到该条消息

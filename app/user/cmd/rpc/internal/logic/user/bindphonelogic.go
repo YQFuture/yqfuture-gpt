@@ -91,14 +91,17 @@ func (l *BindPhoneLogic) BindPhone(in *user.BindPhoneReq) (*user.BindPhoneResp, 
 		err = l.svcCtx.BsUserModel.TransactCtx(l.ctx, func(ctx context.Context, session sqlx.Session) error {
 			_, err := l.svcCtx.BsUserModel.SessionInsert(l.ctx, newBsUser, session)
 			if err != nil {
+				l.Logger.Error("保存用户信息失败: ", err)
 				return err
 			}
 			_, err = l.svcCtx.BsOrganizationModel.SessionInsert(l.ctx, bsOrganization, session)
 			if err != nil {
+				l.Logger.Error("保存组织信息失败: ", err)
 				return err
 			}
 			_, err = l.svcCtx.BsUserOrgModel.SessionInsert(l.ctx, bsUserOrg, session)
 			if err != nil {
+				l.Logger.Error("保存用户组织中间表失败: ", err)
 				return err
 			}
 			return nil

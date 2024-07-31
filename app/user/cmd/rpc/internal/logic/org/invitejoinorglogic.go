@@ -73,11 +73,9 @@ func (l *InviteJoinOrgLogic) InviteJoinOrg(in *user.InviteJoinOrgReq) (*user.Inv
 	}
 
 	// 插入邀请用户加入团队消息
-	messageId := l.svcCtx.SnowFlakeNode.Generate().Int64()
 	messageContentId := l.svcCtx.SnowFlakeNode.Generate().Int64()
 	now := time.Now()
 	bsMessage := &orm.BsMessage{
-		Id: messageId,
 		// 这里的UserId是消息接收者 也就是被邀请加入团队的用户ID
 		UserId:      in.InviteUserId,
 		OrgId:       0,
