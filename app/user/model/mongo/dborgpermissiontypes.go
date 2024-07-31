@@ -9,9 +9,9 @@ import (
 type Dborgpermission struct {
 	ID primitive.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
 
-	PermissionGroup map[string][]*Permission `bson:"permissionGroup,omitempty" json:"permissionGroup,omitempty"`
-	RoleList        []*Role                  `bson:"roleList,omitempty" json:"roleList,omitempty"`
-	UserList        []*User                  `bson:"userList,omitempty" json:"userList,omitempty"`
+	PermissionList []*Permission `bson:"permissionList,omitempty" json:"permissionList,omitempty"`
+	RoleList       []*Role       `bson:"roleList,omitempty" json:"roleList,omitempty"`
+	UserList       []*User       `bson:"userList,omitempty" json:"userList,omitempty"`
 
 	UpdateAt time.Time `bson:"updateAt,omitempty" json:"updateAt,omitempty"`
 	CreateAt time.Time `bson:"createAt,omitempty" json:"createAt,omitempty"`

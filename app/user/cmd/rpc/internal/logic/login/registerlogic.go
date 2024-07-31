@@ -155,20 +155,14 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 
 // BuildDefaultMongoPermDoc 构建默认的MongoDB组织权限文档 仅在创建新用户时调用 所以套餐类型一定为免费版
 func BuildDefaultMongoPermDoc(bsPermTemplateList []*orm.BsPermTemplate) *model.Dborgpermission {
-	var generalPermissionList []*model.Permission
+	var permissionList []*model.Permission
 	for _, bsPermTemplate := range bsPermTemplateList {
-		// 套餐类型为免费版 只有通用类型的权限
-		if bsPermTemplate.PermType == 0 {
-			generalPermissionList = append(generalPermissionList, BuildGeneralPermission(bsPermTemplate, bsPermTemplate.Id, 0))
-		}
-	}
-	permissionGroup := map[string][]*model.Permission{
-		"general_permission": generalPermissionList,
+		permissionList = append(permissionList, BuildGeneralPermission(bsPermTemplate, bsPermTemplate.Id, 0))
 	}
 	return &model.Dborgpermission{
-		PermissionGroup: permissionGroup,
-		RoleList:        []*model.Role{},
-		UserList:        []*model.User{},
+		PermissionList: permissionList,
+		RoleList:       []*model.Role{},
+		UserList:       []*model.User{},
 	}
 }
 

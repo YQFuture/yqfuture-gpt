@@ -25,6 +25,7 @@ type (
 	bsPermTemplateModel interface {
 		Insert(ctx context.Context, data *BsPermTemplate) (sql.Result, error)
 		FindOne(ctx context.Context, id int64) (*BsPermTemplate, error)
+		FindOneByPerm(ctx context.Context, perm string) (*BsPermTemplate, error)
 		Update(ctx context.Context, data *BsPermTemplate) error
 		Delete(ctx context.Context, id int64) error
 	}
@@ -41,7 +42,6 @@ type (
 		Perm       string         `db:"perm"`        // 权限标识
 		Url        sql.NullString `db:"url"`         // 接口URL
 		VuePath    sql.NullString `db:"vue_path"`    // 前端VUE系统的PATH
-		PermType   int64          `db:"perm_type"`   // 权限类型 0: 通用 1:资源
 		BundleType int64          `db:"bundle_type"` // 套餐类型 0: 免费版 1: 基础版 2: AI个人版 3: AI协作版
 		EnableFlag int64          `db:"enable_flag"` // 启用标志 0: 未启用 1: 启用
 		CreateTime time.Time      `db:"create_time"` // 创建时间
@@ -78,15 +78,29 @@ func (m *defaultBsPermTemplateModel) FindOne(ctx context.Context, id int64) (*Bs
 	}
 }
 
+func (m *defaultBsPermTemplateModel) FindOneByPerm(ctx context.Context, perm string) (*BsPermTemplate, error) {
+	var resp BsPermTemplate
+	query := fmt.Sprintf("select %s from %s where `perm` = ? limit 1", bsPermTemplateRows, m.table)
+	err := m.conn.QueryRowCtx(ctx, &resp, query, perm)
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlx.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+
 func (m *defaultBsPermTemplateModel) Insert(ctx context.Context, data *BsPermTemplate) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, bsPermTemplateRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.ParentId, data.Name, data.Perm, data.Url, data.VuePath, data.PermType, data.BundleType, data.EnableFlag, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, bsPermTemplateRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.ParentId, data.Name, data.Perm, data.Url, data.VuePath, data.BundleType, data.EnableFlag, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 
-func (m *defaultBsPermTemplateModel) Update(ctx context.Context, data *BsPermTemplate) error {
+func (m *defaultBsPermTemplateModel) Update(ctx context.Context, newData *BsPermTemplate) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, bsPermTemplateRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.ParentId, data.Name, data.Perm, data.Url, data.VuePath, data.PermType, data.BundleType, data.EnableFlag, data.CreateBy, data.UpdateBy, data.Id)
+	_, err := m.conn.ExecCtx(ctx, query, newData.ParentId, newData.Name, newData.Perm, newData.Url, newData.VuePath, newData.BundleType, newData.EnableFlag, newData.CreateBy, newData.UpdateBy, newData.Id)
 	return err
 }
 
