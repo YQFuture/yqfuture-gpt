@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
+	"time"
 )
 
 var _ BsUserModel = (*customBsUserModel)(nil)
@@ -26,10 +27,29 @@ type (
 		UpdateHeadImg(ctx context.Context, headImg string, userId int64) error
 		UpdateNickName(ctx context.Context, nickName string, userId int64) error
 		FindListByPhone(ctx context.Context, queryString string) (*[]*BsUser, error)
+		FindPageListByOrgId(ctx context.Context, orgId, pageNum, pageSize int64, queryString string) (*[]*OrgUser, error)
+		FindPageTotalByOrgId(ctx context.Context, orgId, pageNum, pageSize int64, queryString string) (int64, error)
 	}
 
 	customBsUserModel struct {
 		*defaultBsUserModel
+	}
+
+	OrgUser struct {
+		Id         int64          `db:"id"`          // 用户ID
+		NowOrgId   int64          `db:"now_org_id"`  // 当前组织ID
+		UserName   sql.NullString `db:"user_name"`   // 用户名
+		NickName   sql.NullString `db:"nick_name"`   // 用户昵称
+		HeadImg    sql.NullString `db:"head_img"`    // 头像地址
+		Phone      sql.NullString `db:"phone"`       // 手机号码
+		Password   sql.NullString `db:"password"`    // 密码
+		Openid     sql.NullString `db:"openid"`      // openid是微信用户在不同类型的产品的身份ID
+		Unionid    sql.NullString `db:"unionid"`     // unionid是微信用户在同一个开放平台下的产品的身份ID
+		CreateTime time.Time      `db:"create_time"` // 创建时间
+		UpdateTime time.Time      `db:"update_time"` // 修改时间
+		CreateBy   int64          `db:"create_by"`   // 创建人
+		UpdateBy   int64          `db:"update_by"`   // 修改人
+		Status     int64          `db:"status"`      // 状态 0: 暂停 1: 启用
 	}
 )
 
@@ -116,10 +136,10 @@ func (m *customBsUserModel) UpdateNickName(ctx context.Context, nickName string,
 	return err
 }
 
-func (m *customBsUserModel) FindListByPhone(ctx context.Context, queryString string) (*[]*BsUser, error) {
+func (m *customBsUserModel) FindListByPhone(ctx context.Context, phone string) (*[]*BsUser, error) {
 	query := fmt.Sprintf("SELECT * FROM bs_user WHERE `phone` = ?")
 	var resp []*BsUser
-	err := m.conn.QueryRowsCtx(ctx, &resp, query, queryString)
+	err := m.conn.QueryRowsCtx(ctx, &resp, query, phone)
 	switch {
 	case err == nil:
 		return &resp, nil
@@ -128,4 +148,53 @@ func (m *customBsUserModel) FindListByPhone(ctx context.Context, queryString str
 	default:
 		return nil, err
 	}
+}
+
+func (m *customBsUserModel) FindPageListByOrgId(ctx context.Context, orgId, pageNum, pageSize int64, queryString string) (*[]*OrgUser, error) {
+	// 初始化偏移量和限制
+	offset := (pageNum - 1) * pageSize
+	limit := pageSize
+	var query string
+	var resp []*OrgUser
+	var err error
+	if queryString != "" {
+		query = fmt.Sprintf("SELECT u.*,uo.status FROM bs_user_org uo LEFT JOIN bs_user u ON uo.user_id = u.id WHERE uo.org_id = ? AND (u.nick_name LIKE \"%\"+?+\"%\" OR u.phone LIKE \"%\"+?+\"%\") ORDER BY uo.create_time ASC LIMIT ? OFFSET ?")
+		err = m.conn.QueryRowsCtx(ctx, &resp, query, orgId, queryString, queryString, limit, offset)
+	} else {
+		query = fmt.Sprintf("SELECT u.*,uo.status FROM bs_user_org uo LEFT JOIN bs_user u ON uo.user_id = u.id WHERE uo.org_id = ? ORDER BY uo.create_time ASC LIMIT ? OFFSET ?")
+		err = m.conn.QueryRowsCtx(ctx, &resp, query, orgId, limit, offset)
+	}
+	switch {
+	case err == nil:
+		return &resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return nil, nil
+	default:
+		return nil, err
+	}
+}
+
+func (m *customBsUserModel) FindPageTotalByOrgId(ctx context.Context, orgId, pageNum, pageSize int64, queryString string) (int64, error) {
+	// 初始化偏移量和限制
+	offset := (pageNum - 1) * pageSize
+	limit := pageSize
+	var query string
+	var resp int64
+	var err error
+	if queryString != "" {
+		query = fmt.Sprintf("SELECT COUNT(1) FROM bs_user_org uo LEFT JOIN bs_user u ON uo.user_id = u.id WHERE uo.org_id = ? AND (u.nick_name LIKE \"%\"+?+\"%\" OR u.phone LIKE \"%\"+?+\"%\") ORDER BY uo.create_time ASC LIMIT ? OFFSET ?")
+		err = m.conn.QueryRowCtx(ctx, &resp, query, orgId, queryString, queryString, limit, offset)
+	} else {
+		query = fmt.Sprintf("SELECT COUNT(1) FROM bs_user_org uo LEFT JOIN bs_user u ON uo.user_id = u.id WHERE uo.org_id = ? ORDER BY uo.create_time ASC LIMIT ? OFFSET ?")
+		err = m.conn.QueryRowCtx(ctx, &resp, query, orgId, limit, offset)
+	}
+	switch {
+	case err == nil:
+		return resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return 0, nil
+	default:
+		return 0, err
+	}
+
 }

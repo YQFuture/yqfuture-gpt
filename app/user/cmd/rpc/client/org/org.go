@@ -29,6 +29,9 @@ type (
 	OrgRole                = user.OrgRole
 	OrgRoleListReq         = user.OrgRoleListReq
 	OrgRoleListResp        = user.OrgRoleListResp
+	OrgUser                = user.OrgUser
+	OrgUserPageListReq     = user.OrgUserPageListReq
+	OrgUserPageListResp    = user.OrgUserPageListResp
 	RolePerm               = user.RolePerm
 	RoleShop               = user.RoleShop
 	RoleUser               = user.RoleUser
@@ -40,6 +43,8 @@ type (
 	SearchUserResp         = user.SearchUserResp
 	UpdateRoleReq          = user.UpdateRoleReq
 	UpdateRoleResp         = user.UpdateRoleResp
+	UserPerm               = user.UserPerm
+	UserRole               = user.UserRole
 
 	Org interface {
 		// 查找团队
@@ -62,6 +67,8 @@ type (
 		CreateRole(ctx context.Context, in *CreateRoleReq, opts ...grpc.CallOption) (*CreateRoleResp, error)
 		// 更新角色
 		UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*UpdateRoleResp, error)
+		// 获取团队用户分页列表
+		GetOrgUserPageList(ctx context.Context, in *OrgUserPageListReq, opts ...grpc.CallOption) (*OrgUserPageListResp, error)
 	}
 
 	defaultOrg struct {
@@ -133,4 +140,10 @@ func (m *defaultOrg) CreateRole(ctx context.Context, in *CreateRoleReq, opts ...
 func (m *defaultOrg) UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*UpdateRoleResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.UpdateRole(ctx, in, opts...)
+}
+
+// 获取团队用户分页列表
+func (m *defaultOrg) GetOrgUserPageList(ctx context.Context, in *OrgUserPageListReq, opts ...grpc.CallOption) (*OrgUserPageListResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.GetOrgUserPageList(ctx, in, opts...)
 }

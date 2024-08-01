@@ -227,6 +227,7 @@ type OrgRoleListResp struct {
 
 type OrgUser struct {
 	UserId   string     `json:"userId"`
+	Phone    string     `json:"phone"`
 	NickName string     `json:"nickName"`
 	HeadImg  string     `json:"headImg"`
 	Status   int64      `json:"status"`

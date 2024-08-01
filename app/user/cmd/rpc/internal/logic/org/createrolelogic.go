@@ -40,7 +40,7 @@ func (l *CreateRoleLogic) CreateRole(in *user.CreateRoleReq) (*user.CreateRoleRe
 	}
 	if bsOrg.OwnerId != bsUser.Id {
 		l.Logger.Error("当前用户不是当前团队管理员")
-		return nil, errors.New("只有团队管理员才能获取团队角色列表")
+		return nil, errors.New("只有团队管理员才能创建角色")
 	}
 	// 调用MongoDB获取团队权限文档
 	dborgpermission, err := l.svcCtx.DborgpermissionModel.FindOne(l.ctx, bsOrg.MongoPermId)

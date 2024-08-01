@@ -142,6 +142,42 @@ message UpdateRoleReq {
 message UpdateRoleResp {
   int64 code = 1;
 }
+// 获取团队用户分页列表请求体
+message OrgUserPageListReq {
+  int64 userId = 1;
+  int64  pageNum = 2;
+  int64  pageSize = 3;
+  string query = 4;
+}
+// 获取团队用户分页列表响应体
+message OrgUserPageListResp {
+  int64 code = 1;
+  int64 pageNum = 2;
+  int64 pageSize = 3;
+  int64 total = 4;
+  repeated OrgUser list = 5;
+}
+// 团队用户数据
+message OrgUser {
+  int64 userId = 1;
+  string phone = 2;
+  string nickName = 3;
+  string headImg = 4;
+  int64 status = 5;
+  repeated UserPerm permList = 6;
+  repeated UserRole roleList = 7;
+}
+// 用户权限数据
+message UserPerm {
+  int64 permId = 1;
+  string permName = 2;
+  string permCode = 3;
+}
+// 用户角色数据
+message UserRole {
+  int64 roleId = 1;
+  string roleName = 2;
+}
 // 组织团队相关服务
 service Org {
   // 查找团队
@@ -164,5 +200,7 @@ service Org {
   rpc createRole(CreateRoleReq) returns (CreateRoleResp);
   // 更新角色
   rpc updateRole(UpdateRoleReq) returns (UpdateRoleResp);
+  // 获取团队用户分页列表
+  rpc getOrgUserPageList(OrgUserPageListReq) returns (OrgUserPageListResp);
 }
 

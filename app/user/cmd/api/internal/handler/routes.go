@@ -112,6 +112,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: org.GetOrgRoleListHandler(serverCtx),
 			},
 			{
+				// 获取团队用户分页列表
+				Method:  http.MethodPost,
+				Path:    "/getOrgUserPageList",
+				Handler: org.GetOrgUserPageListHandler(serverCtx),
+			},
+			{
 				// 邀请用户加入团队
 				Method:  http.MethodPost,
 				Path:    "/inviteJoinOrg",

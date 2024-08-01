@@ -145,29 +145,72 @@ type (
         PermName string `json:"permName"`
         PermCode string `json:"permCode"`
         ParentId string `json:"parentId"`
+        Sort int64 `json:"sort"`
         Children []OrgPerm `json:"children"`
     }
 
-    // 创建角色请求体
+        // 创建角色请求体
     CreateRoleReq {
         RoleName string `json:"roleName"`
         PermIdList []string `json:"permIdList"`
     }
 
-    // 创建角色响应体
+        // 创建角色响应体
     CreateRoleResp {
         BaseResp
     }
 
-    // 更新角色请求体
+        // 更新角色请求体
     UpdateRoleReq {
         RoleId string `json:"roleId"`
         RoleName string `json:"roleName"`
         PermIdList []string `json:"permIdList"`
     }
 
-    // 更新角色响应体
+        // 更新角色响应体
     UpdateRoleResp {
         BaseResp
+    }
+
+        // 获取团队用户分页列表请求体
+    OrgUserPageListReq {
+        BasePageReq
+        Query string `json:"query"` // 查询
+    }
+
+        // 获取团队用户分页列表响应体
+    OrgUserPageListResp {
+        BaseResp
+        Data OrgUserPage `json:"data"`
+    }
+
+        // 团队用户分页数据
+    OrgUserPage {
+        BasePageResp
+        List []OrgUser `json:"list"`
+    }
+
+        // 团队用户数据
+    OrgUser {
+        UserId string `json:"userId"`
+        Phone string `json:"phone"`
+        NickName string `json:"nickName"`
+        HeadImg string `json:"headImg"`
+        Status int64 `json:"status"`
+        PermList []UserPerm `json:"permList"`
+        RoleList []UserRole `json:"roleList"`
+    }
+
+        // 用户权限数据
+    UserPerm {
+        PermId string `json:"permId"`
+        PermName string `json:"permName"`
+        PermCode string `json:"permCode"`
+    }
+
+        // 用户角色数据
+    UserRole {
+        RoleId string `json:"roleId"`
+        RoleName string `json:"roleName"`
     }
 )
