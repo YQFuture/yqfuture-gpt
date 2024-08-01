@@ -2364,6 +2364,214 @@ func (x *ResumeUserResp) GetCode() int64 {
 	return 0
 }
 
+// 分配算力请求体
+type GivePowerReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UserId          int64 `protobuf:"varint,1,opt,name=userId,proto3" json:"userId,omitempty"`
+	GivePowerUserId int64 `protobuf:"varint,2,opt,name=givePowerUserId,proto3" json:"givePowerUserId,omitempty"`
+	Power           int64 `protobuf:"varint,3,opt,name=power,proto3" json:"power,omitempty"`
+}
+
+func (x *GivePowerReq) Reset() {
+	*x = GivePowerReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pb_org_proto_msgTypes[40]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GivePowerReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GivePowerReq) ProtoMessage() {}
+
+func (x *GivePowerReq) ProtoReflect() protoreflect.Message {
+	mi := &file_pb_org_proto_msgTypes[40]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GivePowerReq.ProtoReflect.Descriptor instead.
+func (*GivePowerReq) Descriptor() ([]byte, []int) {
+	return file_pb_org_proto_rawDescGZIP(), []int{40}
+}
+
+func (x *GivePowerReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *GivePowerReq) GetGivePowerUserId() int64 {
+	if x != nil {
+		return x.GivePowerUserId
+	}
+	return 0
+}
+
+func (x *GivePowerReq) GetPower() int64 {
+	if x != nil {
+		return x.Power
+	}
+	return 0
+}
+
+// 分配算力返回体
+type GivePowerResp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code int64 `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+}
+
+func (x *GivePowerResp) Reset() {
+	*x = GivePowerResp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pb_org_proto_msgTypes[41]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GivePowerResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GivePowerResp) ProtoMessage() {}
+
+func (x *GivePowerResp) ProtoReflect() protoreflect.Message {
+	mi := &file_pb_org_proto_msgTypes[41]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GivePowerResp.ProtoReflect.Descriptor instead.
+func (*GivePowerResp) Descriptor() ([]byte, []int) {
+	return file_pb_org_proto_rawDescGZIP(), []int{41}
+}
+
+func (x *GivePowerResp) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+// 平均分配算力请求体
+type GivePowerAvgReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UserId int64 `protobuf:"varint,1,opt,name=userId,proto3" json:"userId,omitempty"`
+}
+
+func (x *GivePowerAvgReq) Reset() {
+	*x = GivePowerAvgReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pb_org_proto_msgTypes[42]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GivePowerAvgReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GivePowerAvgReq) ProtoMessage() {}
+
+func (x *GivePowerAvgReq) ProtoReflect() protoreflect.Message {
+	mi := &file_pb_org_proto_msgTypes[42]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GivePowerAvgReq.ProtoReflect.Descriptor instead.
+func (*GivePowerAvgReq) Descriptor() ([]byte, []int) {
+	return file_pb_org_proto_rawDescGZIP(), []int{42}
+}
+
+func (x *GivePowerAvgReq) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+// 平均分配算力返回体
+type GivePowerAvgResp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Code int64 `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+}
+
+func (x *GivePowerAvgResp) Reset() {
+	*x = GivePowerAvgResp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_pb_org_proto_msgTypes[43]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GivePowerAvgResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GivePowerAvgResp) ProtoMessage() {}
+
+func (x *GivePowerAvgResp) ProtoReflect() protoreflect.Message {
+	mi := &file_pb_org_proto_msgTypes[43]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GivePowerAvgResp.ProtoReflect.Descriptor instead.
+func (*GivePowerAvgResp) Descriptor() ([]byte, []int) {
+	return file_pb_org_proto_rawDescGZIP(), []int{43}
+}
+
+func (x *GivePowerAvgResp) GetCode() int64 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
 var File_pb_org_proto protoreflect.FileDescriptor
 
 var file_pb_org_proto_rawDesc = []byte{
@@ -2572,7 +2780,21 @@ var file_pb_org_proto_rawDesc = []byte{
 	0x28, 0x03, 0x52, 0x0c, 0x72, 0x65, 0x73, 0x75, 0x6d, 0x65, 0x55, 0x73, 0x65, 0x72, 0x49, 0x64,
 	0x22, 0x24, 0x0a, 0x0e, 0x52, 0x65, 0x73, 0x75, 0x6d, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65,
 	0x73, 0x70, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03,
-	0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x32, 0xbf, 0x07, 0x0a, 0x03, 0x4f, 0x72, 0x67, 0x12, 0x37,
+	0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x22, 0x66, 0x0a, 0x0c, 0x47, 0x69, 0x76, 0x65, 0x50, 0x6f,
+	0x77, 0x65, 0x72, 0x52, 0x65, 0x71, 0x12, 0x16, 0x0a, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x28,
+	0x0a, 0x0f, 0x67, 0x69, 0x76, 0x65, 0x50, 0x6f, 0x77, 0x65, 0x72, 0x55, 0x73, 0x65, 0x72, 0x49,
+	0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0f, 0x67, 0x69, 0x76, 0x65, 0x50, 0x6f, 0x77,
+	0x65, 0x72, 0x55, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x70, 0x6f, 0x77, 0x65,
+	0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x70, 0x6f, 0x77, 0x65, 0x72, 0x22, 0x23,
+	0x0a, 0x0d, 0x47, 0x69, 0x76, 0x65, 0x50, 0x6f, 0x77, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x12,
+	0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x04, 0x63,
+	0x6f, 0x64, 0x65, 0x22, 0x29, 0x0a, 0x0f, 0x47, 0x69, 0x76, 0x65, 0x50, 0x6f, 0x77, 0x65, 0x72,
+	0x41, 0x76, 0x67, 0x52, 0x65, 0x71, 0x12, 0x16, 0x0a, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x22, 0x26,
+	0x0a, 0x10, 0x47, 0x69, 0x76, 0x65, 0x50, 0x6f, 0x77, 0x65, 0x72, 0x41, 0x76, 0x67, 0x52, 0x65,
+	0x73, 0x70, 0x12, 0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03,
+	0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x32, 0xb4, 0x08, 0x0a, 0x03, 0x4f, 0x72, 0x67, 0x12, 0x37,
 	0x0a, 0x09, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x4f, 0x72, 0x67, 0x12, 0x12, 0x2e, 0x75, 0x73,
 	0x65, 0x72, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x4f, 0x72, 0x67, 0x52, 0x65, 0x71, 0x1a,
 	0x16, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x4f, 0x72, 0x67,
@@ -2632,8 +2854,15 @@ var file_pb_org_proto_rawDesc = []byte{
 	0x37, 0x0a, 0x0a, 0x72, 0x65, 0x73, 0x75, 0x6d, 0x65, 0x55, 0x73, 0x65, 0x72, 0x12, 0x13, 0x2e,
 	0x75, 0x73, 0x65, 0x72, 0x2e, 0x52, 0x65, 0x73, 0x75, 0x6d, 0x65, 0x55, 0x73, 0x65, 0x72, 0x52,
 	0x65, 0x71, 0x1a, 0x14, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x52, 0x65, 0x73, 0x75, 0x6d, 0x65,
-	0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x42, 0x08, 0x5a, 0x06, 0x2e, 0x2f, 0x75, 0x73,
-	0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x12, 0x34, 0x0a, 0x09, 0x67, 0x69, 0x76, 0x65,
+	0x50, 0x6f, 0x77, 0x65, 0x72, 0x12, 0x12, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x47, 0x69, 0x76,
+	0x65, 0x50, 0x6f, 0x77, 0x65, 0x72, 0x52, 0x65, 0x71, 0x1a, 0x13, 0x2e, 0x75, 0x73, 0x65, 0x72,
+	0x2e, 0x47, 0x69, 0x76, 0x65, 0x50, 0x6f, 0x77, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x12, 0x3d,
+	0x0a, 0x0c, 0x67, 0x69, 0x76, 0x65, 0x50, 0x6f, 0x77, 0x65, 0x72, 0x41, 0x76, 0x67, 0x12, 0x15,
+	0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x47, 0x69, 0x76, 0x65, 0x50, 0x6f, 0x77, 0x65, 0x72, 0x41,
+	0x76, 0x67, 0x52, 0x65, 0x71, 0x1a, 0x16, 0x2e, 0x75, 0x73, 0x65, 0x72, 0x2e, 0x47, 0x69, 0x76,
+	0x65, 0x50, 0x6f, 0x77, 0x65, 0x72, 0x41, 0x76, 0x67, 0x52, 0x65, 0x73, 0x70, 0x42, 0x08, 0x5a,
+	0x06, 0x2e, 0x2f, 0x75, 0x73, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2648,7 +2877,7 @@ func file_pb_org_proto_rawDescGZIP() []byte {
 	return file_pb_org_proto_rawDescData
 }
 
-var file_pb_org_proto_msgTypes = make([]protoimpl.MessageInfo, 40)
+var file_pb_org_proto_msgTypes = make([]protoimpl.MessageInfo, 44)
 var file_pb_org_proto_goTypes = []any{
 	(*SearchOrgReq)(nil),           // 0: user.SearchOrgReq
 	(*SearchOrgReqResp)(nil),       // 1: user.SearchOrgReqResp
@@ -2690,6 +2919,10 @@ var file_pb_org_proto_goTypes = []any{
 	(*PauseUserResp)(nil),          // 37: user.PauseUserResp
 	(*ResumeUserReq)(nil),          // 38: user.ResumeUserReq
 	(*ResumeUserResp)(nil),         // 39: user.ResumeUserResp
+	(*GivePowerReq)(nil),           // 40: user.GivePowerReq
+	(*GivePowerResp)(nil),          // 41: user.GivePowerResp
+	(*GivePowerAvgReq)(nil),        // 42: user.GivePowerAvgReq
+	(*GivePowerAvgResp)(nil),       // 43: user.GivePowerAvgResp
 }
 var file_pb_org_proto_depIdxs = []int32{
 	2,  // 0: user.SearchOrgReqResp.result:type_name -> user.SearchOrgInfo
@@ -2717,23 +2950,27 @@ var file_pb_org_proto_depIdxs = []int32{
 	34, // 22: user.Org.deleteUser:input_type -> user.DeleteUserReq
 	36, // 23: user.Org.pauseUser:input_type -> user.PauseUserReq
 	38, // 24: user.Org.resumeUser:input_type -> user.ResumeUserReq
-	1,  // 25: user.Org.searchOrg:output_type -> user.SearchOrgReqResp
-	4,  // 26: user.Org.searchUser:output_type -> user.SearchUserResp
-	7,  // 27: user.Org.applyJoinOrg:output_type -> user.ApplyJoinOrgResp
-	9,  // 28: user.Org.inviteJoinOrg:output_type -> user.InviteJoinOrgResp
-	11, // 29: user.Org.agreeApplyJoinOrg:output_type -> user.AgreeApplyJoinOrgResp
-	13, // 30: user.Org.agreeInviteJoinOrg:output_type -> user.AgreeInviteJoinOrgResp
-	15, // 31: user.Org.getOrgRoleList:output_type -> user.OrgRoleListResp
-	21, // 32: user.Org.getOrgPermList:output_type -> user.OrgPermListResp
-	24, // 33: user.Org.createRole:output_type -> user.CreateRoleResp
-	26, // 34: user.Org.updateRole:output_type -> user.UpdateRoleResp
-	28, // 35: user.Org.getOrgUserPageList:output_type -> user.OrgUserPageListResp
-	33, // 36: user.Org.changeUserRole:output_type -> user.ChangeUserRoleResp
-	35, // 37: user.Org.deleteUser:output_type -> user.DeleteUserResp
-	37, // 38: user.Org.pauseUser:output_type -> user.PauseUserResp
-	39, // 39: user.Org.resumeUser:output_type -> user.ResumeUserResp
-	25, // [25:40] is the sub-list for method output_type
-	10, // [10:25] is the sub-list for method input_type
+	40, // 25: user.Org.givePower:input_type -> user.GivePowerReq
+	42, // 26: user.Org.givePowerAvg:input_type -> user.GivePowerAvgReq
+	1,  // 27: user.Org.searchOrg:output_type -> user.SearchOrgReqResp
+	4,  // 28: user.Org.searchUser:output_type -> user.SearchUserResp
+	7,  // 29: user.Org.applyJoinOrg:output_type -> user.ApplyJoinOrgResp
+	9,  // 30: user.Org.inviteJoinOrg:output_type -> user.InviteJoinOrgResp
+	11, // 31: user.Org.agreeApplyJoinOrg:output_type -> user.AgreeApplyJoinOrgResp
+	13, // 32: user.Org.agreeInviteJoinOrg:output_type -> user.AgreeInviteJoinOrgResp
+	15, // 33: user.Org.getOrgRoleList:output_type -> user.OrgRoleListResp
+	21, // 34: user.Org.getOrgPermList:output_type -> user.OrgPermListResp
+	24, // 35: user.Org.createRole:output_type -> user.CreateRoleResp
+	26, // 36: user.Org.updateRole:output_type -> user.UpdateRoleResp
+	28, // 37: user.Org.getOrgUserPageList:output_type -> user.OrgUserPageListResp
+	33, // 38: user.Org.changeUserRole:output_type -> user.ChangeUserRoleResp
+	35, // 39: user.Org.deleteUser:output_type -> user.DeleteUserResp
+	37, // 40: user.Org.pauseUser:output_type -> user.PauseUserResp
+	39, // 41: user.Org.resumeUser:output_type -> user.ResumeUserResp
+	41, // 42: user.Org.givePower:output_type -> user.GivePowerResp
+	43, // 43: user.Org.givePowerAvg:output_type -> user.GivePowerAvgResp
+	27, // [27:44] is the sub-list for method output_type
+	10, // [10:27] is the sub-list for method input_type
 	10, // [10:10] is the sub-list for extension type_name
 	10, // [10:10] is the sub-list for extension extendee
 	0,  // [0:10] is the sub-list for field type_name
@@ -3225,6 +3462,54 @@ func file_pb_org_proto_init() {
 				return nil
 			}
 		}
+		file_pb_org_proto_msgTypes[40].Exporter = func(v any, i int) any {
+			switch v := v.(*GivePowerReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pb_org_proto_msgTypes[41].Exporter = func(v any, i int) any {
+			switch v := v.(*GivePowerResp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pb_org_proto_msgTypes[42].Exporter = func(v any, i int) any {
+			switch v := v.(*GivePowerAvgReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_pb_org_proto_msgTypes[43].Exporter = func(v any, i int) any {
+			switch v := v.(*GivePowerAvgResp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -3232,7 +3517,7 @@ func file_pb_org_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_pb_org_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   40,
+			NumMessages:   44,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

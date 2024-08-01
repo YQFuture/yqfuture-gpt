@@ -25,6 +25,10 @@ type (
 	CreateRoleResp         = user.CreateRoleResp
 	DeleteUserReq          = user.DeleteUserReq
 	DeleteUserResp         = user.DeleteUserResp
+	GivePowerAvgReq        = user.GivePowerAvgReq
+	GivePowerAvgResp       = user.GivePowerAvgResp
+	GivePowerReq           = user.GivePowerReq
+	GivePowerResp          = user.GivePowerResp
 	InviteJoinOrgReq       = user.InviteJoinOrgReq
 	InviteJoinOrgResp      = user.InviteJoinOrgResp
 	OrgPerm                = user.OrgPerm
@@ -85,6 +89,10 @@ type (
 		PauseUser(ctx context.Context, in *PauseUserReq, opts ...grpc.CallOption) (*PauseUserResp, error)
 		// 恢复用户
 		ResumeUser(ctx context.Context, in *ResumeUserReq, opts ...grpc.CallOption) (*ResumeUserResp, error)
+		// 分配算力
+		GivePower(ctx context.Context, in *GivePowerReq, opts ...grpc.CallOption) (*GivePowerResp, error)
+		// 平均分配算力
+		GivePowerAvg(ctx context.Context, in *GivePowerAvgReq, opts ...grpc.CallOption) (*GivePowerAvgResp, error)
 	}
 
 	defaultOrg struct {
@@ -186,4 +194,16 @@ func (m *defaultOrg) PauseUser(ctx context.Context, in *PauseUserReq, opts ...gr
 func (m *defaultOrg) ResumeUser(ctx context.Context, in *ResumeUserReq, opts ...grpc.CallOption) (*ResumeUserResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.ResumeUser(ctx, in, opts...)
+}
+
+// 分配算力
+func (m *defaultOrg) GivePower(ctx context.Context, in *GivePowerReq, opts ...grpc.CallOption) (*GivePowerResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.GivePower(ctx, in, opts...)
+}
+
+// 平均分配算力
+func (m *defaultOrg) GivePowerAvg(ctx context.Context, in *GivePowerAvgReq, opts ...grpc.CallOption) (*GivePowerAvgResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.GivePowerAvg(ctx, in, opts...)
 }

@@ -242,7 +242,7 @@ type (
         UserId string `json:"userId"`
     }
 
-        // 暂停用户响应
+        // 暂停用户响应体
     PauseUserResp {
         BaseResp
     }
@@ -252,8 +252,28 @@ type (
         UserId string `json:"userId"`
     }
 
-        // 恢复用户响应
+        // 恢复用户响应体
     ResumeUserResp {
+        BaseResp
+    }
+
+        // 分配算力请求体
+    GivePowerReq {
+        UserId string `json:"userId"`
+        Power int64 `json:"power"`
+    }
+
+        // 分配算力返回体
+    GivePowerResp {
+        BaseResp
+    }
+
+        // 平均分配算力请求体
+    GivePowerAvgReq {
+    }
+
+        // 平均分配算力返回体
+    GivePowerAvgResp {
         BaseResp
     }
 )

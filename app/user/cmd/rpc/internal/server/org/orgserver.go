@@ -111,3 +111,15 @@ func (s *OrgServer) ResumeUser(ctx context.Context, in *user.ResumeUserReq) (*us
 	l := orglogic.NewResumeUserLogic(ctx, s.svcCtx)
 	return l.ResumeUser(in)
 }
+
+// 分配算力
+func (s *OrgServer) GivePower(ctx context.Context, in *user.GivePowerReq) (*user.GivePowerResp, error) {
+	l := orglogic.NewGivePowerLogic(ctx, s.svcCtx)
+	return l.GivePower(in)
+}
+
+// 平均分配算力
+func (s *OrgServer) GivePowerAvg(ctx context.Context, in *user.GivePowerAvgReq) (*user.GivePowerAvgResp, error) {
+	l := orglogic.NewGivePowerAvgLogic(ctx, s.svcCtx)
+	return l.GivePowerAvg(in)
+}

@@ -34,6 +34,8 @@ const (
 	Org_DeleteUser_FullMethodName         = "/user.Org/deleteUser"
 	Org_PauseUser_FullMethodName          = "/user.Org/pauseUser"
 	Org_ResumeUser_FullMethodName         = "/user.Org/resumeUser"
+	Org_GivePower_FullMethodName          = "/user.Org/givePower"
+	Org_GivePowerAvg_FullMethodName       = "/user.Org/givePowerAvg"
 )
 
 // OrgClient is the client API for Org service.
@@ -72,6 +74,10 @@ type OrgClient interface {
 	PauseUser(ctx context.Context, in *PauseUserReq, opts ...grpc.CallOption) (*PauseUserResp, error)
 	// 恢复用户
 	ResumeUser(ctx context.Context, in *ResumeUserReq, opts ...grpc.CallOption) (*ResumeUserResp, error)
+	// 分配算力
+	GivePower(ctx context.Context, in *GivePowerReq, opts ...grpc.CallOption) (*GivePowerResp, error)
+	// 平均分配算力
+	GivePowerAvg(ctx context.Context, in *GivePowerAvgReq, opts ...grpc.CallOption) (*GivePowerAvgResp, error)
 }
 
 type orgClient struct {
@@ -232,6 +238,26 @@ func (c *orgClient) ResumeUser(ctx context.Context, in *ResumeUserReq, opts ...g
 	return out, nil
 }
 
+func (c *orgClient) GivePower(ctx context.Context, in *GivePowerReq, opts ...grpc.CallOption) (*GivePowerResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GivePowerResp)
+	err := c.cc.Invoke(ctx, Org_GivePower_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orgClient) GivePowerAvg(ctx context.Context, in *GivePowerAvgReq, opts ...grpc.CallOption) (*GivePowerAvgResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GivePowerAvgResp)
+	err := c.cc.Invoke(ctx, Org_GivePowerAvg_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrgServer is the server API for Org service.
 // All implementations must embed UnimplementedOrgServer
 // for forward compatibility
@@ -268,6 +294,10 @@ type OrgServer interface {
 	PauseUser(context.Context, *PauseUserReq) (*PauseUserResp, error)
 	// 恢复用户
 	ResumeUser(context.Context, *ResumeUserReq) (*ResumeUserResp, error)
+	// 分配算力
+	GivePower(context.Context, *GivePowerReq) (*GivePowerResp, error)
+	// 平均分配算力
+	GivePowerAvg(context.Context, *GivePowerAvgReq) (*GivePowerAvgResp, error)
 	mustEmbedUnimplementedOrgServer()
 }
 
@@ -319,6 +349,12 @@ func (UnimplementedOrgServer) PauseUser(context.Context, *PauseUserReq) (*PauseU
 }
 func (UnimplementedOrgServer) ResumeUser(context.Context, *ResumeUserReq) (*ResumeUserResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResumeUser not implemented")
+}
+func (UnimplementedOrgServer) GivePower(context.Context, *GivePowerReq) (*GivePowerResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GivePower not implemented")
+}
+func (UnimplementedOrgServer) GivePowerAvg(context.Context, *GivePowerAvgReq) (*GivePowerAvgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GivePowerAvg not implemented")
 }
 func (UnimplementedOrgServer) mustEmbedUnimplementedOrgServer() {}
 
@@ -603,6 +639,42 @@ func _Org_ResumeUser_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Org_GivePower_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GivePowerReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgServer).GivePower(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Org_GivePower_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgServer).GivePower(ctx, req.(*GivePowerReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Org_GivePowerAvg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GivePowerAvgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgServer).GivePowerAvg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Org_GivePowerAvg_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgServer).GivePowerAvg(ctx, req.(*GivePowerAvgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Org_ServiceDesc is the grpc.ServiceDesc for Org service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -669,6 +741,14 @@ var Org_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "resumeUser",
 			Handler:    _Org_ResumeUser_Handler,
+		},
+		{
+			MethodName: "givePower",
+			Handler:    _Org_GivePower_Handler,
+		},
+		{
+			MethodName: "givePowerAvg",
+			Handler:    _Org_GivePowerAvg_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

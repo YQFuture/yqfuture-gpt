@@ -21,6 +21,10 @@ type (
 		FindOrgUserCount(ctx context.Context, orgId int64) (int64, error)
 		DeleteByUserIdAndOrgId(ctx context.Context, userId, orgId int64) error
 		ChangeStatusByUserIdAndOrgId(ctx context.Context, userId, orgId, status int64) error
+		FindOrgTotalMonthUsedPower(ctx context.Context, orgId int64) (int64, error)
+		UpdateUserPower(ctx context.Context, userId, orgId, power int64) error
+		FindListByOrgId(ctx context.Context, orgId int64) (*[]*BsUserOrg, error)
+		UpdateUserPowerAvg(ctx context.Context, orgId, power int64) error
 	}
 
 	customBsUserOrgModel struct {
@@ -83,4 +87,44 @@ func (m *customBsUserOrgModel) ChangeStatusByUserIdAndOrgId(ctx context.Context,
 	query := fmt.Sprintf("update %s set status = ? where `user_id` = ? and org_id = ?", m.table)
 	_, err := m.conn.ExecCtx(ctx, query, status, userId, orgId)
 	return err
+}
+
+func (m *customBsUserOrgModel) FindOrgTotalMonthUsedPower(ctx context.Context, orgId int64) (int64, error) {
+	query := fmt.Sprintf("select count(month_used_power) from %s where `org_id` = ?", m.table)
+	var resp int64
+	err := m.conn.QueryRowCtx(ctx, &resp, query, orgId)
+	switch {
+	case err == nil:
+		return resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return 0, nil
+	default:
+		return 0, err
+	}
+}
+
+func (m *customBsUserOrgModel) UpdateUserPower(ctx context.Context, userId, orgId, power int64) error {
+	query := fmt.Sprintf("update %s set month_power_limit = ? where `user_id` = ? and org_id = ?", m.table)
+	_, err := m.conn.ExecCtx(ctx, query, power, userId, orgId)
+	return err
+}
+
+func (m *customBsUserOrgModel) UpdateUserPowerAvg(ctx context.Context, orgId, power int64) error {
+	query := fmt.Sprintf("update %s set month_power_limit = ? where org_id = ?", m.table)
+	_, err := m.conn.ExecCtx(ctx, query, power, orgId)
+	return err
+}
+
+func (m *customBsUserOrgModel) FindListByOrgId(ctx context.Context, orgId int64) (*[]*BsUserOrg, error) {
+	query := fmt.Sprintf("SELECT * FROM %s WHERE `oeg_id` = ?", m.table)
+	var resp []*BsUserOrg
+	err := m.conn.QueryRowsCtx(ctx, &resp, query, orgId)
+	switch {
+	case err == nil:
+		return &resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return nil, nil
+	default:
+		return nil, err
+	}
 }

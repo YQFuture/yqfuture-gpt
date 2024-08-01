@@ -167,6 +167,14 @@ service user {
 	@doc "恢复用户"
 	@handler resumeUser
 	post /resumeUser (ResumeUserReq) returns (ResumeUserResp)
+
+	@doc "分配算力"
+	@handler giverPower
+	post /giverPower (GivePowerReq) returns (GivePowerResp)
+
+	@doc "平均分配算力"
+	@handler giverPowerAvg
+	post /giverPowerAvg (GivePowerAvgReq) returns (GivePowerAvgResp)
 }
 
 @server (

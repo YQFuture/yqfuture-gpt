@@ -217,6 +217,24 @@ message ResumeUserReq {
 message ResumeUserResp {
   int64 code = 1;
 }
+// 分配算力请求体
+message GivePowerReq {
+  int64 userId = 1;
+  int64 givePowerUserId = 2;
+  int64 power = 3;
+}
+// 分配算力返回体
+message GivePowerResp {
+  int64 code = 1;
+}
+// 平均分配算力请求体
+message GivePowerAvgReq {
+  int64 userId = 1;
+}
+// 平均分配算力返回体
+message GivePowerAvgResp {
+  int64 code = 1;
+}
 // 组织团队相关服务
 service Org {
   // 查找团队
@@ -249,5 +267,9 @@ service Org {
   rpc pauseUser(PauseUserReq) returns (PauseUserResp);
   // 恢复用户
   rpc resumeUser(ResumeUserReq) returns (ResumeUserResp);
+  // 分配算力
+  rpc givePower(GivePowerReq) returns (GivePowerResp);
+  // 平均分配算力
+  rpc givePowerAvg(GivePowerAvgReq) returns (GivePowerAvgResp);
 }
 

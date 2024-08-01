@@ -135,6 +135,22 @@ type FileUploadResp struct {
 	Data string `json:"data"` // 文件对象Key
 }
 
+type GivePowerAvgReq struct {
+}
+
+type GivePowerAvgResp struct {
+	BaseResp
+}
+
+type GivePowerReq struct {
+	UserId string `json:"userId"`
+	Power  int64  `json:"power"`
+}
+
+type GivePowerResp struct {
+	BaseResp
+}
+
 type IgnoreMessageReq struct {
 	MessageId string `json:"messageId"` // 消息ID
 }

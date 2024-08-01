@@ -14,4 +14,5 @@ const (
 	OrgNameIsExist            = 40009 // 组织名称已存在
 	OrgNumLimit               = 40010 // 组织数量限制
 	UserNumLimit              = 40011 // 用户数量限制
+	PowerNotEnough            = 40012 // 算力不足
 )

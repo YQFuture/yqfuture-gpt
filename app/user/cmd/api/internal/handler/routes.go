@@ -130,6 +130,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: org.GetOrgUserPageListHandler(serverCtx),
 			},
 			{
+				// 分配算力
+				Method:  http.MethodPost,
+				Path:    "/giverPower",
+				Handler: org.GiverPowerHandler(serverCtx),
+			},
+			{
+				// 平均分配算力
+				Method:  http.MethodPost,
+				Path:    "/giverPowerAvg",
+				Handler: org.GiverPowerAvgHandler(serverCtx),
+			},
+			{
 				// 邀请用户加入团队
 				Method:  http.MethodPost,
 				Path:    "/inviteJoinOrg",
