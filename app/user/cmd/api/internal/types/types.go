@@ -102,6 +102,14 @@ type CurrentUserDataResp struct {
 	Data CurrentUserData `json:"data"` // 当前登录用户数据
 }
 
+type DeleteUserReq struct {
+	UserId string `json:"userId"`
+}
+
+type DeleteUserResp struct {
+	BaseResp
+}
+
 type DictInfo struct {
 	Name     string `json:"name"`     // 名称
 	Value    string `json:"value"`    // 值

@@ -188,6 +188,15 @@ message ChangeUserRoleReq {
 message ChangeUserRoleResp {
   int64 code = 1;
 }
+// 删除用户请求体
+message DeleteUserReq {
+  int64 userId = 1;
+  int64 deleteUserId = 2;
+}
+// 删除用户返回体
+message DeleteUserResp {
+  int64 code = 1;
+}
 // 组织团队相关服务
 service Org {
   // 查找团队
@@ -214,5 +223,7 @@ service Org {
   rpc getOrgUserPageList(OrgUserPageListReq) returns (OrgUserPageListResp);
   // 修改用户角色
   rpc changeUserRole(ChangeUserRoleReq) returns (ChangeUserRoleResp);
+  // 删除用户
+  rpc deleteUser(DeleteUserReq) returns (DeleteUserResp);
 }
 

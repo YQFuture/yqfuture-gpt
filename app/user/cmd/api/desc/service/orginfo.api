@@ -224,4 +224,14 @@ type (
     ChangeUserRoleResp {
         BaseResp
     }
+
+        // 删除用户请求体
+    DeleteUserReq {
+        UserId string `json:"userId"`
+    }
+
+        // 删除用户响应体
+    DeleteUserResp {
+        BaseResp
+    }
 )

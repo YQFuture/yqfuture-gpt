@@ -19,6 +19,7 @@ type (
 		SessionInsert(ctx context.Context, data *BsUserOrg, session sqlx.Session) (sql.Result, error)
 		FindUserOrgCount(ctx context.Context, userId int64) (int64, error)
 		FindOrgUserCount(ctx context.Context, orgId int64) (int64, error)
+		DeleteByUserIdAndOrgId(ctx context.Context, userId, orgId int64) error
 	}
 
 	customBsUserOrgModel struct {
@@ -69,4 +70,10 @@ func (m *customBsUserOrgModel) FindOrgUserCount(ctx context.Context, orgId int64
 	default:
 		return 0, err
 	}
+}
+
+func (m *customBsUserOrgModel) DeleteByUserIdAndOrgId(ctx context.Context, userId, orgId int64) error {
+	query := fmt.Sprintf("delete from %s where `user_id` = ? and org_id = ?", m.table)
+	_, err := m.conn.ExecCtx(ctx, query, userId, orgId)
+	return err
 }

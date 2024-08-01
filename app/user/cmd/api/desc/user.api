@@ -155,6 +155,10 @@ service user {
 	@doc "修改用户角色"
 	@handler changeUserRole
 	post /changeUserRole (ChangeUserRoleReq) returns (ChangeUserRoleResp)
+
+	@doc "删除用户"
+	@handler deleteUser
+	post /deleteUser (DeleteUserReq) returns (DeleteUserResp)
 }
 
 @server (

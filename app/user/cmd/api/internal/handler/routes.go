@@ -106,6 +106,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: org.CreateRoleHandler(serverCtx),
 			},
 			{
+				// 删除用户
+				Method:  http.MethodPost,
+				Path:    "/deleteUser",
+				Handler: org.DeleteUserHandler(serverCtx),
+			},
+			{
 				// 获取团队权限树
 				Method:  http.MethodPost,
 				Path:    "/getOrgPermTree",

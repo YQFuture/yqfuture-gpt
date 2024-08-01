@@ -23,6 +23,8 @@ type (
 	ChangeUserRoleResp     = user.ChangeUserRoleResp
 	CreateRoleReq          = user.CreateRoleReq
 	CreateRoleResp         = user.CreateRoleResp
+	DeleteUserReq          = user.DeleteUserReq
+	DeleteUserResp         = user.DeleteUserResp
 	InviteJoinOrgReq       = user.InviteJoinOrgReq
 	InviteJoinOrgResp      = user.InviteJoinOrgResp
 	OrgPerm                = user.OrgPerm
@@ -73,6 +75,8 @@ type (
 		GetOrgUserPageList(ctx context.Context, in *OrgUserPageListReq, opts ...grpc.CallOption) (*OrgUserPageListResp, error)
 		// 修改用户角色
 		ChangeUserRole(ctx context.Context, in *ChangeUserRoleReq, opts ...grpc.CallOption) (*ChangeUserRoleResp, error)
+		// 删除用户
+		DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error)
 	}
 
 	defaultOrg struct {
@@ -156,4 +160,10 @@ func (m *defaultOrg) GetOrgUserPageList(ctx context.Context, in *OrgUserPageList
 func (m *defaultOrg) ChangeUserRole(ctx context.Context, in *ChangeUserRoleReq, opts ...grpc.CallOption) (*ChangeUserRoleResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.ChangeUserRole(ctx, in, opts...)
+}
+
+// 删除用户
+func (m *defaultOrg) DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.DeleteUser(ctx, in, opts...)
 }

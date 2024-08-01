@@ -93,3 +93,9 @@ func (s *OrgServer) ChangeUserRole(ctx context.Context, in *user.ChangeUserRoleR
 	l := orglogic.NewChangeUserRoleLogic(ctx, s.svcCtx)
 	return l.ChangeUserRole(in)
 }
+
+// 删除用户
+func (s *OrgServer) DeleteUser(ctx context.Context, in *user.DeleteUserReq) (*user.DeleteUserResp, error) {
+	l := orglogic.NewDeleteUserLogic(ctx, s.svcCtx)
+	return l.DeleteUser(in)
+}
