@@ -87,3 +87,9 @@ func (s *OrgServer) GetOrgUserPageList(ctx context.Context, in *user.OrgUserPage
 	l := orglogic.NewGetOrgUserPageListLogic(ctx, s.svcCtx)
 	return l.GetOrgUserPageList(in)
 }
+
+// 修改用户角色
+func (s *OrgServer) ChangeUserRole(ctx context.Context, in *user.ChangeUserRoleReq) (*user.ChangeUserRoleResp, error) {
+	l := orglogic.NewChangeUserRoleLogic(ctx, s.svcCtx)
+	return l.ChangeUserRole(in)
+}

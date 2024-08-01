@@ -30,6 +30,7 @@ const (
 	Org_CreateRole_FullMethodName         = "/user.Org/createRole"
 	Org_UpdateRole_FullMethodName         = "/user.Org/updateRole"
 	Org_GetOrgUserPageList_FullMethodName = "/user.Org/getOrgUserPageList"
+	Org_ChangeUserRole_FullMethodName     = "/user.Org/changeUserRole"
 )
 
 // OrgClient is the client API for Org service.
@@ -60,6 +61,8 @@ type OrgClient interface {
 	UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*UpdateRoleResp, error)
 	// 获取团队用户分页列表
 	GetOrgUserPageList(ctx context.Context, in *OrgUserPageListReq, opts ...grpc.CallOption) (*OrgUserPageListResp, error)
+	// 修改用户角色
+	ChangeUserRole(ctx context.Context, in *ChangeUserRoleReq, opts ...grpc.CallOption) (*ChangeUserRoleResp, error)
 }
 
 type orgClient struct {
@@ -180,6 +183,16 @@ func (c *orgClient) GetOrgUserPageList(ctx context.Context, in *OrgUserPageListR
 	return out, nil
 }
 
+func (c *orgClient) ChangeUserRole(ctx context.Context, in *ChangeUserRoleReq, opts ...grpc.CallOption) (*ChangeUserRoleResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ChangeUserRoleResp)
+	err := c.cc.Invoke(ctx, Org_ChangeUserRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrgServer is the server API for Org service.
 // All implementations must embed UnimplementedOrgServer
 // for forward compatibility
@@ -208,6 +221,8 @@ type OrgServer interface {
 	UpdateRole(context.Context, *UpdateRoleReq) (*UpdateRoleResp, error)
 	// 获取团队用户分页列表
 	GetOrgUserPageList(context.Context, *OrgUserPageListReq) (*OrgUserPageListResp, error)
+	// 修改用户角色
+	ChangeUserRole(context.Context, *ChangeUserRoleReq) (*ChangeUserRoleResp, error)
 	mustEmbedUnimplementedOrgServer()
 }
 
@@ -247,6 +262,9 @@ func (UnimplementedOrgServer) UpdateRole(context.Context, *UpdateRoleReq) (*Upda
 }
 func (UnimplementedOrgServer) GetOrgUserPageList(context.Context, *OrgUserPageListReq) (*OrgUserPageListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrgUserPageList not implemented")
+}
+func (UnimplementedOrgServer) ChangeUserRole(context.Context, *ChangeUserRoleReq) (*ChangeUserRoleResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeUserRole not implemented")
 }
 func (UnimplementedOrgServer) mustEmbedUnimplementedOrgServer() {}
 
@@ -459,6 +477,24 @@ func _Org_GetOrgUserPageList_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Org_ChangeUserRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangeUserRoleReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgServer).ChangeUserRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Org_ChangeUserRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgServer).ChangeUserRole(ctx, req.(*ChangeUserRoleReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Org_ServiceDesc is the grpc.ServiceDesc for Org service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -509,6 +545,10 @@ var Org_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "getOrgUserPageList",
 			Handler:    _Org_GetOrgUserPageList_Handler,
+		},
+		{
+			MethodName: "changeUserRole",
+			Handler:    _Org_ChangeUserRole_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

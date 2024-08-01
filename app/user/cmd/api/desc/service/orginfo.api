@@ -213,4 +213,15 @@ type (
         RoleId string `json:"roleId"`     // 角色id
         RoleName string `json:"roleName"` // 角色名称
     }
+
+        // 修改用户角色请求体
+    ChangeUserRoleReq {
+        UserId string `json:"userId"`           // 用户id
+        RoleIdList []string `json:"roleIdList"` // 角色id列表
+    }
+
+        // 修改用户角色响应体
+    ChangeUserRoleResp {
+        BaseResp
+    }
 )

@@ -178,6 +178,16 @@ message UserRole {
   int64 roleId = 1;
   string roleName = 2;
 }
+// 修改用户角色请求体
+message ChangeUserRoleReq {
+  int64 userId = 1;
+  int64 changeUserId = 2;
+  repeated int64 roleIdList = 3;
+}
+// 修改用户角色返回体
+message ChangeUserRoleResp {
+  int64 code = 1;
+}
 // 组织团队相关服务
 service Org {
   // 查找团队
@@ -202,5 +212,7 @@ service Org {
   rpc updateRole(UpdateRoleReq) returns (UpdateRoleResp);
   // 获取团队用户分页列表
   rpc getOrgUserPageList(OrgUserPageListReq) returns (OrgUserPageListResp);
+  // 修改用户角色
+  rpc changeUserRole(ChangeUserRoleReq) returns (ChangeUserRoleResp);
 }
 

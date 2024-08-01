@@ -94,6 +94,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: org.ApplyJoinOrgHandler(serverCtx),
 			},
 			{
+				// 修改用户角色
+				Method:  http.MethodPost,
+				Path:    "/changeUserRole",
+				Handler: org.ChangeUserRoleHandler(serverCtx),
+			},
+			{
 				// 创建角色
 				Method:  http.MethodPost,
 				Path:    "/createRole",

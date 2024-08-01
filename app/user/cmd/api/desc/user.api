@@ -151,6 +151,10 @@ service user {
 	@doc "获取团队用户分页列表"
 	@handler getOrgUserPageList
 	post /getOrgUserPageList (OrgUserPageListReq) returns (OrgUserPageListResp)
+
+	@doc "修改用户角色"
+	@handler changeUserRole
+	post /changeUserRole (ChangeUserRoleReq) returns (ChangeUserRoleResp)
 }
 
 @server (

@@ -19,6 +19,8 @@ type (
 	AgreeInviteJoinOrgResp = user.AgreeInviteJoinOrgResp
 	ApplyJoinOrgReq        = user.ApplyJoinOrgReq
 	ApplyJoinOrgResp       = user.ApplyJoinOrgResp
+	ChangeUserRoleReq      = user.ChangeUserRoleReq
+	ChangeUserRoleResp     = user.ChangeUserRoleResp
 	CreateRoleReq          = user.CreateRoleReq
 	CreateRoleResp         = user.CreateRoleResp
 	InviteJoinOrgReq       = user.InviteJoinOrgReq
@@ -69,6 +71,8 @@ type (
 		UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*UpdateRoleResp, error)
 		// 获取团队用户分页列表
 		GetOrgUserPageList(ctx context.Context, in *OrgUserPageListReq, opts ...grpc.CallOption) (*OrgUserPageListResp, error)
+		// 修改用户角色
+		ChangeUserRole(ctx context.Context, in *ChangeUserRoleReq, opts ...grpc.CallOption) (*ChangeUserRoleResp, error)
 	}
 
 	defaultOrg struct {
@@ -146,4 +150,10 @@ func (m *defaultOrg) UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ...
 func (m *defaultOrg) GetOrgUserPageList(ctx context.Context, in *OrgUserPageListReq, opts ...grpc.CallOption) (*OrgUserPageListResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.GetOrgUserPageList(ctx, in, opts...)
+}
+
+// 修改用户角色
+func (m *defaultOrg) ChangeUserRole(ctx context.Context, in *ChangeUserRoleReq, opts ...grpc.CallOption) (*ChangeUserRoleResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.ChangeUserRole(ctx, in, opts...)
 }

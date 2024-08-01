@@ -70,6 +70,15 @@ type ChangeOrgReq struct {
 	OrgId string `json:"orgId"` // 组织ID
 }
 
+type ChangeUserRoleReq struct {
+	UserId     string   `json:"userId"`     // 用户id
+	RoleIdList []string `json:"roleIdList"` // 角色id列表
+}
+
+type ChangeUserRoleResp struct {
+	BaseResp
+}
+
 type CreateRoleReq struct {
 	RoleName   string   `json:"roleName"`   // 角色名称
 	PermIdList []string `json:"permIdList"` // 权限id列表
