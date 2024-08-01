@@ -41,8 +41,6 @@ func (l *GetOrgPermTreeLogic) GetOrgPermTree(req *types.OrgPermTreeReq) (resp *t
 		}, nil
 	}
 
-	l.Logger.Info("获取用户ID成功", userId)
-
 	// 调用RPC接口 获取团队权限列表
 	orgPermListResp, err := l.svcCtx.OrgClient.GetOrgPermList(l.ctx, &user.OrgPermListReq{
 		UserId: userId,
@@ -56,32 +54,32 @@ func (l *GetOrgPermTreeLogic) GetOrgPermTree(req *types.OrgPermTreeReq) (resp *t
 			},
 		}, nil
 	}
-	l.Logger.Info("获取团队权限列表成功", orgPermListResp)
 
 	// 团队权限列表解析成权限树
-	var orgPermList []types.OrgPerm
+	var orgPermList []*types.OrgPerm
+	parentMap := make(map[string]*types.OrgPerm)
 	for _, perm := range orgPermListResp.Result {
-		orgPermList = append(orgPermList, types.OrgPerm{
+		orgPerm := &types.OrgPerm{
 			PermId:   strconv.FormatInt(perm.PermId, 10),
 			PermName: perm.PermName,
 			PermCode: perm.PermCode,
 			ParentId: strconv.FormatInt(perm.ParentId, 10),
-		})
+		}
+		orgPermList = append(orgPermList, orgPerm)
+		parentMap[orgPerm.PermId] = orgPerm
 	}
-
-	parentMap := make(map[string]*types.OrgPerm)
-	for _, perm := range orgPermList {
-		parentMap[perm.PermId] = &perm
+	// 构建权限树 将子节点拼接到根节点上
+	for _, orgPerm := range orgPermList {
+		parent, exists := parentMap[orgPerm.ParentId]
+		if exists {
+			parent.Children = append(parent.Children, *orgPerm)
+		}
 	}
+	// 获取根节点
 	var orgPermTree []types.OrgPerm
-	for _, perm := range orgPermList {
-		if perm.ParentId == "0" { // 假设根节点的ParentID为0
-			orgPermTree = append(orgPermTree, perm)
-		} else {
-			parent, exists := parentMap[perm.ParentId]
-			if exists {
-				parent.Children = append(parent.Children, perm)
-			}
+	for _, orgPerm := range orgPermList {
+		if orgPerm.ParentId == "0" {
+			orgPermTree = append(orgPermTree, *orgPerm)
 		}
 	}
 
