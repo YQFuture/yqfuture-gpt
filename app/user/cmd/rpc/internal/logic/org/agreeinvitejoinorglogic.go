@@ -3,6 +3,7 @@ package orglogic
 import (
 	"context"
 	"strconv"
+	"time"
 	"yufuture-gpt/app/user/model/orm"
 	"yufuture-gpt/app/user/model/redis"
 	"yufuture-gpt/common/consts"
@@ -105,9 +106,15 @@ func (l *AgreeInviteJoinOrgLogic) AgreeInviteJoinOrg(in *user.AgreeInviteJoinOrg
 	}
 
 	// 更新用户组织关系
+	now := time.Now()
 	bsUserOrg := &orm.BsUserOrg{
-		UserId: in.UserId,
-		OrgId:  inviteOrgId,
+		UserId:     in.UserId,
+		OrgId:      inviteOrgId,
+		Status:     0,
+		CreateTime: now,
+		UpdateTime: now,
+		CreateBy:   in.UserId,
+		UpdateBy:   in.UserId,
 	}
 	_, err = l.svcCtx.BsUserOrgModel.Insert(l.ctx, bsUserOrg)
 	if err != nil {

@@ -44,6 +44,7 @@ type (
 		VuePath    sql.NullString `db:"vue_path"`    // 前端VUE系统的PATH
 		BundleType int64          `db:"bundle_type"` // 套餐类型 0: 免费版 1: 基础版 2: AI个人版 3: AI协作版
 		EnableFlag int64          `db:"enable_flag"` // 启用标志 0: 未启用 1: 启用
+		Sort       int64          `db:"sort"`        // 排序字段
 		CreateTime time.Time      `db:"create_time"` // 创建时间
 		UpdateTime time.Time      `db:"update_time"` // 修改时间
 		CreateBy   int64          `db:"create_by"`   // 创建人
@@ -93,14 +94,14 @@ func (m *defaultBsPermTemplateModel) FindOneByPerm(ctx context.Context, perm str
 }
 
 func (m *defaultBsPermTemplateModel) Insert(ctx context.Context, data *BsPermTemplate) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, bsPermTemplateRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.ParentId, data.Name, data.Perm, data.Url, data.VuePath, data.BundleType, data.EnableFlag, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, bsPermTemplateRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.ParentId, data.Name, data.Perm, data.Url, data.VuePath, data.BundleType, data.EnableFlag, data.Sort, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 
 func (m *defaultBsPermTemplateModel) Update(ctx context.Context, newData *BsPermTemplate) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, bsPermTemplateRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, newData.ParentId, newData.Name, newData.Perm, newData.Url, newData.VuePath, newData.BundleType, newData.EnableFlag, newData.CreateBy, newData.UpdateBy, newData.Id)
+	_, err := m.conn.ExecCtx(ctx, query, newData.ParentId, newData.Name, newData.Perm, newData.Url, newData.VuePath, newData.BundleType, newData.EnableFlag, newData.Sort, newData.CreateBy, newData.UpdateBy, newData.Id)
 	return err
 }
 

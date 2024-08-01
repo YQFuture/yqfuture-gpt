@@ -57,6 +57,7 @@ func (l *GetOrgPermListLogic) GetOrgPermList(in *user.OrgPermListReq) (*user.Org
 			PermName: perm.Name,
 			PermCode: perm.Perm,
 			ParentId: perm.ParentId,
+			Sort:     perm.Sort,
 		})
 	}
 

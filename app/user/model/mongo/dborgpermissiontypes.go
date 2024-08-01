@@ -23,6 +23,7 @@ type Permission struct {
 	Name       string `bson:"name,omitempty" json:"name,omitempty"`
 	Perm       string `bson:"perm,omitempty" json:"perm,omitempty"`
 	Url        string `bson:"url,omitempty" json:"url,omitempty"`
+	Sort       int64  `bson:"sort,omitempty" json:"sort,omitempty"`
 	TemplateId int64  `bson:"templateId,omitempty" json:"templateId,omitempty"`
 	ResourceId int64  `bson:"resourceId,omitempty" json:"resourceId,omitempty"`
 }

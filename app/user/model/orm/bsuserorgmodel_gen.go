@@ -7,6 +7,7 @@ import (
 	"database/sql"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/zeromicro/go-zero/core/stores/builder"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -34,10 +35,14 @@ type (
 	}
 
 	BsUserOrg struct {
-		Id     int64 `db:"id"`      // ID
-		UserId int64 `db:"user_id"` // 用户ID
-		OrgId  int64 `db:"org_id"`  // 所有者ID
-		Status int64 `db:"status"`  // 状态 0: 暂停 1: 启用
+		Id         int64     `db:"id"`          // ID
+		UserId     int64     `db:"user_id"`     // 用户ID
+		OrgId      int64     `db:"org_id"`      // 所有者ID
+		Status     int64     `db:"status"`      // 状态 0: 暂停 1: 启用
+		CreateTime time.Time `db:"create_time"` // 创建时间
+		UpdateTime time.Time `db:"update_time"` // 修改时间
+		CreateBy   int64     `db:"create_by"`   // 创建人
+		UpdateBy   int64     `db:"update_by"`   // 修改人
 	}
 )
 
@@ -69,14 +74,14 @@ func (m *defaultBsUserOrgModel) FindOne(ctx context.Context, id int64) (*BsUserO
 }
 
 func (m *defaultBsUserOrgModel) Insert(ctx context.Context, data *BsUserOrg) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?)", m.table, bsUserOrgRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.UserId, data.OrgId, data.Status)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?)", m.table, bsUserOrgRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.UserId, data.OrgId, data.Status, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 
 func (m *defaultBsUserOrgModel) Update(ctx context.Context, data *BsUserOrg) error {
 	query := fmt.Sprintf("update %s set %s where `id` = ?", m.table, bsUserOrgRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.UserId, data.OrgId, data.Status, data.Id)
+	_, err := m.conn.ExecCtx(ctx, query, data.UserId, data.OrgId, data.Status, data.CreateBy, data.UpdateBy, data.Id)
 	return err
 }
 

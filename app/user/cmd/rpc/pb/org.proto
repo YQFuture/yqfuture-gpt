@@ -119,6 +119,7 @@ message OrgPerm {
   string permName = 2;
   string permCode = 3;
   int64 parentId = 4;
+  int64 sort = 5;
 }
 // 创建角色请求体
 message CreateRoleReq {

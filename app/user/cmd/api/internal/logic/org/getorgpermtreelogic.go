@@ -64,6 +64,7 @@ func (l *GetOrgPermTreeLogic) GetOrgPermTree(req *types.OrgPermTreeReq) (resp *t
 			PermName: perm.PermName,
 			PermCode: perm.PermCode,
 			ParentId: strconv.FormatInt(perm.ParentId, 10),
+			Sort:     perm.Sort,
 		}
 		orgPermList = append(orgPermList, orgPerm)
 		parentMap[orgPerm.PermId] = orgPerm

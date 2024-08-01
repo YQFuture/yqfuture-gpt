@@ -196,6 +196,7 @@ type OrgPerm struct {
 	PermName string    `json:"permName"`
 	PermCode string    `json:"permCode"`
 	ParentId string    `json:"parentId"`
+	Sort     int64     `json:"sort"`
 	Children []OrgPerm `json:"children"`
 }
 
@@ -222,6 +223,30 @@ type OrgRoleListReq struct {
 type OrgRoleListResp struct {
 	BaseResp
 	Data []OrgRole `json:"data"`
+}
+
+type OrgUser struct {
+	UserId   string     `json:"userId"`
+	NickName string     `json:"nickName"`
+	HeadImg  string     `json:"headImg"`
+	Status   int64      `json:"status"`
+	PermList []UserPerm `json:"permList"`
+	RoleList []UserRole `json:"roleList"`
+}
+
+type OrgUserPage struct {
+	BasePageResp
+	List []OrgUser `json:"list"`
+}
+
+type OrgUserPageListReq struct {
+	BasePageReq
+	Query string `json:"query"` // 查询
+}
+
+type OrgUserPageListResp struct {
+	BaseResp
+	Data OrgUserPage `json:"data"`
 }
 
 type QrCodeLoginStatusReq struct {
@@ -320,6 +345,17 @@ type UserInfo struct {
 	Phone    string `json:"phone"`    // 手机号码
 	NickName string `json:"nickname"` // 昵称
 	HeadImg  string `json:"headImg"`  // 头像
+}
+
+type UserPerm struct {
+	PermId   string `json:"permId"`
+	PermName string `json:"permName"`
+	PermCode string `json:"permCode"`
+}
+
+type UserRole struct {
+	RoleId   string `json:"roleId"`
+	RoleName string `json:"roleName"`
 }
 
 type VerificationCodeReq struct {
