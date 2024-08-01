@@ -71,8 +71,8 @@ type ChangeOrgReq struct {
 }
 
 type CreateRoleReq struct {
-	RoleName   string   `json:"roleName"`
-	PermIdList []string `json:"permIdList"`
+	RoleName   string   `json:"roleName"`   // 角色名称
+	PermIdList []string `json:"permIdList"` // 权限id列表
 }
 
 type CreateRoleResp struct {
@@ -192,12 +192,12 @@ type OrgListResp struct {
 }
 
 type OrgPerm struct {
-	PermId   string    `json:"permId"`
-	PermName string    `json:"permName"`
-	PermCode string    `json:"permCode"`
-	ParentId string    `json:"parentId"`
-	Sort     int64     `json:"sort"`
-	Children []OrgPerm `json:"children"`
+	PermId   string    `json:"permId"`   // 权限id
+	PermName string    `json:"permName"` // 权限名称
+	PermCode string    `json:"permCode"` // 权限code
+	ParentId string    `json:"parentId"` // 父级id
+	Sort     int64     `json:"sort"`     // 排序
+	Children []OrgPerm `json:"children"` // 子级
 }
 
 type OrgPermTreeReq struct {
@@ -205,15 +205,15 @@ type OrgPermTreeReq struct {
 
 type OrgPermTreeResp struct {
 	BaseResp
-	Data []OrgPerm `json:"data"`
+	Data []OrgPerm `json:"data"` // 权限树
 }
 
 type OrgRole struct {
-	RoleId   string     `json:"roleId"`
-	RoleName string     `json:"roleName"`
-	PermList []RolePerm `json:"permList"`
-	ShopList []RoleShop `json:"shopList"`
-	UserList []RoleUser `json:"userList"`
+	RoleId   string     `json:"roleId"`   // 角色id
+	RoleName string     `json:"roleName"` // 角色名称
+	PermList []RolePerm `json:"permList"` // 权限列表
+	ShopList []RoleShop `json:"shopList"` // 店铺列表
+	UserList []RoleUser `json:"userList"` // 用户列表
 }
 
 type OrgRoleListReq struct {
@@ -222,22 +222,22 @@ type OrgRoleListReq struct {
 
 type OrgRoleListResp struct {
 	BaseResp
-	Data []OrgRole `json:"data"`
+	Data []OrgRole `json:"data"` // 角色列表
 }
 
 type OrgUser struct {
-	UserId   string     `json:"userId"`
-	Phone    string     `json:"phone"`
-	NickName string     `json:"nickName"`
-	HeadImg  string     `json:"headImg"`
-	Status   int64      `json:"status"`
-	PermList []UserPerm `json:"permList"`
-	RoleList []UserRole `json:"roleList"`
+	UserId   string     `json:"userId"`   // 用户id
+	Phone    string     `json:"phone"`    // 手机号
+	NickName string     `json:"nickName"` // 昵称
+	HeadImg  string     `json:"headImg"`  // 头像
+	Status   int64      `json:"status"`   // 状态
+	PermList []UserPerm `json:"permList"` // 权限列表
+	RoleList []UserRole `json:"roleList"` // 角色列表
 }
 
 type OrgUserPage struct {
 	BasePageResp
-	List []OrgUser `json:"list"`
+	List []OrgUser `json:"list"` // 用户列表
 }
 
 type OrgUserPageListReq struct {
@@ -247,7 +247,7 @@ type OrgUserPageListReq struct {
 
 type OrgUserPageListResp struct {
 	BaseResp
-	Data OrgUserPage `json:"data"`
+	Data OrgUserPage `json:"data"` // 分页数据
 }
 
 type QrCodeLoginStatusReq struct {
@@ -273,21 +273,21 @@ type RegisterResp struct {
 }
 
 type RolePerm struct {
-	PermId   string `json:"permId"`
-	PermName string `json:"permName"`
-	PermCode string `json:"permCode"`
+	PermId   string `json:"permId"`   // 权限id
+	PermName string `json:"permName"` // 权限名称
+	PermCode string `json:"permCode"` // 权限code
 }
 
 type RoleShop struct {
-	ShopId       string `json:"shopId"`
-	ShopName     string `json:"shopName"`
-	PlatformType int64  `json:"platformType"`
+	ShopId       string `json:"shopId"`       // 店铺id
+	ShopName     string `json:"shopName"`     // 店铺名称
+	PlatformType int64  `json:"platformType"` // 平台类型
 }
 
 type RoleUser struct {
-	UserId   string `json:"userId"`
-	NickName string `json:"nickName"`
-	HeadImg  string `json:"headImg"`
+	UserId   string `json:"userId"`   // 用户id
+	NickName string `json:"nickName"` // 昵称
+	HeadImg  string `json:"headImg"`  // 头像
 }
 
 type SearchOrgInfo struct {
@@ -332,9 +332,9 @@ type UpdateOrgNameReq struct {
 }
 
 type UpdateRoleReq struct {
-	RoleId     string   `json:"roleId"`
-	RoleName   string   `json:"roleName"`
-	PermIdList []string `json:"permIdList"`
+	RoleId     string   `json:"roleId"`     // 角色id
+	RoleName   string   `json:"roleName"`   // 角色名称
+	PermIdList []string `json:"permIdList"` // 权限id列表
 }
 
 type UpdateRoleResp struct {
@@ -349,14 +349,14 @@ type UserInfo struct {
 }
 
 type UserPerm struct {
-	PermId   string `json:"permId"`
-	PermName string `json:"permName"`
-	PermCode string `json:"permCode"`
+	PermId   string `json:"permId"`   // 权限id
+	PermName string `json:"permName"` // 权限名称
+	PermCode string `json:"permCode"` // 权限code
 }
 
 type UserRole struct {
-	RoleId   string `json:"roleId"`
-	RoleName string `json:"roleName"`
+	RoleId   string `json:"roleId"`   // 角色id
+	RoleName string `json:"roleName"` // 角色名称
 }
 
 type VerificationCodeReq struct {
