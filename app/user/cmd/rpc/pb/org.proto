@@ -120,7 +120,27 @@ message OrgPerm {
   string permCode = 3;
   int64 parentId = 4;
 }
-// 获取团队权限列表
+// 创建角色请求体
+message CreateRoleReq {
+  int64 userId = 1;
+  string roleName = 2;
+  repeated int64 permIdList = 3;
+}
+// 创建角色返回体
+message CreateRoleResp {
+  int64 code = 1;
+}
+// 更新角色请求体
+message UpdateRoleReq {
+  int64 userId = 1;
+  int64 roleId = 2;
+  string roleName = 3;
+  repeated int64 permIdList = 4;
+}
+// 更新角色返回体
+message UpdateRoleResp {
+  int64 code = 1;
+}
 // 组织团队相关服务
 service Org {
   // 查找团队
@@ -139,4 +159,9 @@ service Org {
   rpc getOrgRoleList(OrgRoleListReq) returns (OrgRoleListResp);
   // 获取团队权限列表
   rpc getOrgPermList(OrgPermListReq) returns (OrgPermListResp);
+  // 创建角色
+  rpc createRole(CreateRoleReq) returns (CreateRoleResp);
+  // 更新角色
+  rpc updateRole(UpdateRoleReq) returns (UpdateRoleResp);
 }
+

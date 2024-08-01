@@ -69,3 +69,15 @@ func (s *OrgServer) GetOrgPermList(ctx context.Context, in *user.OrgPermListReq)
 	l := orglogic.NewGetOrgPermListLogic(ctx, s.svcCtx)
 	return l.GetOrgPermList(in)
 }
+
+// 创建角色
+func (s *OrgServer) CreateRole(ctx context.Context, in *user.CreateRoleReq) (*user.CreateRoleResp, error) {
+	l := orglogic.NewCreateRoleLogic(ctx, s.svcCtx)
+	return l.CreateRole(in)
+}
+
+// 更新角色
+func (s *OrgServer) UpdateRole(ctx context.Context, in *user.UpdateRoleReq) (*user.UpdateRoleResp, error) {
+	l := orglogic.NewUpdateRoleLogic(ctx, s.svcCtx)
+	return l.UpdateRole(in)
+}

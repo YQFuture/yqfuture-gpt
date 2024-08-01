@@ -94,6 +94,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: org.ApplyJoinOrgHandler(serverCtx),
 			},
 			{
+				// 创建角色
+				Method:  http.MethodPost,
+				Path:    "/createRole",
+				Handler: org.CreateRoleHandler(serverCtx),
+			},
+			{
 				// 获取团队权限树
 				Method:  http.MethodPost,
 				Path:    "/getOrgPermTree",
@@ -122,6 +128,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/searchUser",
 				Handler: org.SearchUserHandler(serverCtx),
+			},
+			{
+				// 更新角色
+				Method:  http.MethodPost,
+				Path:    "/updateRole",
+				Handler: org.UpdateRoleHandler(serverCtx),
 			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),

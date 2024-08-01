@@ -70,6 +70,15 @@ type ChangeOrgReq struct {
 	OrgId string `json:"orgId"` // 组织ID
 }
 
+type CreateRoleReq struct {
+	RoleName   string   `json:"roleName"`
+	PermIdList []string `json:"permIdList"`
+}
+
+type CreateRoleResp struct {
+	BaseResp
+}
+
 type CurrentUserData struct {
 	Token          string  `json:"token"`          // JWT Token
 	Phone          string  `json:"phone"`          // 手机号码
@@ -294,6 +303,16 @@ type UpdateNickNameReq struct {
 type UpdateOrgNameReq struct {
 	OrgId   string `json:"orgId"`   // 组织ID
 	OrgName string `json:"orgName"` // 新组织名称
+}
+
+type UpdateRoleReq struct {
+	RoleId     string   `json:"roleId"`
+	RoleName   string   `json:"roleName"`
+	PermIdList []string `json:"permIdList"`
+}
+
+type UpdateRoleResp struct {
+	BaseResp
 }
 
 type UserInfo struct {

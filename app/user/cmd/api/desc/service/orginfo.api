@@ -147,4 +147,27 @@ type (
         ParentId string `json:"parentId"`
         Children []OrgPerm `json:"children"`
     }
+
+    // 创建角色请求体
+    CreateRoleReq {
+        RoleName string `json:"roleName"`
+        PermIdList []string `json:"permIdList"`
+    }
+
+    // 创建角色响应体
+    CreateRoleResp {
+        BaseResp
+    }
+
+    // 更新角色请求体
+    UpdateRoleReq {
+        RoleId string `json:"roleId"`
+        RoleName string `json:"roleName"`
+        PermIdList []string `json:"permIdList"`
+    }
+
+    // 更新角色响应体
+    UpdateRoleResp {
+        BaseResp
+    }
 )

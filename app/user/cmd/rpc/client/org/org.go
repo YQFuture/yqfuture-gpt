@@ -19,6 +19,8 @@ type (
 	AgreeInviteJoinOrgResp = user.AgreeInviteJoinOrgResp
 	ApplyJoinOrgReq        = user.ApplyJoinOrgReq
 	ApplyJoinOrgResp       = user.ApplyJoinOrgResp
+	CreateRoleReq          = user.CreateRoleReq
+	CreateRoleResp         = user.CreateRoleResp
 	InviteJoinOrgReq       = user.InviteJoinOrgReq
 	InviteJoinOrgResp      = user.InviteJoinOrgResp
 	OrgPerm                = user.OrgPerm
@@ -36,6 +38,8 @@ type (
 	SearchUserInfo         = user.SearchUserInfo
 	SearchUserReq          = user.SearchUserReq
 	SearchUserResp         = user.SearchUserResp
+	UpdateRoleReq          = user.UpdateRoleReq
+	UpdateRoleResp         = user.UpdateRoleResp
 
 	Org interface {
 		// 查找团队
@@ -54,6 +58,10 @@ type (
 		GetOrgRoleList(ctx context.Context, in *OrgRoleListReq, opts ...grpc.CallOption) (*OrgRoleListResp, error)
 		// 获取团队权限列表
 		GetOrgPermList(ctx context.Context, in *OrgPermListReq, opts ...grpc.CallOption) (*OrgPermListResp, error)
+		// 创建角色
+		CreateRole(ctx context.Context, in *CreateRoleReq, opts ...grpc.CallOption) (*CreateRoleResp, error)
+		// 更新角色
+		UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*UpdateRoleResp, error)
 	}
 
 	defaultOrg struct {
@@ -113,4 +121,16 @@ func (m *defaultOrg) GetOrgRoleList(ctx context.Context, in *OrgRoleListReq, opt
 func (m *defaultOrg) GetOrgPermList(ctx context.Context, in *OrgPermListReq, opts ...grpc.CallOption) (*OrgPermListResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.GetOrgPermList(ctx, in, opts...)
+}
+
+// 创建角色
+func (m *defaultOrg) CreateRole(ctx context.Context, in *CreateRoleReq, opts ...grpc.CallOption) (*CreateRoleResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.CreateRole(ctx, in, opts...)
+}
+
+// 更新角色
+func (m *defaultOrg) UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*UpdateRoleResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.UpdateRole(ctx, in, opts...)
 }

@@ -139,6 +139,14 @@ service user {
 	@doc "获取团队权限树"
 	@handler getOrgPermTree
 	post /getOrgPermTree (OrgPermTreeReq) returns (OrgPermTreeResp)
+
+	@doc "创建角色"
+	@handler createRole
+	post /createRole (CreateRoleReq) returns (CreateRoleResp)
+
+	@doc "更新角色"
+	@handler updateRole
+	post /updateRole (UpdateRoleReq) returns (UpdateRoleResp)
 }
 
 @server (
