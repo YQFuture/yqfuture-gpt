@@ -73,11 +73,13 @@ func (l *GetOrgUserPageListLogic) GetOrgUserPageList(req *types.OrgUserPageListR
 	for _, orgUserResp := range orgUserPageResp.List {
 		// 基础数据
 		orgUser := types.OrgUser{
-			UserId:   strconv.FormatInt(orgUserResp.UserId, 10),
-			Phone:    orgUserResp.Phone,
-			NickName: orgUserResp.NickName,
-			HeadImg:  orgUserResp.HeadImg,
-			Status:   orgUserResp.Status,
+			UserId:          strconv.FormatInt(orgUserResp.UserId, 10),
+			Phone:           orgUserResp.Phone,
+			NickName:        orgUserResp.NickName,
+			HeadImg:         orgUserResp.HeadImg,
+			Status:          orgUserResp.Status,
+			MonthPowerLimit: orgUserResp.MonthPowerLimit,
+			MonthUsedPower:  orgUserResp.MonthUsedPower,
 		}
 		// 角色列表
 		var roleList []types.UserRole

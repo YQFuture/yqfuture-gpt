@@ -36,20 +36,22 @@ type (
 	}
 
 	OrgUser struct {
-		Id         int64          `db:"id"`          // 用户ID
-		NowOrgId   int64          `db:"now_org_id"`  // 当前组织ID
-		UserName   sql.NullString `db:"user_name"`   // 用户名
-		NickName   sql.NullString `db:"nick_name"`   // 用户昵称
-		HeadImg    sql.NullString `db:"head_img"`    // 头像地址
-		Phone      sql.NullString `db:"phone"`       // 手机号码
-		Password   sql.NullString `db:"password"`    // 密码
-		Openid     sql.NullString `db:"openid"`      // openid是微信用户在不同类型的产品的身份ID
-		Unionid    sql.NullString `db:"unionid"`     // unionid是微信用户在同一个开放平台下的产品的身份ID
-		CreateTime time.Time      `db:"create_time"` // 创建时间
-		UpdateTime time.Time      `db:"update_time"` // 修改时间
-		CreateBy   int64          `db:"create_by"`   // 创建人
-		UpdateBy   int64          `db:"update_by"`   // 修改人
-		Status     int64          `db:"status"`      // 状态 0: 暂停 1: 启用
+		Id              int64          `db:"id"`                // 用户ID
+		NowOrgId        int64          `db:"now_org_id"`        // 当前组织ID
+		UserName        sql.NullString `db:"user_name"`         // 用户名
+		NickName        sql.NullString `db:"nick_name"`         // 用户昵称
+		HeadImg         sql.NullString `db:"head_img"`          // 头像地址
+		Phone           sql.NullString `db:"phone"`             // 手机号码
+		Password        sql.NullString `db:"password"`          // 密码
+		Openid          sql.NullString `db:"openid"`            // openid是微信用户在不同类型的产品的身份ID
+		Unionid         sql.NullString `db:"unionid"`           // unionid是微信用户在同一个开放平台下的产品的身份ID
+		CreateTime      time.Time      `db:"create_time"`       // 创建时间
+		UpdateTime      time.Time      `db:"update_time"`       // 修改时间
+		CreateBy        int64          `db:"create_by"`         // 创建人
+		UpdateBy        int64          `db:"update_by"`         // 修改人
+		Status          int64          `db:"status"`            // 状态 0: 暂停 1: 启用
+		MonthPowerLimit int64          `db:"month_power_limit"` // 当月算力上限
+		MonthUsedPower  int64          `db:"month_used_power"`  // 当月已用算力
 	}
 )
 
@@ -158,10 +160,10 @@ func (m *customBsUserModel) FindPageListByOrgId(ctx context.Context, orgId, page
 	var resp []*OrgUser
 	var err error
 	if queryString != "" {
-		query = fmt.Sprintf("SELECT u.*,uo.status FROM bs_user_org uo LEFT JOIN bs_user u ON uo.user_id = u.id WHERE uo.org_id = ? AND (u.nick_name LIKE \"%\"+?+\"%\" OR u.phone LIKE \"%\"+?+\"%\") ORDER BY uo.create_time ASC LIMIT ? OFFSET ?")
+		query = fmt.Sprintf("SELECT u.*,uo.status,uo.month_power_limit,uo.month_used_power FROM bs_user_org uo LEFT JOIN bs_user u ON uo.user_id = u.id WHERE uo.org_id = ? AND (u.nick_name LIKE \"%\"+?+\"%\" OR u.phone LIKE \"%\"+?+\"%\") ORDER BY uo.create_time ASC LIMIT ? OFFSET ?")
 		err = m.conn.QueryRowsCtx(ctx, &resp, query, orgId, queryString, queryString, limit, offset)
 	} else {
-		query = fmt.Sprintf("SELECT u.*,uo.status FROM bs_user_org uo LEFT JOIN bs_user u ON uo.user_id = u.id WHERE uo.org_id = ? ORDER BY uo.create_time ASC LIMIT ? OFFSET ?")
+		query = fmt.Sprintf("SELECT u.*,uo.status,uo.month_power_limit,uo.month_used_power FROM bs_user_org uo LEFT JOIN bs_user u ON uo.user_id = u.id WHERE uo.org_id = ? ORDER BY uo.create_time ASC LIMIT ? OFFSET ?")
 		err = m.conn.QueryRowsCtx(ctx, &resp, query, orgId, limit, offset)
 	}
 	switch {

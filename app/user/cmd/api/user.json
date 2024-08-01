@@ -184,6 +184,501 @@
         ]
       }
     },
+    "/org/agreeApplyJoinOrg": {
+      "post": {
+        "summary": "同意用户申请加入团队",
+        "operationId": "agreeApplyJoinOrg",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AgreeApplyJoinOrgResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 同意用户申请加入团队请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AgreeApplyJoinOrgReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/agreeInviteJoinOrg": {
+      "post": {
+        "summary": "用户同意邀请加入团队",
+        "operationId": "agreeInviteJoinOrg",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AgreeInviteJoinOrgResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 用户同意邀请加入团队请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AgreeInviteJoinOrgReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/applyJoinOrg": {
+      "post": {
+        "summary": "用户申请加入团队",
+        "operationId": "applyJoinOrg",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ApplyJoinOrgResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 用户申请加入团队请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApplyJoinOrgReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/changeUserRole": {
+      "post": {
+        "summary": "修改用户角色",
+        "operationId": "changeUserRole",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ChangeUserRoleResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 修改用户角色请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChangeUserRoleReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/createRole": {
+      "post": {
+        "summary": "创建角色",
+        "operationId": "createRole",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CreateRoleResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 创建角色请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateRoleReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/deleteUser": {
+      "post": {
+        "summary": "删除用户",
+        "operationId": "deleteUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/DeleteUserResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 删除用户请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteUserReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/getOrgPermTree": {
+      "post": {
+        "summary": "获取团队权限树",
+        "operationId": "getOrgPermTree",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/OrgPermTreeResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 获取团队权限树请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrgPermTreeReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/getOrgRoleList": {
+      "post": {
+        "summary": "获取团队角色列表",
+        "operationId": "getOrgRoleList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/OrgRoleListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 获取团队角色列表请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrgRoleListReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/getOrgUserPageList": {
+      "post": {
+        "summary": "获取团队用户分页列表",
+        "operationId": "getOrgUserPageList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/OrgUserPageListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 获取团队用户分页列表请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrgUserPageListReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/inviteJoinOrg": {
+      "post": {
+        "summary": "邀请用户加入团队",
+        "operationId": "inviteJoinOrg",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/InviteJoinOrgResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 邀请用户加入团队请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InviteJoinOrgReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/pauseUser": {
+      "post": {
+        "summary": "暂停用户",
+        "operationId": "pauseUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PauseUserResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 暂停用户请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PauseUserReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/resumeUser": {
+      "post": {
+        "summary": "恢复用户",
+        "operationId": "resumeUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ResumeUserResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 恢复用户请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ResumeUserReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/searchOrg": {
+      "post": {
+        "summary": "查找团队",
+        "operationId": "searchOrg",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/SearchOrgResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 查找团队请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SearchOrgReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/searchUser": {
+      "post": {
+        "summary": "查找用户",
+        "operationId": "searchUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/SearchUserResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 查找用户请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SearchUserReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/updateRole": {
+      "post": {
+        "summary": "更新角色",
+        "operationId": "updateRole",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UpdateRoleResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 更新角色请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateRoleReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/user/bindPhone": {
       "post": {
         "summary": "绑定手机号码",
@@ -572,6 +1067,90 @@
     }
   },
   "definitions": {
+    "AgreeApplyJoinOrgReq": {
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "type": "string",
+          "description": " 消息id"
+        }
+      },
+      "title": "AgreeApplyJoinOrgReq",
+      "required": [
+        "messageId"
+      ]
+    },
+    "AgreeApplyJoinOrgResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "AgreeApplyJoinOrgResp"
+    },
+    "AgreeInviteJoinOrgReq": {
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "type": "string",
+          "description": " 消息id"
+        }
+      },
+      "title": "AgreeInviteJoinOrgReq",
+      "required": [
+        "messageId"
+      ]
+    },
+    "AgreeInviteJoinOrgResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "AgreeInviteJoinOrgResp"
+    },
+    "ApplyJoinOrgReq": {
+      "type": "object",
+      "properties": {
+        "orgId": {
+          "type": "string",
+          "description": " 组织id"
+        }
+      },
+      "title": "ApplyJoinOrgReq",
+      "required": [
+        "orgId"
+      ]
+    },
+    "ApplyJoinOrgResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "ApplyJoinOrgResp"
+    },
     "BasePageReq": {
       "type": "object",
       "properties": {
@@ -745,6 +1324,78 @@
         "orgId"
       ]
     },
+    "ChangeUserRoleReq": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "roleIdList": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 角色id列表"
+        }
+      },
+      "title": "ChangeUserRoleReq",
+      "required": [
+        "userId",
+        "roleIdList"
+      ]
+    },
+    "ChangeUserRoleResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "ChangeUserRoleResp"
+    },
+    "CreateRoleReq": {
+      "type": "object",
+      "properties": {
+        "roleName": {
+          "type": "string",
+          "description": " 角色名称"
+        },
+        "permIdList": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 权限id列表"
+        }
+      },
+      "title": "CreateRoleReq",
+      "required": [
+        "roleName",
+        "permIdList"
+      ]
+    },
+    "CreateRoleResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "CreateRoleResp"
+    },
     "CurrentUserData": {
       "type": "object",
       "properties": {
@@ -805,6 +1456,33 @@
       "required": [
         "data"
       ]
+    },
+    "DeleteUserReq": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        }
+      },
+      "title": "DeleteUserReq",
+      "required": [
+        "userId"
+      ]
+    },
+    "DeleteUserResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "DeleteUserResp"
     },
     "DictInfo": {
       "type": "object",
@@ -906,6 +1584,34 @@
       "required": [
         "messageId"
       ]
+    },
+    "InviteJoinOrgReq": {
+      "type": "object",
+      "properties": {
+        "inviteUserId": {
+          "type": "string",
+          "description": " 邀请用户id"
+        }
+      },
+      "title": "InviteJoinOrgReq",
+      "required": [
+        "inviteUserId"
+      ]
+    },
+    "InviteJoinOrgResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "InviteJoinOrgResp"
     },
     "LogOutReq": {
       "type": "object",
@@ -1163,6 +1869,314 @@
         "data"
       ]
     },
+    "OrgPerm": {
+      "type": "object",
+      "properties": {
+        "permId": {
+          "type": "string",
+          "description": " 权限id"
+        },
+        "permName": {
+          "type": "string",
+          "description": " 权限名称"
+        },
+        "permCode": {
+          "type": "string",
+          "description": " 权限code"
+        },
+        "parentId": {
+          "type": "string",
+          "description": " 父级id"
+        },
+        "sort": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 排序"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrgPerm"
+          },
+          "description": " 子级"
+        }
+      },
+      "title": "OrgPerm",
+      "required": [
+        "permId",
+        "permName",
+        "permCode",
+        "parentId",
+        "sort",
+        "children"
+      ]
+    },
+    "OrgPermTreeReq": {
+      "type": "object",
+      "title": "OrgPermTreeReq"
+    },
+    "OrgPermTreeResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrgPerm"
+          },
+          "description": " 权限树"
+        }
+      },
+      "title": "OrgPermTreeResp",
+      "required": [
+        "data"
+      ]
+    },
+    "OrgRole": {
+      "type": "object",
+      "properties": {
+        "roleId": {
+          "type": "string",
+          "description": " 角色id"
+        },
+        "roleName": {
+          "type": "string",
+          "description": " 角色名称"
+        },
+        "permList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RolePerm"
+          },
+          "description": " 权限列表"
+        },
+        "shopList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RoleShop"
+          },
+          "description": " 店铺列表"
+        },
+        "userList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RoleUser"
+          },
+          "description": " 用户列表"
+        }
+      },
+      "title": "OrgRole",
+      "required": [
+        "roleId",
+        "roleName",
+        "permList",
+        "shopList",
+        "userList"
+      ]
+    },
+    "OrgRoleListReq": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": " 查询"
+        }
+      },
+      "title": "OrgRoleListReq",
+      "required": [
+        "query"
+      ]
+    },
+    "OrgRoleListResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrgRole"
+          },
+          "description": " 角色列表"
+        }
+      },
+      "title": "OrgRoleListResp",
+      "required": [
+        "data"
+      ]
+    },
+    "OrgUser": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "phone": {
+          "type": "string",
+          "description": " 手机号"
+        },
+        "nickName": {
+          "type": "string",
+          "description": " 昵称"
+        },
+        "headImg": {
+          "type": "string",
+          "description": " 头像"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 状态"
+        },
+        "permList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserPerm"
+          },
+          "description": " 权限列表"
+        },
+        "roleList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserRole"
+          },
+          "description": " 角色列表"
+        }
+      },
+      "title": "OrgUser",
+      "required": [
+        "userId",
+        "phone",
+        "nickName",
+        "headImg",
+        "status",
+        "permList",
+        "roleList"
+      ]
+    },
+    "OrgUserPage": {
+      "type": "object",
+      "properties": {
+        "pageNum": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页码"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页条数"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 总条数"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrgUser"
+          },
+          "description": " 用户列表"
+        }
+      },
+      "title": "OrgUserPage",
+      "required": [
+        "list"
+      ]
+    },
+    "OrgUserPageListReq": {
+      "type": "object",
+      "properties": {
+        "pageNum": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页码"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页条数"
+        },
+        "query": {
+          "type": "string",
+          "description": " 查询条件"
+        },
+        "query": {
+          "type": "string",
+          "description": " 查询"
+        }
+      },
+      "title": "OrgUserPageListReq",
+      "required": [
+        "query"
+      ]
+    },
+    "OrgUserPageListResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "$ref": "#/definitions/OrgUserPage",
+          "description": " 分页数据"
+        }
+      },
+      "title": "OrgUserPageListResp",
+      "required": [
+        "data"
+      ]
+    },
+    "PauseUserReq": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        }
+      },
+      "title": "PauseUserReq",
+      "required": [
+        "userId"
+      ]
+    },
+    "PauseUserResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "PauseUserResp"
+    },
     "QrCodeLoginStatusReq": {
       "type": "object",
       "properties": {
@@ -1254,6 +2268,209 @@
         "data"
       ]
     },
+    "ResumeUserReq": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        }
+      },
+      "title": "ResumeUserReq",
+      "required": [
+        "userId"
+      ]
+    },
+    "ResumeUserResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "ResumeUserResp"
+    },
+    "RolePerm": {
+      "type": "object",
+      "properties": {
+        "permId": {
+          "type": "string",
+          "description": " 权限id"
+        },
+        "permName": {
+          "type": "string",
+          "description": " 权限名称"
+        },
+        "permCode": {
+          "type": "string",
+          "description": " 权限code"
+        }
+      },
+      "title": "RolePerm",
+      "required": [
+        "permId",
+        "permName",
+        "permCode"
+      ]
+    },
+    "RoleShop": {
+      "type": "object",
+      "properties": {
+        "shopId": {
+          "type": "string",
+          "description": " 店铺id"
+        },
+        "shopName": {
+          "type": "string",
+          "description": " 店铺名称"
+        },
+        "platformType": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 平台类型"
+        }
+      },
+      "title": "RoleShop",
+      "required": [
+        "shopId",
+        "shopName",
+        "platformType"
+      ]
+    },
+    "RoleUser": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "nickName": {
+          "type": "string",
+          "description": " 昵称"
+        },
+        "headImg": {
+          "type": "string",
+          "description": " 头像"
+        }
+      },
+      "title": "RoleUser",
+      "required": [
+        "userId",
+        "nickName",
+        "headImg"
+      ]
+    },
+    "SearchOrgInfo": {
+      "type": "object",
+      "properties": {
+        "orgId": {
+          "type": "string"
+        },
+        "orgName": {
+          "type": "string"
+        }
+      },
+      "title": "SearchOrgInfo",
+      "required": [
+        "orgId",
+        "orgName"
+      ]
+    },
+    "SearchOrgReq": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": " 查询"
+        }
+      },
+      "title": "SearchOrgReq",
+      "required": [
+        "query"
+      ]
+    },
+    "SearchOrgResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SearchOrgInfo"
+          }
+        }
+      },
+      "title": "SearchOrgResp",
+      "required": [
+        "data"
+      ]
+    },
+    "SearchUserInfo": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      },
+      "title": "SearchUserInfo",
+      "required": [
+        "userId",
+        "phone"
+      ]
+    },
+    "SearchUserReq": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": " 查询"
+        }
+      },
+      "title": "SearchUserReq",
+      "required": [
+        "query"
+      ]
+    },
+    "SearchUserResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SearchUserInfo"
+          }
+        }
+      },
+      "title": "SearchUserResp",
+      "required": [
+        "data"
+      ]
+    },
     "UpdateHeadImgReq": {
       "type": "object",
       "properties": {
@@ -1298,6 +2515,47 @@
         "orgName"
       ]
     },
+    "UpdateRoleReq": {
+      "type": "object",
+      "properties": {
+        "roleId": {
+          "type": "string",
+          "description": " 角色id"
+        },
+        "roleName": {
+          "type": "string",
+          "description": " 角色名称"
+        },
+        "permIdList": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 权限id列表"
+        }
+      },
+      "title": "UpdateRoleReq",
+      "required": [
+        "roleId",
+        "roleName",
+        "permIdList"
+      ]
+    },
+    "UpdateRoleResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "UpdateRoleResp"
+    },
     "UserInfo": {
       "type": "object",
       "properties": {
@@ -1324,6 +2582,47 @@
         "phone",
         "nickname",
         "headImg"
+      ]
+    },
+    "UserPerm": {
+      "type": "object",
+      "properties": {
+        "permId": {
+          "type": "string",
+          "description": " 权限id"
+        },
+        "permName": {
+          "type": "string",
+          "description": " 权限名称"
+        },
+        "permCode": {
+          "type": "string",
+          "description": " 权限code"
+        }
+      },
+      "title": "UserPerm",
+      "required": [
+        "permId",
+        "permName",
+        "permCode"
+      ]
+    },
+    "UserRole": {
+      "type": "object",
+      "properties": {
+        "roleId": {
+          "type": "string",
+          "description": " 角色id"
+        },
+        "roleName": {
+          "type": "string",
+          "description": " 角色名称"
+        }
+      },
+      "title": "UserRole",
+      "required": [
+        "roleId",
+        "roleName"
       ]
     },
     "VerificationCodeReq": {

@@ -164,8 +164,10 @@ message OrgUser {
   string nickName = 3;
   string headImg = 4;
   int64 status = 5;
-  repeated UserPerm permList = 6;
-  repeated UserRole roleList = 7;
+  int64 monthPowerLimit = 6;
+  int64 monthUsedPower = 7;
+  repeated UserPerm permList = 8;
+  repeated UserRole roleList = 9;
 }
 // 用户权限数据
 message UserPerm {

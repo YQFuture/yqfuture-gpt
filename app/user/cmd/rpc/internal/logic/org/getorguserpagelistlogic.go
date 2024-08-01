@@ -67,13 +67,15 @@ func (l *GetOrgUserPageListLogic) GetOrgUserPageList(in *user.OrgUserPageListReq
 	for _, userResult := range *userListResult {
 		userRoleList, userPermList := GetUserRolePermList(userResult.Id, dborgpermission)
 		orgUser := &org.OrgUser{
-			UserId:   userResult.Id,
-			Phone:    userResult.Phone.String,
-			NickName: userResult.NickName.String,
-			HeadImg:  userResult.HeadImg.String,
-			Status:   userResult.Status,
-			RoleList: userRoleList,
-			PermList: userPermList,
+			UserId:          userResult.Id,
+			Phone:           userResult.Phone.String,
+			NickName:        userResult.NickName.String,
+			HeadImg:         userResult.HeadImg.String,
+			Status:          userResult.Status,
+			MonthPowerLimit: userResult.MonthPowerLimit,
+			MonthUsedPower:  userResult.MonthUsedPower,
+			RoleList:        userRoleList,
+			PermList:        userPermList,
 		}
 		orgUserList = append(orgUserList, orgUser)
 	}

@@ -243,13 +243,15 @@ type OrgRoleListResp struct {
 }
 
 type OrgUser struct {
-	UserId   string     `json:"userId"`   // 用户id
-	Phone    string     `json:"phone"`    // 手机号
-	NickName string     `json:"nickName"` // 昵称
-	HeadImg  string     `json:"headImg"`  // 头像
-	Status   int64      `json:"status"`   // 状态
-	PermList []UserPerm `json:"permList"` // 权限列表
-	RoleList []UserRole `json:"roleList"` // 角色列表
+	UserId          string     `json:"userId"`          // 用户id
+	Phone           string     `json:"phone"`           // 手机号
+	NickName        string     `json:"nickName"`        // 昵称
+	HeadImg         string     `json:"headImg"`         // 头像
+	Status          int64      `json:"status"`          // 状态
+	MonthPowerLimit int64      `db:"month_power_limit"` // 当月算力上限
+	MonthUsedPower  int64      `db:"month_used_power"`  // 当月已用算力
+	PermList        []UserPerm `json:"permList"`        // 权限列表
+	RoleList        []UserRole `json:"roleList"`        // 角色列表
 }
 
 type OrgUserPage struct {
