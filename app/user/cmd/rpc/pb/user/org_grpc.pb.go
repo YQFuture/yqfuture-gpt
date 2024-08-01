@@ -32,6 +32,8 @@ const (
 	Org_GetOrgUserPageList_FullMethodName = "/user.Org/getOrgUserPageList"
 	Org_ChangeUserRole_FullMethodName     = "/user.Org/changeUserRole"
 	Org_DeleteUser_FullMethodName         = "/user.Org/deleteUser"
+	Org_PauseUser_FullMethodName          = "/user.Org/pauseUser"
+	Org_ResumeUser_FullMethodName         = "/user.Org/resumeUser"
 )
 
 // OrgClient is the client API for Org service.
@@ -66,6 +68,10 @@ type OrgClient interface {
 	ChangeUserRole(ctx context.Context, in *ChangeUserRoleReq, opts ...grpc.CallOption) (*ChangeUserRoleResp, error)
 	// 删除用户
 	DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error)
+	// 暂停用户
+	PauseUser(ctx context.Context, in *PauseUserReq, opts ...grpc.CallOption) (*PauseUserResp, error)
+	// 恢复用户
+	ResumeUser(ctx context.Context, in *ResumeUserReq, opts ...grpc.CallOption) (*ResumeUserResp, error)
 }
 
 type orgClient struct {
@@ -206,6 +212,26 @@ func (c *orgClient) DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...g
 	return out, nil
 }
 
+func (c *orgClient) PauseUser(ctx context.Context, in *PauseUserReq, opts ...grpc.CallOption) (*PauseUserResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PauseUserResp)
+	err := c.cc.Invoke(ctx, Org_PauseUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orgClient) ResumeUser(ctx context.Context, in *ResumeUserReq, opts ...grpc.CallOption) (*ResumeUserResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ResumeUserResp)
+	err := c.cc.Invoke(ctx, Org_ResumeUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrgServer is the server API for Org service.
 // All implementations must embed UnimplementedOrgServer
 // for forward compatibility
@@ -238,6 +264,10 @@ type OrgServer interface {
 	ChangeUserRole(context.Context, *ChangeUserRoleReq) (*ChangeUserRoleResp, error)
 	// 删除用户
 	DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserResp, error)
+	// 暂停用户
+	PauseUser(context.Context, *PauseUserReq) (*PauseUserResp, error)
+	// 恢复用户
+	ResumeUser(context.Context, *ResumeUserReq) (*ResumeUserResp, error)
 	mustEmbedUnimplementedOrgServer()
 }
 
@@ -283,6 +313,12 @@ func (UnimplementedOrgServer) ChangeUserRole(context.Context, *ChangeUserRoleReq
 }
 func (UnimplementedOrgServer) DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
+}
+func (UnimplementedOrgServer) PauseUser(context.Context, *PauseUserReq) (*PauseUserResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PauseUser not implemented")
+}
+func (UnimplementedOrgServer) ResumeUser(context.Context, *ResumeUserReq) (*ResumeUserResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResumeUser not implemented")
 }
 func (UnimplementedOrgServer) mustEmbedUnimplementedOrgServer() {}
 
@@ -531,6 +567,42 @@ func _Org_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Org_PauseUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PauseUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgServer).PauseUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Org_PauseUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgServer).PauseUser(ctx, req.(*PauseUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Org_ResumeUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResumeUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgServer).ResumeUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Org_ResumeUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgServer).ResumeUser(ctx, req.(*ResumeUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Org_ServiceDesc is the grpc.ServiceDesc for Org service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -589,6 +661,14 @@ var Org_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "deleteUser",
 			Handler:    _Org_DeleteUser_Handler,
+		},
+		{
+			MethodName: "pauseUser",
+			Handler:    _Org_PauseUser_Handler,
+		},
+		{
+			MethodName: "resumeUser",
+			Handler:    _Org_ResumeUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

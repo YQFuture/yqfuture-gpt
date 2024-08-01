@@ -159,6 +159,14 @@ service user {
 	@doc "删除用户"
 	@handler deleteUser
 	post /deleteUser (DeleteUserReq) returns (DeleteUserResp)
+
+	@doc "暂停用户"
+	@handler pauseUser
+	post /pauseUser (PauseUserReq) returns (PauseUserResp)
+
+	@doc "恢复用户"
+	@handler resumeUser
+	post /resumeUser (ResumeUserReq) returns (ResumeUserResp)
 }
 
 @server (

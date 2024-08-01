@@ -20,6 +20,7 @@ type (
 		FindUserOrgCount(ctx context.Context, userId int64) (int64, error)
 		FindOrgUserCount(ctx context.Context, orgId int64) (int64, error)
 		DeleteByUserIdAndOrgId(ctx context.Context, userId, orgId int64) error
+		ChangeStatusByUserIdAndOrgId(ctx context.Context, userId, orgId, status int64) error
 	}
 
 	customBsUserOrgModel struct {
@@ -75,5 +76,11 @@ func (m *customBsUserOrgModel) FindOrgUserCount(ctx context.Context, orgId int64
 func (m *customBsUserOrgModel) DeleteByUserIdAndOrgId(ctx context.Context, userId, orgId int64) error {
 	query := fmt.Sprintf("delete from %s where `user_id` = ? and org_id = ?", m.table)
 	_, err := m.conn.ExecCtx(ctx, query, userId, orgId)
+	return err
+}
+
+func (m *customBsUserOrgModel) ChangeStatusByUserIdAndOrgId(ctx context.Context, userId, orgId, status int64) error {
+	query := fmt.Sprintf("update %s set status = ? where `user_id` = ? and org_id = ?", m.table)
+	_, err := m.conn.ExecCtx(ctx, query, status, userId, orgId)
 	return err
 }

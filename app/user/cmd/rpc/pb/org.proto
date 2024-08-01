@@ -197,6 +197,24 @@ message DeleteUserReq {
 message DeleteUserResp {
   int64 code = 1;
 }
+// 暂停用户请求体
+message PauseUserReq {
+  int64 userId = 1;
+  int64 pauseUserId = 2;
+}
+// 暂停用户返回体
+message PauseUserResp {
+  int64 code = 1;
+}
+// 恢复用户请求体
+message ResumeUserReq {
+  int64 userId = 1;
+  int64 resumeUserId = 2;
+}
+// 恢复用户返回体
+message ResumeUserResp {
+  int64 code = 1;
+}
 // 组织团队相关服务
 service Org {
   // 查找团队
@@ -225,5 +243,9 @@ service Org {
   rpc changeUserRole(ChangeUserRoleReq) returns (ChangeUserRoleResp);
   // 删除用户
   rpc deleteUser(DeleteUserReq) returns (DeleteUserResp);
+  // 暂停用户
+  rpc pauseUser(PauseUserReq) returns (PauseUserResp);
+  // 恢复用户
+  rpc resumeUser(ResumeUserReq) returns (ResumeUserResp);
 }
 

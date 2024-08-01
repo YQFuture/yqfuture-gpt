@@ -136,6 +136,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: org.InviteJoinOrgHandler(serverCtx),
 			},
 			{
+				// 暂停用户
+				Method:  http.MethodPost,
+				Path:    "/pauseUser",
+				Handler: org.PauseUserHandler(serverCtx),
+			},
+			{
+				// 恢复用户
+				Method:  http.MethodPost,
+				Path:    "/resumeUser",
+				Handler: org.ResumeUserHandler(serverCtx),
+			},
+			{
 				// 查找团队
 				Method:  http.MethodPost,
 				Path:    "/searchOrg",

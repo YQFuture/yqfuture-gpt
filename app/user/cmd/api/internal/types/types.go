@@ -267,6 +267,14 @@ type OrgUserPageListResp struct {
 	Data OrgUserPage `json:"data"` // 分页数据
 }
 
+type PauseUserReq struct {
+	UserId string `json:"userId"`
+}
+
+type PauseUserResp struct {
+	BaseResp
+}
+
 type QrCodeLoginStatusReq struct {
 	Ticket              string `json:"ticket"`              // 二维码票据
 	ThirtyDaysFreeLogin bool   `json:"thirtyDaysFreeLogin"` // 是否30天免登录
@@ -287,6 +295,14 @@ type RegisterReq struct {
 type RegisterResp struct {
 	BaseResp
 	Data UserInfo `json:"data"` // 用户信息
+}
+
+type ResumeUserReq struct {
+	UserId string `json:"userId"`
+}
+
+type ResumeUserResp struct {
+	BaseResp
 }
 
 type RolePerm struct {

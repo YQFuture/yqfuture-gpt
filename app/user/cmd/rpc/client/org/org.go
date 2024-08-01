@@ -36,6 +36,10 @@ type (
 	OrgUser                = user.OrgUser
 	OrgUserPageListReq     = user.OrgUserPageListReq
 	OrgUserPageListResp    = user.OrgUserPageListResp
+	PauseUserReq           = user.PauseUserReq
+	PauseUserResp          = user.PauseUserResp
+	ResumeUserReq          = user.ResumeUserReq
+	ResumeUserResp         = user.ResumeUserResp
 	RolePerm               = user.RolePerm
 	RoleShop               = user.RoleShop
 	RoleUser               = user.RoleUser
@@ -77,6 +81,10 @@ type (
 		ChangeUserRole(ctx context.Context, in *ChangeUserRoleReq, opts ...grpc.CallOption) (*ChangeUserRoleResp, error)
 		// 删除用户
 		DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error)
+		// 暂停用户
+		PauseUser(ctx context.Context, in *PauseUserReq, opts ...grpc.CallOption) (*PauseUserResp, error)
+		// 恢复用户
+		ResumeUser(ctx context.Context, in *ResumeUserReq, opts ...grpc.CallOption) (*ResumeUserResp, error)
 	}
 
 	defaultOrg struct {
@@ -166,4 +174,16 @@ func (m *defaultOrg) ChangeUserRole(ctx context.Context, in *ChangeUserRoleReq, 
 func (m *defaultOrg) DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.DeleteUser(ctx, in, opts...)
+}
+
+// 暂停用户
+func (m *defaultOrg) PauseUser(ctx context.Context, in *PauseUserReq, opts ...grpc.CallOption) (*PauseUserResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.PauseUser(ctx, in, opts...)
+}
+
+// 恢复用户
+func (m *defaultOrg) ResumeUser(ctx context.Context, in *ResumeUserReq, opts ...grpc.CallOption) (*ResumeUserResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.ResumeUser(ctx, in, opts...)
 }

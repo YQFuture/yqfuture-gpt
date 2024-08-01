@@ -99,3 +99,15 @@ func (s *OrgServer) DeleteUser(ctx context.Context, in *user.DeleteUserReq) (*us
 	l := orglogic.NewDeleteUserLogic(ctx, s.svcCtx)
 	return l.DeleteUser(in)
 }
+
+// 暂停用户
+func (s *OrgServer) PauseUser(ctx context.Context, in *user.PauseUserReq) (*user.PauseUserResp, error) {
+	l := orglogic.NewPauseUserLogic(ctx, s.svcCtx)
+	return l.PauseUser(in)
+}
+
+// 恢复用户
+func (s *OrgServer) ResumeUser(ctx context.Context, in *user.ResumeUserReq) (*user.ResumeUserResp, error) {
+	l := orglogic.NewResumeUserLogic(ctx, s.svcCtx)
+	return l.ResumeUser(in)
+}
