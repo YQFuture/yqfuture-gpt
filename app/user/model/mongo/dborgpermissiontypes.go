@@ -35,6 +35,8 @@ type Role struct {
 }
 
 type User struct {
-	Id       int64    `bson:"id,omitempty" json:"id,omitempty"`
-	RoleList []*int64 `bson:"roleList,omitempty" json:"roleList,omitempty"`
+	Id                       int64    `bson:"id,omitempty" json:"id,omitempty"`
+	RoleList                 []*int64 `bson:"roleList,omitempty" json:"roleList,omitempty"`
+	KeywordSwitchingShopList []*int64 `bson:"keywordSwitchingShopList,omitempty" json:"keywordSwitchingShopList,omitempty"` // 关键词转接店铺列表
+	ExceptionDutyShopList    []*int64 `bson:"exceptionDutyShopList,omitempty" json:"exceptionDutyShopList,omitempty"`       // 异常责任店铺列表
 }

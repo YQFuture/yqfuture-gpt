@@ -183,6 +183,10 @@ service user {
 	@doc "平均分配店铺算力"
 	@handler giverPowerShopAvg
 	post /giverPowerShopAvg (GivePowerShopAvgReq) returns (GivePowerShopAvgResp)
+
+	@doc "获取团队店铺分页列表"
+	@handler getOrgShopPageList
+	post /getOrgShopPageList (OrgShopPageListReq) returns (OrgShopPageListResp)
 }
 
 @server (

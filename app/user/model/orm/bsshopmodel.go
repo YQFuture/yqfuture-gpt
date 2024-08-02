@@ -19,6 +19,8 @@ type (
 		FindOrgTotalMonthUsedPower(ctx context.Context, orgId int64) (int64, error)
 		UpdateShopPower(ctx context.Context, shopId, power int64) error
 		UpdateShopPowerAvg(ctx context.Context, orgId, power int64) error
+		FindPageListByOrgId(ctx context.Context, orgId, pageNum, pageSize int64, queryString string) (*[]*BsShop, error)
+		FindPageTotalByOrgId(ctx context.Context, orgId, pageNum, pageSize int64, queryString string) (int64, error)
 	}
 
 	customBsShopModel struct {
@@ -75,4 +77,52 @@ func (m *customBsShopModel) UpdateShopPowerAvg(ctx context.Context, orgId, power
 	query := fmt.Sprintf("update %s set month_power_limit = ? where org_id = ?", m.table)
 	_, err := m.conn.ExecCtx(ctx, query, power, orgId)
 	return err
+}
+
+func (m *customBsShopModel) FindPageListByOrgId(ctx context.Context, orgId, pageNum, pageSize int64, queryString string) (*[]*BsShop, error) {
+	// 初始化偏移量和限制
+	offset := (pageNum - 1) * pageSize
+	limit := pageSize
+	var query string
+	var resp []*BsShop
+	var err error
+	if queryString != "" {
+		query = fmt.Sprintf("SELECT * FROM bs_shop WHERE org_id = ? AND shop_name LIKE \"%\"+?+\"%\" ORDER BY create_time DESC LIMIT ? OFFSET ?")
+		err = m.conn.QueryRowsCtx(ctx, &resp, query, orgId, queryString, queryString, limit, offset)
+	} else {
+		query = fmt.Sprintf("SELECT * FROM bs_shop WHERE org_id = ? ORDER BY create_time DESC LIMIT ? OFFSET ?")
+		err = m.conn.QueryRowsCtx(ctx, &resp, query, orgId, limit, offset)
+	}
+	switch {
+	case err == nil:
+		return &resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return nil, nil
+	default:
+		return nil, err
+	}
+}
+
+func (m *customBsShopModel) FindPageTotalByOrgId(ctx context.Context, orgId, pageNum, pageSize int64, queryString string) (int64, error) {
+	// 初始化偏移量和限制
+	offset := (pageNum - 1) * pageSize
+	limit := pageSize
+	var query string
+	var resp int64
+	var err error
+	if queryString != "" {
+		query = fmt.Sprintf("SELECT COINT(1) FROM bs_shop WHERE org_id = ? AND shop_name LIKE \"%\"+?+\"%\" ORDER BY create_time DESC LIMIT ? OFFSET ?")
+		err = m.conn.QueryRowCtx(ctx, &resp, query, orgId, queryString, queryString, limit, offset)
+	} else {
+		query = fmt.Sprintf("SELECT COINT(1) FROM bs_shop WHERE org_id = ? ORDER BY create_time DESC LIMIT ? OFFSET ?")
+		err = m.conn.QueryRowCtx(ctx, &resp, query, orgId, limit, offset)
+	}
+	switch {
+	case err == nil:
+		return resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return 0, nil
+	default:
+		return 0, err
+	}
 }

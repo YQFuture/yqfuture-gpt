@@ -253,6 +253,46 @@ message GivePowerShopAvgReq {
 message GivePowerShopAvgResp {
   int64 code = 1;
 }
+// 获取团队店铺分页列表请求体
+message OrgShopPageListReq {
+  int64 userId = 1;
+  int64  pageNum = 2;
+  int64  pageSize = 3;
+  string query = 4;
+}
+// 获取团队店铺分页列表响应体
+message OrgShopPageListResp {
+  int64 code = 1;
+  int64 pageNum = 2;
+  int64 pageSize = 3;
+  int64 total = 4;
+  int64 platformTypeNum = 5;
+  repeated OrgShop list = 6;
+}
+// 团队店铺数据
+message OrgShop {
+  int64 shopId = 1;
+  string shopName = 2;
+  int64 platformType = 3;
+  int64 monthPowerLimit = 4;
+  int64 monthUsedPower = 5;
+  int64 userNum = 6;
+  repeated ShopRole roleList = 7;
+  repeated ShopUser KeywordSwitchingUserList = 8;
+  repeated ShopUser ExceptionDutyUserList = 9;
+}
+// 店铺角色数据
+message ShopRole {
+  int64 roleId = 1;
+  string roleName = 2;
+}
+// 店铺用户数据
+message ShopUser {
+  int64 userId = 1;
+  string phone = 2;
+  string nickName = 3;
+  string headImg = 4;
+}
 // 组织团队相关服务
 service Org {
   // 查找团队
@@ -293,5 +333,7 @@ service Org {
   rpc givePowerShop(GivePowerShopReq) returns (GivePowerShopResp);
   // 平均分配店铺算力
   rpc givePowerShopAvg(GivePowerShopAvgReq) returns (GivePowerShopAvgResp);
+  // 获取团队店铺分页列表
+  rpc getOrgShopPageList(OrgShopPageListReq) returns (OrgShopPageListResp);
 }
 

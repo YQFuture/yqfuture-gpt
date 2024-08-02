@@ -299,4 +299,50 @@ type (
     GivePowerShopAvgResp {
         BaseResp
     }
+
+        // 获取团队店铺分页列表请求体
+    OrgShopPageListReq {
+        BasePageReq
+        Query string `json:"query"` // 查询
+    }
+
+        // 获取团队店铺分页列表响应体
+    OrgShopPageListResp {
+        BaseResp
+        Data OrgShopPage `json:"data"` // 分页数据
+    }
+
+        // 团队店铺分页数据
+    OrgShopPage {
+        BasePageResp
+        PlatformTypeNum int64 `json:"platformTypeNum"` // 平台类型数量
+        List []OrgShop `json:"list"`                   // 店铺列表
+    }
+
+        // 团队店铺数据
+    OrgShop {
+        ShopId string `json:"shopId"`                                                         // 店铺id
+        PlatformType int64 `json:"platformType"`                                              // 平台类型
+        ShopName string `json:"shopName"`                                                     // 店铺名称
+        MonthPowerLimit int64 `db:"month_power_limit"`                                        // 当月算力上限
+        MonthUsedPower int64 `db:"month_used_power"`                                          // 当月已用算力
+        UserNum int64 `json:"userNum"`                                                        // 已分配客服用户数量
+        RoleList []ShopRole `json:"roleList"`                                                 // 角色列表
+        KeywordSwitchingUserList []ShopUser `json:"keywordSwitchingUserList"` // 关键词转接用户列表
+        ExceptionDutyUserList []ShopUser `json:"exceptionDutyUserList"`          // 关键词异常责任人用户列表
+    }
+
+        // 店铺角色数据
+    ShopRole {
+        RoleId string `json:"roleId"`     // 角色id
+        RoleName string `json:"roleName"` // 角色名称
+    }
+
+        // 店铺用户数据
+    ShopUser {
+        UserId string `json:"userId"`                  // 用户id
+        Phone string `json:"phone"`                    // 手机号
+        NickName string `json:"nickName"`              // 昵称
+        HeadImg string `json:"headImg"`                // 头像
+    }
 )

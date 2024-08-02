@@ -274,6 +274,34 @@ type OrgRoleListResp struct {
 	Data []OrgRole `json:"data"` // 角色列表
 }
 
+type OrgShop struct {
+	ShopId                   string     `json:"shopId"`                   // 店铺id
+	PlatformType             int64      `json:"platformType"`             // 平台类型
+	ShopName                 string     `json:"shopName"`                 // 店铺名称
+	MonthPowerLimit          int64      `db:"month_power_limit"`          // 当月算力上限
+	MonthUsedPower           int64      `db:"month_used_power"`           // 当月已用算力
+	UserNum                  int64      `json:"userNum"`                  // 已分配客服用户数量
+	RoleList                 []ShopRole `json:"roleList"`                 // 角色列表
+	KeywordSwitchingUserList []ShopUser `json:"keywordSwitchingUserList"` // 关键词转接用户列表
+	ExceptionDutyUserList    []ShopUser `json:"exceptionDutyUserList"`    // 关键词异常责任人用户列表
+}
+
+type OrgShopPage struct {
+	BasePageResp
+	PlatformTypeNum int64     `json:"platformTypeNum"` // 平台类型数量
+	List            []OrgShop `json:"list"`            // 店铺列表
+}
+
+type OrgShopPageListReq struct {
+	BasePageReq
+	Query string `json:"query"` // 查询
+}
+
+type OrgShopPageListResp struct {
+	BaseResp
+	Data OrgShopPage `json:"data"` // 分页数据
+}
+
 type OrgUser struct {
 	UserId          string     `json:"userId"`          // 用户id
 	Phone           string     `json:"phone"`           // 手机号
@@ -383,6 +411,18 @@ type SearchUserReq struct {
 type SearchUserResp struct {
 	BaseResp
 	Data []SearchUserInfo `json:"data"`
+}
+
+type ShopRole struct {
+	RoleId   string `json:"roleId"`   // 角色id
+	RoleName string `json:"roleName"` // 角色名称
+}
+
+type ShopUser struct {
+	UserId   string `json:"userId"`   // 用户id
+	Phone    string `json:"phone"`    // 手机号
+	NickName string `json:"nickName"` // 昵称
+	HeadImg  string `json:"headImg"`  // 头像
 }
 
 type UpdateHeadImgReq struct {

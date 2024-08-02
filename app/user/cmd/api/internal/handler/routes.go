@@ -124,6 +124,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: org.GetOrgRoleListHandler(serverCtx),
 			},
 			{
+				// 获取团队店铺分页列表
+				Method:  http.MethodPost,
+				Path:    "/getOrgShopPageList",
+				Handler: org.GetOrgShopPageListHandler(serverCtx),
+			},
+			{
 				// 获取团队用户分页列表
 				Method:  http.MethodPost,
 				Path:    "/getOrgUserPageList",

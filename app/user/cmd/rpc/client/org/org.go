@@ -41,6 +41,9 @@ type (
 	OrgRole                = user.OrgRole
 	OrgRoleListReq         = user.OrgRoleListReq
 	OrgRoleListResp        = user.OrgRoleListResp
+	OrgShop                = user.OrgShop
+	OrgShopPageListReq     = user.OrgShopPageListReq
+	OrgShopPageListResp    = user.OrgShopPageListResp
 	OrgUser                = user.OrgUser
 	OrgUserPageListReq     = user.OrgUserPageListReq
 	OrgUserPageListResp    = user.OrgUserPageListResp
@@ -57,6 +60,8 @@ type (
 	SearchUserInfo         = user.SearchUserInfo
 	SearchUserReq          = user.SearchUserReq
 	SearchUserResp         = user.SearchUserResp
+	ShopRole               = user.ShopRole
+	ShopUser               = user.ShopUser
 	UpdateRoleReq          = user.UpdateRoleReq
 	UpdateRoleResp         = user.UpdateRoleResp
 	UserPerm               = user.UserPerm
@@ -101,6 +106,8 @@ type (
 		GivePowerShop(ctx context.Context, in *GivePowerShopReq, opts ...grpc.CallOption) (*GivePowerShopResp, error)
 		// 平均分配店铺算力
 		GivePowerShopAvg(ctx context.Context, in *GivePowerShopAvgReq, opts ...grpc.CallOption) (*GivePowerShopAvgResp, error)
+		// 获取团队店铺分页列表
+		GetOrgShopPageList(ctx context.Context, in *OrgShopPageListReq, opts ...grpc.CallOption) (*OrgShopPageListResp, error)
 	}
 
 	defaultOrg struct {
@@ -226,4 +233,10 @@ func (m *defaultOrg) GivePowerShop(ctx context.Context, in *GivePowerShopReq, op
 func (m *defaultOrg) GivePowerShopAvg(ctx context.Context, in *GivePowerShopAvgReq, opts ...grpc.CallOption) (*GivePowerShopAvgResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.GivePowerShopAvg(ctx, in, opts...)
+}
+
+// 获取团队店铺分页列表
+func (m *defaultOrg) GetOrgShopPageList(ctx context.Context, in *OrgShopPageListReq, opts ...grpc.CallOption) (*OrgShopPageListResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.GetOrgShopPageList(ctx, in, opts...)
 }

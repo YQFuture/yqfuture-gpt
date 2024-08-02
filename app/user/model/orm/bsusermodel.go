@@ -29,6 +29,7 @@ type (
 		FindListByPhone(ctx context.Context, queryString string) (*[]*BsUser, error)
 		FindPageListByOrgId(ctx context.Context, orgId, pageNum, pageSize int64, queryString string) (*[]*OrgUser, error)
 		FindPageTotalByOrgId(ctx context.Context, orgId, pageNum, pageSize int64, queryString string) (int64, error)
+		FindListByOrgId(ctx context.Context, orgId int64) (*[]*BsUser, error)
 	}
 
 	customBsUserModel struct {
@@ -199,4 +200,18 @@ func (m *customBsUserModel) FindPageTotalByOrgId(ctx context.Context, orgId, pag
 		return 0, err
 	}
 
+}
+
+func (m *customBsUserModel) FindListByOrgId(ctx context.Context, orgId int64) (*[]*BsUser, error) {
+	query := fmt.Sprintf("SELECT u.* FROM bs_user_org uo LEFT JOIN bs_user u ON uo.user_id = u.id WHERE uo.org_id = ?")
+	var resp []*BsUser
+	err := m.conn.QueryRowsCtx(ctx, &resp, query, orgId)
+	switch {
+	case err == nil:
+		return &resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return nil, nil
+	default:
+		return nil, err
+	}
 }

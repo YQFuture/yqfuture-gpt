@@ -135,3 +135,9 @@ func (s *OrgServer) GivePowerShopAvg(ctx context.Context, in *user.GivePowerShop
 	l := orglogic.NewGivePowerShopAvgLogic(ctx, s.svcCtx)
 	return l.GivePowerShopAvg(in)
 }
+
+// 获取团队店铺分页列表
+func (s *OrgServer) GetOrgShopPageList(ctx context.Context, in *user.OrgShopPageListReq) (*user.OrgShopPageListResp, error) {
+	l := orglogic.NewGetOrgShopPageListLogic(ctx, s.svcCtx)
+	return l.GetOrgShopPageList(in)
+}
