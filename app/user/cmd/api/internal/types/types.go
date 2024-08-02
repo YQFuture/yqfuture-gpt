@@ -456,6 +456,17 @@ type UpdateRoleResp struct {
 	BaseResp
 }
 
+type UpdateShopAssignReq struct {
+	ShopId                   string   `json:"shopId"`
+	RoleList                 []string `json:"roleList"`
+	KeywordSwitchingUserList []string `json:"keywordSwitchingUserList"`
+	ExceptionDutyUserList    []string `json:"exceptionDutyUserList"`
+}
+
+type UpdateShopAssignResp struct {
+	BaseResp
+}
+
 type UserInfo struct {
 	Token    string `json:"token"`    // JWT Token
 	Phone    string `json:"phone"`    // 手机号码

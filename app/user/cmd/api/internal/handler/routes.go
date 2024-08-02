@@ -201,6 +201,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/updateRole",
 				Handler: org.UpdateRoleHandler(serverCtx),
 			},
+			{
+				// 编辑店铺指派
+				Method:  http.MethodPost,
+				Path:    "/updateShopAssign",
+				Handler: org.UpdateShopAssignHandler(serverCtx),
+			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/org"),

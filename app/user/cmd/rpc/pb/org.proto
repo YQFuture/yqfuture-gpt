@@ -302,6 +302,18 @@ message ShopUser {
   string nickName = 3;
   string headImg = 4;
 }
+// 编辑店铺指派请求体
+message UpdateShopAssignReq {
+  int64 userId = 1;
+  int64 shopId = 2;
+  repeated int64 roleList = 3;
+  repeated int64 keywordSwitchingUserList = 4;
+  repeated int64 exceptionDutyUserList = 5;
+}
+// 编辑店铺指派响应体
+message UpdateShopAssignResp {
+  int64 code = 1;
+}
 // 组织团队相关服务
 service Org {
   // 查找团队
@@ -346,5 +358,7 @@ service Org {
   rpc givePowerShopAvg(GivePowerShopAvgReq) returns (GivePowerShopAvgResp);
   // 获取团队店铺分页列表
   rpc getOrgShopPageList(OrgShopPageListReq) returns (OrgShopPageListResp);
+  // 编辑店铺指派
+  rpc updateShopAssign(UpdateShopAssignReq) returns (UpdateShopAssignResp);
 }
 

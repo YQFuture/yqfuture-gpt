@@ -12,6 +12,7 @@ type Dborgpermission struct {
 	PermissionList []*Permission `bson:"permissionList,omitempty" json:"permissionList,omitempty"`
 	RoleList       []*Role       `bson:"roleList,omitempty" json:"roleList,omitempty"`
 	UserList       []*User       `bson:"userList,omitempty" json:"userList,omitempty"`
+	ShopPermList   []*ShopPerm   `bson:"shopPermList,omitempty" json:"shopPermList,omitempty"`
 
 	UpdateAt time.Time `bson:"updateAt,omitempty" json:"updateAt,omitempty"`
 	CreateAt time.Time `bson:"createAt,omitempty" json:"createAt,omitempty"`
@@ -35,8 +36,12 @@ type Role struct {
 }
 
 type User struct {
+	Id       int64    `bson:"id,omitempty" json:"id,omitempty"`
+	RoleList []*int64 `bson:"roleList,omitempty" json:"roleList,omitempty"`
+}
+
+type ShopPerm struct {
 	Id                       int64    `bson:"id,omitempty" json:"id,omitempty"`
-	RoleList                 []*int64 `bson:"roleList,omitempty" json:"roleList,omitempty"`
-	KeywordSwitchingShopList []*int64 `bson:"keywordSwitchingShopList,omitempty" json:"keywordSwitchingShopList,omitempty"` // 关键词转接店铺列表
-	ExceptionDutyShopList    []*int64 `bson:"exceptionDutyShopList,omitempty" json:"exceptionDutyShopList,omitempty"`       // 异常责任店铺列表
+	KeywordSwitchingUserList []*int64 `bson:"keywordSwitchingUserList,omitempty" json:"keywordSwitchingUserList,omitempty"`
+	ExceptionDutyUserList    []*int64 `bson:"exceptionDutyUserList,omitempty" json:"exceptionDutyUserList,omitempty"`
 }

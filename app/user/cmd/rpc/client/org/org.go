@@ -66,6 +66,8 @@ type (
 	ShopUser               = user.ShopUser
 	UpdateRoleReq          = user.UpdateRoleReq
 	UpdateRoleResp         = user.UpdateRoleResp
+	UpdateShopAssignReq    = user.UpdateShopAssignReq
+	UpdateShopAssignResp   = user.UpdateShopAssignResp
 	UserPerm               = user.UserPerm
 	UserRole               = user.UserRole
 
@@ -112,6 +114,8 @@ type (
 		GivePowerShopAvg(ctx context.Context, in *GivePowerShopAvgReq, opts ...grpc.CallOption) (*GivePowerShopAvgResp, error)
 		// 获取团队店铺分页列表
 		GetOrgShopPageList(ctx context.Context, in *OrgShopPageListReq, opts ...grpc.CallOption) (*OrgShopPageListResp, error)
+		// 编辑店铺指派
+		UpdateShopAssign(ctx context.Context, in *UpdateShopAssignReq, opts ...grpc.CallOption) (*UpdateShopAssignResp, error)
 	}
 
 	defaultOrg struct {
@@ -249,4 +253,10 @@ func (m *defaultOrg) GivePowerShopAvg(ctx context.Context, in *GivePowerShopAvgR
 func (m *defaultOrg) GetOrgShopPageList(ctx context.Context, in *OrgShopPageListReq, opts ...grpc.CallOption) (*OrgShopPageListResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.GetOrgShopPageList(ctx, in, opts...)
+}
+
+// 编辑店铺指派
+func (m *defaultOrg) UpdateShopAssign(ctx context.Context, in *UpdateShopAssignReq, opts ...grpc.CallOption) (*UpdateShopAssignResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.UpdateShopAssign(ctx, in, opts...)
 }

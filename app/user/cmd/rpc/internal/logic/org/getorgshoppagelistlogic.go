@@ -3,6 +3,7 @@ package orglogic
 import (
 	"context"
 	"errors"
+	model "yufuture-gpt/app/user/model/mongo"
 	"yufuture-gpt/app/user/model/orm"
 
 	"yufuture-gpt/app/user/cmd/rpc/internal/svc"
@@ -48,6 +49,10 @@ func (l *GetOrgShopPageListLogic) GetOrgShopPageList(in *user.OrgShopPageListReq
 	if err != nil {
 		l.Logger.Error("获取团队权限文档失败: ", err)
 		return nil, err
+	}
+	shopMap := make(map[int64]*model.ShopPerm)
+	for _, shop := range dborgpermission.ShopPermList {
+		shopMap[shop.Id] = shop
 	}
 
 	// 从MySQL中获取店铺列表
@@ -115,39 +120,30 @@ func (l *GetOrgShopPageListLogic) GetOrgShopPageList(in *user.OrgShopPageListReq
 
 		// 关键字转接用户列表
 		var keywordSwitchingUserList []*user.ShopUser
-		for _, mongoUser := range dborgpermission.UserList {
-			for _, shopId := range mongoUser.KeywordSwitchingShopList {
-				if *shopId == shop.Id {
-					keywordSwitchingUser := &user.ShopUser{
-						UserId:   userMap[mongoUser.Id].Id,
-						NickName: userMap[mongoUser.Id].NickName.String,
-						Phone:    userMap[mongoUser.Id].Phone.String,
-						HeadImg:  userMap[mongoUser.Id].HeadImg.String,
-					}
-					keywordSwitchingUserList = append(keywordSwitchingUserList, keywordSwitchingUser)
-					break
-				}
+		mongoShop := shopMap[shop.Id]
+		for _, userId := range mongoShop.KeywordSwitchingUserList {
+			keywordSwitchingUser := &user.ShopUser{
+				UserId:   userMap[*userId].Id,
+				NickName: userMap[*userId].NickName.String,
+				Phone:    userMap[*userId].Phone.String,
+				HeadImg:  userMap[*userId].HeadImg.String,
 			}
+			keywordSwitchingUserList = append(keywordSwitchingUserList, keywordSwitchingUser)
 		}
 		orgShop.KeywordSwitchingUserList = keywordSwitchingUserList
 
 		// 异常责任人用户列表
-		var exceptionResponsibleUserList []*user.ShopUser
-		for _, mongoUser := range dborgpermission.UserList {
-			for _, shopId := range mongoUser.ExceptionDutyShopList {
-				if *shopId == shop.Id {
-					exceptionResponsibleUser := &user.ShopUser{
-						UserId:   userMap[mongoUser.Id].Id,
-						NickName: userMap[mongoUser.Id].NickName.String,
-						Phone:    userMap[mongoUser.Id].Phone.String,
-						HeadImg:  userMap[mongoUser.Id].HeadImg.String,
-					}
-					exceptionResponsibleUserList = append(exceptionResponsibleUserList, exceptionResponsibleUser)
-					break
-				}
+		var exceptionDutyUserList []*user.ShopUser
+		for _, userId := range mongoShop.ExceptionDutyUserList {
+			exceptionResponsibleUser := &user.ShopUser{
+				UserId:   userMap[*userId].Id,
+				NickName: userMap[*userId].NickName.String,
+				Phone:    userMap[*userId].Phone.String,
+				HeadImg:  userMap[*userId].HeadImg.String,
 			}
+			exceptionDutyUserList = append(exceptionDutyUserList, exceptionResponsibleUser)
 		}
-		orgShop.ExceptionDutyUserList = exceptionResponsibleUserList
+		orgShop.ExceptionDutyUserList = exceptionDutyUserList
 
 		orgShopList = append(orgShopList, orgShop)
 	}

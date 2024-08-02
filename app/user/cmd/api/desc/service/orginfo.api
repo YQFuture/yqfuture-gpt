@@ -355,4 +355,17 @@ type (
         NickName string `json:"nickName"`              // 昵称
         HeadImg string `json:"headImg"`                // 头像
     }
+
+        // 编辑店铺指派请求体
+    UpdateShopAssignReq {
+        ShopId string `json:"shopId"`
+        RoleList []string `json:"roleList"`
+        KeywordSwitchingUserList []string `json:"keywordSwitchingUserList"`
+        ExceptionDutyUserList []string `json:"exceptionDutyUserList"`
+    }
+
+        // 编辑店铺指派响应体
+    UpdateShopAssignResp {
+        BaseResp
+    }
 )

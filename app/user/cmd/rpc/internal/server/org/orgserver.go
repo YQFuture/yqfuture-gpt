@@ -147,3 +147,9 @@ func (s *OrgServer) GetOrgShopPageList(ctx context.Context, in *user.OrgShopPage
 	l := orglogic.NewGetOrgShopPageListLogic(ctx, s.svcCtx)
 	return l.GetOrgShopPageList(in)
 }
+
+// 编辑店铺指派
+func (s *OrgServer) UpdateShopAssign(ctx context.Context, in *user.UpdateShopAssignReq) (*user.UpdateShopAssignResp, error) {
+	l := orglogic.NewUpdateShopAssignLogic(ctx, s.svcCtx)
+	return l.UpdateShopAssign(in)
+}

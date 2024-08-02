@@ -40,6 +40,7 @@ const (
 	Org_GivePowerShop_FullMethodName      = "/user.Org/givePowerShop"
 	Org_GivePowerShopAvg_FullMethodName   = "/user.Org/givePowerShopAvg"
 	Org_GetOrgShopPageList_FullMethodName = "/user.Org/getOrgShopPageList"
+	Org_UpdateShopAssign_FullMethodName   = "/user.Org/updateShopAssign"
 )
 
 // OrgClient is the client API for Org service.
@@ -90,6 +91,8 @@ type OrgClient interface {
 	GivePowerShopAvg(ctx context.Context, in *GivePowerShopAvgReq, opts ...grpc.CallOption) (*GivePowerShopAvgResp, error)
 	// 获取团队店铺分页列表
 	GetOrgShopPageList(ctx context.Context, in *OrgShopPageListReq, opts ...grpc.CallOption) (*OrgShopPageListResp, error)
+	// 编辑店铺指派
+	UpdateShopAssign(ctx context.Context, in *UpdateShopAssignReq, opts ...grpc.CallOption) (*UpdateShopAssignResp, error)
 }
 
 type orgClient struct {
@@ -310,6 +313,16 @@ func (c *orgClient) GetOrgShopPageList(ctx context.Context, in *OrgShopPageListR
 	return out, nil
 }
 
+func (c *orgClient) UpdateShopAssign(ctx context.Context, in *UpdateShopAssignReq, opts ...grpc.CallOption) (*UpdateShopAssignResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateShopAssignResp)
+	err := c.cc.Invoke(ctx, Org_UpdateShopAssign_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrgServer is the server API for Org service.
 // All implementations must embed UnimplementedOrgServer
 // for forward compatibility
@@ -358,6 +371,8 @@ type OrgServer interface {
 	GivePowerShopAvg(context.Context, *GivePowerShopAvgReq) (*GivePowerShopAvgResp, error)
 	// 获取团队店铺分页列表
 	GetOrgShopPageList(context.Context, *OrgShopPageListReq) (*OrgShopPageListResp, error)
+	// 编辑店铺指派
+	UpdateShopAssign(context.Context, *UpdateShopAssignReq) (*UpdateShopAssignResp, error)
 	mustEmbedUnimplementedOrgServer()
 }
 
@@ -427,6 +442,9 @@ func (UnimplementedOrgServer) GivePowerShopAvg(context.Context, *GivePowerShopAv
 }
 func (UnimplementedOrgServer) GetOrgShopPageList(context.Context, *OrgShopPageListReq) (*OrgShopPageListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrgShopPageList not implemented")
+}
+func (UnimplementedOrgServer) UpdateShopAssign(context.Context, *UpdateShopAssignReq) (*UpdateShopAssignResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateShopAssign not implemented")
 }
 func (UnimplementedOrgServer) mustEmbedUnimplementedOrgServer() {}
 
@@ -819,6 +837,24 @@ func _Org_GetOrgShopPageList_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Org_UpdateShopAssign_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateShopAssignReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgServer).UpdateShopAssign(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Org_UpdateShopAssign_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgServer).UpdateShopAssign(ctx, req.(*UpdateShopAssignReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Org_ServiceDesc is the grpc.ServiceDesc for Org service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -909,6 +945,10 @@ var Org_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "getOrgShopPageList",
 			Handler:    _Org_GetOrgShopPageList_Handler,
+		},
+		{
+			MethodName: "updateShopAssign",
+			Handler:    _Org_UpdateShopAssign_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

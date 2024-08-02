@@ -191,6 +191,10 @@ service user {
 	@doc "获取团队店铺分页列表"
 	@handler getOrgShopPageList
 	post /getOrgShopPageList (OrgShopPageListReq) returns (OrgShopPageListResp)
+
+	@doc "编辑店铺指派"
+	@handler updateShopAssign
+	post /updateShopAssign (UpdateShopAssignReq) returns (UpdateShopAssignResp)
 }
 
 @server (
