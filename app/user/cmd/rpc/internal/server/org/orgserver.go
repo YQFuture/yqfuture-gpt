@@ -82,6 +82,12 @@ func (s *OrgServer) UpdateRole(ctx context.Context, in *user.UpdateRoleReq) (*us
 	return l.UpdateRole(in)
 }
 
+// 获取团队用户列表
+func (s *OrgServer) GetOrgUserList(ctx context.Context, in *user.OrgUserListReq) (*user.OrgUserListResp, error) {
+	l := orglogic.NewGetOrgUserListLogic(ctx, s.svcCtx)
+	return l.GetOrgUserList(in)
+}
+
 // 获取团队用户分页列表
 func (s *OrgServer) GetOrgUserPageList(ctx context.Context, in *user.OrgUserPageListReq) (*user.OrgUserPageListResp, error) {
 	l := orglogic.NewGetOrgUserPageListLogic(ctx, s.svcCtx)

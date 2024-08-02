@@ -172,6 +172,16 @@ type (
         BaseResp
     }
 
+        // 获取团队用户列表请求体
+    OrgUserListReq {
+    }
+
+        // 获取团队用户列表响应体
+    OrgUserListResp {
+        BaseResp
+        Data []OrgUser `json:"data"` // 用户列表
+    }
+
         // 获取团队用户分页列表请求体
     OrgUserPageListReq {
         BasePageReq
@@ -328,8 +338,8 @@ type (
         MonthUsedPower int64 `db:"month_used_power"`                                          // 当月已用算力
         UserNum int64 `json:"userNum"`                                                        // 已分配客服用户数量
         RoleList []ShopRole `json:"roleList"`                                                 // 角色列表
-        KeywordSwitchingUserList []ShopUser `json:"keywordSwitchingUserList"` // 关键词转接用户列表
-        ExceptionDutyUserList []ShopUser `json:"exceptionDutyUserList"`          // 关键词异常责任人用户列表
+        KeywordSwitchingUserList []ShopUser `json:"keywordSwitchingUserList"`                 // 关键词转接用户列表
+        ExceptionDutyUserList []ShopUser `json:"exceptionDutyUserList"`                       // 关键词异常责任人用户列表
     }
 
         // 店铺角色数据

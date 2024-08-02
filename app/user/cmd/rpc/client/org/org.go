@@ -45,6 +45,8 @@ type (
 	OrgShopPageListReq     = user.OrgShopPageListReq
 	OrgShopPageListResp    = user.OrgShopPageListResp
 	OrgUser                = user.OrgUser
+	OrgUserListReq         = user.OrgUserListReq
+	OrgUserListResp        = user.OrgUserListResp
 	OrgUserPageListReq     = user.OrgUserPageListReq
 	OrgUserPageListResp    = user.OrgUserPageListResp
 	PauseUserReq           = user.PauseUserReq
@@ -88,6 +90,8 @@ type (
 		CreateRole(ctx context.Context, in *CreateRoleReq, opts ...grpc.CallOption) (*CreateRoleResp, error)
 		// 更新角色
 		UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*UpdateRoleResp, error)
+		// 获取团队用户列表
+		GetOrgUserList(ctx context.Context, in *OrgUserListReq, opts ...grpc.CallOption) (*OrgUserListResp, error)
 		// 获取团队用户分页列表
 		GetOrgUserPageList(ctx context.Context, in *OrgUserPageListReq, opts ...grpc.CallOption) (*OrgUserPageListResp, error)
 		// 修改用户角色
@@ -179,6 +183,12 @@ func (m *defaultOrg) CreateRole(ctx context.Context, in *CreateRoleReq, opts ...
 func (m *defaultOrg) UpdateRole(ctx context.Context, in *UpdateRoleReq, opts ...grpc.CallOption) (*UpdateRoleResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.UpdateRole(ctx, in, opts...)
+}
+
+// 获取团队用户列表
+func (m *defaultOrg) GetOrgUserList(ctx context.Context, in *OrgUserListReq, opts ...grpc.CallOption) (*OrgUserListResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.GetOrgUserList(ctx, in, opts...)
 }
 
 // 获取团队用户分页列表

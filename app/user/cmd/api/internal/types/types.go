@@ -314,6 +314,14 @@ type OrgUser struct {
 	RoleList        []UserRole `json:"roleList"`        // 角色列表
 }
 
+type OrgUserListReq struct {
+}
+
+type OrgUserListResp struct {
+	BaseResp
+	Data []OrgUser `json:"data"` // 用户列表
+}
+
 type OrgUserPage struct {
 	BasePageResp
 	List []OrgUser `json:"list"` // 用户列表

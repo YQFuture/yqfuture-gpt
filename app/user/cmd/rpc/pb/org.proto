@@ -142,6 +142,15 @@ message UpdateRoleReq {
 message UpdateRoleResp {
   int64 code = 1;
 }
+// 获取团队用户列表请求体
+message OrgUserListReq {
+  int64 userId = 1;
+}
+// 获取团队用户列表响应体
+message OrgUserListResp {
+  int64 code = 1;
+  repeated OrgUser list = 2;
+}
 // 获取团队用户分页列表请求体
 message OrgUserPageListReq {
   int64 userId = 1;
@@ -315,6 +324,8 @@ service Org {
   rpc createRole(CreateRoleReq) returns (CreateRoleResp);
   // 更新角色
   rpc updateRole(UpdateRoleReq) returns (UpdateRoleResp);
+  // 获取团队用户列表
+  rpc getOrgUserList(OrgUserListReq) returns (OrgUserListResp);
   // 获取团队用户分页列表
   rpc getOrgUserPageList(OrgUserPageListReq) returns (OrgUserPageListResp);
   // 修改用户角色

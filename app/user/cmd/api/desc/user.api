@@ -148,6 +148,10 @@ service user {
 	@handler updateRole
 	post /updateRole (UpdateRoleReq) returns (UpdateRoleResp)
 
+	@doc "获取团队用户列表"
+	@handler getOrgUserList
+	post /getOrgUserList (OrgUserListReq) returns (OrgUserListResp)
+
 	@doc "获取团队用户分页列表"
 	@handler getOrgUserPageList
 	post /getOrgUserPageList (OrgUserPageListReq) returns (OrgUserPageListResp)
