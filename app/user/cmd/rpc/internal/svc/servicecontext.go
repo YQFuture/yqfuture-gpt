@@ -23,6 +23,7 @@ type ServiceContext struct {
 	BsMessageModel        orm.BsMessageModel
 	BsMessageContentModel orm.BsMessageContentModel
 	BsPermTemplateModel   orm.BsPermTemplateModel
+	BsShopModel           orm.BsShopModel
 	// 雪花算法
 	SnowFlakeNode *snowflake.Node
 }
@@ -47,6 +48,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		BsMessageModel:        orm.NewBsMessageModel(sqlConn),
 		BsMessageContentModel: orm.NewBsMessageContentModel(sqlConn),
 		BsPermTemplateModel:   orm.NewBsPermTemplateModel(sqlConn),
+		BsShopModel:           orm.NewBsShopModel(sqlConn),
 
 		SnowFlakeNode: snowflakeNode,
 	}

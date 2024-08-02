@@ -123,3 +123,15 @@ func (s *OrgServer) GivePowerAvg(ctx context.Context, in *user.GivePowerAvgReq) 
 	l := orglogic.NewGivePowerAvgLogic(ctx, s.svcCtx)
 	return l.GivePowerAvg(in)
 }
+
+// 分配店铺算力
+func (s *OrgServer) GivePowerShop(ctx context.Context, in *user.GivePowerShopReq) (*user.GivePowerShopResp, error) {
+	l := orglogic.NewGivePowerShopLogic(ctx, s.svcCtx)
+	return l.GivePowerShop(in)
+}
+
+// 平均分配店铺算力
+func (s *OrgServer) GivePowerShopAvg(ctx context.Context, in *user.GivePowerShopAvgReq) (*user.GivePowerShopAvgResp, error) {
+	l := orglogic.NewGivePowerShopAvgLogic(ctx, s.svcCtx)
+	return l.GivePowerShopAvg(in)
+}

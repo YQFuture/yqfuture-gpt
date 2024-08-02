@@ -175,6 +175,14 @@ service user {
 	@doc "平均分配算力"
 	@handler giverPowerAvg
 	post /giverPowerAvg (GivePowerAvgReq) returns (GivePowerAvgResp)
+
+	@doc "分配店铺算力"
+	@handler giverPowerShop
+	post /giverPowerShop (GivePowerShopReq) returns (GivePowerShopResp)
+
+	@doc "平均分配店铺算力"
+	@handler giverPowerShopAvg
+	post /giverPowerShopAvg (GivePowerShopAvgReq) returns (GivePowerShopAvgResp)
 }
 
 @server (

@@ -151,6 +151,22 @@ type GivePowerResp struct {
 	BaseResp
 }
 
+type GivePowerShopAvgReq struct {
+}
+
+type GivePowerShopAvgResp struct {
+	BaseResp
+}
+
+type GivePowerShopReq struct {
+	ShopId string `json:"shopId"`
+	Power  int64  `json:"power"`
+}
+
+type GivePowerShopResp struct {
+	BaseResp
+}
+
 type IgnoreMessageReq struct {
 	MessageId string `json:"messageId"` // 消息ID
 }

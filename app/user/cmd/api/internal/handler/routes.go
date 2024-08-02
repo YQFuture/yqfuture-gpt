@@ -142,6 +142,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: org.GiverPowerAvgHandler(serverCtx),
 			},
 			{
+				// 分配店铺算力
+				Method:  http.MethodPost,
+				Path:    "/giverPowerShop",
+				Handler: org.GiverPowerShopHandler(serverCtx),
+			},
+			{
+				// 平均分配店铺算力
+				Method:  http.MethodPost,
+				Path:    "/giverPowerShopAvg",
+				Handler: org.GiverPowerShopAvgHandler(serverCtx),
+			},
+			{
 				// 邀请用户加入团队
 				Method:  http.MethodPost,
 				Path:    "/inviteJoinOrg",

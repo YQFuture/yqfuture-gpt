@@ -29,6 +29,10 @@ type (
 	GivePowerAvgResp       = user.GivePowerAvgResp
 	GivePowerReq           = user.GivePowerReq
 	GivePowerResp          = user.GivePowerResp
+	GivePowerShopAvgReq    = user.GivePowerShopAvgReq
+	GivePowerShopAvgResp   = user.GivePowerShopAvgResp
+	GivePowerShopReq       = user.GivePowerShopReq
+	GivePowerShopResp      = user.GivePowerShopResp
 	InviteJoinOrgReq       = user.InviteJoinOrgReq
 	InviteJoinOrgResp      = user.InviteJoinOrgResp
 	OrgPerm                = user.OrgPerm
@@ -93,6 +97,10 @@ type (
 		GivePower(ctx context.Context, in *GivePowerReq, opts ...grpc.CallOption) (*GivePowerResp, error)
 		// 平均分配算力
 		GivePowerAvg(ctx context.Context, in *GivePowerAvgReq, opts ...grpc.CallOption) (*GivePowerAvgResp, error)
+		// 分配店铺算力
+		GivePowerShop(ctx context.Context, in *GivePowerShopReq, opts ...grpc.CallOption) (*GivePowerShopResp, error)
+		// 平均分配店铺算力
+		GivePowerShopAvg(ctx context.Context, in *GivePowerShopAvgReq, opts ...grpc.CallOption) (*GivePowerShopAvgResp, error)
 	}
 
 	defaultOrg struct {
@@ -206,4 +214,16 @@ func (m *defaultOrg) GivePower(ctx context.Context, in *GivePowerReq, opts ...gr
 func (m *defaultOrg) GivePowerAvg(ctx context.Context, in *GivePowerAvgReq, opts ...grpc.CallOption) (*GivePowerAvgResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.GivePowerAvg(ctx, in, opts...)
+}
+
+// 分配店铺算力
+func (m *defaultOrg) GivePowerShop(ctx context.Context, in *GivePowerShopReq, opts ...grpc.CallOption) (*GivePowerShopResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.GivePowerShop(ctx, in, opts...)
+}
+
+// 平均分配店铺算力
+func (m *defaultOrg) GivePowerShopAvg(ctx context.Context, in *GivePowerShopAvgReq, opts ...grpc.CallOption) (*GivePowerShopAvgResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.GivePowerShopAvg(ctx, in, opts...)
 }

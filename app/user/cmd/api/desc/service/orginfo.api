@@ -276,4 +276,24 @@ type (
     GivePowerAvgResp {
         BaseResp
     }
+
+        // 分配店铺算力请求体
+    GivePowerShopReq {
+        ShopId string `json:"shopId"`
+        Power int64 `json:"power"`
+    }
+
+        // 分配店铺算力返回体
+    GivePowerShopResp {
+        BaseResp
+    }
+
+        // 平均分配店铺算力请求体
+    GivePowerShopAvgReq {
+    }
+
+        // 平均分配店铺算力返回体
+    GivePowerShopAvgResp {
+        BaseResp
+    }
 )

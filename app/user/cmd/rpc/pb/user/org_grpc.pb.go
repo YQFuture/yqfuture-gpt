@@ -36,6 +36,8 @@ const (
 	Org_ResumeUser_FullMethodName         = "/user.Org/resumeUser"
 	Org_GivePower_FullMethodName          = "/user.Org/givePower"
 	Org_GivePowerAvg_FullMethodName       = "/user.Org/givePowerAvg"
+	Org_GivePowerShop_FullMethodName      = "/user.Org/givePowerShop"
+	Org_GivePowerShopAvg_FullMethodName   = "/user.Org/givePowerShopAvg"
 )
 
 // OrgClient is the client API for Org service.
@@ -78,6 +80,10 @@ type OrgClient interface {
 	GivePower(ctx context.Context, in *GivePowerReq, opts ...grpc.CallOption) (*GivePowerResp, error)
 	// 平均分配算力
 	GivePowerAvg(ctx context.Context, in *GivePowerAvgReq, opts ...grpc.CallOption) (*GivePowerAvgResp, error)
+	// 分配店铺算力
+	GivePowerShop(ctx context.Context, in *GivePowerShopReq, opts ...grpc.CallOption) (*GivePowerShopResp, error)
+	// 平均分配店铺算力
+	GivePowerShopAvg(ctx context.Context, in *GivePowerShopAvgReq, opts ...grpc.CallOption) (*GivePowerShopAvgResp, error)
 }
 
 type orgClient struct {
@@ -258,6 +264,26 @@ func (c *orgClient) GivePowerAvg(ctx context.Context, in *GivePowerAvgReq, opts 
 	return out, nil
 }
 
+func (c *orgClient) GivePowerShop(ctx context.Context, in *GivePowerShopReq, opts ...grpc.CallOption) (*GivePowerShopResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GivePowerShopResp)
+	err := c.cc.Invoke(ctx, Org_GivePowerShop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orgClient) GivePowerShopAvg(ctx context.Context, in *GivePowerShopAvgReq, opts ...grpc.CallOption) (*GivePowerShopAvgResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GivePowerShopAvgResp)
+	err := c.cc.Invoke(ctx, Org_GivePowerShopAvg_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrgServer is the server API for Org service.
 // All implementations must embed UnimplementedOrgServer
 // for forward compatibility
@@ -298,6 +324,10 @@ type OrgServer interface {
 	GivePower(context.Context, *GivePowerReq) (*GivePowerResp, error)
 	// 平均分配算力
 	GivePowerAvg(context.Context, *GivePowerAvgReq) (*GivePowerAvgResp, error)
+	// 分配店铺算力
+	GivePowerShop(context.Context, *GivePowerShopReq) (*GivePowerShopResp, error)
+	// 平均分配店铺算力
+	GivePowerShopAvg(context.Context, *GivePowerShopAvgReq) (*GivePowerShopAvgResp, error)
 	mustEmbedUnimplementedOrgServer()
 }
 
@@ -355,6 +385,12 @@ func (UnimplementedOrgServer) GivePower(context.Context, *GivePowerReq) (*GivePo
 }
 func (UnimplementedOrgServer) GivePowerAvg(context.Context, *GivePowerAvgReq) (*GivePowerAvgResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GivePowerAvg not implemented")
+}
+func (UnimplementedOrgServer) GivePowerShop(context.Context, *GivePowerShopReq) (*GivePowerShopResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GivePowerShop not implemented")
+}
+func (UnimplementedOrgServer) GivePowerShopAvg(context.Context, *GivePowerShopAvgReq) (*GivePowerShopAvgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GivePowerShopAvg not implemented")
 }
 func (UnimplementedOrgServer) mustEmbedUnimplementedOrgServer() {}
 
@@ -675,6 +711,42 @@ func _Org_GivePowerAvg_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Org_GivePowerShop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GivePowerShopReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgServer).GivePowerShop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Org_GivePowerShop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgServer).GivePowerShop(ctx, req.(*GivePowerShopReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Org_GivePowerShopAvg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GivePowerShopAvgReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgServer).GivePowerShopAvg(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Org_GivePowerShopAvg_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgServer).GivePowerShopAvg(ctx, req.(*GivePowerShopAvgReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Org_ServiceDesc is the grpc.ServiceDesc for Org service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -749,6 +821,14 @@ var Org_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "givePowerAvg",
 			Handler:    _Org_GivePowerAvg_Handler,
+		},
+		{
+			MethodName: "givePowerShop",
+			Handler:    _Org_GivePowerShop_Handler,
+		},
+		{
+			MethodName: "givePowerShopAvg",
+			Handler:    _Org_GivePowerShopAvg_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
