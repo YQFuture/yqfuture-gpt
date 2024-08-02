@@ -256,8 +256,11 @@ type (
     ResumeUserResp {
         BaseResp
     }
+)
 
-        // 分配算力请求体
+// 组织团队资源
+type (
+    // 分配算力请求体
     GivePowerReq {
         UserId string `json:"userId"`
         Power int64 `json:"power"`
