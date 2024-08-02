@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"strconv"
-	"yufuture-gpt/app/user/cmd/rpc/pb/user"
+	"yufuture-gpt/app/user/cmd/rpc/client/org"
 	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/user/cmd/api/internal/svc"
@@ -52,7 +52,7 @@ func (l *DeleteUserLogic) DeleteUser(req *types.DeleteUserReq) (resp *types.Dele
 	}
 
 	// 调用RPC接口 删除用户
-	_, err = l.svcCtx.OrgClient.DeleteUser(l.ctx, &user.DeleteUserReq{
+	_, err = l.svcCtx.OrgClient.DeleteUser(l.ctx, &org.DeleteUserReq{
 		UserId:       userId,
 		DeleteUserId: deleteUserId,
 	})

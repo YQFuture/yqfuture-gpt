@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"strconv"
-	"yufuture-gpt/app/user/cmd/rpc/pb/user"
+	"yufuture-gpt/app/user/cmd/rpc/client/org"
 	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/user/cmd/api/internal/svc"
@@ -67,7 +67,7 @@ func (l *UpdateRoleLogic) UpdateRole(req *types.UpdateRoleReq) (resp *types.Upda
 	}
 
 	// 调用RPC接口 更新角色
-	_, err = l.svcCtx.OrgClient.UpdateRole(l.ctx, &user.UpdateRoleReq{
+	_, err = l.svcCtx.OrgClient.UpdateRole(l.ctx, &org.UpdateRoleReq{
 		UserId:     userId,
 		RoleId:     roleId,
 		RoleName:   req.RoleName,

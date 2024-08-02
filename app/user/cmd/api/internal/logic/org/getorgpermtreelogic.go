@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"strconv"
-	"yufuture-gpt/app/user/cmd/rpc/pb/user"
+	"yufuture-gpt/app/user/cmd/rpc/client/org"
 	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/user/cmd/api/internal/svc"
@@ -42,7 +42,7 @@ func (l *GetOrgPermTreeLogic) GetOrgPermTree(req *types.OrgPermTreeReq) (resp *t
 	}
 
 	// 调用RPC接口 获取团队权限列表
-	orgPermListResp, err := l.svcCtx.OrgClient.GetOrgPermList(l.ctx, &user.OrgPermListReq{
+	orgPermListResp, err := l.svcCtx.OrgClient.GetOrgPermList(l.ctx, &org.OrgPermListReq{
 		UserId: userId,
 	})
 	if err != nil {

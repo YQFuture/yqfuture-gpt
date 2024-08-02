@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"strconv"
-	"yufuture-gpt/app/user/cmd/rpc/pb/user"
+	"yufuture-gpt/app/user/cmd/rpc/client/org"
 	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/user/cmd/api/internal/svc"
@@ -66,7 +66,7 @@ func (l *ChangeUserRoleLogic) ChangeUserRole(req *types.ChangeUserRoleReq) (resp
 	}
 
 	// 调用RPC接口 修改用户角色
-	_, err = l.svcCtx.OrgClient.ChangeUserRole(l.ctx, &user.ChangeUserRoleReq{
+	_, err = l.svcCtx.OrgClient.ChangeUserRole(l.ctx, &org.ChangeUserRoleReq{
 		UserId:       userId,
 		ChangeUserId: changeUserId,
 		RoleIdList:   roleIdList,

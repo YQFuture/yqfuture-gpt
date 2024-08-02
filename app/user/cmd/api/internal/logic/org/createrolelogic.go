@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"strconv"
-	"yufuture-gpt/app/user/cmd/rpc/pb/user"
+	"yufuture-gpt/app/user/cmd/rpc/client/org"
 	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/user/cmd/api/internal/svc"
@@ -57,7 +57,7 @@ func (l *CreateRoleLogic) CreateRole(req *types.CreateRoleReq) (resp *types.Crea
 	}
 
 	// 调用RPC接口 创建角色
-	_, err = l.svcCtx.OrgClient.CreateRole(l.ctx, &user.CreateRoleReq{
+	_, err = l.svcCtx.OrgClient.CreateRole(l.ctx, &org.CreateRoleReq{
 		UserId:     userId,
 		RoleName:   req.RoleName,
 		PermIdList: permIdList,

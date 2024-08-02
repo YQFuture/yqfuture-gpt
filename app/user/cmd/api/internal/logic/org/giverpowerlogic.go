@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"strconv"
-	"yufuture-gpt/app/user/cmd/rpc/pb/user"
+	"yufuture-gpt/app/user/cmd/rpc/client/org"
 	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/user/cmd/api/internal/svc"
@@ -52,7 +52,7 @@ func (l *GiverPowerLogic) GiverPower(req *types.GivePowerReq) (resp *types.GiveP
 	}
 
 	// 调用RPC接口 分配算力
-	givePowerResp, err := l.svcCtx.OrgClient.GivePower(l.ctx, &user.GivePowerReq{
+	givePowerResp, err := l.svcCtx.OrgClient.GivePower(l.ctx, &org.GivePowerReq{
 		UserId:          userId,
 		GivePowerUserId: givePowerUserId,
 		Power:           req.Power,
