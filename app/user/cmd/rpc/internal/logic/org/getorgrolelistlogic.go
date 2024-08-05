@@ -65,6 +65,11 @@ func (l *GetOrgRoleListLogic) GetOrgRoleList(in *user.OrgRoleListReq) (*user.Org
 	wg.Add(len(roleList))
 	for _, role := range roleList {
 		go func(role *model.Role) {
+			defer func() {
+				if err := recover(); err != nil {
+					l.Logger.Error("获取团队角色列表失败 发生呢panic : ", err)
+				}
+			}()
 			defer wg.Done()
 			// 角色基本信息
 			orgRole := &user.OrgRole{
