@@ -67,7 +67,7 @@ func (l *GetOrgRoleListLogic) GetOrgRoleList(in *user.OrgRoleListReq) (*user.Org
 		go func(role *model.Role) {
 			defer func() {
 				if err := recover(); err != nil {
-					l.Logger.Error("获取团队角色列表失败 发生呢panic : ", err)
+					l.Logger.Error("获取团队角色列表失败 发生panic : ", err)
 				}
 			}()
 			defer wg.Done()

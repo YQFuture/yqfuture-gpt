@@ -122,5 +122,19 @@ func (l *AgreeApplyJoinOrgLogic) AgreeApplyJoinOrg(in *user.AgreeApplyJoinOrgReq
 		return nil, err
 	}
 
+	// 异步更新消息状态
+	go func() {
+		defer func() {
+			if err := recover(); err != nil {
+				l.Logger.Error("更新消息状态失败 发生panic : ", err)
+			}
+		}()
+		bsMessage.DealFlag = 1
+		err = l.svcCtx.BsMessageModel.Update(l.ctx, bsMessage)
+		if err != nil {
+			l.Logger.Error("更新消息状态失败", err)
+		}
+	}()
+
 	return &user.AgreeApplyJoinOrgResp{}, nil
 }
