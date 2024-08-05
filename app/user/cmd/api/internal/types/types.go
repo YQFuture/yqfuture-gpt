@@ -95,6 +95,7 @@ type CurrentUserData struct {
 	HeadImg        string  `json:"headImg"`        // 头像
 	NowOrg         OrgInfo `json:"nowOrg"`         // 当前组织信息
 	UnreadMsgCount int64   `json:"unreadMsgCount"` // 未读消息数量
+	OrgUserStatus  int64   `json:"orgUserStatus"`  // 组织用户状态 0: 正常 1: 暂停 2: 删除
 }
 
 type CurrentUserDataResp struct {

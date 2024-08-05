@@ -39,9 +39,25 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(in *user.CurrentUserDataReq
 			Code: consts.PhoneIsNotBound,
 		}, nil
 	}
+	// 查询用户组织关系
+	bsUserOrg, err := l.svcCtx.BsUserOrgModel.FindUserOrgByUserIdAndOrgId(l.ctx, bsUser.Id, bsUser.NowOrgId)
+	if err != nil {
+		l.Logger.Error("查询用户组织关系失败", err)
+		return nil, err
+	}
+	var orgUserStatus int64
+	if bsUserOrg == nil {
+		// 中间表关系不存在 说明被删除
+		orgUserStatus = 2
+	} else if bsUserOrg.Status == 0 {
+		// 状态为0 说明被暂停权限
+		orgUserStatus = 1
+	}
+
 	// 查询当前组织信息
 	organization, err := l.svcCtx.BsOrganizationModel.FindOne(l.ctx, bsUser.NowOrgId)
 	if err != nil {
+		l.Logger.Error("查询当前组织信息失败", err)
 		return nil, err
 	}
 
@@ -74,6 +90,7 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(in *user.CurrentUserDataReq
 				IsAdmin:    organization.OwnerId == bsUser.Id,
 			},
 			UnreadMsgCount: unreadMsgCount,
+			OrgUserStatus:  orgUserStatus,
 		},
 	}, nil
 }

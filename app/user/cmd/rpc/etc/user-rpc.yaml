@@ -16,6 +16,20 @@ Consul:
     - tag
     - rpc
 
+# Redis
+RedisConf:
+  Host: 10.0.0.118:6379
+  Type: node
+  Pass: jhkdjhkjdhsIUTYURTU_WCHRCz
+  Tls: false
+
+# MongoDB
+Mongo:
+  Url: mongodb://mongo_kKtPGm:mongo_tmPizQ@10.0.0.118:27017
+  Database: kefugpt
+  Dborgpermission: dborgpermission
+  Dbuseroperation: dbuseroperation
+
 # MySQL
 DB:
   DataSource: root:mysql_QspKnh@tcp(10.0.0.118:3306)/yqfuture_gpt?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai

@@ -70,16 +70,16 @@ func (l *DeleteUserLogic) DeleteUser(in *user.DeleteUserReq) (*user.DeleteUserRe
 	}
 
 	// 将用户切换回自己的组织
-	organization, err := l.svcCtx.BsOrganizationModel.FindOneByOwnerId(l.ctx, in.DeleteUserId)
-	if err != nil {
-		l.Logger.Error("获取用户所属组织失败: ", err)
-		return nil, err
-	}
-	err = l.svcCtx.BsUserModel.ChangeOrg(l.ctx, organization.Id, in.DeleteUserId)
-	if err != nil {
-		l.Logger.Error("切换用户所属组织失败: ", err)
-		return nil, err
-	}
+	/*	organization, err := l.svcCtx.BsOrganizationModel.FindOneByOwnerId(l.ctx, in.DeleteUserId)
+		if err != nil {
+			l.Logger.Error("获取用户所属组织失败: ", err)
+			return nil, err
+		}
+		err = l.svcCtx.BsUserModel.ChangeOrg(l.ctx, organization.Id, in.DeleteUserId)
+		if err != nil {
+			l.Logger.Error("切换用户所属组织失败: ", err)
+			return nil, err
+		}*/
 
 	return &user.DeleteUserResp{}, nil
 }

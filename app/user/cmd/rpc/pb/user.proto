@@ -65,6 +65,7 @@ message CurrentUserData {
   string headImg = 4;
   OrgInfo nowOrg = 5;
   int64 unreadMsgCount = 6;
+  int64 orgUserStatus = 7;
 }
 // 绑定手机号请求体
 message BindPhoneReq {

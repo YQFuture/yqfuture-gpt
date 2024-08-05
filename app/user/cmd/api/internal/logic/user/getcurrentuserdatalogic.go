@@ -121,6 +121,7 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(req *types.BaseReq) (resp *
 				IsAdmin:    currentUserDataResp.Result.NowOrg.IsAdmin,
 			},
 			UnreadMsgCount: currentUserDataResp.Result.UnreadMsgCount,
+			OrgUserStatus:  currentUserDataResp.Result.OrgUserStatus,
 		},
 	}, nil
 }
