@@ -136,6 +136,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: org.GetOrgUserListHandler(serverCtx),
 			},
 			{
+				// 导出团队用户操作记录列表
+				Method:  http.MethodPost,
+				Path:    "/getOrgUserOperationList",
+				Handler: org.GetOrgUserOperationListHandler(serverCtx),
+			},
+			{
 				// 获取团队用户操作记录分页列表
 				Method:  http.MethodPost,
 				Path:    "/getOrgUserOperationPageList",

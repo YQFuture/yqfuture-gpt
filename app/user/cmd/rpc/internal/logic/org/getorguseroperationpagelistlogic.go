@@ -54,7 +54,6 @@ func (l *GetOrgUserOperationPageListLogic) GetOrgUserOperationPageList(in *user.
 	}
 
 	orgUserOperationPageListResp := &user.OrgUserOperationPageListResp{
-		Code:     0,
 		PageNum:  in.PageNum,
 		PageSize: in.PageSize,
 		Total:    total,

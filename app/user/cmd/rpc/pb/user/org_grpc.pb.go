@@ -42,6 +42,7 @@ const (
 	Org_GetOrgShopPageList_FullMethodName          = "/user.Org/getOrgShopPageList"
 	Org_UpdateShopAssign_FullMethodName            = "/user.Org/updateShopAssign"
 	Org_GetOrgUserOperationPageList_FullMethodName = "/user.Org/getOrgUserOperationPageList"
+	Org_GetOrgUserOperationList_FullMethodName     = "/user.Org/getOrgUserOperationList"
 )
 
 // OrgClient is the client API for Org service.
@@ -96,6 +97,8 @@ type OrgClient interface {
 	UpdateShopAssign(ctx context.Context, in *UpdateShopAssignReq, opts ...grpc.CallOption) (*UpdateShopAssignResp, error)
 	// 获取组织用户操作记录分页列表
 	GetOrgUserOperationPageList(ctx context.Context, in *OrgUserOperationPageListReq, opts ...grpc.CallOption) (*OrgUserOperationPageListResp, error)
+	// 获取组织用户操作记录列表
+	GetOrgUserOperationList(ctx context.Context, in *OrgUserOperationListReq, opts ...grpc.CallOption) (*OrgUserOperationListResp, error)
 }
 
 type orgClient struct {
@@ -336,6 +339,16 @@ func (c *orgClient) GetOrgUserOperationPageList(ctx context.Context, in *OrgUser
 	return out, nil
 }
 
+func (c *orgClient) GetOrgUserOperationList(ctx context.Context, in *OrgUserOperationListReq, opts ...grpc.CallOption) (*OrgUserOperationListResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OrgUserOperationListResp)
+	err := c.cc.Invoke(ctx, Org_GetOrgUserOperationList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrgServer is the server API for Org service.
 // All implementations must embed UnimplementedOrgServer
 // for forward compatibility
@@ -388,6 +401,8 @@ type OrgServer interface {
 	UpdateShopAssign(context.Context, *UpdateShopAssignReq) (*UpdateShopAssignResp, error)
 	// 获取组织用户操作记录分页列表
 	GetOrgUserOperationPageList(context.Context, *OrgUserOperationPageListReq) (*OrgUserOperationPageListResp, error)
+	// 获取组织用户操作记录列表
+	GetOrgUserOperationList(context.Context, *OrgUserOperationListReq) (*OrgUserOperationListResp, error)
 	mustEmbedUnimplementedOrgServer()
 }
 
@@ -463,6 +478,9 @@ func (UnimplementedOrgServer) UpdateShopAssign(context.Context, *UpdateShopAssig
 }
 func (UnimplementedOrgServer) GetOrgUserOperationPageList(context.Context, *OrgUserOperationPageListReq) (*OrgUserOperationPageListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrgUserOperationPageList not implemented")
+}
+func (UnimplementedOrgServer) GetOrgUserOperationList(context.Context, *OrgUserOperationListReq) (*OrgUserOperationListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrgUserOperationList not implemented")
 }
 func (UnimplementedOrgServer) mustEmbedUnimplementedOrgServer() {}
 
@@ -891,6 +909,24 @@ func _Org_GetOrgUserOperationPageList_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Org_GetOrgUserOperationList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrgUserOperationListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgServer).GetOrgUserOperationList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Org_GetOrgUserOperationList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgServer).GetOrgUserOperationList(ctx, req.(*OrgUserOperationListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Org_ServiceDesc is the grpc.ServiceDesc for Org service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -989,6 +1025,10 @@ var Org_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "getOrgUserOperationPageList",
 			Handler:    _Org_GetOrgUserOperationPageList_Handler,
+		},
+		{
+			MethodName: "getOrgUserOperationList",
+			Handler:    _Org_GetOrgUserOperationList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

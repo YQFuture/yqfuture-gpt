@@ -395,4 +395,12 @@ type (
         CreateTime int64 `json:"createTime"`        // 创建时间
         OperationDesc string `json:"operationDesc"` // 操作描述
     }
+
+        // 导出组织用户操作记录列表请求体
+    OrgUserOperationListReq {
+        UserId string `json:"userId"`      // 用户id
+        StartTime int64 `json:"startTime"` // 开始时间
+        EndTime int64 `json:"endTime"`     // 结束时间
+        Query string `json:"query"`        // 查询
+    }
 )

@@ -159,3 +159,9 @@ func (s *OrgServer) GetOrgUserOperationPageList(ctx context.Context, in *user.Or
 	l := orglogic.NewGetOrgUserOperationPageListLogic(ctx, s.svcCtx)
 	return l.GetOrgUserOperationPageList(in)
 }
+
+// 获取组织用户操作记录列表
+func (s *OrgServer) GetOrgUserOperationList(ctx context.Context, in *user.OrgUserOperationListReq) (*user.OrgUserOperationListResp, error) {
+	l := orglogic.NewGetOrgUserOperationListLogic(ctx, s.svcCtx)
+	return l.GetOrgUserOperationList(in)
+}

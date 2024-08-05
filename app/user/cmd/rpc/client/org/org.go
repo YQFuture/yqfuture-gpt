@@ -48,6 +48,8 @@ type (
 	OrgUserListReq               = user.OrgUserListReq
 	OrgUserListResp              = user.OrgUserListResp
 	OrgUserOperation             = user.OrgUserOperation
+	OrgUserOperationListReq      = user.OrgUserOperationListReq
+	OrgUserOperationListResp     = user.OrgUserOperationListResp
 	OrgUserOperationPageListReq  = user.OrgUserOperationPageListReq
 	OrgUserOperationPageListResp = user.OrgUserOperationPageListResp
 	OrgUserPageListReq           = user.OrgUserPageListReq
@@ -121,6 +123,8 @@ type (
 		UpdateShopAssign(ctx context.Context, in *UpdateShopAssignReq, opts ...grpc.CallOption) (*UpdateShopAssignResp, error)
 		// 获取组织用户操作记录分页列表
 		GetOrgUserOperationPageList(ctx context.Context, in *OrgUserOperationPageListReq, opts ...grpc.CallOption) (*OrgUserOperationPageListResp, error)
+		// 获取组织用户操作记录列表
+		GetOrgUserOperationList(ctx context.Context, in *OrgUserOperationListReq, opts ...grpc.CallOption) (*OrgUserOperationListResp, error)
 	}
 
 	defaultOrg struct {
@@ -270,4 +274,10 @@ func (m *defaultOrg) UpdateShopAssign(ctx context.Context, in *UpdateShopAssignR
 func (m *defaultOrg) GetOrgUserOperationPageList(ctx context.Context, in *OrgUserOperationPageListReq, opts ...grpc.CallOption) (*OrgUserOperationPageListResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.GetOrgUserOperationPageList(ctx, in, opts...)
+}
+
+// 获取组织用户操作记录列表
+func (m *defaultOrg) GetOrgUserOperationList(ctx context.Context, in *OrgUserOperationListReq, opts ...grpc.CallOption) (*OrgUserOperationListResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.GetOrgUserOperationList(ctx, in, opts...)
 }

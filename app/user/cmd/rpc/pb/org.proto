@@ -337,6 +337,19 @@ message OrgUserOperation {
   int64 createTime = 1;
   string operationDesc = 2;
 }
+// 获取组织用户操作记录列表请求体
+message OrgUserOperationListReq {
+  int64  userId = 1;
+  int64  operationUserId = 2;
+  int64  startTime = 3;
+  int64  endTime = 4;
+  string query = 5;
+}
+// 获取组织用户操作记录列表响应体
+message OrgUserOperationListResp {
+  int64 code = 1;
+  repeated OrgUserOperation list = 2;
+}
 // 组织团队相关服务
 service Org {
   // 查找团队
@@ -385,5 +398,7 @@ service Org {
   rpc updateShopAssign(UpdateShopAssignReq) returns (UpdateShopAssignResp);
   // 获取组织用户操作记录分页列表
   rpc getOrgUserOperationPageList(OrgUserOperationPageListReq) returns (OrgUserOperationPageListResp);
+  // 获取组织用户操作记录列表
+  rpc getOrgUserOperationList(OrgUserOperationListReq) returns (OrgUserOperationListResp);
 }
 

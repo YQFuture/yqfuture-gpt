@@ -327,6 +327,13 @@ type OrgUserOperation struct {
 	OperationDesc string `json:"operationDesc"` // 操作描述
 }
 
+type OrgUserOperationListReq struct {
+	UserId    string `json:"userId"`    // 用户id
+	StartTime int64  `json:"startTime"` // 开始时间
+	EndTime   int64  `json:"endTime"`   // 结束时间
+	Query     string `json:"query"`     // 查询
+}
+
 type OrgUserOperationPage struct {
 	BasePageResp
 	List []OrgUserOperation `json:"list"` // 操作记录列表
