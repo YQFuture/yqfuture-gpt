@@ -111,13 +111,15 @@ func (l *BindPhoneLogic) BindPhone(in *user.BindPhoneReq) (*user.BindPhoneResp, 
 		}
 		// 构建用户组织中间表
 		bsUserOrg := &orm.BsUserOrg{
-			UserId:     userId,
-			OrgId:      orgId,
-			Status:     1,
-			CreateTime: now,
-			UpdateTime: now,
-			CreateBy:   userId,
-			UpdateBy:   userId,
+			UserId:          userId,
+			OrgId:           orgId,
+			Status:          0,
+			MonthPowerLimit: 0,
+			MonthUsedPower:  0,
+			CreateTime:      now,
+			UpdateTime:      now,
+			CreateBy:        userId,
+			UpdateBy:        userId,
 		}
 
 		// 在同一个事务中保存三张表的数据

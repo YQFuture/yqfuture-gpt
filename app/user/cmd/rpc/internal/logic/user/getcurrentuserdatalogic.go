@@ -49,7 +49,7 @@ func (l *GetCurrentUserDataLogic) GetCurrentUserData(in *user.CurrentUserDataReq
 	if bsUserOrg == nil {
 		// 中间表关系不存在 说明被删除
 		orgUserStatus = 2
-	} else if bsUserOrg.Status == 0 {
+	} else if bsUserOrg.Status == 1 {
 		// 状态为0 说明被暂停权限
 		orgUserStatus = 1
 	}

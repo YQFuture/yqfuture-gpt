@@ -41,7 +41,7 @@ func (l *ResumeUserLogic) ResumeUser(in *user.ResumeUserReq) (*user.ResumeUserRe
 		return nil, errors.New("只有团队管理员才能恢复用户")
 	}
 	// 恢复用户
-	err = l.svcCtx.BsUserOrgModel.ChangeStatusByUserIdAndOrgId(l.ctx, in.ResumeUserId, bsUser.NowOrgId, 1)
+	err = l.svcCtx.BsUserOrgModel.ChangeStatusByUserIdAndOrgId(l.ctx, in.ResumeUserId, bsUser.NowOrgId, 0)
 	if err != nil {
 		l.Logger.Error("恢复用户失败: ", err)
 		return nil, err

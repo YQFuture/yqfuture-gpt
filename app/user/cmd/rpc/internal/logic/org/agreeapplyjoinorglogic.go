@@ -128,7 +128,7 @@ func (l *AgreeApplyJoinOrgLogic) AgreeApplyJoinOrg(in *user.AgreeApplyJoinOrgReq
 	bsUserOrg := &orm.BsUserOrg{
 		UserId:     applyUserId,
 		OrgId:      orgId,
-		Status:     0,
+		Status:     1,
 		CreateTime: now,
 		UpdateTime: now,
 		CreateBy:   in.UserId,

@@ -128,7 +128,7 @@ func (l *AgreeInviteJoinOrgLogic) AgreeInviteJoinOrg(in *user.AgreeInviteJoinOrg
 	bsUserOrg := &orm.BsUserOrg{
 		UserId:     in.UserId,
 		OrgId:      inviteOrgId,
-		Status:     0,
+		Status:     1,
 		CreateTime: now,
 		UpdateTime: now,
 		CreateBy:   in.UserId,

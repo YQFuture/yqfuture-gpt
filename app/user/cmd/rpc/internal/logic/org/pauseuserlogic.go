@@ -42,7 +42,7 @@ func (l *PauseUserLogic) PauseUser(in *user.PauseUserReq) (*user.PauseUserResp, 
 		return nil, errors.New("只有团队管理员才能暂停用户")
 	}
 	// 暂停用户
-	err = l.svcCtx.BsUserOrgModel.ChangeStatusByUserIdAndOrgId(l.ctx, in.PauseUserId, bsUser.NowOrgId, 0)
+	err = l.svcCtx.BsUserOrgModel.ChangeStatusByUserIdAndOrgId(l.ctx, in.PauseUserId, bsUser.NowOrgId, 1)
 	if err != nil {
 		l.Logger.Error("暂停用户失败: ", err)
 		return nil, err
