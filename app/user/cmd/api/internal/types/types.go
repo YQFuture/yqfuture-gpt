@@ -322,6 +322,29 @@ type OrgUserListResp struct {
 	Data []OrgUser `json:"data"` // 用户列表
 }
 
+type OrgUserOperation struct {
+	CreateTime    int64  `json:"createTime"`    // 创建时间
+	OperationDesc string `json:"operationDesc"` // 操作描述
+}
+
+type OrgUserOperationPage struct {
+	BasePageResp
+	List []OrgUserOperation `json:"list"` // 操作记录列表
+}
+
+type OrgUserOperationPageListReq struct {
+	BasePageReq
+	UserId    string `json:"userId"`    // 用户id
+	StartTime int64  `json:"startTime"` // 开始时间
+	EndTime   int64  `json:"endTime"`   // 结束时间
+	Query     string `json:"query"`     // 查询
+}
+
+type OrgUserOperationPageListResp struct {
+	BaseResp
+	Data OrgUserOperationPage `json:"data"` // 分页数据
+}
+
 type OrgUserPage struct {
 	BasePageResp
 	List []OrgUser `json:"list"` // 用户列表
@@ -457,10 +480,10 @@ type UpdateRoleResp struct {
 }
 
 type UpdateShopAssignReq struct {
-	ShopId                   string   `json:"shopId"`
-	RoleList                 []string `json:"roleList"`
-	KeywordSwitchingUserList []string `json:"keywordSwitchingUserList"`
-	ExceptionDutyUserList    []string `json:"exceptionDutyUserList"`
+	ShopId                   string   `json:"shopId"`                   // 店铺id
+	RoleList                 []string `json:"roleList"`                 // 角色id列表
+	KeywordSwitchingUserList []string `json:"keywordSwitchingUserList"` // 关键词转接用户id列表
+	ExceptionDutyUserList    []string `json:"exceptionDutyUserList"`    // 关键词异常责任人用户id列表
 }
 
 type UpdateShopAssignResp struct {

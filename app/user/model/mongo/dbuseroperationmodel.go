@@ -17,6 +17,7 @@ type (
 	DbuseroperationModel interface {
 		dbuseroperationModel
 		FindPageListByUserIdAndOrgId(ctx context.Context, userId, orgId, pageNum, pageSize, startTime, endTime int64, queryString string) (*[]*Dbuseroperation, error)
+		FindPageTotalByUserIdAndOrgId(ctx context.Context, userId, orgId, startTime, endTime int64, queryString string) (int64, error)
 		FindListByUserIdAndOrgId(ctx context.Context, userId, orgId, startTime, endTime int64, queryString string) (*[]*Dbuseroperation, error)
 	}
 
@@ -73,6 +74,41 @@ func (m *customDbuseroperationModel) FindPageListByUserIdAndOrgId(ctx context.Co
 		return nil, nil
 	default:
 		return nil, err
+	}
+}
+
+func (m *customDbuseroperationModel) FindPageTotalByUserIdAndOrgId(ctx context.Context, userId, orgId, startTime, endTime int64, queryString string) (int64, error) {
+	// 创建查询条件
+	filter := bson.M{}
+	if userId != 0 {
+		filter["userId"] = userId
+	}
+	if orgId != 0 {
+		filter["orgId"] = orgId
+	}
+	if queryString != "" {
+		// 添加模糊查询条件
+		filter["operationdesc"] = bson.M{"$regex": queryString, "$options": "i"}
+	}
+
+	// 将开始和结束时间从 int64 转换为 time.Time 类型
+	startTimeTime := time.UnixMilli(startTime)
+	endTimeTime := time.UnixMilli(endTime)
+
+	// 添加时间范围条件
+	if startTime != 0 && endTime != 0 {
+		filter["createat"] = bson.M{"$gte": startTimeTime, "$lte": endTimeTime}
+	}
+
+	// 执行计数操作
+	count, err := m.conn.CountDocuments(ctx, filter)
+	switch {
+	case err == nil:
+		return count, nil
+	case errors.Is(err, mon.ErrNotFound):
+		return 0, nil
+	default:
+		return 0, err
 	}
 }
 

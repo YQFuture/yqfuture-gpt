@@ -19,28 +19,29 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	Org_SearchOrg_FullMethodName          = "/user.Org/searchOrg"
-	Org_SearchUser_FullMethodName         = "/user.Org/searchUser"
-	Org_ApplyJoinOrg_FullMethodName       = "/user.Org/applyJoinOrg"
-	Org_InviteJoinOrg_FullMethodName      = "/user.Org/inviteJoinOrg"
-	Org_AgreeApplyJoinOrg_FullMethodName  = "/user.Org/agreeApplyJoinOrg"
-	Org_AgreeInviteJoinOrg_FullMethodName = "/user.Org/agreeInviteJoinOrg"
-	Org_GetOrgRoleList_FullMethodName     = "/user.Org/getOrgRoleList"
-	Org_GetOrgPermList_FullMethodName     = "/user.Org/getOrgPermList"
-	Org_CreateRole_FullMethodName         = "/user.Org/createRole"
-	Org_UpdateRole_FullMethodName         = "/user.Org/updateRole"
-	Org_GetOrgUserList_FullMethodName     = "/user.Org/getOrgUserList"
-	Org_GetOrgUserPageList_FullMethodName = "/user.Org/getOrgUserPageList"
-	Org_ChangeUserRole_FullMethodName     = "/user.Org/changeUserRole"
-	Org_DeleteUser_FullMethodName         = "/user.Org/deleteUser"
-	Org_PauseUser_FullMethodName          = "/user.Org/pauseUser"
-	Org_ResumeUser_FullMethodName         = "/user.Org/resumeUser"
-	Org_GivePower_FullMethodName          = "/user.Org/givePower"
-	Org_GivePowerAvg_FullMethodName       = "/user.Org/givePowerAvg"
-	Org_GivePowerShop_FullMethodName      = "/user.Org/givePowerShop"
-	Org_GivePowerShopAvg_FullMethodName   = "/user.Org/givePowerShopAvg"
-	Org_GetOrgShopPageList_FullMethodName = "/user.Org/getOrgShopPageList"
-	Org_UpdateShopAssign_FullMethodName   = "/user.Org/updateShopAssign"
+	Org_SearchOrg_FullMethodName                   = "/user.Org/searchOrg"
+	Org_SearchUser_FullMethodName                  = "/user.Org/searchUser"
+	Org_ApplyJoinOrg_FullMethodName                = "/user.Org/applyJoinOrg"
+	Org_InviteJoinOrg_FullMethodName               = "/user.Org/inviteJoinOrg"
+	Org_AgreeApplyJoinOrg_FullMethodName           = "/user.Org/agreeApplyJoinOrg"
+	Org_AgreeInviteJoinOrg_FullMethodName          = "/user.Org/agreeInviteJoinOrg"
+	Org_GetOrgRoleList_FullMethodName              = "/user.Org/getOrgRoleList"
+	Org_GetOrgPermList_FullMethodName              = "/user.Org/getOrgPermList"
+	Org_CreateRole_FullMethodName                  = "/user.Org/createRole"
+	Org_UpdateRole_FullMethodName                  = "/user.Org/updateRole"
+	Org_GetOrgUserList_FullMethodName              = "/user.Org/getOrgUserList"
+	Org_GetOrgUserPageList_FullMethodName          = "/user.Org/getOrgUserPageList"
+	Org_ChangeUserRole_FullMethodName              = "/user.Org/changeUserRole"
+	Org_DeleteUser_FullMethodName                  = "/user.Org/deleteUser"
+	Org_PauseUser_FullMethodName                   = "/user.Org/pauseUser"
+	Org_ResumeUser_FullMethodName                  = "/user.Org/resumeUser"
+	Org_GivePower_FullMethodName                   = "/user.Org/givePower"
+	Org_GivePowerAvg_FullMethodName                = "/user.Org/givePowerAvg"
+	Org_GivePowerShop_FullMethodName               = "/user.Org/givePowerShop"
+	Org_GivePowerShopAvg_FullMethodName            = "/user.Org/givePowerShopAvg"
+	Org_GetOrgShopPageList_FullMethodName          = "/user.Org/getOrgShopPageList"
+	Org_UpdateShopAssign_FullMethodName            = "/user.Org/updateShopAssign"
+	Org_GetOrgUserOperationPageList_FullMethodName = "/user.Org/getOrgUserOperationPageList"
 )
 
 // OrgClient is the client API for Org service.
@@ -93,6 +94,8 @@ type OrgClient interface {
 	GetOrgShopPageList(ctx context.Context, in *OrgShopPageListReq, opts ...grpc.CallOption) (*OrgShopPageListResp, error)
 	// 编辑店铺指派
 	UpdateShopAssign(ctx context.Context, in *UpdateShopAssignReq, opts ...grpc.CallOption) (*UpdateShopAssignResp, error)
+	// 获取组织用户操作记录分页列表
+	GetOrgUserOperationPageList(ctx context.Context, in *OrgUserOperationPageListReq, opts ...grpc.CallOption) (*OrgUserOperationPageListResp, error)
 }
 
 type orgClient struct {
@@ -323,6 +326,16 @@ func (c *orgClient) UpdateShopAssign(ctx context.Context, in *UpdateShopAssignRe
 	return out, nil
 }
 
+func (c *orgClient) GetOrgUserOperationPageList(ctx context.Context, in *OrgUserOperationPageListReq, opts ...grpc.CallOption) (*OrgUserOperationPageListResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OrgUserOperationPageListResp)
+	err := c.cc.Invoke(ctx, Org_GetOrgUserOperationPageList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrgServer is the server API for Org service.
 // All implementations must embed UnimplementedOrgServer
 // for forward compatibility
@@ -373,6 +386,8 @@ type OrgServer interface {
 	GetOrgShopPageList(context.Context, *OrgShopPageListReq) (*OrgShopPageListResp, error)
 	// 编辑店铺指派
 	UpdateShopAssign(context.Context, *UpdateShopAssignReq) (*UpdateShopAssignResp, error)
+	// 获取组织用户操作记录分页列表
+	GetOrgUserOperationPageList(context.Context, *OrgUserOperationPageListReq) (*OrgUserOperationPageListResp, error)
 	mustEmbedUnimplementedOrgServer()
 }
 
@@ -445,6 +460,9 @@ func (UnimplementedOrgServer) GetOrgShopPageList(context.Context, *OrgShopPageLi
 }
 func (UnimplementedOrgServer) UpdateShopAssign(context.Context, *UpdateShopAssignReq) (*UpdateShopAssignResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateShopAssign not implemented")
+}
+func (UnimplementedOrgServer) GetOrgUserOperationPageList(context.Context, *OrgUserOperationPageListReq) (*OrgUserOperationPageListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrgUserOperationPageList not implemented")
 }
 func (UnimplementedOrgServer) mustEmbedUnimplementedOrgServer() {}
 
@@ -855,6 +873,24 @@ func _Org_UpdateShopAssign_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Org_GetOrgUserOperationPageList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrgUserOperationPageListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgServer).GetOrgUserOperationPageList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Org_GetOrgUserOperationPageList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgServer).GetOrgUserOperationPageList(ctx, req.(*OrgUserOperationPageListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Org_ServiceDesc is the grpc.ServiceDesc for Org service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -949,6 +985,10 @@ var Org_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "updateShopAssign",
 			Handler:    _Org_UpdateShopAssign_Handler,
+		},
+		{
+			MethodName: "getOrgUserOperationPageList",
+			Handler:    _Org_GetOrgUserOperationPageList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -358,14 +358,41 @@ type (
 
         // 编辑店铺指派请求体
     UpdateShopAssignReq {
-        ShopId string `json:"shopId"`
-        RoleList []string `json:"roleList"`
-        KeywordSwitchingUserList []string `json:"keywordSwitchingUserList"`
-        ExceptionDutyUserList []string `json:"exceptionDutyUserList"`
+        ShopId string `json:"shopId"`                                       // 店铺id
+        RoleList []string `json:"roleList"`                                 // 角色id列表
+        KeywordSwitchingUserList []string `json:"keywordSwitchingUserList"` // 关键词转接用户id列表
+        ExceptionDutyUserList []string `json:"exceptionDutyUserList"`       // 关键词异常责任人用户id列表
     }
 
         // 编辑店铺指派响应体
     UpdateShopAssignResp {
         BaseResp
+    }
+
+        // 获取组织用户操作记录分页列表请求体
+    OrgUserOperationPageListReq {
+        BasePageReq
+        UserId string `json:"userId"`      // 用户id
+        StartTime int64 `json:"startTime"` // 开始时间
+        EndTime int64 `json:"endTime"`     // 结束时间
+        Query string `json:"query"`        // 查询
+    }
+
+        // 获取组织用户操作记录分页列表响应体
+    OrgUserOperationPageListResp {
+        BaseResp
+        Data OrgUserOperationPage `json:"data"` // 分页数据
+    }
+
+        // 组织用户操作记录分页数据
+    OrgUserOperationPage {
+        BasePageResp
+        List []OrgUserOperation `json:"list"` // 操作记录列表
+    }
+
+        // 组织用户操作记录数据
+    OrgUserOperation {
+        CreateTime int64 `json:"createTime"`        // 创建时间
+        OperationDesc string `json:"operationDesc"` // 操作描述
     }
 )

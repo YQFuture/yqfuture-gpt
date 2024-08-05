@@ -153,3 +153,9 @@ func (s *OrgServer) UpdateShopAssign(ctx context.Context, in *user.UpdateShopAss
 	l := orglogic.NewUpdateShopAssignLogic(ctx, s.svcCtx)
 	return l.UpdateShopAssign(in)
 }
+
+// 获取组织用户操作记录分页列表
+func (s *OrgServer) GetOrgUserOperationPageList(ctx context.Context, in *user.OrgUserOperationPageListReq) (*user.OrgUserOperationPageListResp, error) {
+	l := orglogic.NewGetOrgUserOperationPageListLogic(ctx, s.svcCtx)
+	return l.GetOrgUserOperationPageList(in)
+}

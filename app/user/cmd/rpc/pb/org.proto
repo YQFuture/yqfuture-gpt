@@ -314,6 +314,29 @@ message UpdateShopAssignReq {
 message UpdateShopAssignResp {
   int64 code = 1;
 }
+// 获取组织用户操作记录分页列表请求体
+message OrgUserOperationPageListReq {
+  int64  userId = 1;
+  int64  operationUserId = 2;
+  int64  pageNum = 3;
+  int64  pageSize = 4;
+  int64  startTime = 5;
+  int64  endTime = 6;
+  string query = 7;
+}
+// 获取组织用户操作记录分页列表响应体
+message OrgUserOperationPageListResp {
+  int64 code = 1;
+  int64 pageNum = 2;
+  int64 pageSize = 3;
+  int64 total = 4;
+  repeated OrgUserOperation list = 5;
+}
+// 组织用户操作记录数据
+message OrgUserOperation {
+  int64 createTime = 1;
+  string operationDesc = 2;
+}
 // 组织团队相关服务
 service Org {
   // 查找团队
@@ -360,5 +383,7 @@ service Org {
   rpc getOrgShopPageList(OrgShopPageListReq) returns (OrgShopPageListResp);
   // 编辑店铺指派
   rpc updateShopAssign(UpdateShopAssignReq) returns (UpdateShopAssignResp);
+  // 获取组织用户操作记录分页列表
+  rpc getOrgUserOperationPageList(OrgUserOperationPageListReq) returns (OrgUserOperationPageListResp);
 }
 
