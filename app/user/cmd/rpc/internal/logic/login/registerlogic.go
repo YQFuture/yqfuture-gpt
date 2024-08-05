@@ -101,13 +101,15 @@ func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, erro
 			String: in.Phone + "的组织",
 			Valid:  true,
 		},
-		BundleType:  0,
-		MaxSeat:     1,
-		MongoPermId: mongoPermId,
-		CreateTime:  now,
-		UpdateTime:  now,
-		CreateBy:    userId,
-		UpdateBy:    userId,
+		BundleType:      0,
+		MaxSeat:         1,
+		MonthPowerLimit: 0,
+		MonthUsedPower:  0,
+		MongoPermId:     mongoPermId,
+		CreateTime:      now,
+		UpdateTime:      now,
+		CreateBy:        userId,
+		UpdateBy:        userId,
 	}
 	// 构建用户组织中间表
 	bsUserOrg := &orm.BsUserOrg{
