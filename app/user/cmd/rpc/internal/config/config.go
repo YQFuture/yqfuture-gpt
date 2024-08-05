@@ -17,6 +17,7 @@ type Config struct {
 		Url             string
 		Database        string
 		Dborgpermission string
+		Dbuseroperation string
 	}
 	// MySQL
 	DB struct {

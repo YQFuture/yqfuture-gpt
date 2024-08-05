@@ -35,7 +35,7 @@ func (m *customBsMessageContentModel) withSession(session sqlx.Session) BsMessag
 }
 
 func (m *customBsMessageContentModel) SessionInsert(ctx context.Context, data *BsMessageContent, session sqlx.Session) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?)", m.table, bsMessageContentRowsExpectAutoSet)
-	ret, err := session.ExecCtx(ctx, query, data.MessageType, data.MessageContentType, data.MessageContent, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?)", m.table, bsMessageContentRowsExpectAutoSet)
+	ret, err := session.ExecCtx(ctx, query, data.Id, data.MessageType, data.MessageContentType, data.MessageContent, data.CreateBy, data.UpdateBy)
 	return ret, err
 }

@@ -16,6 +16,7 @@ type ServiceContext struct {
 	Redis *redis.Redis
 	// MongoDB
 	DborgpermissionModel model.DborgpermissionModel
+	DbuseroperationModel model.DbuseroperationModel
 	// MySQL模型
 	BsUserModel           orm.BsUserModel
 	BsOrganizationModel   orm.BsOrganizationModel
@@ -41,6 +42,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Config:               c,
 		Redis:                redis.MustNewRedis(c.RedisConf),
 		DborgpermissionModel: model.NewDborgpermissionModel(c.Mongo.Url, c.Mongo.Database, c.Mongo.Dborgpermission),
+		DbuseroperationModel: model.NewDbuseroperationModel(c.Mongo.Url, c.Mongo.Database, c.Mongo.Dbuseroperation),
 
 		BsUserModel:           orm.NewBsUserModel(sqlConn),
 		BsOrganizationModel:   orm.NewBsOrganizationModel(sqlConn),

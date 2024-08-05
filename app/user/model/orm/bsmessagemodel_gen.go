@@ -17,7 +17,7 @@ import (
 var (
 	bsMessageFieldNames          = builder.RawFieldNames(&BsMessage{})
 	bsMessageRows                = strings.Join(bsMessageFieldNames, ",")
-	bsMessageRowsExpectAutoSet   = strings.Join(stringx.Remove(bsMessageFieldNames, "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
+	bsMessageRowsExpectAutoSet   = strings.Join(stringx.Remove(bsMessageFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), ",")
 	bsMessageRowsWithPlaceHolder = strings.Join(stringx.Remove(bsMessageFieldNames, "`id`", "`create_at`", "`create_time`", "`created_at`", "`update_at`", "`update_time`", "`updated_at`"), "=?,") + "=?"
 )
 
@@ -78,8 +78,8 @@ func (m *defaultBsMessageModel) FindOne(ctx context.Context, id int64) (*BsMessa
 }
 
 func (m *defaultBsMessageModel) Insert(ctx context.Context, data *BsMessage) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, bsMessageRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.UserId, data.OrgId, data.MessageType, data.ContentId, data.ReadFlag, data.DealFlag, data.IgnoreFlag, data.CreateBy, data.UpdateBy)
+	query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", m.table, bsMessageRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.UserId, data.OrgId, data.MessageType, data.ContentId, data.ReadFlag, data.DealFlag, data.IgnoreFlag, data.CreateBy, data.UpdateBy)
 	return ret, err
 }
 
