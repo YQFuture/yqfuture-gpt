@@ -6,6 +6,7 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/mon"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"time"
 )
 
 var _ DbuseroperationModel = (*customDbuseroperationModel)(nil)
@@ -15,7 +16,8 @@ type (
 	// and implement the added methods in customDbuseroperationModel.
 	DbuseroperationModel interface {
 		dbuseroperationModel
-		FindPageListByUserIdAndOrgId(ctx context.Context, userId, orgId, pageNum, pageSize int64, queryString string) (*[]*Dbuseroperation, error)
+		FindPageListByUserIdAndOrgId(ctx context.Context, userId, orgId, pageNum, pageSize, startTime, endTime int64, queryString string) (*[]*Dbuseroperation, error)
+		FindListByUserIdAndOrgId(ctx context.Context, userId, orgId, startTime, endTime int64, queryString string) (*[]*Dbuseroperation, error)
 	}
 
 	customDbuseroperationModel struct {
@@ -31,7 +33,7 @@ func NewDbuseroperationModel(url, db, collection string) DbuseroperationModel {
 	}
 }
 
-func (m *customDbuseroperationModel) FindPageListByUserIdAndOrgId(ctx context.Context, userId, orgId, pageNum, pageSize int64, queryString string) (*[]*Dbuseroperation, error) {
+func (m *customDbuseroperationModel) FindPageListByUserIdAndOrgId(ctx context.Context, userId, orgId, pageNum, pageSize, startTime, endTime int64, queryString string) (*[]*Dbuseroperation, error) {
 	// 创建查询条件
 	filter := bson.M{}
 	if userId != 0 {
@@ -45,6 +47,15 @@ func (m *customDbuseroperationModel) FindPageListByUserIdAndOrgId(ctx context.Co
 		filter["operationdesc"] = bson.M{"$regex": queryString, "$options": "i"}
 	}
 
+	// 将开始和结束时间从 int64 转换为 time.Time 类型
+	startTimeTime := time.UnixMilli(startTime)
+	endTimeTime := time.UnixMilli(endTime)
+
+	// 添加时间范围条件
+	if startTime != 0 && endTime != 0 {
+		filter["createat"] = bson.M{"$gte": startTimeTime, "$lte": endTimeTime}
+	}
+
 	// 设置排序选项
 	sortOptions := options.Find().SetSort(bson.D{{"createat", -1}})
 
@@ -55,6 +66,45 @@ func (m *customDbuseroperationModel) FindPageListByUserIdAndOrgId(ctx context.Co
 	// 执行查询
 	var data []*Dbuseroperation
 	err := m.conn.Find(ctx, &data, filter, limitOption.SetSort(sortOptions))
+	switch {
+	case err == nil:
+		return &data, nil
+	case errors.Is(err, mon.ErrNotFound):
+		return nil, nil
+	default:
+		return nil, err
+	}
+}
+
+func (m *customDbuseroperationModel) FindListByUserIdAndOrgId(ctx context.Context, userId, orgId, startTime, endTime int64, queryString string) (*[]*Dbuseroperation, error) {
+	// 创建查询条件
+	filter := bson.M{}
+	if userId != 0 {
+		filter["userId"] = userId
+	}
+	if orgId != 0 {
+		filter["orgId"] = orgId
+	}
+	if queryString != "" {
+		// 添加模糊查询条件
+		filter["operationdesc"] = bson.M{"$regex": queryString, "$options": "i"}
+	}
+
+	// 将开始和结束时间从 int64 转换为 time.Time 类型
+	startTimeTime := time.UnixMilli(startTime)
+	endTimeTime := time.UnixMilli(endTime)
+
+	// 添加时间范围条件
+	if startTime != 0 && endTime != 0 {
+		filter["createat"] = bson.M{"$gte": startTimeTime, "$lte": endTimeTime}
+	}
+
+	// 设置排序选项
+	sortOptions := options.Find().SetSort(bson.D{{"createat", -1}})
+
+	// 执行查询
+	var data []*Dbuseroperation
+	err := m.conn.Find(ctx, &data, filter, sortOptions)
 	switch {
 	case err == nil:
 		return &data, nil
