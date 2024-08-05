@@ -20,6 +20,7 @@ type (
 		FindListByUserId(ctx context.Context, userId int64) (*[]*BsOrganization, error)
 		FindOneByIdAndUserId(ctx context.Context, id, userId int64) (*BsOrganization, error)
 		FindOneByName(ctx context.Context, orgName string) (*BsOrganization, error)
+		FindOneByOwnerId(ctx context.Context, ownerId int64) (*BsOrganization, error)
 		UpdateOrgName(ctx context.Context, orgName string, orgId int64) error
 		FindListByNameOrOwnerPhone(ctx context.Context, queryString string) (*[]*BsOrganization, error)
 	}
@@ -78,6 +79,20 @@ func (m *customBsOrganizationModel) FindOneByName(ctx context.Context, orgName s
 	query := fmt.Sprintf("select %s from %s where `org_name` = ? limit 1", bsOrganizationRows, m.table)
 	var resp BsOrganization
 	err := m.conn.QueryRowCtx(ctx, &resp, query, orgName)
+	switch {
+	case err == nil:
+		return &resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return nil, nil
+	default:
+		return nil, err
+	}
+}
+
+func (m *customBsOrganizationModel) FindOneByOwnerId(ctx context.Context, ownerId int64) (*BsOrganization, error) {
+	query := fmt.Sprintf("select %s from %s where `owner_id` = ? limit 1", bsOrganizationRows, m.table)
+	var resp BsOrganization
+	err := m.conn.QueryRowCtx(ctx, &resp, query, ownerId)
 	switch {
 	case err == nil:
 		return &resp, nil

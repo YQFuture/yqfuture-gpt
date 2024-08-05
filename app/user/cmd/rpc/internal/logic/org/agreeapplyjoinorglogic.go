@@ -4,6 +4,7 @@ import (
 	"context"
 	"strconv"
 	"time"
+	model "yufuture-gpt/app/user/model/mongo"
 	"yufuture-gpt/app/user/model/orm"
 	"yufuture-gpt/app/user/model/redis"
 	"yufuture-gpt/common/consts"
@@ -105,6 +106,23 @@ func (l *AgreeApplyJoinOrgLogic) AgreeApplyJoinOrg(in *user.AgreeApplyJoinOrgReq
 		}, nil
 	}
 
+	// 获取MongoDB中的团队权限文档
+	dborgpermission, err := l.svcCtx.DborgpermissionModel.FindOne(l.ctx, org.MongoPermId)
+	if err != nil {
+		l.Logger.Error("获取团队权限文档失败: ", err)
+		return nil, err
+	}
+	// 将用户保存到MongoDB文档
+	dborgpermission.UserList = append(dborgpermission.UserList, &model.User{
+		Id: in.UserId,
+	})
+	// 更新MongoDB中的团队权限文档
+	_, err = l.svcCtx.DborgpermissionModel.Update(l.ctx, dborgpermission)
+	if err != nil {
+		l.Logger.Error("更新团队权限文档失败: ", err)
+		return nil, err
+	}
+
 	// 更新用户组织关系
 	now := time.Now()
 	bsUserOrg := &orm.BsUserOrg{
@@ -122,19 +140,11 @@ func (l *AgreeApplyJoinOrgLogic) AgreeApplyJoinOrg(in *user.AgreeApplyJoinOrgReq
 		return nil, err
 	}
 
-	// 异步更新消息状态
-	go func() {
-		defer func() {
-			if err := recover(); err != nil {
-				l.Logger.Error("更新消息状态失败 发生panic : ", err)
-			}
-		}()
-		bsMessage.DealFlag = 1
-		err = l.svcCtx.BsMessageModel.Update(l.ctx, bsMessage)
-		if err != nil {
-			l.Logger.Error("更新消息状态失败", err)
-		}
-	}()
+	// 更新消息状态
+	err = l.svcCtx.BsMessageModel.Update(l.ctx, bsMessage)
+	if err != nil {
+		l.Logger.Error("更新消息状态失败", err)
+	}
 
 	return &user.AgreeApplyJoinOrgResp{}, nil
 }

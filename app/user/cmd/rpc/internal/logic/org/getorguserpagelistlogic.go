@@ -102,7 +102,7 @@ func GetUserRolePermList(userId int64, dborgpermission *model.Dborgpermission) (
 	}
 
 	// 获取角色列表
-	var roleMap map[int64]*model.Role
+	roleMap := make(map[int64]*model.Role)
 	for _, mongoRole := range dborgpermission.RoleList {
 		roleMap[mongoRole.Id] = mongoRole
 	}
@@ -115,7 +115,7 @@ func GetUserRolePermList(userId int64, dborgpermission *model.Dborgpermission) (
 	}
 
 	// 获取权限列表
-	var permMap map[int64]*model.Permission
+	permMap := make(map[int64]*model.Permission)
 	for _, mongoPerm := range dborgpermission.PermissionList {
 		permMap[mongoPerm.Id] = mongoPerm
 	}

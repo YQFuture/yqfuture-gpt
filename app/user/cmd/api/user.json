@@ -448,6 +448,136 @@
         ]
       }
     },
+    "/org/getOrgShopPageList": {
+      "post": {
+        "summary": "获取团队店铺分页列表",
+        "operationId": "getOrgShopPageList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/OrgShopPageListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 获取团队店铺分页列表请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrgShopPageListReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/getOrgUserList": {
+      "post": {
+        "summary": "获取团队用户列表",
+        "operationId": "getOrgUserList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/OrgUserListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 获取团队用户列表请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrgUserListReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/getOrgUserOperationList": {
+      "post": {
+        "summary": "导出团队用户操作记录列表",
+        "operationId": "getOrgUserOperationList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 导出组织用户操作记录列表请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrgUserOperationListReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/getOrgUserOperationPageList": {
+      "post": {
+        "summary": "获取团队用户操作记录分页列表",
+        "operationId": "getOrgUserOperationPageList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/OrgUserOperationPageListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 获取组织用户操作记录分页列表请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrgUserOperationPageListReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/org/getOrgUserPageList": {
       "post": {
         "summary": "获取团队用户分页列表",
@@ -468,6 +598,138 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/OrgUserPageListReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/giverPower": {
+      "post": {
+        "summary": "分配算力",
+        "operationId": "giverPower",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GivePowerResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 分配算力请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GivePowerReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/giverPowerAvg": {
+      "post": {
+        "summary": "平均分配算力",
+        "operationId": "giverPowerAvg",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GivePowerAvgResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 平均分配算力请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GivePowerAvgReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/giverPowerShop": {
+      "post": {
+        "summary": "分配店铺算力",
+        "operationId": "giverPowerShop",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GivePowerShopResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 分配店铺算力请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GivePowerShopReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/giverPowerShopAvg": {
+      "post": {
+        "summary": "平均分配店铺算力",
+        "operationId": "giverPowerShopAvg",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GivePowerShopAvgResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 平均分配店铺算力请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GivePowerShopAvgReq"
             }
           }
         ],
@@ -666,6 +928,39 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/UpdateRoleReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/updateShopAssign": {
+      "post": {
+        "summary": "编辑店铺指派",
+        "operationId": "updateShopAssign",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UpdateShopAssignResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 编辑店铺指派请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateShopAssignReq"
             }
           }
         ],
@@ -1572,6 +1867,108 @@
         "data"
       ]
     },
+    "GivePowerAvgReq": {
+      "type": "object",
+      "title": "GivePowerAvgReq"
+    },
+    "GivePowerAvgResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "GivePowerAvgResp"
+    },
+    "GivePowerReq": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "power": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GivePowerReq",
+      "required": [
+        "userId",
+        "power"
+      ]
+    },
+    "GivePowerResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "GivePowerResp"
+    },
+    "GivePowerShopAvgReq": {
+      "type": "object",
+      "title": "GivePowerShopAvgReq"
+    },
+    "GivePowerShopAvgResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "GivePowerShopAvgResp"
+    },
+    "GivePowerShopReq": {
+      "type": "object",
+      "properties": {
+        "shopId": {
+          "type": "string"
+        },
+        "power": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GivePowerShopReq",
+      "required": [
+        "shopId",
+        "power"
+      ]
+    },
+    "GivePowerShopResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "GivePowerShopResp"
+    },
     "IgnoreMessageReq": {
       "type": "object",
       "properties": {
@@ -2020,6 +2417,158 @@
         "data"
       ]
     },
+    "OrgShop": {
+      "type": "object",
+      "properties": {
+        "shopId": {
+          "type": "string",
+          "description": " 店铺id"
+        },
+        "platformType": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 平台类型"
+        },
+        "shopName": {
+          "type": "string",
+          "description": " 店铺名称"
+        },
+        "MonthPowerLimit": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 当月算力上限"
+        },
+        "MonthUsedPower": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 当月已用算力"
+        },
+        "userNum": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 已分配客服用户数量"
+        },
+        "roleList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShopRole"
+          },
+          "description": " 角色列表"
+        },
+        "keywordSwitchingUserList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShopUser"
+          },
+          "description": " 关键词转接用户列表"
+        },
+        "exceptionDutyUserList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShopUser"
+          },
+          "description": " 关键词异常责任人用户列表"
+        }
+      },
+      "title": "OrgShop",
+      "required": [
+        "shopId",
+        "platformType",
+        "shopName",
+        "month_power_limit",
+        "month_used_power",
+        "userNum",
+        "roleList",
+        "keywordSwitchingUserList",
+        "exceptionDutyUserList"
+      ]
+    },
+    "OrgShopPage": {
+      "type": "object",
+      "properties": {
+        "pageNum": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页码"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页条数"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 总条数"
+        },
+        "platformTypeNum": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 平台类型数量"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrgShop"
+          },
+          "description": " 店铺列表"
+        }
+      },
+      "title": "OrgShopPage",
+      "required": [
+        "platformTypeNum",
+        "list"
+      ]
+    },
+    "OrgShopPageListReq": {
+      "type": "object",
+      "properties": {
+        "pageNum": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页码"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页条数"
+        },
+        "query": {
+          "type": "string",
+          "description": " 查询条件"
+        },
+        "query": {
+          "type": "string",
+          "description": " 查询"
+        }
+      },
+      "title": "OrgShopPageListReq",
+      "required": [
+        "query"
+      ]
+    },
+    "OrgShopPageListResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "$ref": "#/definitions/OrgShopPage",
+          "description": " 分页数据"
+        }
+      },
+      "title": "OrgShopPageListResp",
+      "required": [
+        "data"
+      ]
+    },
     "OrgUser": {
       "type": "object",
       "properties": {
@@ -2044,6 +2593,16 @@
           "format": "int64",
           "description": " 状态"
         },
+        "MonthPowerLimit": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 当月算力上限"
+        },
+        "MonthUsedPower": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 当月已用算力"
+        },
         "permList": {
           "type": "array",
           "items": {
@@ -2066,8 +2625,185 @@
         "nickName",
         "headImg",
         "status",
+        "month_power_limit",
+        "month_used_power",
         "permList",
         "roleList"
+      ]
+    },
+    "OrgUserListReq": {
+      "type": "object",
+      "title": "OrgUserListReq"
+    },
+    "OrgUserListResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrgUser"
+          },
+          "description": " 用户列表"
+        }
+      },
+      "title": "OrgUserListResp",
+      "required": [
+        "data"
+      ]
+    },
+    "OrgUserOperation": {
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        },
+        "operationDesc": {
+          "type": "string",
+          "description": " 操作描述"
+        }
+      },
+      "title": "OrgUserOperation",
+      "required": [
+        "createTime",
+        "operationDesc"
+      ]
+    },
+    "OrgUserOperationListReq": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "startTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 开始时间"
+        },
+        "endTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 结束时间"
+        },
+        "query": {
+          "type": "string",
+          "description": " 查询"
+        }
+      },
+      "title": "OrgUserOperationListReq",
+      "required": [
+        "userId",
+        "startTime",
+        "endTime",
+        "query"
+      ]
+    },
+    "OrgUserOperationPage": {
+      "type": "object",
+      "properties": {
+        "pageNum": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页码"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页条数"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 总条数"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrgUserOperation"
+          },
+          "description": " 操作记录列表"
+        }
+      },
+      "title": "OrgUserOperationPage",
+      "required": [
+        "list"
+      ]
+    },
+    "OrgUserOperationPageListReq": {
+      "type": "object",
+      "properties": {
+        "pageNum": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页码"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页条数"
+        },
+        "query": {
+          "type": "string",
+          "description": " 查询条件"
+        },
+        "userId": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "startTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 开始时间"
+        },
+        "endTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 结束时间"
+        },
+        "query": {
+          "type": "string",
+          "description": " 查询"
+        }
+      },
+      "title": "OrgUserOperationPageListReq",
+      "required": [
+        "userId",
+        "startTime",
+        "endTime",
+        "query"
+      ]
+    },
+    "OrgUserOperationPageListResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "$ref": "#/definitions/OrgUserOperationPage",
+          "description": " 分页数据"
+        }
+      },
+      "title": "OrgUserOperationPageListResp",
+      "required": [
+        "data"
       ]
     },
     "OrgUserPage": {
@@ -2471,6 +3207,52 @@
         "data"
       ]
     },
+    "ShopRole": {
+      "type": "object",
+      "properties": {
+        "roleId": {
+          "type": "string",
+          "description": " 角色id"
+        },
+        "roleName": {
+          "type": "string",
+          "description": " 角色名称"
+        }
+      },
+      "title": "ShopRole",
+      "required": [
+        "roleId",
+        "roleName"
+      ]
+    },
+    "ShopUser": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "phone": {
+          "type": "string",
+          "description": " 手机号"
+        },
+        "nickName": {
+          "type": "string",
+          "description": " 昵称"
+        },
+        "headImg": {
+          "type": "string",
+          "description": " 头像"
+        }
+      },
+      "title": "ShopUser",
+      "required": [
+        "userId",
+        "phone",
+        "nickName",
+        "headImg"
+      ]
+    },
     "UpdateHeadImgReq": {
       "type": "object",
       "properties": {
@@ -2555,6 +3337,58 @@
         }
       },
       "title": "UpdateRoleResp"
+    },
+    "UpdateShopAssignReq": {
+      "type": "object",
+      "properties": {
+        "shopId": {
+          "type": "string",
+          "description": " 店铺id"
+        },
+        "roleList": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 角色id列表"
+        },
+        "keywordSwitchingUserList": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 关键词转接用户id列表"
+        },
+        "exceptionDutyUserList": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": " 关键词异常责任人用户id列表"
+        }
+      },
+      "title": "UpdateShopAssignReq",
+      "required": [
+        "shopId",
+        "roleList",
+        "keywordSwitchingUserList",
+        "exceptionDutyUserList"
+      ]
+    },
+    "UpdateShopAssignResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        }
+      },
+      "title": "UpdateShopAssignResp"
     },
     "UserInfo": {
       "type": "object",
