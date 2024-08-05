@@ -108,6 +108,9 @@ func GetUserRolePermList(userId int64, dborgpermission *model.Dborgpermission) (
 	}
 	for _, roleId := range orgUser.RoleList {
 		role := roleMap[*roleId]
+		if role == nil {
+			continue
+		}
 		userRoleList = append(userRoleList, &org.UserRole{
 			RoleId:   role.Id,
 			RoleName: role.Name,
@@ -122,7 +125,11 @@ func GetUserRolePermList(userId int64, dborgpermission *model.Dborgpermission) (
 	// 先使用map保存防止重复
 	uniquePerms := make(map[int64]*org.UserPerm)
 	for _, userRole := range userRoleList {
-		for _, permId := range roleMap[userRole.RoleId].PermissionList {
+		role := roleMap[userRole.RoleId]
+		if role == nil {
+			continue
+		}
+		for _, permId := range role.PermissionList {
 			perm := permMap[*permId]
 			uniquePerms[*permId] = &org.UserPerm{
 				PermId:   perm.Id,
