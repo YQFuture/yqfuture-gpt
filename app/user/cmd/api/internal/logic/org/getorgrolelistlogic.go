@@ -88,6 +88,7 @@ func (l *GetOrgRoleListLogic) GetOrgRoleList(req *types.OrgRoleListReq) (resp *t
 			}
 			roleUserList = append(roleUserList, roleUser)
 		}
+		orgRole.UserList = roleUserList
 
 		orgRoleList = append(orgRoleList, orgRole)
 	}
