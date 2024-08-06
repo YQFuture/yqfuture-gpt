@@ -131,7 +131,7 @@ func (m *customBsUserOrgModel) UpdateUserPowerAvg(ctx context.Context, orgId, po
 }
 
 func (m *customBsUserOrgModel) FindListByOrgId(ctx context.Context, orgId int64) (*[]*BsUserOrg, error) {
-	query := fmt.Sprintf("SELECT * FROM %s WHERE `oeg_id` = ?", m.table)
+	query := fmt.Sprintf("SELECT * FROM %s WHERE `org_id` = ?", m.table)
 	var resp []*BsUserOrg
 	err := m.conn.QueryRowsCtx(ctx, &resp, query, orgId)
 	switch {
