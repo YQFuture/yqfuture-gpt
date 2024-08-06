@@ -77,6 +77,16 @@ func (l *GetOrgRoleListLogic) GetOrgRoleList(req *types.OrgRoleListReq) (resp *t
 		orgRole.PermList = rolePermList
 
 		// 角色店铺列表
+		var roleShopList []types.RoleShop
+		for _, shop := range role.ShopList {
+			roleShop := types.RoleShop{
+				ShopId:       strconv.FormatInt(shop.ShopId, 10),
+				ShopName:     shop.ShopName,
+				PlatformType: shop.PlatformType,
+			}
+			roleShopList = append(roleShopList, roleShop)
+		}
+		orgRole.ShopList = roleShopList
 
 		// 角色用户列表
 		var roleUserList []types.RoleUser

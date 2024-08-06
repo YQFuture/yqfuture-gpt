@@ -87,6 +87,7 @@ func (l *GetOrgRoleListLogic) GetOrgRoleList(in *user.OrgRoleListReq) (*user.Org
 
 			// 角色权限列表
 			var rolePermList []*user.RolePerm
+			var roleShopList []*user.RoleShop
 			for _, permId := range role.PermissionList {
 				perm := permMap[*permId]
 				rolePerm := &user.RolePerm{
@@ -95,10 +96,24 @@ func (l *GetOrgRoleListLogic) GetOrgRoleList(in *user.OrgRoleListReq) (*user.Org
 					PermCode: perm.Perm,
 				}
 				rolePermList = append(rolePermList, rolePerm)
+
+				// 角色店铺列表
+				if perm.Perm == "shop" {
+					bsShop, err := l.svcCtx.BsShopModel.FindOne(l.ctx, perm.ResourceId)
+					if err != nil {
+						l.Logger.Error("获取店铺数据失败: ", err)
+						break
+					}
+					roleShop := &user.RoleShop{
+						ShopId:       bsShop.Id,
+						ShopName:     bsShop.ShopName,
+						PlatformType: bsShop.PlatformType,
+					}
+					roleShopList = append(roleShopList, roleShop)
+				}
 			}
 			orgRole.PermList = rolePermList
-
-			// 角色店铺列表
+			orgRole.ShopList = roleShopList
 
 			// 角色用户列表
 			var roleUserList []*user.RoleUser

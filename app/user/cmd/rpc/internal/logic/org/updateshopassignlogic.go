@@ -66,7 +66,7 @@ func (l *UpdateShopAssignLogic) UpdateShopAssign(in *user.UpdateShopAssignReq) (
 	// 查找店铺关联的权限
 	var shopPermId int64
 	for _, perm := range dborgpermission.PermissionList {
-		if perm.ResourceId == in.ShopId && perm.Perm == "login_shop" {
+		if perm.ResourceId == in.ShopId && perm.Perm == "shop" {
 			shopPermId = perm.Id
 			break
 		}

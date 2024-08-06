@@ -98,7 +98,7 @@ func (l *GetOrgShopPageListLogic) GetOrgShopPageList(in *user.OrgShopPageListReq
 		// 查找店铺关联的权限
 		var shopPermId int64
 		for _, perm := range dborgpermission.PermissionList {
-			if perm.ResourceId == shop.Id && perm.Perm == "login_shop" {
+			if perm.ResourceId == shop.Id && perm.Perm == "shop" {
 				shopPermId = perm.Id
 				break
 			}
