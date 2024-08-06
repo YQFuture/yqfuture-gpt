@@ -121,29 +121,31 @@ func (l *GetOrgShopPageListLogic) GetOrgShopPageList(in *user.OrgShopPageListReq
 		// 关键字转接用户列表
 		var keywordSwitchingUserList []*user.ShopUser
 		mongoShop := shopMap[shop.Id]
-		for _, userId := range mongoShop.KeywordSwitchingUserList {
-			keywordSwitchingUser := &user.ShopUser{
-				UserId:   userMap[*userId].Id,
-				NickName: userMap[*userId].NickName.String,
-				Phone:    userMap[*userId].Phone.String,
-				HeadImg:  userMap[*userId].HeadImg.String,
+		if mongoShop != nil {
+			for _, userId := range mongoShop.KeywordSwitchingUserList {
+				keywordSwitchingUser := &user.ShopUser{
+					UserId:   userMap[*userId].Id,
+					NickName: userMap[*userId].NickName.String,
+					Phone:    userMap[*userId].Phone.String,
+					HeadImg:  userMap[*userId].HeadImg.String,
+				}
+				keywordSwitchingUserList = append(keywordSwitchingUserList, keywordSwitchingUser)
 			}
-			keywordSwitchingUserList = append(keywordSwitchingUserList, keywordSwitchingUser)
-		}
-		orgShop.KeywordSwitchingUserList = keywordSwitchingUserList
+			orgShop.KeywordSwitchingUserList = keywordSwitchingUserList
 
-		// 异常责任人用户列表
-		var exceptionDutyUserList []*user.ShopUser
-		for _, userId := range mongoShop.ExceptionDutyUserList {
-			exceptionResponsibleUser := &user.ShopUser{
-				UserId:   userMap[*userId].Id,
-				NickName: userMap[*userId].NickName.String,
-				Phone:    userMap[*userId].Phone.String,
-				HeadImg:  userMap[*userId].HeadImg.String,
+			// 异常责任人用户列表
+			var exceptionDutyUserList []*user.ShopUser
+			for _, userId := range mongoShop.ExceptionDutyUserList {
+				exceptionResponsibleUser := &user.ShopUser{
+					UserId:   userMap[*userId].Id,
+					NickName: userMap[*userId].NickName.String,
+					Phone:    userMap[*userId].Phone.String,
+					HeadImg:  userMap[*userId].HeadImg.String,
+				}
+				exceptionDutyUserList = append(exceptionDutyUserList, exceptionResponsibleUser)
 			}
-			exceptionDutyUserList = append(exceptionDutyUserList, exceptionResponsibleUser)
+			orgShop.ExceptionDutyUserList = exceptionDutyUserList
 		}
-		orgShop.ExceptionDutyUserList = exceptionDutyUserList
 
 		orgShopList = append(orgShopList, orgShop)
 	}

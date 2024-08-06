@@ -111,10 +111,10 @@ func (m *customBsShopModel) FindPageTotalByOrgId(ctx context.Context, orgId, pag
 	var resp int64
 	var err error
 	if queryString != "" {
-		query = fmt.Sprintf("SELECT COINT(1) FROM bs_shop WHERE org_id = ? AND shop_name LIKE \"%\"+?+\"%\" ORDER BY create_time DESC LIMIT ? OFFSET ?")
+		query = fmt.Sprintf("SELECT COUNT(1) FROM bs_shop WHERE org_id = ? AND shop_name LIKE \"%\"+?+\"%\" ORDER BY create_time DESC LIMIT ? OFFSET ?")
 		err = m.conn.QueryRowCtx(ctx, &resp, query, orgId, queryString, queryString, limit, offset)
 	} else {
-		query = fmt.Sprintf("SELECT COINT(1) FROM bs_shop WHERE org_id = ? ORDER BY create_time DESC LIMIT ? OFFSET ?")
+		query = fmt.Sprintf("SELECT COUNT(1) FROM bs_shop WHERE org_id = ? ORDER BY create_time DESC LIMIT ? OFFSET ?")
 		err = m.conn.QueryRowCtx(ctx, &resp, query, orgId, limit, offset)
 	}
 	switch {
