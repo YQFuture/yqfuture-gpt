@@ -55,6 +55,23 @@ func (l *DeleteUserLogic) DeleteUser(in *user.DeleteUserReq) (*user.DeleteUserRe
 			break
 		}
 	}
+
+	// 删除MongoDB文档中的店铺关键词转接人和异常责任人
+	for _, mongoShop := range dborgpermission.ShopPermList {
+		for index, userId := range mongoShop.KeywordSwitchingUserList {
+			if *userId == in.DeleteUserId {
+				mongoShop.KeywordSwitchingUserList = append(mongoShop.KeywordSwitchingUserList[:index], mongoShop.KeywordSwitchingUserList[index+1:]...)
+				break
+			}
+		}
+		for index, userId := range mongoShop.ExceptionDutyUserList {
+			if *userId == in.DeleteUserId {
+				mongoShop.ExceptionDutyUserList = append(mongoShop.ExceptionDutyUserList[:index], mongoShop.ExceptionDutyUserList[index+1:]...)
+				break
+			}
+		}
+	}
+
 	// 更新MongoDB中的团队权限文档
 	_, err = l.svcCtx.DborgpermissionModel.Update(l.ctx, dborgpermission)
 	if err != nil {
