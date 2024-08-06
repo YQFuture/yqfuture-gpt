@@ -83,7 +83,7 @@ func (l *UpdateShopAssignLogic) UpdateShopAssign(in *user.UpdateShopAssignReq) (
 		}
 		// 判断当前角色关联的权限中是否包括当前店铺权限
 		if _, ok := permMap[shopPermId]; ok {
-			// 传进来的角色列表不包括当前角色 清理当前店铺权限
+			// 当前角色包含该店铺权限 但是传进来的角色列表不包括当前角色 清理当前店铺权限
 			if _, ok := roleMap[role.Id]; !ok {
 				for i, permId := range role.PermissionList {
 					if *permId == shopPermId {
@@ -93,7 +93,7 @@ func (l *UpdateShopAssignLogic) UpdateShopAssign(in *user.UpdateShopAssignReq) (
 				}
 			}
 		} else {
-			// 传进来的角色列表包括当前角色 添加当前店铺权限
+			// 当前角色不包含该店铺权限 传进来的角色列表包括当前角色 添加当前店铺权限
 			if _, ok := roleMap[role.Id]; ok {
 				role.PermissionList = append(role.PermissionList, &shopPermId)
 			}
