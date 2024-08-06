@@ -161,8 +161,8 @@ func (m *customBsUserModel) FindPageListByOrgId(ctx context.Context, orgId, page
 	var resp []*OrgUser
 	var err error
 	if queryString != "" {
-		query = fmt.Sprintf("SELECT u.*,uo.status,uo.month_power_limit,uo.month_used_power FROM bs_user_org uo LEFT JOIN bs_user u ON uo.user_id = u.id WHERE uo.org_id = ? AND (u.nick_name LIKE \"%\"+?+\"%\" OR u.phone LIKE \"%\"+?+\"%\") ORDER BY uo.create_time ASC LIMIT ? OFFSET ?")
-		err = m.conn.QueryRowsCtx(ctx, &resp, query, orgId, queryString, queryString, limit, offset)
+		query = fmt.Sprintf("SELECT u.*,uo.status,uo.month_power_limit,uo.month_used_power FROM bs_user_org uo LEFT JOIN bs_user u ON uo.user_id = u.id WHERE uo.org_id = ? AND (u.nick_name LIKE ? OR u.phone LIKE ?) ORDER BY uo.create_time ASC LIMIT ? OFFSET ?")
+		err = m.conn.QueryRowsCtx(ctx, &resp, query, orgId, "%"+queryString+"%", "%"+queryString+"%", limit, offset)
 	} else {
 		query = fmt.Sprintf("SELECT u.*,uo.status,uo.month_power_limit,uo.month_used_power FROM bs_user_org uo LEFT JOIN bs_user u ON uo.user_id = u.id WHERE uo.org_id = ? ORDER BY uo.create_time ASC LIMIT ? OFFSET ?")
 		err = m.conn.QueryRowsCtx(ctx, &resp, query, orgId, limit, offset)
@@ -185,8 +185,8 @@ func (m *customBsUserModel) FindPageTotalByOrgId(ctx context.Context, orgId, pag
 	var resp int64
 	var err error
 	if queryString != "" {
-		query = fmt.Sprintf("SELECT COUNT(1) FROM bs_user_org uo LEFT JOIN bs_user u ON uo.user_id = u.id WHERE uo.org_id = ? AND (u.nick_name LIKE \"%\"+?+\"%\" OR u.phone LIKE \"%\"+?+\"%\") ORDER BY uo.create_time ASC LIMIT ? OFFSET ?")
-		err = m.conn.QueryRowCtx(ctx, &resp, query, orgId, queryString, queryString, limit, offset)
+		query = fmt.Sprintf("SELECT COUNT(1) FROM bs_user_org uo LEFT JOIN bs_user u ON uo.user_id = u.id WHERE uo.org_id = ? AND (u.nick_name LIKE ? OR u.phone LIKE ?) ORDER BY uo.create_time ASC LIMIT ? OFFSET ?")
+		err = m.conn.QueryRowCtx(ctx, &resp, query, orgId, "%"+queryString+"%", "%"+queryString+"%", limit, offset)
 	} else {
 		query = fmt.Sprintf("SELECT COUNT(1) FROM bs_user_org uo LEFT JOIN bs_user u ON uo.user_id = u.id WHERE uo.org_id = ? ORDER BY uo.create_time ASC LIMIT ? OFFSET ?")
 		err = m.conn.QueryRowCtx(ctx, &resp, query, orgId, limit, offset)
