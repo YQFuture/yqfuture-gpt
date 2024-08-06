@@ -62,7 +62,7 @@ func (l *GivePowerLogic) GivePower(in *user.GivePowerReq) (*user.GivePowerResp, 
 	}
 
 	// 更新用户算力
-	err = l.svcCtx.BsUserOrgModel.UpdateUserPower(l.ctx, in.Power, in.GivePowerUserId, bsOrg.Id)
+	err = l.svcCtx.BsUserOrgModel.UpdateUserPower(l.ctx, in.GivePowerUserId, bsOrg.Id, in.Power)
 	if err != nil {
 		l.Logger.Error("更新用户算力失败: ", err)
 		return nil, err
