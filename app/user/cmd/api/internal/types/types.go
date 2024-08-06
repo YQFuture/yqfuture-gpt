@@ -295,7 +295,6 @@ type OrgShopPage struct {
 
 type OrgShopPageListReq struct {
 	BasePageReq
-	Query string `json:"query"` // 查询
 }
 
 type OrgShopPageListResp struct {
@@ -345,7 +344,6 @@ type OrgUserOperationPageListReq struct {
 	UserId    string `json:"userId"`    // 用户id
 	StartTime int64  `json:"startTime"` // 开始时间
 	EndTime   int64  `json:"endTime"`   // 结束时间
-	Query     string `json:"query"`     // 查询
 }
 
 type OrgUserOperationPageListResp struct {
@@ -363,7 +361,6 @@ type OrgUserPage struct {
 
 type OrgUserPageListReq struct {
 	BasePageReq
-	Query string `json:"query"` // 查询
 }
 
 type OrgUserPageListResp struct {

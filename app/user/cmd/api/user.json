@@ -2542,16 +2542,9 @@
         "query": {
           "type": "string",
           "description": " 查询条件"
-        },
-        "query": {
-          "type": "string",
-          "description": " 查询"
         }
       },
-      "title": "OrgShopPageListReq",
-      "required": [
-        "query"
-      ]
+      "title": "OrgShopPageListReq"
     },
     "OrgShopPageListResp": {
       "type": "object",
@@ -2776,18 +2769,13 @@
           "type": "integer",
           "format": "int64",
           "description": " 结束时间"
-        },
-        "query": {
-          "type": "string",
-          "description": " 查询"
         }
       },
       "title": "OrgUserOperationPageListReq",
       "required": [
         "userId",
         "startTime",
-        "endTime",
-        "query"
+        "endTime"
       ]
     },
     "OrgUserOperationPageListResp": {
@@ -2877,16 +2865,9 @@
         "query": {
           "type": "string",
           "description": " 查询条件"
-        },
-        "query": {
-          "type": "string",
-          "description": " 查询"
         }
       },
-      "title": "OrgUserPageListReq",
-      "required": [
-        "query"
-      ]
+      "title": "OrgUserPageListReq"
     },
     "OrgUserPageListResp": {
       "type": "object",

@@ -185,7 +185,6 @@ type (
         // 获取团队用户分页列表请求体
     OrgUserPageListReq {
         BasePageReq
-        Query string `json:"query"` // 查询
     }
 
         // 获取团队用户分页列表响应体
@@ -316,7 +315,6 @@ type (
         // 获取团队店铺分页列表请求体
     OrgShopPageListReq {
         BasePageReq
-        Query string `json:"query"` // 查询
     }
 
         // 获取团队店铺分页列表响应体
@@ -378,7 +376,6 @@ type (
         UserId string `json:"userId"`      // 用户id
         StartTime int64 `json:"startTime"` // 开始时间
         EndTime int64 `json:"endTime"`     // 结束时间
-        Query string `json:"query"`        // 查询
     }
 
         // 获取组织用户操作记录分页列表响应体
