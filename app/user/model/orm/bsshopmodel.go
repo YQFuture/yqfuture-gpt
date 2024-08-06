@@ -54,7 +54,7 @@ func (m *customBsShopModel) FindListByOrgId(ctx context.Context, orgId int64) (*
 }
 
 func (m *customBsShopModel) FindOrgTotalMonthGivePower(ctx context.Context, orgId int64) (int64, error) {
-	query := fmt.Sprintf("select count(month_power_limit) from %s where `org_id` = ?", m.table)
+	query := fmt.Sprintf("select SUM(month_power_limit) from %s where `org_id` = ?", m.table)
 	var resp int64
 	err := m.conn.QueryRowCtx(ctx, &resp, query, orgId)
 	switch {
