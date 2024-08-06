@@ -86,8 +86,9 @@ func (l *GetQrCodeLoginStatusLogic) GetQrCodeLoginStatus(req *types.QrCodeLoginS
 		// 对于未绑定手机号的微信用户 Token只给予半小时的有效期
 		accessExpire = 1800
 	}
+	userId := infoResp.Result.Id
 	payload := map[string]interface{}{
-		"id":      infoResp.Result.Id,
+		"id":      userId,
 		"ex_time": time.Now().AddDate(0, 0, 7),
 	}
 	token, err := GetJwtToken(l.svcCtx.Config.Auth.AccessSecret, accessExpire, payload)
@@ -99,6 +100,12 @@ func (l *GetQrCodeLoginStatusLogic) GetQrCodeLoginStatus(req *types.QrCodeLoginS
 				Msg:  "登录失败 请重试",
 			},
 		}, nil
+	}
+
+	// 登录成功后，将用户信息存入 Redis
+	err = redis.SetLoginUser(l.ctx, l.svcCtx.Redis, strconv.FormatInt(userId, 10), accessExpire)
+	if err != nil {
+		l.Logger.Error("将用户信息存入Redis失败", err)
 	}
 
 	return &types.QrCodeLoginStatusResp{
