@@ -41,24 +41,6 @@ func (l *GivePowerShopLogic) GivePowerShop(in *user.GivePowerShopReq) (*user.Giv
 		return nil, errors.New("只有团队管理员分配店铺算力")
 	}
 
-	// 获取当前团队已分配的总算力 判断剩余算力是否足够
-	/*	totalPower, err := l.svcCtx.BsShopModel.FindOrgTotalMonthGivePower(l.ctx, bsOrg.Id)
-		if err != nil {
-			l.Logger.Error("获取团队已分配算力失败: ", err)
-			return nil, err
-		}
-		bsShop, err := l.svcCtx.BsShopModel.FindOne(l.ctx, in.ShopId)
-		if err != nil {
-			l.Logger.Error("获取店铺数据失败: ", err)
-			return nil, err
-		}
-		if totalPower-bsShop.MonthPowerLimit+in.Power > bsOrg.MonthPowerLimit {
-			l.Logger.Error("当前团队已分配算力不足")
-			return &user.GivePowerShopResp{
-				Code: consts.PowerNotEnough,
-			}, nil
-		}*/
-
 	err = l.svcCtx.BsShopModel.UpdateShopPower(l.ctx, in.ShopId, in.Power)
 	if err != nil {
 		l.Logger.Error("分配店铺算力失败", err)
