@@ -69,6 +69,9 @@ func (l *GetOrgUserPageListLogic) GetOrgUserPageList(req *types.OrgUserPageListR
 	orgUserPage.BasePageResp.PageNum = orgUserPageResp.PageNum
 	orgUserPage.BasePageResp.PageSize = orgUserPageResp.PageSize
 	orgUserPage.BasePageResp.Total = orgUserPageResp.Total
+	orgUserPage.MonthPowerLimit = orgUserPageResp.MonthPowerLimit
+	orgUserPage.MonthUsedPower = orgUserPageResp.MonthUsedPower
+	orgUserPage.CanGivePower = orgUserPageResp.CanGivePower
 	var orgUserList []types.OrgUser
 	for _, orgUserResp := range orgUserPageResp.List {
 		// 基础数据

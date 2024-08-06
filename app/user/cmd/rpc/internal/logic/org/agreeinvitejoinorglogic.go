@@ -38,6 +38,10 @@ func (l *AgreeInviteJoinOrgLogic) AgreeInviteJoinOrg(in *user.AgreeInviteJoinOrg
 		l.Logger.Error("找出对应的消息失败", err)
 		return nil, err
 	}
+	if bsMessage.DealFlag == 1 {
+		l.Logger.Error("已经处理过的消息内容", err)
+		return nil, err
+	}
 	// 找出对应的消息内容·
 	bsMessageContent, err := l.svcCtx.BsMessageContentModel.FindOne(l.ctx, bsMessage.ContentId)
 	if err != nil {
@@ -141,6 +145,7 @@ func (l *AgreeInviteJoinOrgLogic) AgreeInviteJoinOrg(in *user.AgreeInviteJoinOrg
 	}
 
 	// 更新消息状态
+	bsMessage.DealFlag = 1
 	err = l.svcCtx.BsMessageModel.Update(l.ctx, bsMessage)
 	if err != nil {
 		l.Logger.Error("更新消息状态失败", err)

@@ -1718,6 +1718,11 @@
           "type": "integer",
           "format": "int64",
           "description": " 未读消息数量"
+        },
+        "orgUserStatus": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 组织用户状态 0: 正常 1: 暂停 2: 删除"
         }
       },
       "title": "CurrentUserData",
@@ -1727,7 +1732,8 @@
         "nickname",
         "headImg",
         "nowOrg",
-        "unreadMsgCount"
+        "unreadMsgCount",
+        "orgUserStatus"
       ]
     },
     "CurrentUserDataResp": {
@@ -2475,8 +2481,8 @@
         "shopId",
         "platformType",
         "shopName",
-        "month_power_limit",
-        "month_used_power",
+        "monthPowerLimit",
+        "monthUsedPower",
         "userNum",
         "roleList",
         "keywordSwitchingUserList",
@@ -2625,8 +2631,8 @@
         "nickName",
         "headImg",
         "status",
-        "month_power_limit",
-        "month_used_power",
+        "monthPowerLimit",
+        "monthUsedPower",
         "permList",
         "roleList"
       ]
@@ -2824,6 +2830,21 @@
           "format": "int64",
           "description": " 总条数"
         },
+        "MonthPowerLimit": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 当月算力上限"
+        },
+        "MonthUsedPower": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 当月已用算力"
+        },
+        "CanGivePower": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 可分配算力"
+        },
         "list": {
           "type": "array",
           "items": {
@@ -2834,6 +2855,9 @@
       },
       "title": "OrgUserPage",
       "required": [
+        "monthPowerLimit",
+        "monthUsedPower",
+        "canGivePower",
         "list"
       ]
     },

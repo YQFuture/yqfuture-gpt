@@ -80,11 +80,20 @@ func (l *GetOrgUserPageListLogic) GetOrgUserPageList(in *user.OrgUserPageListReq
 		orgUserList = append(orgUserList, orgUser)
 	}
 
+	// 获取当前团队已分配的总算力 判断剩余算力是否足够
+	totalPower, err := l.svcCtx.BsUserOrgModel.FindOrgTotalGivePower(l.ctx, bsOrg.Id)
+	if err != nil {
+		l.Logger.Error("获取团队已分配算力失败: ", err)
+		return nil, err
+	}
 	return &user.OrgUserPageListResp{
-		PageNum:  in.PageNum,
-		PageSize: in.PageSize,
-		Total:    total,
-		List:     orgUserList,
+		PageNum:         in.PageNum,
+		PageSize:        in.PageSize,
+		Total:           total,
+		MonthPowerLimit: bsOrg.MonthPowerLimit,
+		MonthUsedPower:  bsOrg.MonthUsedPower,
+		CanGivePower:    bsOrg.MonthPowerLimit - totalPower,
+		List:            orgUserList,
 	}, nil
 }
 

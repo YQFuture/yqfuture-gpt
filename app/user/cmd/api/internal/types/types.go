@@ -279,8 +279,8 @@ type OrgShop struct {
 	ShopId                   string     `json:"shopId"`                   // 店铺id
 	PlatformType             int64      `json:"platformType"`             // 平台类型
 	ShopName                 string     `json:"shopName"`                 // 店铺名称
-	MonthPowerLimit          int64      `db:"month_power_limit"`          // 当月算力上限
-	MonthUsedPower           int64      `db:"month_used_power"`           // 当月已用算力
+	MonthPowerLimit          int64      `db:"monthPowerLimit"`            // 当月算力上限
+	MonthUsedPower           int64      `db:"monthUsedPower"`             // 当月已用算力
 	UserNum                  int64      `json:"userNum"`                  // 已分配客服用户数量
 	RoleList                 []ShopRole `json:"roleList"`                 // 角色列表
 	KeywordSwitchingUserList []ShopUser `json:"keywordSwitchingUserList"` // 关键词转接用户列表
@@ -304,15 +304,15 @@ type OrgShopPageListResp struct {
 }
 
 type OrgUser struct {
-	UserId          string     `json:"userId"`          // 用户id
-	Phone           string     `json:"phone"`           // 手机号
-	NickName        string     `json:"nickName"`        // 昵称
-	HeadImg         string     `json:"headImg"`         // 头像
-	Status          int64      `json:"status"`          // 状态
-	MonthPowerLimit int64      `db:"month_power_limit"` // 当月算力上限
-	MonthUsedPower  int64      `db:"month_used_power"`  // 当月已用算力
-	PermList        []UserPerm `json:"permList"`        // 权限列表
-	RoleList        []UserRole `json:"roleList"`        // 角色列表
+	UserId          string     `json:"userId"`        // 用户id
+	Phone           string     `json:"phone"`         // 手机号
+	NickName        string     `json:"nickName"`      // 昵称
+	HeadImg         string     `json:"headImg"`       // 头像
+	Status          int64      `json:"status"`        // 状态
+	MonthPowerLimit int64      `db:"monthPowerLimit"` // 当月算力上限
+	MonthUsedPower  int64      `db:"monthUsedPower"`  // 当月已用算力
+	PermList        []UserPerm `json:"permList"`      // 权限列表
+	RoleList        []UserRole `json:"roleList"`      // 角色列表
 }
 
 type OrgUserListReq struct {
@@ -355,7 +355,10 @@ type OrgUserOperationPageListResp struct {
 
 type OrgUserPage struct {
 	BasePageResp
-	List []OrgUser `json:"list"` // 用户列表
+	MonthPowerLimit int64     `db:"monthPowerLimit"` // 当月算力上限
+	MonthUsedPower  int64     `db:"monthUsedPower"`  // 当月已用算力
+	CanGivePower    int64     `db:"canGivePower"`    // 可分配算力
+	List            []OrgUser `json:"list"`          // 用户列表
 }
 
 type OrgUserPageListReq struct {

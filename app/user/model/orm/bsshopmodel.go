@@ -16,7 +16,7 @@ type (
 		bsShopModel
 		withSession(session sqlx.Session) BsShopModel
 		FindListByOrgId(ctx context.Context, orgId int64) (*[]*BsShop, error)
-		FindOrgTotalMonthUsedPower(ctx context.Context, orgId int64) (int64, error)
+		FindOrgTotalMonthGivePower(ctx context.Context, orgId int64) (int64, error)
 		UpdateShopPower(ctx context.Context, shopId, power int64) error
 		UpdateShopPowerAvg(ctx context.Context, orgId, power int64) error
 		FindPageListByOrgId(ctx context.Context, orgId, pageNum, pageSize int64, queryString string) (*[]*BsShop, error)
@@ -53,8 +53,8 @@ func (m *customBsShopModel) FindListByOrgId(ctx context.Context, orgId int64) (*
 	}
 }
 
-func (m *customBsShopModel) FindOrgTotalMonthUsedPower(ctx context.Context, orgId int64) (int64, error) {
-	query := fmt.Sprintf("select count(month_used_power) from %s where `org_id` = ?", m.table)
+func (m *customBsShopModel) FindOrgTotalMonthGivePower(ctx context.Context, orgId int64) (int64, error) {
+	query := fmt.Sprintf("select count(month_power_limit) from %s where `org_id` = ?", m.table)
 	var resp int64
 	err := m.conn.QueryRowCtx(ctx, &resp, query, orgId)
 	switch {

@@ -44,12 +44,12 @@ func (l *GivePowerLogic) GivePower(in *user.GivePowerReq) (*user.GivePowerResp, 
 	}
 
 	// 获取当前团队已分配的总算力 判断剩余算力是否足够
-	totalPower, err := l.svcCtx.BsUserOrgModel.FindOrgTotalMonthUsedPower(l.ctx, bsOrg.Id)
+	totalPower, err := l.svcCtx.BsUserOrgModel.FindOrgTotalGivePower(l.ctx, bsOrg.Id)
 	if err != nil {
 		l.Logger.Error("获取团队已分配算力失败: ", err)
 		return nil, err
 	}
-	if totalPower+in.Power > bsOrg.MonthUsedPower {
+	if totalPower+in.Power > bsOrg.MonthPowerLimit {
 		l.Logger.Error("当前团队已分配算力不足")
 		return &user.GivePowerResp{
 			Code: consts.PowerNotEnough,

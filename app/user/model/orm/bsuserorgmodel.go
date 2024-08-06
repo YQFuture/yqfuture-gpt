@@ -22,7 +22,7 @@ type (
 		FindOrgUserCount(ctx context.Context, orgId int64) (int64, error)
 		DeleteByUserIdAndOrgId(ctx context.Context, userId, orgId int64) error
 		ChangeStatusByUserIdAndOrgId(ctx context.Context, userId, orgId, status int64) error
-		FindOrgTotalMonthUsedPower(ctx context.Context, orgId int64) (int64, error)
+		FindOrgTotalGivePower(ctx context.Context, orgId int64) (int64, error)
 		UpdateUserPower(ctx context.Context, userId, orgId, power int64) error
 		FindListByOrgId(ctx context.Context, orgId int64) (*[]*BsUserOrg, error)
 		UpdateUserPowerAvg(ctx context.Context, orgId, power int64) error
@@ -104,8 +104,8 @@ func (m *customBsUserOrgModel) ChangeStatusByUserIdAndOrgId(ctx context.Context,
 	return err
 }
 
-func (m *customBsUserOrgModel) FindOrgTotalMonthUsedPower(ctx context.Context, orgId int64) (int64, error) {
-	query := fmt.Sprintf("select count(month_used_power) from %s where `org_id` = ?", m.table)
+func (m *customBsUserOrgModel) FindOrgTotalGivePower(ctx context.Context, orgId int64) (int64, error) {
+	query := fmt.Sprintf("select count(month_power_limit) from %s where `org_id` = ?", m.table)
 	var resp int64
 	err := m.conn.QueryRowCtx(ctx, &resp, query, orgId)
 	switch {
