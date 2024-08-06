@@ -49,7 +49,12 @@ func (l *GivePowerShopLogic) GivePowerShop(in *user.GivePowerShopReq) (*user.Giv
 		l.Logger.Error("获取团队已分配算力失败: ", err)
 		return nil, err
 	}
-	if totalPower+in.Power > bsOrg.MonthPowerLimit {
+	bsShop, err := l.svcCtx.BsShopModel.FindOne(l.ctx, in.ShopId)
+	if err != nil {
+		l.Logger.Error("获取店铺数据失败: ", err)
+		return nil, err
+	}
+	if totalPower-bsShop.MonthPowerLimit+in.Power > bsOrg.MonthPowerLimit {
 		l.Logger.Error("当前团队已分配算力不足")
 		return &user.GivePowerShopResp{
 			Code: consts.PowerNotEnough,
