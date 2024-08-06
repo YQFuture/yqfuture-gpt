@@ -61,9 +61,14 @@ func (l *GetOrgShopPageListLogic) GetOrgShopPageList(in *user.OrgShopPageListReq
 		l.Logger.Error("获取店铺列表失败: ", err)
 		return nil, err
 	}
-	total, err := l.svcCtx.BsShopModel.FindPageTotalByOrgId(l.ctx, bsOrg.Id, in.PageNum, in.PageSize, in.Query)
+	total, err := l.svcCtx.BsShopModel.FindPageTotalByOrgId(l.ctx, bsOrg.Id, in.Query)
 	if err != nil {
 		l.Logger.Error("获取店铺总数失败: ", err)
+		return nil, err
+	}
+	platformTypeNum, err := l.svcCtx.BsShopModel.FindPlatformTypeNumByOrgId(l.ctx, bsOrg.Id)
+	if err != nil {
+		l.Logger.Error("获取店铺类型总数失败: ", err)
 		return nil, err
 	}
 	// 从MySQL中获取用户列表 并转换成map
@@ -79,9 +84,10 @@ func (l *GetOrgShopPageListLogic) GetOrgShopPageList(in *user.OrgShopPageListReq
 
 	// 解析构建返回体
 	orgShopPageListResp := &user.OrgShopPageListResp{
-		PageNum:  in.PageNum,
-		PageSize: in.PageSize,
-		Total:    total,
+		PageNum:         in.PageNum,
+		PageSize:        in.PageSize,
+		Total:           total,
+		PlatformTypeNum: platformTypeNum,
 	}
 	var orgShopList []*user.OrgShop
 	for _, shop := range *orgShopListResult {

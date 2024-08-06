@@ -20,7 +20,8 @@ type (
 		UpdateShopPower(ctx context.Context, shopId, power int64) error
 		UpdateShopPowerAvg(ctx context.Context, orgId, power int64) error
 		FindPageListByOrgId(ctx context.Context, orgId, pageNum, pageSize int64, queryString string) (*[]*BsShop, error)
-		FindPageTotalByOrgId(ctx context.Context, orgId, pageNum, pageSize int64, queryString string) (int64, error)
+		FindPageTotalByOrgId(ctx context.Context, orgId int64, queryString string) (int64, error)
+		FindPlatformTypeNumByOrgId(ctx context.Context, orgId int64) (int64, error)
 	}
 
 	customBsShopModel struct {
@@ -103,20 +104,35 @@ func (m *customBsShopModel) FindPageListByOrgId(ctx context.Context, orgId, page
 	}
 }
 
-func (m *customBsShopModel) FindPageTotalByOrgId(ctx context.Context, orgId, pageNum, pageSize int64, queryString string) (int64, error) {
+func (m *customBsShopModel) FindPageTotalByOrgId(ctx context.Context, orgId int64, queryString string) (int64, error) {
 	// 初始化偏移量和限制
-	offset := (pageNum - 1) * pageSize
-	limit := pageSize
 	var query string
 	var resp int64
 	var err error
 	if queryString != "" {
-		query = fmt.Sprintf("SELECT COUNT(1) FROM bs_shop WHERE org_id = ? AND shop_name LIKE \"%\"+?+\"%\" ORDER BY create_time DESC LIMIT ? OFFSET ?")
-		err = m.conn.QueryRowCtx(ctx, &resp, query, orgId, queryString, queryString, limit, offset)
+		query = fmt.Sprintf("SELECT COUNT(1) FROM bs_shop WHERE org_id = ? AND shop_name LIKE \"%\"+?+\"%\"")
+		err = m.conn.QueryRowCtx(ctx, &resp, query, orgId, queryString, queryString)
 	} else {
-		query = fmt.Sprintf("SELECT COUNT(1) FROM bs_shop WHERE org_id = ? ORDER BY create_time DESC LIMIT ? OFFSET ?")
-		err = m.conn.QueryRowCtx(ctx, &resp, query, orgId, limit, offset)
+		query = fmt.Sprintf("SELECT COUNT(1) FROM bs_shop WHERE org_id = ?")
+		err = m.conn.QueryRowCtx(ctx, &resp, query, orgId)
 	}
+	switch {
+	case err == nil:
+		return resp, nil
+	case errors.Is(err, sqlx.ErrNotFound):
+		return 0, nil
+	default:
+		return 0, err
+	}
+}
+
+func (m *customBsShopModel) FindPlatformTypeNumByOrgId(ctx context.Context, orgId int64) (int64, error) {
+	// 初始化偏移量和限制
+	var query string
+	var resp int64
+	var err error
+	query = fmt.Sprintf("SELECT COUNT(distinct platform_type) FROM bs_shop WHERE org_id = ?")
+	err = m.conn.QueryRowCtx(ctx, &resp, query, orgId)
 	switch {
 	case err == nil:
 		return resp, nil
