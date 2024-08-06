@@ -71,6 +71,10 @@ func (l *UpdateShopAssignLogic) UpdateShopAssign(in *user.UpdateShopAssignReq) (
 			break
 		}
 	}
+	if shopPermId == 0 {
+		l.Logger.Error("店铺权限不存在")
+		return nil, errors.New("店铺权限不存在")
+	}
 	// 遍历角色列表处理权限
 	for _, role := range dborgpermission.RoleList {
 		var permMap = make(map[int64]struct{})
