@@ -271,6 +271,8 @@ message OrgShopPageListReq {
   int64  pageNum = 2;
   int64  pageSize = 3;
   string query = 4;
+  int64  startTime = 5;
+  int64  endTime = 6;
 }
 // 获取团队店铺分页列表响应体
 message OrgShopPageListResp {
@@ -292,6 +294,10 @@ message OrgShop {
   repeated ShopRole roleList = 7;
   repeated ShopUser KeywordSwitchingUserList = 8;
   repeated ShopUser ExceptionDutyUserList = 9;
+  repeated ShopUser RoleUserList = 10;
+  int64 careTime = 11;
+  int64 careTimes = 12;
+  int64 usedPower = 13;
 }
 // 店铺角色数据
 message ShopRole {

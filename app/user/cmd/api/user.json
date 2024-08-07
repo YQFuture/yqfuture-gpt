@@ -2474,6 +2474,28 @@
             "$ref": "#/definitions/ShopUser"
           },
           "description": " 关键词异常责任人用户列表"
+        },
+        "careTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 托管时长"
+        },
+        "careTimes": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 托管次数"
+        },
+        "usedPower": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 已用算力"
+        },
+        "shopUserList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShopUser"
+          },
+          "description": " 在线客服用户列表"
         }
       },
       "title": "OrgShop",
@@ -2486,7 +2508,11 @@
         "userNum",
         "roleList",
         "keywordSwitchingUserList",
-        "exceptionDutyUserList"
+        "exceptionDutyUserList",
+        "careTime",
+        "careTimes",
+        "usedPower",
+        "shopUserList"
       ]
     },
     "OrgShopPage": {
@@ -2542,9 +2568,23 @@
         "query": {
           "type": "string",
           "description": " 查询条件"
+        },
+        "startTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 开始时间"
+        },
+        "endTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 结束时间"
         }
       },
-      "title": "OrgShopPageListReq"
+      "title": "OrgShopPageListReq",
+      "required": [
+        "startTime",
+        "endTime"
+      ]
     },
     "OrgShopPageListResp": {
       "type": "object",

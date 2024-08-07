@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"strconv"
 	"yufuture-gpt/app/user/cmd/rpc/client/org"
+	"yufuture-gpt/app/user/model/redis"
 	"yufuture-gpt/common/consts"
 
 	"yufuture-gpt/app/user/cmd/api/internal/svc"
@@ -43,10 +44,12 @@ func (l *GetOrgShopPageListLogic) GetOrgShopPageList(req *types.OrgShopPageListR
 
 	// 调用RPC接口 获取团队店铺分页列表
 	shopPageListResp, err := l.svcCtx.OrgClient.GetOrgShopPageList(l.ctx, &org.OrgShopPageListReq{
-		UserId:   userId,
-		PageNum:  req.PageNum,
-		PageSize: req.PageSize,
-		Query:    req.Query,
+		UserId:    userId,
+		PageNum:   req.PageNum,
+		PageSize:  req.PageSize,
+		Query:     req.Query,
+		StartTime: req.StartTime,
+		EndTime:   req.EndTime,
 	})
 	if err != nil {
 		l.Logger.Error("获取团队店铺分页列表失败", err)
@@ -83,6 +86,9 @@ func (l *GetOrgShopPageListLogic) GetOrgShopPageList(req *types.OrgShopPageListR
 			MonthPowerLimit: shop.MonthPowerLimit,
 			MonthUsedPower:  shop.MonthUsedPower,
 			UserNum:         shop.UserNum,
+			CareTime:        shop.CareTime,
+			CareTimes:       shop.CareTimes,
+			UsedPower:       shop.UsedPower,
 		}
 		// 角色列表
 		var roleList []types.ShopRole
@@ -94,6 +100,28 @@ func (l *GetOrgShopPageListLogic) GetOrgShopPageList(req *types.OrgShopPageListR
 			roleList = append(roleList, shopRole)
 		}
 		orgShop.RoleList = roleList
+
+		// 在线用户列表
+		var onlineUserList []types.ShopUser
+		for _, user := range shop.RoleUserList {
+			// 从Redis中获取当前登录用户数据
+			loginUser, err := redis.GetLoginUser(l.ctx, l.svcCtx.Redis, strconv.FormatInt(userId, 10))
+			if err != nil {
+				l.Logger.Error("获取当前登录用户数据失败", err)
+				break
+			}
+			if loginUser == "" {
+				break
+			}
+			shopUser := types.ShopUser{
+				UserId:   strconv.FormatInt(user.UserId, 10),
+				NickName: user.NickName,
+				Phone:    user.Phone,
+				HeadImg:  user.HeadImg,
+			}
+			onlineUserList = append(onlineUserList, shopUser)
+		}
+		orgShop.OnlineUserList = onlineUserList
 
 		// 关键词转接用户列表
 		var keywordSwitchingUserList []types.ShopUser

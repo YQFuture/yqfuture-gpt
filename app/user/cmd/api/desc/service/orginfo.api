@@ -315,6 +315,8 @@ type (
         // 获取团队店铺分页列表请求体
     OrgShopPageListReq {
         BasePageReq
+        StartTime int64 `json:"startTime"` // 开始时间
+        EndTime int64 `json:"endTime"`     // 结束时间
     }
 
         // 获取团队店铺分页列表响应体
@@ -332,15 +334,19 @@ type (
 
         // 团队店铺数据
     OrgShop {
-        ShopId string `json:"shopId"`                                                         // 店铺id
-        PlatformType int64 `json:"platformType"`                                              // 平台类型
-        ShopName string `json:"shopName"`                                                     // 店铺名称
-        MonthPowerLimit int64 `db:"monthPowerLimit"`                                          // 当月算力上限
-        MonthUsedPower int64 `db:"monthUsedPower"`                                            // 当月已用算力
-        UserNum int64 `json:"userNum"`                                                        // 已分配客服用户数量
-        RoleList []ShopRole `json:"roleList"`                                                 // 角色列表
-        KeywordSwitchingUserList []ShopUser `json:"keywordSwitchingUserList"`                 // 关键词转接用户列表
-        ExceptionDutyUserList []ShopUser `json:"exceptionDutyUserList"`                       // 关键词异常责任人用户列表
+        ShopId string `json:"shopId"`                                                                 // 店铺id
+        PlatformType int64 `json:"platformType"`                                                      // 平台类型
+        ShopName string `json:"shopName"`                                                             // 店铺名称
+        MonthPowerLimit int64 `db:"monthPowerLimit"`                                                  // 当月算力上限
+        MonthUsedPower int64 `db:"monthUsedPower"`                                                    // 当月已用算力
+        UserNum int64 `json:"userNum"`                                                                // 已分配客服用户数量
+        RoleList []ShopRole `json:"roleList"`                                                         // 角色列表
+        KeywordSwitchingUserList []ShopUser `json:"keywordSwitchingUserList"`                         // 关键词转接用户列表
+        ExceptionDutyUserList []ShopUser `json:"exceptionDutyUserList"`                               // 关键词异常责任人用户列表
+        CareTime int64 `json:"careTime"`                                                              // 托管时长
+        CareTimes int64 `json:"careTimes"`                                                            // 托管次数
+        UsedPower int64 `json:"usedPower"`                                                            // 已用算力
+        OnlineUserList []ShopUser `json:"onlineUserList"`                                             // 在线客服用户列表
     }
 
         // 店铺角色数据

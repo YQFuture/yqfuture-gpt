@@ -18,13 +18,14 @@ type ServiceContext struct {
 	DborgpermissionModel model.DborgpermissionModel
 	DbuseroperationModel model.DbuseroperationModel
 	// MySQL模型
-	BsUserModel           orm.BsUserModel
-	BsOrganizationModel   orm.BsOrganizationModel
-	BsUserOrgModel        orm.BsUserOrgModel
-	BsMessageModel        orm.BsMessageModel
-	BsMessageContentModel orm.BsMessageContentModel
-	BsPermTemplateModel   orm.BsPermTemplateModel
-	BsShopModel           orm.BsShopModel
+	BsUserModel            orm.BsUserModel
+	BsOrganizationModel    orm.BsOrganizationModel
+	BsUserOrgModel         orm.BsUserOrgModel
+	BsMessageModel         orm.BsMessageModel
+	BsMessageContentModel  orm.BsMessageContentModel
+	BsPermTemplateModel    orm.BsPermTemplateModel
+	BsShopModel            orm.BsShopModel
+	BsShopCareHistoryModel orm.BsShopCareHistoryModel
 	// 雪花算法
 	SnowFlakeNode *snowflake.Node
 }
@@ -44,13 +45,14 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		DborgpermissionModel: model.NewDborgpermissionModel(c.Mongo.Url, c.Mongo.Database, c.Mongo.Dborgpermission),
 		DbuseroperationModel: model.NewDbuseroperationModel(c.Mongo.Url, c.Mongo.Database, c.Mongo.Dbuseroperation),
 
-		BsUserModel:           orm.NewBsUserModel(sqlConn),
-		BsOrganizationModel:   orm.NewBsOrganizationModel(sqlConn),
-		BsUserOrgModel:        orm.NewBsUserOrgModel(sqlConn),
-		BsMessageModel:        orm.NewBsMessageModel(sqlConn),
-		BsMessageContentModel: orm.NewBsMessageContentModel(sqlConn),
-		BsPermTemplateModel:   orm.NewBsPermTemplateModel(sqlConn),
-		BsShopModel:           orm.NewBsShopModel(sqlConn),
+		BsUserModel:            orm.NewBsUserModel(sqlConn),
+		BsOrganizationModel:    orm.NewBsOrganizationModel(sqlConn),
+		BsUserOrgModel:         orm.NewBsUserOrgModel(sqlConn),
+		BsMessageModel:         orm.NewBsMessageModel(sqlConn),
+		BsMessageContentModel:  orm.NewBsMessageContentModel(sqlConn),
+		BsPermTemplateModel:    orm.NewBsPermTemplateModel(sqlConn),
+		BsShopModel:            orm.NewBsShopModel(sqlConn),
+		BsShopCareHistoryModel: orm.NewBsShopCareHistoryModel(sqlConn),
 
 		SnowFlakeNode: snowflakeNode,
 	}

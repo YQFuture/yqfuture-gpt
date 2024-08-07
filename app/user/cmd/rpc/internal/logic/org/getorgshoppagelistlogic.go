@@ -110,6 +110,7 @@ func (l *GetOrgShopPageListLogic) GetOrgShopPageList(in *user.OrgShopPageListReq
 			}
 		}
 		// 查找权限关联的角色
+		shopRoleMap := make(map[int64]*user.ShopRole)
 		for _, role := range dborgpermission.RoleList {
 			for _, permId := range role.PermissionList {
 				if *permId == shopPermId {
@@ -118,11 +119,31 @@ func (l *GetOrgShopPageListLogic) GetOrgShopPageList(in *user.OrgShopPageListReq
 						RoleName: role.Name,
 					}
 					shopRoleList = append(shopRoleList, shopRole)
+					shopRoleMap[shopRole.RoleId] = shopRole
 					break
 				}
 			}
 		}
 		orgShop.RoleList = shopRoleList
+
+		// 角色用户列表 即拥有该店铺权限的角色的用户列表
+		var roleUserList []*user.ShopUser
+		for _, mongoUser := range dborgpermission.UserList {
+			for _, roleId := range mongoUser.RoleList {
+				if shopRoleMap[*roleId] != nil {
+					roleUser := &user.ShopUser{
+						UserId:   userMap[mongoUser.Id].Id,
+						NickName: userMap[mongoUser.Id].NickName.String,
+						Phone:    userMap[mongoUser.Id].Phone.String,
+						HeadImg:  userMap[mongoUser.Id].HeadImg.String,
+					}
+					roleUserList = append(roleUserList, roleUser)
+					break
+				}
+			}
+		}
+		orgShop.RoleUserList = roleUserList
+		orgShop.UserNum = int64(len(roleUserList))
 
 		// 关键字转接用户列表
 		var keywordSwitchingUserList []*user.ShopUser
@@ -151,6 +172,16 @@ func (l *GetOrgShopPageListLogic) GetOrgShopPageList(in *user.OrgShopPageListReq
 				exceptionDutyUserList = append(exceptionDutyUserList, exceptionResponsibleUser)
 			}
 			orgShop.ExceptionDutyUserList = exceptionDutyUserList
+		}
+
+		// 店铺托管数据
+		shopCareData, err := l.svcCtx.BsShopCareHistoryModel.FindOrgShopCareData(l.ctx, shop.Id, in.StartTime, in.EndTime)
+		if err != nil {
+			l.Logger.Error("获取店铺托管数据失败: ", err)
+		} else {
+			orgShop.CareTime = shopCareData.CareTime
+			orgShop.CareTimes = shopCareData.CareTimes
+			orgShop.UsedPower = shopCareData.UsedPower
 		}
 
 		orgShopList = append(orgShopList, orgShop)

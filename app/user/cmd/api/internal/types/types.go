@@ -285,6 +285,10 @@ type OrgShop struct {
 	RoleList                 []ShopRole `json:"roleList"`                 // 角色列表
 	KeywordSwitchingUserList []ShopUser `json:"keywordSwitchingUserList"` // 关键词转接用户列表
 	ExceptionDutyUserList    []ShopUser `json:"exceptionDutyUserList"`    // 关键词异常责任人用户列表
+	CareTime                 int64      `json:"careTime"`                 // 托管时长
+	CareTimes                int64      `json:"careTimes"`                // 托管次数
+	UsedPower                int64      `json:"usedPower"`                // 已用算力
+	OnlineUserList           []ShopUser `json:"onlineUserList"`           // 在线客服用户列表
 }
 
 type OrgShopPage struct {
@@ -295,6 +299,8 @@ type OrgShopPage struct {
 
 type OrgShopPageListReq struct {
 	BasePageReq
+	StartTime int64 `json:"startTime"` // 开始时间
+	EndTime   int64 `json:"endTime"`   // 结束时间
 }
 
 type OrgShopPageListResp struct {
