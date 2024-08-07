@@ -80,6 +80,7 @@ func (l *GetOrgUserOperationListLogic) GetOrgUserOperationList(req *types.OrgUse
 
 	// 填充数据
 	for i, record := range operationList.List {
+		// 假设 record.CreateTime 是 int64 类型
 		err = f.SetCellValue("Sheet1", "A"+strconv.Itoa(i+2), time.Unix(record.CreateTime, 0).Format("2006-01-02 15:04:05"))
 		if err != nil {
 			l.Logger.Error("填充数据失败", err)
