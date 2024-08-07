@@ -13,68 +13,71 @@ import (
 )
 
 type (
-	AgreeApplyJoinOrgReq         = user.AgreeApplyJoinOrgReq
-	AgreeApplyJoinOrgResp        = user.AgreeApplyJoinOrgResp
-	AgreeInviteJoinOrgReq        = user.AgreeInviteJoinOrgReq
-	AgreeInviteJoinOrgResp       = user.AgreeInviteJoinOrgResp
-	ApplyJoinOrgReq              = user.ApplyJoinOrgReq
-	ApplyJoinOrgResp             = user.ApplyJoinOrgResp
-	ChangeUserRoleReq            = user.ChangeUserRoleReq
-	ChangeUserRoleResp           = user.ChangeUserRoleResp
-	CreateRoleReq                = user.CreateRoleReq
-	CreateRoleResp               = user.CreateRoleResp
-	DeleteUserReq                = user.DeleteUserReq
-	DeleteUserResp               = user.DeleteUserResp
-	GivePowerAvgReq              = user.GivePowerAvgReq
-	GivePowerAvgResp             = user.GivePowerAvgResp
-	GivePowerReq                 = user.GivePowerReq
-	GivePowerResp                = user.GivePowerResp
-	GivePowerShopAvgReq          = user.GivePowerShopAvgReq
-	GivePowerShopAvgResp         = user.GivePowerShopAvgResp
-	GivePowerShopReq             = user.GivePowerShopReq
-	GivePowerShopResp            = user.GivePowerShopResp
-	InviteJoinOrgReq             = user.InviteJoinOrgReq
-	InviteJoinOrgResp            = user.InviteJoinOrgResp
-	OrgPerm                      = user.OrgPerm
-	OrgPermListReq               = user.OrgPermListReq
-	OrgPermListResp              = user.OrgPermListResp
-	OrgRole                      = user.OrgRole
-	OrgRoleListReq               = user.OrgRoleListReq
-	OrgRoleListResp              = user.OrgRoleListResp
-	OrgShop                      = user.OrgShop
-	OrgShopPageListReq           = user.OrgShopPageListReq
-	OrgShopPageListResp          = user.OrgShopPageListResp
-	OrgUser                      = user.OrgUser
-	OrgUserListReq               = user.OrgUserListReq
-	OrgUserListResp              = user.OrgUserListResp
-	OrgUserOperation             = user.OrgUserOperation
-	OrgUserOperationListReq      = user.OrgUserOperationListReq
-	OrgUserOperationListResp     = user.OrgUserOperationListResp
-	OrgUserOperationPageListReq  = user.OrgUserOperationPageListReq
-	OrgUserOperationPageListResp = user.OrgUserOperationPageListResp
-	OrgUserPageListReq           = user.OrgUserPageListReq
-	OrgUserPageListResp          = user.OrgUserPageListResp
-	PauseUserReq                 = user.PauseUserReq
-	PauseUserResp                = user.PauseUserResp
-	ResumeUserReq                = user.ResumeUserReq
-	ResumeUserResp               = user.ResumeUserResp
-	RolePerm                     = user.RolePerm
-	RoleShop                     = user.RoleShop
-	RoleUser                     = user.RoleUser
-	SearchOrgInfo                = user.SearchOrgInfo
-	SearchOrgReq                 = user.SearchOrgReq
-	SearchOrgReqResp             = user.SearchOrgReqResp
-	SearchUserInfo               = user.SearchUserInfo
-	SearchUserReq                = user.SearchUserReq
-	SearchUserResp               = user.SearchUserResp
-	ShopRole                     = user.ShopRole
-	ShopUser                     = user.ShopUser
-	UpdateRoleReq                = user.UpdateRoleReq
-	UpdateRoleResp               = user.UpdateRoleResp
-	UpdateShopAssignReq          = user.UpdateShopAssignReq
-	UpdateShopAssignResp         = user.UpdateShopAssignResp
-	UserPerm                     = user.UserPerm
-	UserRole                     = user.UserRole
+	AgreeApplyJoinOrgReq          = user.AgreeApplyJoinOrgReq
+	AgreeApplyJoinOrgResp         = user.AgreeApplyJoinOrgResp
+	AgreeInviteJoinOrgReq         = user.AgreeInviteJoinOrgReq
+	AgreeInviteJoinOrgResp        = user.AgreeInviteJoinOrgResp
+	ApplyJoinOrgReq               = user.ApplyJoinOrgReq
+	ApplyJoinOrgResp              = user.ApplyJoinOrgResp
+	ChangeUserRoleReq             = user.ChangeUserRoleReq
+	ChangeUserRoleResp            = user.ChangeUserRoleResp
+	CreateRoleReq                 = user.CreateRoleReq
+	CreateRoleResp                = user.CreateRoleResp
+	DeleteUserReq                 = user.DeleteUserReq
+	DeleteUserResp                = user.DeleteUserResp
+	GivePowerAvgReq               = user.GivePowerAvgReq
+	GivePowerAvgResp              = user.GivePowerAvgResp
+	GivePowerReq                  = user.GivePowerReq
+	GivePowerResp                 = user.GivePowerResp
+	GivePowerShopAvgReq           = user.GivePowerShopAvgReq
+	GivePowerShopAvgResp          = user.GivePowerShopAvgResp
+	GivePowerShopReq              = user.GivePowerShopReq
+	GivePowerShopResp             = user.GivePowerShopResp
+	InviteJoinOrgReq              = user.InviteJoinOrgReq
+	InviteJoinOrgResp             = user.InviteJoinOrgResp
+	OrgPerm                       = user.OrgPerm
+	OrgPermListReq                = user.OrgPermListReq
+	OrgPermListResp               = user.OrgPermListResp
+	OrgRole                       = user.OrgRole
+	OrgRoleListReq                = user.OrgRoleListReq
+	OrgRoleListResp               = user.OrgRoleListResp
+	OrgShop                       = user.OrgShop
+	OrgShopPageListReq            = user.OrgShopPageListReq
+	OrgShopPageListResp           = user.OrgShopPageListResp
+	OrgUser                       = user.OrgUser
+	OrgUserListReq                = user.OrgUserListReq
+	OrgUserListResp               = user.OrgUserListResp
+	OrgUserOperation              = user.OrgUserOperation
+	OrgUserOperationListReq       = user.OrgUserOperationListReq
+	OrgUserOperationListResp      = user.OrgUserOperationListResp
+	OrgUserOperationPageListReq   = user.OrgUserOperationPageListReq
+	OrgUserOperationPageListResp  = user.OrgUserOperationPageListResp
+	OrgUserPageListReq            = user.OrgUserPageListReq
+	OrgUserPageListResp           = user.OrgUserPageListResp
+	OrgUserStatistics             = user.OrgUserStatistics
+	OrgUserStatisticsPageListReq  = user.OrgUserStatisticsPageListReq
+	OrgUserStatisticsPageListResp = user.OrgUserStatisticsPageListResp
+	PauseUserReq                  = user.PauseUserReq
+	PauseUserResp                 = user.PauseUserResp
+	ResumeUserReq                 = user.ResumeUserReq
+	ResumeUserResp                = user.ResumeUserResp
+	RolePerm                      = user.RolePerm
+	RoleShop                      = user.RoleShop
+	RoleUser                      = user.RoleUser
+	SearchOrgInfo                 = user.SearchOrgInfo
+	SearchOrgReq                  = user.SearchOrgReq
+	SearchOrgReqResp              = user.SearchOrgReqResp
+	SearchUserInfo                = user.SearchUserInfo
+	SearchUserReq                 = user.SearchUserReq
+	SearchUserResp                = user.SearchUserResp
+	ShopRole                      = user.ShopRole
+	ShopUser                      = user.ShopUser
+	UpdateRoleReq                 = user.UpdateRoleReq
+	UpdateRoleResp                = user.UpdateRoleResp
+	UpdateShopAssignReq           = user.UpdateShopAssignReq
+	UpdateShopAssignResp          = user.UpdateShopAssignResp
+	UserPerm                      = user.UserPerm
+	UserRole                      = user.UserRole
 
 	Org interface {
 		// 查找团队
@@ -121,6 +124,8 @@ type (
 		GetOrgShopPageList(ctx context.Context, in *OrgShopPageListReq, opts ...grpc.CallOption) (*OrgShopPageListResp, error)
 		// 编辑店铺指派
 		UpdateShopAssign(ctx context.Context, in *UpdateShopAssignReq, opts ...grpc.CallOption) (*UpdateShopAssignResp, error)
+		// 获取组织用户统计信息分页列表
+		GetOrgUserStatisticsPageList(ctx context.Context, in *OrgUserStatisticsPageListReq, opts ...grpc.CallOption) (*OrgUserStatisticsPageListResp, error)
 		// 获取组织用户操作记录分页列表
 		GetOrgUserOperationPageList(ctx context.Context, in *OrgUserOperationPageListReq, opts ...grpc.CallOption) (*OrgUserOperationPageListResp, error)
 		// 获取组织用户操作记录列表
@@ -268,6 +273,12 @@ func (m *defaultOrg) GetOrgShopPageList(ctx context.Context, in *OrgShopPageList
 func (m *defaultOrg) UpdateShopAssign(ctx context.Context, in *UpdateShopAssignReq, opts ...grpc.CallOption) (*UpdateShopAssignResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.UpdateShopAssign(ctx, in, opts...)
+}
+
+// 获取组织用户统计信息分页列表
+func (m *defaultOrg) GetOrgUserStatisticsPageList(ctx context.Context, in *OrgUserStatisticsPageListReq, opts ...grpc.CallOption) (*OrgUserStatisticsPageListResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.GetOrgUserStatisticsPageList(ctx, in, opts...)
 }
 
 // 获取组织用户操作记录分页列表

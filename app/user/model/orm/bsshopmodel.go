@@ -88,8 +88,8 @@ func (m *customBsShopModel) FindPageListByOrgId(ctx context.Context, orgId, page
 	var resp []*BsShop
 	var err error
 	if queryString != "" {
-		query = fmt.Sprintf("SELECT * FROM bs_shop WHERE org_id = ? AND shop_name LIKE \"%\"+?+\"%\" ORDER BY create_time DESC LIMIT ? OFFSET ?")
-		err = m.conn.QueryRowsCtx(ctx, &resp, query, orgId, queryString, queryString, limit, offset)
+		query = fmt.Sprintf("SELECT * FROM bs_shop WHERE org_id = ? AND shop_name LIKE ? ORDER BY create_time DESC LIMIT ? OFFSET ?")
+		err = m.conn.QueryRowsCtx(ctx, &resp, query, orgId, "%"+queryString+"%", limit, offset)
 	} else {
 		query = fmt.Sprintf("SELECT * FROM bs_shop WHERE org_id = ? ORDER BY create_time DESC LIMIT ? OFFSET ?")
 		err = m.conn.QueryRowsCtx(ctx, &resp, query, orgId, limit, offset)
@@ -110,8 +110,8 @@ func (m *customBsShopModel) FindPageTotalByOrgId(ctx context.Context, orgId int6
 	var resp int64
 	var err error
 	if queryString != "" {
-		query = fmt.Sprintf("SELECT COUNT(1) FROM bs_shop WHERE org_id = ? AND shop_name LIKE \"%\"+?+\"%\"")
-		err = m.conn.QueryRowCtx(ctx, &resp, query, orgId, queryString, queryString)
+		query = fmt.Sprintf("SELECT COUNT(1) FROM bs_shop WHERE org_id = ? AND shop_name LIKE ?")
+		err = m.conn.QueryRowCtx(ctx, &resp, query, orgId, "%"+queryString+"%")
 	} else {
 		query = fmt.Sprintf("SELECT COUNT(1) FROM bs_shop WHERE org_id = ?")
 		err = m.conn.QueryRowCtx(ctx, &resp, query, orgId)

@@ -154,6 +154,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: org.GetOrgUserPageListHandler(serverCtx),
 			},
 			{
+				// 获取团队用户统计信息分页列表
+				Method:  http.MethodPost,
+				Path:    "/getOrgUserStatisticsPageList",
+				Handler: org.GetOrgUserStatisticsPageListHandler(serverCtx),
+			},
+			{
 				// 分配算力
 				Method:  http.MethodPost,
 				Path:    "/giverPower",

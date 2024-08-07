@@ -611,6 +611,39 @@
         ]
       }
     },
+    "/org/getOrgUserStatisticsPageList": {
+      "post": {
+        "summary": "获取团队用户统计信息分页列表",
+        "operationId": "getOrgUserStatisticsPageList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/OrgUserStatisticsPageListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 获取组织用户统计信息分页列表请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OrgUserStatisticsPageListReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/org/giverPower": {
       "post": {
         "summary": "分配算力",
@@ -2490,7 +2523,7 @@
           "format": "int64",
           "description": " 已用算力"
         },
-        "shopUserList": {
+        "onlineUserList": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/ShopUser"
@@ -2512,7 +2545,7 @@
         "careTime",
         "careTimes",
         "usedPower",
-        "shopUserList"
+        "onlineUserList"
       ]
     },
     "OrgShopPage": {
@@ -2927,6 +2960,164 @@
         }
       },
       "title": "OrgUserPageListResp",
+      "required": [
+        "data"
+      ]
+    },
+    "OrgUserStatistics": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "phone": {
+          "type": "string",
+          "description": " 手机号"
+        },
+        "nickName": {
+          "type": "string",
+          "description": " 昵称"
+        },
+        "headImg": {
+          "type": "string",
+          "description": " 头像"
+        },
+        "careTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 托管时长"
+        },
+        "careTimes": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 托管次数"
+        },
+        "usedPower": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 已用算力"
+        },
+        "shopList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RoleShop"
+          },
+          "description": " 店铺列表"
+        },
+        "recentOnlineTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 最近在线时间"
+        },
+        "onlineTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 总在线时长"
+        }
+      },
+      "title": "OrgUserStatistics",
+      "required": [
+        "userId",
+        "phone",
+        "nickName",
+        "headImg",
+        "careTime",
+        "careTimes",
+        "usedPower",
+        "shopList",
+        "recentOnlineTime",
+        "onlineTime"
+      ]
+    },
+    "OrgUserStatisticsPage": {
+      "type": "object",
+      "properties": {
+        "pageNum": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页码"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页条数"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 总条数"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrgUserStatistics"
+          },
+          "description": " 托管信息列表"
+        }
+      },
+      "title": "OrgUserStatisticsPage",
+      "required": [
+        "list"
+      ]
+    },
+    "OrgUserStatisticsPageListReq": {
+      "type": "object",
+      "properties": {
+        "pageNum": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 页码"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 每页条数"
+        },
+        "query": {
+          "type": "string",
+          "description": " 查询条件"
+        },
+        "shopId": {
+          "type": "string",
+          "description": " 店铺id"
+        },
+        "startTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 开始时间"
+        },
+        "endTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 结束时间"
+        }
+      },
+      "title": "OrgUserStatisticsPageListReq",
+      "required": [
+        "shopId",
+        "startTime",
+        "endTime"
+      ]
+    },
+    "OrgUserStatisticsPageListResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "$ref": "#/definitions/OrgUserStatisticsPage",
+          "description": " 分页数据"
+        }
+      },
+      "title": "OrgUserStatisticsPageListResp",
       "required": [
         "data"
       ]

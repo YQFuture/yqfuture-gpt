@@ -196,6 +196,10 @@ service user {
 	@handler updateShopAssign
 	post /updateShopAssign (UpdateShopAssignReq) returns (UpdateShopAssignResp)
 
+	@doc "获取团队用户统计信息分页列表"
+	@handler getOrgUserStatisticsPageList
+	post /getOrgUserStatisticsPageList (OrgUserStatisticsPageListReq) returns (OrgUserStatisticsPageListResp)
+
 	@doc "获取团队用户操作记录分页列表"
 	@handler getOrgUserOperationPageList
 	post /getOrgUserOperationPageList (OrgUserOperationPageListReq) returns (OrgUserOperationPageListResp)

@@ -19,30 +19,31 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	Org_SearchOrg_FullMethodName                   = "/user.Org/searchOrg"
-	Org_SearchUser_FullMethodName                  = "/user.Org/searchUser"
-	Org_ApplyJoinOrg_FullMethodName                = "/user.Org/applyJoinOrg"
-	Org_InviteJoinOrg_FullMethodName               = "/user.Org/inviteJoinOrg"
-	Org_AgreeApplyJoinOrg_FullMethodName           = "/user.Org/agreeApplyJoinOrg"
-	Org_AgreeInviteJoinOrg_FullMethodName          = "/user.Org/agreeInviteJoinOrg"
-	Org_GetOrgRoleList_FullMethodName              = "/user.Org/getOrgRoleList"
-	Org_GetOrgPermList_FullMethodName              = "/user.Org/getOrgPermList"
-	Org_CreateRole_FullMethodName                  = "/user.Org/createRole"
-	Org_UpdateRole_FullMethodName                  = "/user.Org/updateRole"
-	Org_GetOrgUserList_FullMethodName              = "/user.Org/getOrgUserList"
-	Org_GetOrgUserPageList_FullMethodName          = "/user.Org/getOrgUserPageList"
-	Org_ChangeUserRole_FullMethodName              = "/user.Org/changeUserRole"
-	Org_DeleteUser_FullMethodName                  = "/user.Org/deleteUser"
-	Org_PauseUser_FullMethodName                   = "/user.Org/pauseUser"
-	Org_ResumeUser_FullMethodName                  = "/user.Org/resumeUser"
-	Org_GivePower_FullMethodName                   = "/user.Org/givePower"
-	Org_GivePowerAvg_FullMethodName                = "/user.Org/givePowerAvg"
-	Org_GivePowerShop_FullMethodName               = "/user.Org/givePowerShop"
-	Org_GivePowerShopAvg_FullMethodName            = "/user.Org/givePowerShopAvg"
-	Org_GetOrgShopPageList_FullMethodName          = "/user.Org/getOrgShopPageList"
-	Org_UpdateShopAssign_FullMethodName            = "/user.Org/updateShopAssign"
-	Org_GetOrgUserOperationPageList_FullMethodName = "/user.Org/getOrgUserOperationPageList"
-	Org_GetOrgUserOperationList_FullMethodName     = "/user.Org/getOrgUserOperationList"
+	Org_SearchOrg_FullMethodName                    = "/user.Org/searchOrg"
+	Org_SearchUser_FullMethodName                   = "/user.Org/searchUser"
+	Org_ApplyJoinOrg_FullMethodName                 = "/user.Org/applyJoinOrg"
+	Org_InviteJoinOrg_FullMethodName                = "/user.Org/inviteJoinOrg"
+	Org_AgreeApplyJoinOrg_FullMethodName            = "/user.Org/agreeApplyJoinOrg"
+	Org_AgreeInviteJoinOrg_FullMethodName           = "/user.Org/agreeInviteJoinOrg"
+	Org_GetOrgRoleList_FullMethodName               = "/user.Org/getOrgRoleList"
+	Org_GetOrgPermList_FullMethodName               = "/user.Org/getOrgPermList"
+	Org_CreateRole_FullMethodName                   = "/user.Org/createRole"
+	Org_UpdateRole_FullMethodName                   = "/user.Org/updateRole"
+	Org_GetOrgUserList_FullMethodName               = "/user.Org/getOrgUserList"
+	Org_GetOrgUserPageList_FullMethodName           = "/user.Org/getOrgUserPageList"
+	Org_ChangeUserRole_FullMethodName               = "/user.Org/changeUserRole"
+	Org_DeleteUser_FullMethodName                   = "/user.Org/deleteUser"
+	Org_PauseUser_FullMethodName                    = "/user.Org/pauseUser"
+	Org_ResumeUser_FullMethodName                   = "/user.Org/resumeUser"
+	Org_GivePower_FullMethodName                    = "/user.Org/givePower"
+	Org_GivePowerAvg_FullMethodName                 = "/user.Org/givePowerAvg"
+	Org_GivePowerShop_FullMethodName                = "/user.Org/givePowerShop"
+	Org_GivePowerShopAvg_FullMethodName             = "/user.Org/givePowerShopAvg"
+	Org_GetOrgShopPageList_FullMethodName           = "/user.Org/getOrgShopPageList"
+	Org_UpdateShopAssign_FullMethodName             = "/user.Org/updateShopAssign"
+	Org_GetOrgUserStatisticsPageList_FullMethodName = "/user.Org/getOrgUserStatisticsPageList"
+	Org_GetOrgUserOperationPageList_FullMethodName  = "/user.Org/getOrgUserOperationPageList"
+	Org_GetOrgUserOperationList_FullMethodName      = "/user.Org/getOrgUserOperationList"
 )
 
 // OrgClient is the client API for Org service.
@@ -95,6 +96,8 @@ type OrgClient interface {
 	GetOrgShopPageList(ctx context.Context, in *OrgShopPageListReq, opts ...grpc.CallOption) (*OrgShopPageListResp, error)
 	// 编辑店铺指派
 	UpdateShopAssign(ctx context.Context, in *UpdateShopAssignReq, opts ...grpc.CallOption) (*UpdateShopAssignResp, error)
+	// 获取组织用户统计信息分页列表
+	GetOrgUserStatisticsPageList(ctx context.Context, in *OrgUserStatisticsPageListReq, opts ...grpc.CallOption) (*OrgUserStatisticsPageListResp, error)
 	// 获取组织用户操作记录分页列表
 	GetOrgUserOperationPageList(ctx context.Context, in *OrgUserOperationPageListReq, opts ...grpc.CallOption) (*OrgUserOperationPageListResp, error)
 	// 获取组织用户操作记录列表
@@ -329,6 +332,16 @@ func (c *orgClient) UpdateShopAssign(ctx context.Context, in *UpdateShopAssignRe
 	return out, nil
 }
 
+func (c *orgClient) GetOrgUserStatisticsPageList(ctx context.Context, in *OrgUserStatisticsPageListReq, opts ...grpc.CallOption) (*OrgUserStatisticsPageListResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OrgUserStatisticsPageListResp)
+	err := c.cc.Invoke(ctx, Org_GetOrgUserStatisticsPageList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *orgClient) GetOrgUserOperationPageList(ctx context.Context, in *OrgUserOperationPageListReq, opts ...grpc.CallOption) (*OrgUserOperationPageListResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(OrgUserOperationPageListResp)
@@ -399,6 +412,8 @@ type OrgServer interface {
 	GetOrgShopPageList(context.Context, *OrgShopPageListReq) (*OrgShopPageListResp, error)
 	// 编辑店铺指派
 	UpdateShopAssign(context.Context, *UpdateShopAssignReq) (*UpdateShopAssignResp, error)
+	// 获取组织用户统计信息分页列表
+	GetOrgUserStatisticsPageList(context.Context, *OrgUserStatisticsPageListReq) (*OrgUserStatisticsPageListResp, error)
 	// 获取组织用户操作记录分页列表
 	GetOrgUserOperationPageList(context.Context, *OrgUserOperationPageListReq) (*OrgUserOperationPageListResp, error)
 	// 获取组织用户操作记录列表
@@ -475,6 +490,9 @@ func (UnimplementedOrgServer) GetOrgShopPageList(context.Context, *OrgShopPageLi
 }
 func (UnimplementedOrgServer) UpdateShopAssign(context.Context, *UpdateShopAssignReq) (*UpdateShopAssignResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateShopAssign not implemented")
+}
+func (UnimplementedOrgServer) GetOrgUserStatisticsPageList(context.Context, *OrgUserStatisticsPageListReq) (*OrgUserStatisticsPageListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrgUserStatisticsPageList not implemented")
 }
 func (UnimplementedOrgServer) GetOrgUserOperationPageList(context.Context, *OrgUserOperationPageListReq) (*OrgUserOperationPageListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrgUserOperationPageList not implemented")
@@ -891,6 +909,24 @@ func _Org_UpdateShopAssign_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Org_GetOrgUserStatisticsPageList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrgUserStatisticsPageListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrgServer).GetOrgUserStatisticsPageList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Org_GetOrgUserStatisticsPageList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrgServer).GetOrgUserStatisticsPageList(ctx, req.(*OrgUserStatisticsPageListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Org_GetOrgUserOperationPageList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(OrgUserOperationPageListReq)
 	if err := dec(in); err != nil {
@@ -1021,6 +1057,10 @@ var Org_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "updateShopAssign",
 			Handler:    _Org_UpdateShopAssign_Handler,
+		},
+		{
+			MethodName: "getOrgUserStatisticsPageList",
+			Handler:    _Org_GetOrgUserStatisticsPageList_Handler,
 		},
 		{
 			MethodName: "getOrgUserOperationPageList",
