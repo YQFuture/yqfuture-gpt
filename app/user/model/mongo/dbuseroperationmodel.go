@@ -45,7 +45,7 @@ func (m *customDbuseroperationModel) FindPageListByUserIdAndOrgId(ctx context.Co
 	}
 	if queryString != "" {
 		// 添加模糊查询条件
-		filter["operationdesc"] = bson.M{"$regex": queryString, "$options": "i"}
+		filter["operationDesc"] = bson.M{"$regex": queryString, "$options": "i"}
 	}
 
 	// 将开始和结束时间从 int64 转换为 time.Time 类型
@@ -54,11 +54,11 @@ func (m *customDbuseroperationModel) FindPageListByUserIdAndOrgId(ctx context.Co
 
 	// 添加时间范围条件
 	if startTime != 0 && endTime != 0 {
-		filter["createat"] = bson.M{"$gte": startTimeTime, "$lte": endTimeTime}
+		filter["createAt"] = bson.M{"$gte": startTimeTime, "$lte": endTimeTime}
 	}
 
 	// 设置排序选项
-	sortOptions := bson.D{{"createat", -1}}
+	sortOptions := bson.D{{"createAt", -1}}
 
 	// 设置分页选项
 	skip := (pageNum - 1) * pageSize
@@ -88,7 +88,7 @@ func (m *customDbuseroperationModel) FindPageTotalByUserIdAndOrgId(ctx context.C
 	}
 	if queryString != "" {
 		// 添加模糊查询条件
-		filter["operationdesc"] = bson.M{"$regex": queryString, "$options": "i"}
+		filter["operationDesc"] = bson.M{"$regex": queryString, "$options": "i"}
 	}
 
 	// 将开始和结束时间从 int64 转换为 time.Time 类型
@@ -97,7 +97,7 @@ func (m *customDbuseroperationModel) FindPageTotalByUserIdAndOrgId(ctx context.C
 
 	// 添加时间范围条件
 	if startTime != 0 && endTime != 0 {
-		filter["createat"] = bson.M{"$gte": startTimeTime, "$lte": endTimeTime}
+		filter["createAt"] = bson.M{"$gte": startTimeTime, "$lte": endTimeTime}
 	}
 
 	// 执行计数操作
@@ -123,7 +123,7 @@ func (m *customDbuseroperationModel) FindListByUserIdAndOrgId(ctx context.Contex
 	}
 	if queryString != "" {
 		// 添加模糊查询条件
-		filter["operationdesc"] = bson.M{"$regex": queryString, "$options": "i"}
+		filter["operationDesc"] = bson.M{"$regex": queryString, "$options": "i"}
 	}
 
 	// 将开始和结束时间从 int64 转换为 time.Time 类型
@@ -132,11 +132,11 @@ func (m *customDbuseroperationModel) FindListByUserIdAndOrgId(ctx context.Contex
 
 	// 添加时间范围条件
 	if startTime != 0 && endTime != 0 {
-		filter["createat"] = bson.M{"$gte": startTimeTime, "$lte": endTimeTime}
+		filter["createAt"] = bson.M{"$gte": startTimeTime, "$lte": endTimeTime}
 	}
 
 	// 设置排序选项
-	sortOptions := options.Find().SetSort(bson.D{{"createat", -1}})
+	sortOptions := options.Find().SetSort(bson.D{{"createAt", -1}})
 
 	// 执行查询
 	var data []*Dbuseroperation

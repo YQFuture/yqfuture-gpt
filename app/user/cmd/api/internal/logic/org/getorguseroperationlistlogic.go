@@ -95,7 +95,7 @@ func (l *GetOrgUserOperationListLogic) GetOrgUserOperationList(req *types.OrgUse
 
 	// 设置响应头
 	w.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-	w.Header().Set("Content-Disposition", "attachment; filename=export.xlsx")
+	w.Header().Set("Content-Disposition", "attachment; filename=user_operation.xlsx")
 
 	// 将Excel文件写入HTTP响应
 	err = f.Write(w)
