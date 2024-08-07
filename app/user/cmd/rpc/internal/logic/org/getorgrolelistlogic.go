@@ -125,6 +125,7 @@ func (l *GetOrgRoleListLogic) GetOrgRoleList(in *user.OrgRoleListReq) (*user.Org
 								UserId: roleUser.Id,
 							}
 							roleUserList = append(roleUserList, roleUser)
+							break
 						}
 					}
 				}

@@ -103,7 +103,7 @@ func (m *customBsMessageModel) SetMessageRead(ctx context.Context, userId, nowOr
 }
 
 func (m *customBsMessageModel) IgnoreMessage(ctx context.Context, messageId int64) error {
-	query := fmt.Sprintf("update %s set ignore_flag = 1 where `id` = ?", m.table)
+	query := fmt.Sprintf("update %s set ignore_flag = 1, deal_flag = 1 where `id` = ?", m.table)
 	_, err := m.conn.ExecCtx(ctx, query, messageId)
 	return err
 }
