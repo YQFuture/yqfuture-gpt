@@ -110,8 +110,8 @@ func (l *GetOrgUserStatisticsPageListLogic) GetOrgUserStatisticsPageList(req *ty
 		userStatistics.ShopList = shopList
 
 		userStatisticsList = append(userStatisticsList, userStatistics)
-
 	}
+	resp.Data.List = userStatisticsList
 
 	return resp, nil
 }
