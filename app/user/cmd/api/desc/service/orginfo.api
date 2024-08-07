@@ -357,10 +357,54 @@ type (
 
         // 店铺用户数据
     ShopUser {
-        UserId string `json:"userId"`                  // 用户id
-        Phone string `json:"phone"`                    // 手机号
-        NickName string `json:"nickName"`              // 昵称
-        HeadImg string `json:"headImg"`                // 头像
+        UserId string `json:"userId"`                                                                 // 用户id
+        Phone string `json:"phone"`                                                                   // 手机号
+        NickName string `json:"nickName"`                                                             // 昵称
+        HeadImg string `json:"headImg"`                                                               // 头像
+        CareTime int64 `json:"careTime"`                                                              // 托管时长
+        CareTimes int64 `json:"careTimes"`                                                            // 托管次数
+        UsedPower int64 `json:"usedPower"`                                                            // 已用算力
+    }
+
+        // 获取店铺用户列表请求体
+    ShopUserListReq {
+        ShopId string `json:"shopId"` // 店铺id
+    }
+
+        // 获取店铺用户列表响应体
+    ShopUserListResp {
+        BaseResp
+        Data []ShopUser `json:"data"` // 店铺用户列表
+    }
+
+        // 获取店铺用户聊天记录列表请求体
+    ShopUserChatListReq {
+        UserId string `json:"userId"`                                                                 // 用户id
+        ShopId string `json:"shopId"`                                                                 // 店铺id
+    }
+
+        // 获取店铺用户聊天记录列表响应体
+    ShopUserChatListResp {
+        BaseResp
+        Data []ShopUserChat `json:"data"` // 店铺用户聊天记录列表
+    }
+
+        // 店铺用户聊天记录数据
+    ShopUserChat {
+    }
+
+        // 获取聊天记录详情请求体
+    ChatDetailReq {
+    }
+
+        // 获取聊天记录详情响应体
+    ChatDetailResp {
+        BaseResp
+        Data ChatDetail `json:"data"` // 聊天记录详情
+    }
+
+        // 聊天记录详情数据
+    ChatDetail {
     }
 
         // 编辑店铺指派请求体
@@ -397,13 +441,13 @@ type (
 
         // 组织用户统计信息数据
     OrgUserStatistics {
-        UserId string `json:"userId"`                                                                         // 用户id
-        Phone string `json:"phone"`                                                                           // 手机号
-        NickName string `json:"nickName"`                                                                     // 昵称
-        HeadImg string `json:"headImg"`                                                                       // 头像
+        UserId string `json:"userId"`                                                                          // 用户id
+        Phone string `json:"phone"`                                                                            // 手机号
+        NickName string `json:"nickName"`                                                                      // 昵称
+        HeadImg string `json:"headImg"`                                                                        // 头像
         ShopList []RoleShop `json:"shopList"`                                                                  // 店铺列表
-        RecentOnlineTime int64 `json:"recentOnlineTime"`                                                      // 最近在线时间
-        TotalOnlineTime int64 `json:"onlineTime"`                                                             // 总在线时长
+        RecentOnlineTime int64 `json:"recentOnlineTime"`                                                       // 最近在线时间
+        TotalOnlineTime int64 `json:"onlineTime"`                                                              // 总在线时长
     }
 
         // 获取组织用户操作记录分页列表请求体
