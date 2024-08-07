@@ -45,10 +45,10 @@ func (m *customBsShopCareHistoryModel) FindOrgShopCareData(ctx context.Context, 
 	var resp OrgShopCareData
 	var err error
 	if startTime != 0 && endTime != 0 {
-		query = fmt.Sprintf("select sum(care_time) care_time, sum(used_power) used_power, count(1) care_times from %s where `shop_id` = ? and `create_time` >= ? and `create_time` <= ?", m.table)
+		query = fmt.Sprintf("select COALESCE(SUM(care_time), 0) AS care_time, COALESCE(SUM(used_power), 0) AS used_power, count(1) care_times from %s where `shop_id` = ? and `create_time` >= ? and `create_time` <= ?", m.table)
 		err = m.conn.QueryRowCtx(ctx, &resp, query, shopId, startTime, endTime)
 	} else {
-		query = fmt.Sprintf("select sum(care_time) care_time, sum(used_power) used_power, count(1) care_times from %s where `shop_id` = ?", m.table)
+		query = fmt.Sprintf("select COALESCE(SUM(care_time), 0) AS care_time, COALESCE(SUM(used_power), 0) AS used_power, count(1) care_times from %s where `shop_id` = ?", m.table)
 		err = m.conn.QueryRowCtx(ctx, &resp, query, shopId)
 	}
 	switch {
