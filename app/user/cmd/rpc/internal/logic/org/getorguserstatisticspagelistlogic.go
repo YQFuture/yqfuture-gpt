@@ -97,16 +97,6 @@ func (l *GetOrgUserStatisticsPageListLogic) GetOrgUserStatisticsPageList(in *use
 		}
 		orgUser.ShopList = roleShopList
 
-		// 用户托管数据
-		shopCareData, err := l.svcCtx.BsShopCareHistoryModel.FindOrgShopUserCareData(l.ctx, in.ShopId, userResult.Id, in.StartTime, in.EndTime)
-		if err != nil {
-			l.Logger.Error("获取用户托管数据失败: ", err)
-		} else {
-			orgUser.CareTime = shopCareData.CareTime
-			orgUser.CareTimes = shopCareData.CareTimes
-			orgUser.UsedPower = shopCareData.UsedPower
-		}
-
 		orgUserList = append(orgUserList, orgUser)
 	}
 

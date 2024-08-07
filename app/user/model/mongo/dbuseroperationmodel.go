@@ -58,7 +58,7 @@ func (m *customDbuseroperationModel) FindPageListByUserIdAndOrgId(ctx context.Co
 	}
 
 	// 设置排序选项
-	sortOptions := options.Find().SetSort(bson.D{{"createat", -1}})
+	sortOptions := bson.D{{"createat", -1}}
 
 	// 设置分页选项
 	skip := (pageNum - 1) * pageSize

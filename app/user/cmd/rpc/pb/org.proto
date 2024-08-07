@@ -326,12 +326,11 @@ message UpdateShopAssignResp {
 // 获取组织用户统计信息分页列表请求体
 message OrgUserStatisticsPageListReq {
   int64  userId = 1;
-  int64  shopId = 2;
-  int64  pageNum = 3;
-  int64  pageSize = 4;
-  int64  startTime = 5;
-  int64  endTime = 6;
-  string query = 7;
+  int64  pageNum = 2;
+  int64  pageSize = 3;
+  int64  startTime = 4;
+  int64  endTime = 5;
+  string query = 6;
 }
 // 获取组织用户统计信息分页列表响应体
 message OrgUserStatisticsPageListResp {
@@ -347,12 +346,9 @@ message OrgUserStatistics {
   string phone = 2;
   string nickName = 3;
   string headImg = 4;
-  int64 careTime = 5;
-  int64 careTimes = 6;
-  int64 usedPower = 7;
-  repeated RoleShop shopList = 8;
-  int64 RecentOnlineTime = 9;
-  int64 TotalOnlineTime = 10;
+  repeated RoleShop shopList = 5;
+  int64 RecentOnlineTime = 6;
+  int64 TotalOnlineTime = 7;
 }
 // 获取组织用户操作记录分页列表请求体
 message OrgUserOperationPageListReq {

@@ -40,23 +40,12 @@ func (l *GetOrgUserStatisticsPageListLogic) GetOrgUserStatisticsPageList(req *ty
 			},
 		}, nil
 	}
-	shopId, err := strconv.ParseInt(req.ShopId, 10, 64)
-	if err != nil {
-		l.Logger.Error("获取店铺ID失败", err)
-		return &types.OrgUserStatisticsPageListResp{
-			BaseResp: types.BaseResp{
-				Code: consts.Fail,
-				Msg:  "操作失败",
-			},
-		}, nil
-	}
 
 	// 调用RPC接口 获取团队用户统计信息分页列表
 	pageListResp, err := l.svcCtx.OrgClient.GetOrgUserStatisticsPageList(l.ctx, &org.OrgUserStatisticsPageListReq{
 		UserId:    userId,
 		StartTime: req.StartTime,
 		EndTime:   req.EndTime,
-		ShopId:    shopId,
 		PageNum:   req.PageNum,
 		PageSize:  req.PageSize,
 		Query:     req.Query,
@@ -93,9 +82,6 @@ func (l *GetOrgUserStatisticsPageListLogic) GetOrgUserStatisticsPageList(req *ty
 			Phone:            item.Phone,
 			NickName:         item.NickName,
 			HeadImg:          item.HeadImg,
-			CareTime:         item.CareTime,
-			CareTimes:        item.CareTimes,
-			UsedPower:        item.UsedPower,
 			RecentOnlineTime: item.RecentOnlineTime,
 			TotalOnlineTime:  item.TotalOnlineTime,
 		}

@@ -379,9 +379,6 @@ type OrgUserStatistics struct {
 	Phone            string     `json:"phone"`            // 手机号
 	NickName         string     `json:"nickName"`         // 昵称
 	HeadImg          string     `json:"headImg"`          // 头像
-	CareTime         int64      `json:"careTime"`         // 托管时长
-	CareTimes        int64      `json:"careTimes"`        // 托管次数
-	UsedPower        int64      `json:"usedPower"`        // 已用算力
 	ShopList         []RoleShop `json:"shopList"`         // 店铺列表
 	RecentOnlineTime int64      `json:"recentOnlineTime"` // 最近在线时间
 	TotalOnlineTime  int64      `json:"onlineTime"`       // 总在线时长
@@ -394,9 +391,8 @@ type OrgUserStatisticsPage struct {
 
 type OrgUserStatisticsPageListReq struct {
 	BasePageReq
-	ShopId    string `json:"shopId"`    // 店铺id
-	StartTime int64  `json:"startTime"` // 开始时间
-	EndTime   int64  `json:"endTime"`   // 结束时间
+	StartTime int64 `json:"startTime"` // 开始时间
+	EndTime   int64 `json:"endTime"`   // 结束时间
 }
 
 type OrgUserStatisticsPageListResp struct {
