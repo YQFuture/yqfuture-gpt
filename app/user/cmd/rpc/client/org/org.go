@@ -21,6 +21,9 @@ type (
 	ApplyJoinOrgResp              = user.ApplyJoinOrgResp
 	ChangeUserRoleReq             = user.ChangeUserRoleReq
 	ChangeUserRoleResp            = user.ChangeUserRoleResp
+	ChatDetail                    = user.ChatDetail
+	ChatDetailReq                 = user.ChatDetailReq
+	ChatDetailResp                = user.ChatDetailResp
 	CreateRoleReq                 = user.CreateRoleReq
 	CreateRoleResp                = user.CreateRoleResp
 	DeleteUserReq                 = user.DeleteUserReq
@@ -72,6 +75,9 @@ type (
 	SearchUserResp                = user.SearchUserResp
 	ShopRole                      = user.ShopRole
 	ShopUser                      = user.ShopUser
+	ShopUserBuyer                 = user.ShopUserBuyer
+	ShopUserBuyerListReq          = user.ShopUserBuyerListReq
+	ShopUserBuyerListResp         = user.ShopUserBuyerListResp
 	ShopUserListReq               = user.ShopUserListReq
 	ShopUserListResp              = user.ShopUserListResp
 	UpdateRoleReq                 = user.UpdateRoleReq
@@ -128,6 +134,10 @@ type (
 		UpdateShopAssign(ctx context.Context, in *UpdateShopAssignReq, opts ...grpc.CallOption) (*UpdateShopAssignResp, error)
 		// 获取店铺客服列表
 		GetShopUserList(ctx context.Context, in *ShopUserListReq, opts ...grpc.CallOption) (*ShopUserListResp, error)
+		// 获取店铺客服买家列表
+		GetShopUserBuyerList(ctx context.Context, in *ShopUserBuyerListReq, opts ...grpc.CallOption) (*ShopUserBuyerListResp, error)
+		// 获取聊天记录
+		GetChatDetail(ctx context.Context, in *ChatDetailReq, opts ...grpc.CallOption) (*ChatDetailResp, error)
 		// 获取组织用户统计信息分页列表
 		GetOrgUserStatisticsPageList(ctx context.Context, in *OrgUserStatisticsPageListReq, opts ...grpc.CallOption) (*OrgUserStatisticsPageListResp, error)
 		// 获取组织用户操作记录分页列表
@@ -283,6 +293,18 @@ func (m *defaultOrg) UpdateShopAssign(ctx context.Context, in *UpdateShopAssignR
 func (m *defaultOrg) GetShopUserList(ctx context.Context, in *ShopUserListReq, opts ...grpc.CallOption) (*ShopUserListResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.GetShopUserList(ctx, in, opts...)
+}
+
+// 获取店铺客服买家列表
+func (m *defaultOrg) GetShopUserBuyerList(ctx context.Context, in *ShopUserBuyerListReq, opts ...grpc.CallOption) (*ShopUserBuyerListResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.GetShopUserBuyerList(ctx, in, opts...)
+}
+
+// 获取聊天记录
+func (m *defaultOrg) GetChatDetail(ctx context.Context, in *ChatDetailReq, opts ...grpc.CallOption) (*ChatDetailResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.GetChatDetail(ctx, in, opts...)
 }
 
 // 获取组织用户统计信息分页列表

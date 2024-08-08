@@ -339,6 +339,51 @@ message ShopUserListResp {
   int64 code = 1;
   repeated ShopUser list = 2;
 }
+// 获取店铺客服买家列表请求体
+message ShopUserBuyerListReq {
+  int64 userId = 1;
+  int64 shopId = 2;
+  int64  startTime = 3;
+  int64  endTime = 4;
+  string query = 5;
+}
+// 获取店铺客服买家列表响应体
+message ShopUserBuyerListResp {
+  int64 code = 1;
+  repeated ShopUserBuyer list = 2;
+}
+// 店铺客服买家数据
+message ShopUserBuyer {
+  int64 buyerId = 1;
+  string buyerName = 2;
+  string buyerHeadImg = 3;
+  int64 startTime = 4;
+  int64 aiReturnNum = 5;
+  int64 usedPower = 6;
+}
+// 获取聊天记录请求体
+message ChatDetailReq {
+  int64 userId = 1;
+  int64 shopId = 2;
+  int64 shopUserId = 3;
+  int64 buyerId = 4;
+  int64  startTime = 5;
+  int64  endTime = 6;
+  string query = 7;
+}
+// 获取聊天记录响应体
+message ChatDetailResp {
+  int64 code = 1;
+  repeated ChatDetail list = 2;
+}
+// 聊天记录数据
+message ChatDetail {
+  int64 ownerId = 1;
+  int64 senderType = 2;
+  string contentType = 3;
+  string content = 5;
+  int64 createTime = 6;
+}
 // 获取组织用户统计信息分页列表请求体
 message OrgUserStatisticsPageListReq {
   int64  userId = 1;
@@ -450,6 +495,10 @@ service Org {
   rpc updateShopAssign(UpdateShopAssignReq) returns (UpdateShopAssignResp);
   // 获取店铺客服列表
   rpc getShopUserList(ShopUserListReq) returns (ShopUserListResp);
+  // 获取店铺客服买家列表
+  rpc getShopUserBuyerList(ShopUserBuyerListReq) returns (ShopUserBuyerListResp);
+  // 获取聊天记录
+  rpc getChatDetail(ChatDetailReq) returns (ChatDetailResp);
   // 获取组织用户统计信息分页列表
   rpc getOrgUserStatisticsPageList(OrgUserStatisticsPageListReq) returns (OrgUserStatisticsPageListResp);
   // 获取组织用户操作记录分页列表

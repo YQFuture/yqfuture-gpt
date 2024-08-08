@@ -160,6 +160,18 @@ func (s *OrgServer) GetShopUserList(ctx context.Context, in *user.ShopUserListRe
 	return l.GetShopUserList(in)
 }
 
+// 获取店铺客服买家列表
+func (s *OrgServer) GetShopUserBuyerList(ctx context.Context, in *user.ShopUserBuyerListReq) (*user.ShopUserBuyerListResp, error) {
+	l := orglogic.NewGetShopUserBuyerListLogic(ctx, s.svcCtx)
+	return l.GetShopUserBuyerList(in)
+}
+
+// 获取聊天记录
+func (s *OrgServer) GetChatDetail(ctx context.Context, in *user.ChatDetailReq) (*user.ChatDetailResp, error) {
+	l := orglogic.NewGetChatDetailLogic(ctx, s.svcCtx)
+	return l.GetChatDetail(in)
+}
+
 // 获取组织用户统计信息分页列表
 func (s *OrgServer) GetOrgUserStatisticsPageList(ctx context.Context, in *user.OrgUserStatisticsPageListReq) (*user.OrgUserStatisticsPageListResp, error) {
 	l := orglogic.NewGetOrgUserStatisticsPageListLogic(ctx, s.svcCtx)
