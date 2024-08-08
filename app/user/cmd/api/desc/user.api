@@ -196,6 +196,18 @@ service user {
 	@handler updateShopAssign
 	post /updateShopAssign (UpdateShopAssignReq) returns (UpdateShopAssignResp)
 
+	@doc "获取店铺客服列表"
+	@handler getShopUserList
+	post /getShopUserList (ShopUserListReq) returns (ShopUserListResp)
+
+	@doc "获取店铺客服买家列表"
+	@handler getShopUserBuyerList
+	post /getShopUserBuyerList (ShopUserBuyerListReq) returns (ShopUserBuyerListResp)
+
+	@doc "获取聊天记录列表"
+	@handler getChatDetailList
+	post /getChatDetailList (ChatDetailReq) returns (ChatDetailResp)
+
 	@doc "获取团队用户统计信息分页列表"
 	@handler getOrgUserStatisticsPageList
 	post /getOrgUserStatisticsPageList (OrgUserStatisticsPageListReq) returns (OrgUserStatisticsPageListResp)

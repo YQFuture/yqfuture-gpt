@@ -72,6 +72,8 @@ type (
 	SearchUserResp                = user.SearchUserResp
 	ShopRole                      = user.ShopRole
 	ShopUser                      = user.ShopUser
+	ShopUserListReq               = user.ShopUserListReq
+	ShopUserListResp              = user.ShopUserListResp
 	UpdateRoleReq                 = user.UpdateRoleReq
 	UpdateRoleResp                = user.UpdateRoleResp
 	UpdateShopAssignReq           = user.UpdateShopAssignReq
@@ -124,6 +126,8 @@ type (
 		GetOrgShopPageList(ctx context.Context, in *OrgShopPageListReq, opts ...grpc.CallOption) (*OrgShopPageListResp, error)
 		// 编辑店铺指派
 		UpdateShopAssign(ctx context.Context, in *UpdateShopAssignReq, opts ...grpc.CallOption) (*UpdateShopAssignResp, error)
+		// 获取店铺客服列表
+		GetShopUserList(ctx context.Context, in *ShopUserListReq, opts ...grpc.CallOption) (*ShopUserListResp, error)
 		// 获取组织用户统计信息分页列表
 		GetOrgUserStatisticsPageList(ctx context.Context, in *OrgUserStatisticsPageListReq, opts ...grpc.CallOption) (*OrgUserStatisticsPageListResp, error)
 		// 获取组织用户操作记录分页列表
@@ -273,6 +277,12 @@ func (m *defaultOrg) GetOrgShopPageList(ctx context.Context, in *OrgShopPageList
 func (m *defaultOrg) UpdateShopAssign(ctx context.Context, in *UpdateShopAssignReq, opts ...grpc.CallOption) (*UpdateShopAssignResp, error) {
 	client := user.NewOrgClient(m.cli.Conn())
 	return client.UpdateShopAssign(ctx, in, opts...)
+}
+
+// 获取店铺客服列表
+func (m *defaultOrg) GetShopUserList(ctx context.Context, in *ShopUserListReq, opts ...grpc.CallOption) (*ShopUserListResp, error) {
+	client := user.NewOrgClient(m.cli.Conn())
+	return client.GetShopUserList(ctx, in, opts...)
 }
 
 // 获取组织用户统计信息分页列表

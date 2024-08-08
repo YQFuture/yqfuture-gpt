@@ -366,47 +366,6 @@ type (
         UsedPower int64 `json:"usedPower"`                                                            // 已用算力
     }
 
-        // 获取店铺用户列表请求体
-    ShopUserListReq {
-        ShopId string `json:"shopId"` // 店铺id
-    }
-
-        // 获取店铺用户列表响应体
-    ShopUserListResp {
-        BaseResp
-        Data []ShopUser `json:"data"` // 店铺用户列表
-    }
-
-        // 获取店铺用户聊天记录列表请求体
-    ShopUserChatListReq {
-        UserId string `json:"userId"`                                                                 // 用户id
-        ShopId string `json:"shopId"`                                                                 // 店铺id
-    }
-
-        // 获取店铺用户聊天记录列表响应体
-    ShopUserChatListResp {
-        BaseResp
-        Data []ShopUserChat `json:"data"` // 店铺用户聊天记录列表
-    }
-
-        // 店铺用户聊天记录数据
-    ShopUserChat {
-    }
-
-        // 获取聊天记录详情请求体
-    ChatDetailReq {
-    }
-
-        // 获取聊天记录详情响应体
-    ChatDetailResp {
-        BaseResp
-        Data ChatDetail `json:"data"` // 聊天记录详情
-    }
-
-        // 聊天记录详情数据
-    ChatDetail {
-    }
-
         // 编辑店铺指派请求体
     UpdateShopAssignReq {
         ShopId string `json:"shopId"`                                       // 店铺id
@@ -420,6 +379,68 @@ type (
         BaseResp
     }
 
+        // 获取店铺客服列表请求体
+    ShopUserListReq {
+        ShopId string `json:"shopId"`      // 店铺id
+        StartTime int64 `json:"startTime"` // 开始时间
+        EndTime int64 `json:"endTime"`     // 结束时间
+        Query string `json:"query"`        // 查询条件
+    }
+
+        // 获取店铺客服列表响应体
+    ShopUserListResp {
+        BaseResp
+        Data []ShopUser `json:"data"` // 店铺用户列表
+    }
+
+        // 获取店铺客服买家列表请求体
+    ShopUserBuyerListReq {
+        UserId string `json:"userId"`                                                                 // 用户id
+        ShopId string `json:"shopId"`                                                                 // 店铺id
+        StartTime int64 `json:"startTime"`                                                            // 开始时间
+        EndTime int64 `json:"endTime"`                                                                // 结束时间
+        Query string `json:"query"`                                                                   // 查询条件
+    }
+
+        // 获取店铺客服买家列表返回体
+    ShopUserBuyerListResp {
+        BaseResp
+        Data []ShopUserBuyer `json:"data"` // 店铺用户聊天记录列表
+    }
+
+        // 店铺客服买家
+    ShopUserBuyer {
+        BuyerId string `json:"buyerId"`                                                               // 买家id
+        BuyerName string `json:"buyerName"`                                                           // 买家名称
+        BuyerHeadImg string `json:"buyerHeadImg"`                                                     // 买家头像
+        StartTime int64 `json:"startTime"`                                                            // 开始时间
+        AiReturnNum int64 `json:"aiReturnNum"`                                                        // AI回复数量
+        UsedPower int64 `json:"usedPower"`                                                            // 消耗 算力
+    }
+
+        // 获取聊天记录请求体
+    ChatDetailReq {
+        UserId string `json:"userId"`                                                                 // 用户id
+        ShopId string `json:"shopId"`                                                                 // 店铺id
+        BuyerId string `json:"buyerId"`                                                               // 买家id
+        StartTime int64 `json:"startTime"`                                                            // 开始时间
+        EndTime int64 `json:"endTime"`                                                                // 结束时间
+        Query string `json:"query"`                                                                   // 查询条件
+    }
+
+        // 获取聊天记录响应体
+    ChatDetailResp {
+        BaseResp
+        Data []ChatDetail `json:"data"` // 聊天记录详情
+    }
+
+        // 聊天记录详情数据
+    ChatDetail {
+        OwnerId string `json:"ownerId"`                                                                  // 用户id
+        ContentType int64 `json:"contentType"`                                                           // 内容类型
+        Content string `json:"content"`                                                                  // 内容
+        CreateTime int64 `json:"createTime"`                                                             // 创建时间
+    }
         // 获取组织用户统计信息分页列表请求体
     OrgUserStatisticsPageListReq {
         BasePageReq

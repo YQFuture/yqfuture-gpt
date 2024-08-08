@@ -112,6 +112,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: org.DeleteUserHandler(serverCtx),
 			},
 			{
+				// 获取聊天记录列表
+				Method:  http.MethodPost,
+				Path:    "/getChatDetailList",
+				Handler: org.GetChatDetailListHandler(serverCtx),
+			},
+			{
 				// 获取团队权限树
 				Method:  http.MethodPost,
 				Path:    "/getOrgPermTree",
@@ -158,6 +164,18 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/getOrgUserStatisticsPageList",
 				Handler: org.GetOrgUserStatisticsPageListHandler(serverCtx),
+			},
+			{
+				// 获取店铺客服买家列表
+				Method:  http.MethodPost,
+				Path:    "/getShopUserBuyerList",
+				Handler: org.GetShopUserBuyerListHandler(serverCtx),
+			},
+			{
+				// 获取店铺客服列表
+				Method:  http.MethodPost,
+				Path:    "/getShopUserList",
+				Handler: org.GetShopUserListHandler(serverCtx),
 			},
 			{
 				// 分配算力

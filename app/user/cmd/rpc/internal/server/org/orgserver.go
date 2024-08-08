@@ -154,6 +154,12 @@ func (s *OrgServer) UpdateShopAssign(ctx context.Context, in *user.UpdateShopAss
 	return l.UpdateShopAssign(in)
 }
 
+// 获取店铺客服列表
+func (s *OrgServer) GetShopUserList(ctx context.Context, in *user.ShopUserListReq) (*user.ShopUserListResp, error) {
+	l := orglogic.NewGetShopUserListLogic(ctx, s.svcCtx)
+	return l.GetShopUserList(in)
+}
+
 // 获取组织用户统计信息分页列表
 func (s *OrgServer) GetOrgUserStatisticsPageList(ctx context.Context, in *user.OrgUserStatisticsPageListReq) (*user.OrgUserStatisticsPageListResp, error) {
 	l := orglogic.NewGetOrgUserStatisticsPageListLogic(ctx, s.svcCtx)

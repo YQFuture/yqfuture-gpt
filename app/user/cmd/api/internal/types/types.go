@@ -79,6 +79,27 @@ type ChangeUserRoleResp struct {
 	BaseResp
 }
 
+type ChatDetail struct {
+	OwnerId     string `json:"ownerId"`     // 用户id
+	ContentType int64  `json:"contentType"` // 内容类型
+	Content     string `json:"content"`     // 内容
+	CreateTime  int64  `json:"createTime"`  // 创建时间
+}
+
+type ChatDetailReq struct {
+	UserId    string `json:"userId"`    // 用户id
+	ShopId    string `json:"shopId"`    // 店铺id
+	BuyerId   string `json:"buyerId"`   // 买家id
+	StartTime int64  `json:"startTime"` // 开始时间
+	EndTime   int64  `json:"endTime"`   // 结束时间
+	Query     string `json:"query"`     // 查询条件
+}
+
+type ChatDetailResp struct {
+	BaseResp
+	Data []ChatDetail `json:"data"` // 聊天记录详情
+}
+
 type CreateRoleReq struct {
 	RoleName   string   `json:"roleName"`   // 角色名称
 	PermIdList []string `json:"permIdList"` // 权限id列表
@@ -490,10 +511,47 @@ type ShopRole struct {
 }
 
 type ShopUser struct {
-	UserId   string `json:"userId"`   // 用户id
-	Phone    string `json:"phone"`    // 手机号
-	NickName string `json:"nickName"` // 昵称
-	HeadImg  string `json:"headImg"`  // 头像
+	UserId    string `json:"userId"`    // 用户id
+	Phone     string `json:"phone"`     // 手机号
+	NickName  string `json:"nickName"`  // 昵称
+	HeadImg   string `json:"headImg"`   // 头像
+	CareTime  int64  `json:"careTime"`  // 托管时长
+	CareTimes int64  `json:"careTimes"` // 托管次数
+	UsedPower int64  `json:"usedPower"` // 已用算力
+}
+
+type ShopUserBuyer struct {
+	BuyerId      string `json:"buyerId"`      // 买家id
+	BuyerName    string `json:"buyerName"`    // 买家名称
+	BuyerHeadImg string `json:"buyerHeadImg"` // 买家头像
+	StartTime    int64  `json:"startTime"`    // 开始时间
+	AiReturnNum  int64  `json:"aiReturnNum"`  // AI回复数量
+	UsedPower    int64  `json:"usedPower"`    // 消耗 算力
+}
+
+type ShopUserBuyerListReq struct {
+	UserId    string `json:"userId"`    // 用户id
+	ShopId    string `json:"shopId"`    // 店铺id
+	StartTime int64  `json:"startTime"` // 开始时间
+	EndTime   int64  `json:"endTime"`   // 结束时间
+	Query     string `json:"query"`     // 查询条件
+}
+
+type ShopUserBuyerListResp struct {
+	BaseResp
+	Data []ShopUserBuyer `json:"data"` // 店铺用户聊天记录列表
+}
+
+type ShopUserListReq struct {
+	ShopId    string `json:"shopId"`    // 店铺id
+	StartTime int64  `json:"startTime"` // 开始时间
+	EndTime   int64  `json:"endTime"`   // 结束时间
+	Query     string `json:"query"`     // 查询条件
+}
+
+type ShopUserListResp struct {
+	BaseResp
+	Data []ShopUser `json:"data"` // 店铺用户列表
 }
 
 type UpdateHeadImgReq struct {

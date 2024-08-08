@@ -310,6 +310,9 @@ message ShopUser {
   string phone = 2;
   string nickName = 3;
   string headImg = 4;
+  int64 careTime = 5;
+  int64 careTimes = 6;
+  int64 usedPower = 7;
 }
 // 编辑店铺指派请求体
 message UpdateShopAssignReq {
@@ -322,6 +325,19 @@ message UpdateShopAssignReq {
 // 编辑店铺指派响应体
 message UpdateShopAssignResp {
   int64 code = 1;
+}
+// 获取店铺客服列表请求体
+message ShopUserListReq {
+  int64 userId = 1;
+  int64 shopId = 2;
+  int64  startTime = 3;
+  int64  endTime = 4;
+  string query = 5;
+}
+// 获取店铺客服列表响应体
+message ShopUserListResp {
+  int64 code = 1;
+  repeated ShopUser list = 2;
 }
 // 获取组织用户统计信息分页列表请求体
 message OrgUserStatisticsPageListReq {
@@ -432,6 +448,8 @@ service Org {
   rpc getOrgShopPageList(OrgShopPageListReq) returns (OrgShopPageListResp);
   // 编辑店铺指派
   rpc updateShopAssign(UpdateShopAssignReq) returns (UpdateShopAssignResp);
+  // 获取店铺客服列表
+  rpc getShopUserList(ShopUserListReq) returns (ShopUserListResp);
   // 获取组织用户统计信息分页列表
   rpc getOrgUserStatisticsPageList(OrgUserStatisticsPageListReq) returns (OrgUserStatisticsPageListResp);
   // 获取组织用户操作记录分页列表

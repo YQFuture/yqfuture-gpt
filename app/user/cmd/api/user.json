@@ -382,6 +382,39 @@
         ]
       }
     },
+    "/org/getChatDetailList": {
+      "post": {
+        "summary": "获取聊天记录列表",
+        "operationId": "getChatDetailList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ChatDetailResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 获取聊天记录请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChatDetailReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
     "/org/getOrgPermTree": {
       "post": {
         "summary": "获取团队权限树",
@@ -631,6 +664,72 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/OrgUserStatisticsPageListReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/getShopUserBuyerList": {
+      "post": {
+        "summary": "获取店铺客服买家列表",
+        "operationId": "getShopUserBuyerList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ShopUserBuyerListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 获取店铺客服买家列表请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShopUserBuyerListReq"
+            }
+          }
+        ],
+        "tags": [
+          "org"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/org/getShopUserList": {
+      "post": {
+        "summary": "获取店铺客服列表",
+        "operationId": "getShopUserList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ShopUserListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 获取店铺客服列表请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShopUserListReq"
             }
           }
         ],
@@ -1687,6 +1786,101 @@
         }
       },
       "title": "ChangeUserRoleResp"
+    },
+    "ChatDetail": {
+      "type": "object",
+      "properties": {
+        "ownerId": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "contentType": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 内容类型"
+        },
+        "content": {
+          "type": "string",
+          "description": " 内容"
+        },
+        "createTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建时间"
+        }
+      },
+      "title": "ChatDetail",
+      "required": [
+        "ownerId",
+        "contentType",
+        "content",
+        "createTime"
+      ]
+    },
+    "ChatDetailReq": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "shopId": {
+          "type": "string",
+          "description": " 店铺id"
+        },
+        "buyerId": {
+          "type": "string",
+          "description": " 买家id"
+        },
+        "startTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 开始时间"
+        },
+        "endTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 结束时间"
+        },
+        "query": {
+          "type": "string",
+          "description": " 查询条件"
+        }
+      },
+      "title": "ChatDetailReq",
+      "required": [
+        "userId",
+        "shopId",
+        "buyerId",
+        "startTime",
+        "endTime",
+        "query"
+      ]
+    },
+    "ChatDetailResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ChatDetail"
+          },
+          "description": " 聊天记录详情"
+        }
+      },
+      "title": "ChatDetailResp",
+      "required": [
+        "data"
+      ]
     },
     "CreateRoleReq": {
       "type": "object",
@@ -2983,21 +3177,6 @@
           "type": "string",
           "description": " 头像"
         },
-        "careTime": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 托管时长"
-        },
-        "careTimes": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 托管次数"
-        },
-        "usedPower": {
-          "type": "integer",
-          "format": "int64",
-          "description": " 已用算力"
-        },
         "shopList": {
           "type": "array",
           "items": {
@@ -3022,9 +3201,6 @@
         "phone",
         "nickName",
         "headImg",
-        "careTime",
-        "careTimes",
-        "usedPower",
         "shopList",
         "recentOnlineTime",
         "onlineTime"
@@ -3078,10 +3254,6 @@
           "type": "string",
           "description": " 查询条件"
         },
-        "shopId": {
-          "type": "string",
-          "description": " 店铺id"
-        },
         "startTime": {
           "type": "integer",
           "format": "int64",
@@ -3095,7 +3267,6 @@
       },
       "title": "OrgUserStatisticsPageListReq",
       "required": [
-        "shopId",
         "startTime",
         "endTime"
       ]
@@ -3479,6 +3650,21 @@
         "headImg": {
           "type": "string",
           "description": " 头像"
+        },
+        "careTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 托管时长"
+        },
+        "careTimes": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 托管次数"
+        },
+        "usedPower": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 已用算力"
         }
       },
       "title": "ShopUser",
@@ -3486,7 +3672,166 @@
         "userId",
         "phone",
         "nickName",
-        "headImg"
+        "headImg",
+        "careTime",
+        "careTimes",
+        "usedPower"
+      ]
+    },
+    "ShopUserBuyer": {
+      "type": "object",
+      "properties": {
+        "buyerId": {
+          "type": "string",
+          "description": " 买家id"
+        },
+        "buyerName": {
+          "type": "string",
+          "description": " 买家名称"
+        },
+        "buyerHeadImg": {
+          "type": "string",
+          "description": " 买家头像"
+        },
+        "startTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 开始时间"
+        },
+        "aiReturnNum": {
+          "type": "integer",
+          "format": "int64",
+          "description": " AI回复数量"
+        },
+        "usedPower": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 消耗 算力"
+        }
+      },
+      "title": "ShopUserBuyer",
+      "required": [
+        "buyerId",
+        "buyerName",
+        "buyerHeadImg",
+        "startTime",
+        "aiReturnNum",
+        "usedPower"
+      ]
+    },
+    "ShopUserBuyerListReq": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": " 用户id"
+        },
+        "shopId": {
+          "type": "string",
+          "description": " 店铺id"
+        },
+        "startTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 开始时间"
+        },
+        "endTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 结束时间"
+        },
+        "query": {
+          "type": "string",
+          "description": " 查询条件"
+        }
+      },
+      "title": "ShopUserBuyerListReq",
+      "required": [
+        "userId",
+        "shopId",
+        "startTime",
+        "endTime",
+        "query"
+      ]
+    },
+    "ShopUserBuyerListResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShopUserBuyer"
+          },
+          "description": " 店铺用户聊天记录列表"
+        }
+      },
+      "title": "ShopUserBuyerListResp",
+      "required": [
+        "data"
+      ]
+    },
+    "ShopUserListReq": {
+      "type": "object",
+      "properties": {
+        "shopId": {
+          "type": "string",
+          "description": " 店铺id"
+        },
+        "startTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 开始时间"
+        },
+        "endTime": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 结束时间"
+        },
+        "query": {
+          "type": "string",
+          "description": " 查询条件"
+        }
+      },
+      "title": "ShopUserListReq",
+      "required": [
+        "shopId",
+        "startTime",
+        "endTime",
+        "query"
+      ]
+    },
+    "ShopUserListResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 信息"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShopUser"
+          },
+          "description": " 店铺用户列表"
+        }
+      },
+      "title": "ShopUserListResp",
+      "required": [
+        "data"
       ]
     },
     "UpdateHeadImgReq": {
