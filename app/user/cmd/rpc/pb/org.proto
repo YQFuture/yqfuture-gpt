@@ -380,7 +380,7 @@ message ChatDetailResp {
 message ChatDetail {
   int64 ownerId = 1;
   int64 senderType = 2;
-  string contentType = 3;
+  int64 contentType = 3;
   string content = 5;
   int64 createTime = 6;
 }
