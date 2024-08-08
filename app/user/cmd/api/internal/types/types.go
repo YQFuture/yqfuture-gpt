@@ -81,6 +81,7 @@ type ChangeUserRoleResp struct {
 
 type ChatDetail struct {
 	OwnerId     string `json:"ownerId"`     // 用户id
+	SenderType  int64  `json:"senderType"`  // 发送者类型 0 AI 1 人工 2 买家
 	ContentType int64  `json:"contentType"` // 内容类型
 	Content     string `json:"content"`     // 内容
 	CreateTime  int64  `json:"createTime"`  // 创建时间

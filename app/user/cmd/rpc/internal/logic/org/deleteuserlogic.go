@@ -3,6 +3,7 @@ package orglogic
 import (
 	"context"
 	"errors"
+	model "yufuture-gpt/app/user/model/mongo"
 
 	"yufuture-gpt/app/user/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/user/cmd/rpc/pb/user"
@@ -54,6 +55,11 @@ func (l *DeleteUserLogic) DeleteUser(in *user.DeleteUserReq) (*user.DeleteUserRe
 			dborgpermission.UserList = append(dborgpermission.UserList[:index], dborgpermission.UserList[index+1:]...)
 			break
 		}
+	}
+
+	// 如果删除了最后一个元素
+	if len(dborgpermission.UserList) == 0 {
+		dborgpermission.UserList = []*model.User{}
 	}
 
 	// 删除MongoDB文档中的店铺关键词转接人和异常责任人

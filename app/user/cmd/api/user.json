@@ -1794,6 +1794,11 @@
           "type": "string",
           "description": " 用户id"
         },
+        "senderType": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 发送者类型 0 AI 1 人工"
+        },
         "contentType": {
           "type": "integer",
           "format": "int64",
@@ -1812,6 +1817,7 @@
       "title": "ChatDetail",
       "required": [
         "ownerId",
+        "senderType",
         "contentType",
         "content",
         "createTime"
