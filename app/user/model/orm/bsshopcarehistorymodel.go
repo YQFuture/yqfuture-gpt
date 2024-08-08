@@ -24,11 +24,9 @@ type (
 	}
 
 	OrgShopCareData struct {
-		CareTime         int64 `db:"care_time"`
-		CareTimes        int64 `db:"care_times"`
-		UsedPower        int64 `db:"used_power"`
-		RecentOnlineTime int64 `db:"recent_online_time"`
-		TotalOnlineTime  int64 `db:"recent_offline_time"`
+		CareTime  int64 `db:"care_time"`
+		CareTimes int64 `db:"care_times"`
+		UsedPower int64 `db:"used_power"`
 	}
 )
 
