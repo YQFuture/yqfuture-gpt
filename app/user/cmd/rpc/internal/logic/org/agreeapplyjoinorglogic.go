@@ -118,7 +118,7 @@ func (l *AgreeApplyJoinOrgLogic) AgreeApplyJoinOrg(in *user.AgreeApplyJoinOrgReq
 	}
 	// 将用户保存到MongoDB文档
 	dborgpermission.UserList = append(dborgpermission.UserList, &model.User{
-		Id: in.UserId,
+		Id: applyUserId,
 	})
 	// 更新MongoDB中的团队权限文档
 	_, err = l.svcCtx.DborgpermissionModel.Update(l.ctx, dborgpermission)
