@@ -56,6 +56,14 @@ func (l *UpdateShopAssignLogic) UpdateShopAssign(in *user.UpdateShopAssignReq) (
 			break
 		}
 	}
+	if shopPerm == nil {
+		shopPerm = &model.ShopPerm{
+			Id:                       in.ShopId,
+			KeywordSwitchingUserList: []*int64{},
+			ExceptionDutyUserList:    []*int64{},
+		}
+		dborgpermission.ShopPermList = append(dborgpermission.ShopPermList, shopPerm)
+	}
 
 	// 更新角色列表
 	// 传进来的角色ID列表转map
