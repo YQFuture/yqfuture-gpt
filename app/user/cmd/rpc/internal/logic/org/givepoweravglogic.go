@@ -50,7 +50,7 @@ func (l *GivePowerAvgLogic) GivePowerAvg(in *user.GivePowerAvgReq) (*user.GivePo
 	}
 
 	// 计算平均算力
-	avgPower := bsOrg.MonthPowerLimit / int64(len(*userOrgList))
+	avgPower := bsOrg.MonthPowerLimit / int64(len(*userOrgList)) / 10000 * 10000
 	err = l.svcCtx.BsUserOrgModel.UpdateUserPowerAvg(l.ctx, bsUser.NowOrgId, avgPower)
 	if err != nil {
 		l.Logger.Error("更新用户算力失败: ", err)
