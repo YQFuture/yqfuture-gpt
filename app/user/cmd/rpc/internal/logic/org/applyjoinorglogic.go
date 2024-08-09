@@ -47,6 +47,18 @@ func (l *ApplyJoinOrgLogic) ApplyJoinOrg(in *user.ApplyJoinOrgReq) (*user.ApplyJ
 			Code: consts.OrgNumLimit,
 		}, nil
 	}
+
+	userOrg, err := l.svcCtx.BsUserOrgModel.FindUserOrgByUserIdAndOrgId(l.ctx, in.UserId, in.OrgId)
+	if err != nil {
+		l.Logger.Error("查找用户团队信息失败: ", err)
+		return nil, err
+	}
+
+	if userOrg != nil {
+		l.Logger.Error("用户已经加入团队: ", err)
+		return nil, err
+	}
+
 	// 查找用户信息
 	bsUser, err := l.svcCtx.BsUserModel.FindOne(l.ctx, in.UserId)
 	if err != nil {

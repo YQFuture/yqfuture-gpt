@@ -51,6 +51,16 @@ func (l *InviteJoinOrgLogic) InviteJoinOrg(req *types.InviteJoinOrgReq) (resp *t
 		}, nil
 	}
 
+	if userId == inviteUserId {
+		l.Logger.Error("邀请用户不能是自己", err)
+		return &types.InviteJoinOrgResp{
+			BaseResp: types.BaseResp{
+				Code: consts.Fail,
+				Msg:  "邀请用户不能是自己",
+			},
+		}, nil
+	}
+
 	// 调用RPC接口 发起邀请用户加入团队请求
 	inviteUserJoinOrgResp, err := l.svcCtx.OrgClient.InviteJoinOrg(l.ctx, &org.InviteJoinOrgReq{
 		UserId:       userId,
