@@ -461,6 +461,7 @@ service Org {
   rpc agreeApplyJoinOrg(AgreeApplyJoinOrgReq) returns (AgreeApplyJoinOrgResp);
   // 同意用户邀请加入团队
   rpc agreeInviteJoinOrg(AgreeInviteJoinOrgReq) returns (AgreeInviteJoinOrgResp);
+
   // 获取团队角色列表
   rpc getOrgRoleList(OrgRoleListReq) returns (OrgRoleListResp);
   // 获取团队权限列表
@@ -471,6 +472,7 @@ service Org {
   rpc updateRole(UpdateRoleReq) returns (UpdateRoleResp);
   // 获取团队用户列表
   rpc getOrgUserList(OrgUserListReq) returns (OrgUserListResp);
+
   // 获取团队用户分页列表
   rpc getOrgUserPageList(OrgUserPageListReq) returns (OrgUserPageListResp);
   // 修改用户角色
@@ -481,6 +483,7 @@ service Org {
   rpc pauseUser(PauseUserReq) returns (PauseUserResp);
   // 恢复用户
   rpc resumeUser(ResumeUserReq) returns (ResumeUserResp);
+
   // 分配算力
   rpc givePower(GivePowerReq) returns (GivePowerResp);
   // 平均分配算力
@@ -489,16 +492,19 @@ service Org {
   rpc givePowerShop(GivePowerShopReq) returns (GivePowerShopResp);
   // 平均分配店铺算力
   rpc givePowerShopAvg(GivePowerShopAvgReq) returns (GivePowerShopAvgResp);
+
   // 获取团队店铺分页列表
   rpc getOrgShopPageList(OrgShopPageListReq) returns (OrgShopPageListResp);
   // 编辑店铺指派
   rpc updateShopAssign(UpdateShopAssignReq) returns (UpdateShopAssignResp);
+
   // 获取店铺客服列表
   rpc getShopUserList(ShopUserListReq) returns (ShopUserListResp);
   // 获取店铺客服买家列表
   rpc getShopUserBuyerList(ShopUserBuyerListReq) returns (ShopUserBuyerListResp);
   // 获取聊天记录
   rpc getChatDetail(ChatDetailReq) returns (ChatDetailResp);
+
   // 获取组织用户统计信息分页列表
   rpc getOrgUserStatisticsPageList(OrgUserStatisticsPageListReq) returns (OrgUserStatisticsPageListResp);
   // 获取组织用户操作记录分页列表
