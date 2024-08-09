@@ -12,7 +12,7 @@ import (
     "basefunction.api"
 )
 
-// 组织团队服务
+// 组织团队权限
 type (
     // 查找团队请求体
     SearchOrgReq {

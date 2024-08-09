@@ -101,7 +101,7 @@ service user {
 	post /logOut (LogOutReq) returns (LogOutResp)
 }
 
-// 组织团队相关接口
+// 组织团队权限
 @server (
 	prefix: org
 	group:  org
@@ -171,7 +171,15 @@ service user {
 	@doc "恢复用户"
 	@handler resumeUser
 	post /resumeUser (ResumeUserReq) returns (ResumeUserResp)
+}
 
+// 组织团队资源
+@server (
+	prefix: org
+	group:  org
+	jwt:    Auth
+)
+service user {
 	@doc "分配算力"
 	@handler giverPower
 	post /giverPower (GivePowerReq) returns (GivePowerResp)

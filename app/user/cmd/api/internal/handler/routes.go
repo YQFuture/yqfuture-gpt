@@ -112,12 +112,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: org.DeleteUserHandler(serverCtx),
 			},
 			{
-				// 获取聊天记录列表
-				Method:  http.MethodPost,
-				Path:    "/getChatDetailList",
-				Handler: org.GetChatDetailListHandler(serverCtx),
-			},
-			{
 				// 获取团队权限树
 				Method:  http.MethodPost,
 				Path:    "/getOrgPermTree",
@@ -130,16 +124,71 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: org.GetOrgRoleListHandler(serverCtx),
 			},
 			{
-				// 获取团队店铺分页列表
-				Method:  http.MethodPost,
-				Path:    "/getOrgShopPageList",
-				Handler: org.GetOrgShopPageListHandler(serverCtx),
-			},
-			{
 				// 获取团队用户列表
 				Method:  http.MethodPost,
 				Path:    "/getOrgUserList",
 				Handler: org.GetOrgUserListHandler(serverCtx),
+			},
+			{
+				// 获取团队用户分页列表
+				Method:  http.MethodPost,
+				Path:    "/getOrgUserPageList",
+				Handler: org.GetOrgUserPageListHandler(serverCtx),
+			},
+			{
+				// 邀请用户加入团队
+				Method:  http.MethodPost,
+				Path:    "/inviteJoinOrg",
+				Handler: org.InviteJoinOrgHandler(serverCtx),
+			},
+			{
+				// 暂停用户
+				Method:  http.MethodPost,
+				Path:    "/pauseUser",
+				Handler: org.PauseUserHandler(serverCtx),
+			},
+			{
+				// 恢复用户
+				Method:  http.MethodPost,
+				Path:    "/resumeUser",
+				Handler: org.ResumeUserHandler(serverCtx),
+			},
+			{
+				// 查找团队
+				Method:  http.MethodPost,
+				Path:    "/searchOrg",
+				Handler: org.SearchOrgHandler(serverCtx),
+			},
+			{
+				// 查找用户
+				Method:  http.MethodPost,
+				Path:    "/searchUser",
+				Handler: org.SearchUserHandler(serverCtx),
+			},
+			{
+				// 更新角色
+				Method:  http.MethodPost,
+				Path:    "/updateRole",
+				Handler: org.UpdateRoleHandler(serverCtx),
+			},
+		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		rest.WithPrefix("/org"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				// 获取聊天记录列表
+				Method:  http.MethodPost,
+				Path:    "/getChatDetailList",
+				Handler: org.GetChatDetailListHandler(serverCtx),
+			},
+			{
+				// 获取团队店铺分页列表
+				Method:  http.MethodPost,
+				Path:    "/getOrgShopPageList",
+				Handler: org.GetOrgShopPageListHandler(serverCtx),
 			},
 			{
 				// 导出团队用户操作记录列表
@@ -152,12 +201,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/getOrgUserOperationPageList",
 				Handler: org.GetOrgUserOperationPageListHandler(serverCtx),
-			},
-			{
-				// 获取团队用户分页列表
-				Method:  http.MethodPost,
-				Path:    "/getOrgUserPageList",
-				Handler: org.GetOrgUserPageListHandler(serverCtx),
 			},
 			{
 				// 获取团队用户统计信息分页列表
@@ -200,42 +243,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodPost,
 				Path:    "/giverPowerShopAvg",
 				Handler: org.GiverPowerShopAvgHandler(serverCtx),
-			},
-			{
-				// 邀请用户加入团队
-				Method:  http.MethodPost,
-				Path:    "/inviteJoinOrg",
-				Handler: org.InviteJoinOrgHandler(serverCtx),
-			},
-			{
-				// 暂停用户
-				Method:  http.MethodPost,
-				Path:    "/pauseUser",
-				Handler: org.PauseUserHandler(serverCtx),
-			},
-			{
-				// 恢复用户
-				Method:  http.MethodPost,
-				Path:    "/resumeUser",
-				Handler: org.ResumeUserHandler(serverCtx),
-			},
-			{
-				// 查找团队
-				Method:  http.MethodPost,
-				Path:    "/searchOrg",
-				Handler: org.SearchOrgHandler(serverCtx),
-			},
-			{
-				// 查找用户
-				Method:  http.MethodPost,
-				Path:    "/searchUser",
-				Handler: org.SearchUserHandler(serverCtx),
-			},
-			{
-				// 更新角色
-				Method:  http.MethodPost,
-				Path:    "/updateRole",
-				Handler: org.UpdateRoleHandler(serverCtx),
 			},
 			{
 				// 编辑店铺指派
