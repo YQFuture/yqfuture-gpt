@@ -63,7 +63,7 @@ func (l *GetOrgUserPageListLogic) GetOrgUserPageList(in *user.OrgUserPageListReq
 	}
 
 	// 解析构建返回体
-	var orgUserList []*org.OrgUser
+	var orgUserList []*user.OrgUser
 	for _, userResult := range *userListResult {
 		userRoleList, userPermList := GetUserRolePermList(userResult.Id, dborgpermission)
 		orgUser := &org.OrgUser{
@@ -97,9 +97,9 @@ func (l *GetOrgUserPageListLogic) GetOrgUserPageList(in *user.OrgUserPageListReq
 	}, nil
 }
 
-func GetUserRolePermList(userId int64, dborgpermission *model.Dborgpermission) ([]*org.UserRole, []*org.UserPerm) {
-	var userRoleList []*org.UserRole
-	var userPermList []*org.UserPerm
+func GetUserRolePermList(userId int64, dborgpermission *model.Dborgpermission) ([]*user.UserRole, []*user.UserPerm) {
+	var userRoleList []*user.UserRole
+	var userPermList []*user.UserPerm
 	var orgUser *model.User
 	for _, mongoUser := range dborgpermission.UserList {
 		if mongoUser.Id == userId {

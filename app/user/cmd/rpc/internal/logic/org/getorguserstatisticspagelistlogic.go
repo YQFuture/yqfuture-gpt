@@ -67,7 +67,7 @@ func (l *GetOrgUserStatisticsPageListLogic) GetOrgUserStatisticsPageList(in *use
 	}
 
 	// 解析构建返回体
-	var orgUserList []*org.OrgUserStatistics
+	var orgUserList []*user.OrgUserStatistics
 	for _, userResult := range *userListResult {
 		_, userPermList := GetUserRolePermList(userResult.Id, dborgpermission)
 		var roleShopList []*user.RoleShop

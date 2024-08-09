@@ -3,8 +3,6 @@ package orglogic
 import (
 	"context"
 	"errors"
-	"yufuture-gpt/app/user/cmd/rpc/client/org"
-
 	"yufuture-gpt/app/user/cmd/rpc/internal/svc"
 	"yufuture-gpt/app/user/cmd/rpc/pb/user"
 
@@ -49,9 +47,9 @@ func (l *GetOrgUserListLogic) GetOrgUserList(in *user.OrgUserListReq) (*user.Org
 		return nil, err
 	}
 
-	var orgUserList []*org.OrgUser
+	var orgUserList []*user.OrgUser
 	for _, userResult := range *userListResult {
-		orgUser := &org.OrgUser{
+		orgUser := &user.OrgUser{
 			UserId:   userResult.Id,
 			Phone:    userResult.Phone.String,
 			NickName: userResult.NickName.String,
