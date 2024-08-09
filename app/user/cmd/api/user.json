@@ -1797,7 +1797,7 @@
         "senderType": {
           "type": "integer",
           "format": "int64",
-          "description": " 发送者类型 0 AI 1 人工"
+          "description": " 发送者类型 0 AI 1 人工 2 买家"
         },
         "contentType": {
           "type": "integer",
